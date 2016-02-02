@@ -1,3 +1,4 @@
 <?php
-$app = require '../app/bootstrap/start.php';
-$app->run();
+    include_once('../vendor/funcoes.php');
+	$app = require '../app/bootstrap/start.php';
+	$app->run();
