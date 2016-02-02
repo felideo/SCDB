@@ -1,13 +1,11 @@
 <?php
 
-class BaseController
-{
+class BaseController {
 
     protected $app;
     protected $data;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->app = Slim\Slim::getInstance();
         $this->data = array();
 
@@ -45,7 +43,6 @@ class BaseController
 
         $this->loadBaseCss();
         $this->loadBaseJs();
-
     }
 
     /**
@@ -53,8 +50,7 @@ class BaseController
      * @param  [string] $css     [css file to be loaded relative to base_asset_dir]
      * @param  [array]  $options [location=internal|external, position=first|last|after:file|before:file]
      */
-    protected function loadCss($css, $options=array())
-    {
+    protected function loadCss($css, $options=array()) {
         $location = (isset($options['location'])) ? $options['location']:'internal';
 
         //after:file, before:file, first, last
@@ -97,8 +93,7 @@ class BaseController
      * @param  [string] $js      [js file to be loaded relative to base_asset_dir]
      * @param  [array]  $options [location=internal|external, position=first|last|after:file|before:file]
      */
-    protected function loadJs($js, $options=array())
-    {
+    protected function loadJs($js, $options=array()) {
         $location = (isset($options['location'])) ? $options['location']:'internal';
 
         //after:file, before:file, first, last
@@ -138,8 +133,7 @@ class BaseController
     /**
      * clear enqueued css asset
      */
-    protected function resetCss()
-    {
+    protected function resetCss() {
         $this->data['css']         = array(
             'internal'  => array(),
             'external'  => array()
@@ -149,8 +143,7 @@ class BaseController
     /**
      * clear enqueued js asset
      */
-    protected function resetJs()
-    {
+    protected function resetJs() {
         $this->data['js']         = array(
             'internal'  => array(),
             'external'  => array()
@@ -161,8 +154,7 @@ class BaseController
      * remove individual css file from queue list
      * @param  [string] $css [css file to be removed]
      */
-    protected function removeCss($css)
-    {
+    protected function removeCss($css) {
         $key=array_keys($this->data['css']['internal'],$css);
         if($key){
             array_splice($this->data['css']['internal'],$key[0],1);
@@ -178,8 +170,7 @@ class BaseController
      * remove individual js file from queue list
      * @param  [string] $js [js file to be removed]
      */
-    protected function removeJs($js)
-    {
+    protected function removeJs($js) {
         $key=array_keys($this->data['js']['internal'],$js);
         if($key){
             array_splice($this->data['js']['internal'],$key[0],1);
@@ -194,40 +185,39 @@ class BaseController
     /**
      * addMessage to be viewd in the view file
      */
-    protected function message($message, $type='info')
-    {
+    protected function message($message, $type='info') {
+
         $this->data['message'][$type] = $message;
     }
 
     /**
      * register global variable to be accessed via javascript
      */
-    protected function publish($key,$val)
-    {
+    protected function publish($key,$val) {
+
         $this->data['global'][$key] =  $val;
     }
 
     /**
      * remove published variable from registry
      */
-    protected function unpublish($key)
-    {
+    protected function unpublish($key) {
+
         unset($this->data['global'][$key]);
     }
 
     /**
      * add custom meta tags to the page
      */
-    protected function meta($name, $content)
-    {
+    protected function meta($name, $content) {
+
         $this->data['meta'][$name] = $content;
     }
 
     /**
      * load base css for the template
      */
-    protected function loadBaseCss()
-    {
+    protected function loadBaseCss() {
         $this->loadCss("bootstrap.min.css");
         $this->loadCss("font-awesome.min.css");
         $this->loadCss("sb-admin.css");
@@ -237,8 +227,7 @@ class BaseController
     /**
      * load base js for the template
      */
-    protected function loadBaseJs()
-    {
+    protected function loadBaseJs() {
         $this->loadJs("jquery-1.10.2.js");
         $this->loadJs("bootstrap.min.js");
         $this->loadJs("plugins/metisMenu/jquery.metisMenu.js");
@@ -248,8 +237,7 @@ class BaseController
     /**
      * generate base URL
      */
-    protected function baseUrl()
-    {
+    protected function baseUrl() {
         $path       = dirname($_SERVER['SCRIPT_NAME']);
         $path       = trim($path, '/');
         $baseUrl    = Request::getUrl();
@@ -260,9 +248,14 @@ class BaseController
     /**
      * generate siteUrl
      */
-    protected function siteUrl($path, $includeIndex = false)
-    {
+    protected function siteUrl($path, $includeIndex = false) {
         $path = trim($path, '/');
         return $this->data['baseUrl'].$path;
     }
+
+    /**
+     * Carregar Funções
+     */
+
 }
+
