@@ -48,7 +48,3 @@ foreach (Module::getModules() as $module) {
 
 /** default routing */
 Route::get('/', 'HomeController:welcome');
-
-
-// zzz: 01 - Rota
-Route::get('/hidrometros', 'hidrometros\HidrometrosController:index');
