@@ -22,21 +22,21 @@ class Initialize extends \SlimStarter\Module\Initializer{
 
         $hidrometros_menu = $adminMenu->createItem('hidrometros', array(
             'label' => 'Hidrometros',
-            'icon'  => 'group',
+            'icon'  => 'clock-o',
             'url'   => '#'
         ));
         $hidrometros_menu->setAttribute('class', 'nav nav-second-level');
 
-        $hidrometros_controle = $adminMenu->createItem('user', array(
+        $hidrometros_controle = $adminMenu->createItem('controle', array(
             'label' => 'Controle',
-            'icon'  => 'user',
-            'url'   => 'hidrometros/controle'
+            'icon'  => 'history',
+            'url'   => 'admin/controle'
         ));
 
-        $hidrometros_consumo = $adminMenu->createItem('group', array(
+        $hidrometros_consumo = $adminMenu->createItem('consumo', array(
             'label' => 'Consumo',
-            'icon'  => 'group',
-            'url'   => 'hidrometros/consumo'
+            'icon'  => 'history',
+            'url'   => 'admin/consumo'
         ));
 
         $hidrometros_menu->addChildren($hidrometros_controle);
@@ -46,7 +46,7 @@ class Initialize extends \SlimStarter\Module\Initializer{
     }
 
     public function registerAdminRoute(){
-        Route::resource('/controle', 'Hidrometros\Controllers\hidrometros_controle');
+        Route::resource('/controle', 'Hidrometros\Controllers\HidrometrosControle');
         Route::resource('/consumo', 'Hidrometros\Controllers\HidrometrosConsumo');
     }
 }

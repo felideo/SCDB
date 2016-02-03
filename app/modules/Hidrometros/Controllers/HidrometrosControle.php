@@ -19,7 +19,7 @@ class HidrometrosControle extends BaseController {
     {
         $this->data['title'] = 'Hidrometros de Controle';
         /** render the template */
-        View::display('@hidrometros/hidrometros_controle/index.twig', $this->data);
+        View::display('@hidrometros/controle/index.twig', $this->data);
     }
 
     public function show()
