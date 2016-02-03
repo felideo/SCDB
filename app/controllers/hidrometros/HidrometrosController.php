@@ -2,21 +2,21 @@
 
 // zzz: 02 - Controler
 
-namespace Hidrometros;
+namespace Hidrometros ;
 
 use \App;
 use \View;
-use \Input;
-use \Sentry;
-use \Response;
+use \Menu;
+use \Admin\BaseController;
 
-class HidrometrosController {
+
+class HidrometrosController extends BaseController {
 
     /**
      * display the admin dashboard
      */
 
     public function index() {
-        View::display('hidrometros/index.twig', $this->data);
+        View::display('hidrometros/index.twig');
     }
 }
