@@ -12,7 +12,7 @@ class HidrometrosControle extends BaseController {
     public function __construct()
     {
         parent::__construct();
-        Menu::get('admin_sidebar')->setActiveMenu('group');
+        Menu::get('admin_sidebar')->setActiveMenu('controle');
     }
 
     public function index()
