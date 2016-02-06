@@ -5,6 +5,8 @@ class DocController extends BaseController
 
     public function index($page=array())
     {
+    	$zzz ="filho da puta";
+    	debug2($zzz);
         if(!$page){
             App::render('docs/index.twig', $this->data);
         }else{
