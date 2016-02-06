@@ -16,8 +16,9 @@ class GroupController extends BaseController
         Menu::get('admin_sidebar')->setActiveMenu('group');
     }
 
-    public function index()
-    {
+    public function index() {
+        $lerolero = "Puta que o pariu!!!";
+        debug2($lerolero);
         $this->data['title'] = 'Group List';
         /** render the template */
         View::display('@usergroup/group/index.twig', $this->data);
@@ -51,5 +52,10 @@ class GroupController extends BaseController
     public function destroy()
     {
 
+    }
+
+    public function lerolero(){
+        $numero = 9;
+        echo $numero;
     }
 }

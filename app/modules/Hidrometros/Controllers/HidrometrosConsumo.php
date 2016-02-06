@@ -16,8 +16,7 @@ class HidrometrosConsumo extends BaseController
         Menu::get('admin_sidebar')->setActiveMenu('consumo');
     }
 
-    public function index()
-    {
+    public function index() {
         $this->data['title'] = 'Hidrometros de Consumo';
         /** render the template */
         View::display('@hidrometros/consumo/index.twig', $this->data);
@@ -51,5 +50,10 @@ class HidrometrosConsumo extends BaseController
     public function destroy()
     {
 
+    }
+
+        public function lerolero(){
+        $numero = "puta que o pariu!!!";
+        echo $numero;
     }
 }
