@@ -44,15 +44,11 @@ Route::get('/doc(/:page+)', 'DocController:index');
 
 foreach (Module::getModules() as $module) {
     $module->registerPublicRoute();
-    debug2($module);
 }
-
-
 
 /** default routing */
 Route::get('/', 'HomeController:welcome');
-Route::get('/lerolero', 'Hidrometros\Controllers\HidrometrosConsumo:lerolero');
-Route::get('/zzz', 'ModulesController:index');
-Route::get('/buceta', 'HomeController:buceta');
+// Route::get('/lerolero', 'Hidrometros\Controllers\HidrometrosConsumo:lerolero');
+// Route::get('/zzz', 'ModulesController:index');
 
 
