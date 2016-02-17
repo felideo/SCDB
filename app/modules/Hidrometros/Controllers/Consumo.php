@@ -7,11 +7,9 @@ use \View;
 use \Menu;
 use \Admin\BaseController;
 
-class HidrometrosConsumo extends BaseController
-{
+class Consumo extends BaseController {
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         Menu::get('admin_sidebar')->setActiveMenu('consumo');
     }

@@ -7,7 +7,7 @@ use \View;
 use \Menu;
 use \Admin\BaseController;
 
-class HidrometrosControle extends BaseController {
+class Controle extends BaseController {
 
     public function __construct()
     {
@@ -15,8 +15,7 @@ class HidrometrosControle extends BaseController {
         Menu::get('admin_sidebar')->setActiveMenu('controle');
     }
 
-    public function index()
-    {
+    public function index() {
         $this->data['title'] = 'Hidrometros de Controle';
         /** render the template */
         View::display('@hidrometros/controle/index.twig', $this->data);
