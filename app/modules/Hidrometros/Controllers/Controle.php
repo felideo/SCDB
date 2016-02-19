@@ -16,7 +16,11 @@ class Controle extends BaseController {
     }
 
     public function index() {
+
+
+        $this->data['url'] = pagina_atual(3);
         $this->data['title'] = 'Hidrometros de Controle';
+
         /** render the template */
         View::display('@hidrometros/controle/index.twig', $this->data);
     }
