@@ -4,11 +4,13 @@ namespace Controllers;
 use Libs;
 
 /**
-* 
+
+*
 */
 class Login extends \Libs\Controller
 {
-	
+
+
 	function __construct()
 	{
 		parent::__construct();
@@ -16,7 +18,9 @@ class Login extends \Libs\Controller
 
 	function index()
 	{
-		$this->view->render('login/index');		
+
+		$this->view->render('login/index');
+
 	}
 
 	function run()

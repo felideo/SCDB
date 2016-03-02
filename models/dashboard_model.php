@@ -4,11 +4,11 @@ namespace Models;
 use Libs;
 
 /**
-* 
+*
 */
 class Dashboard_Model extends \Libs\Model
 {
-	
+
 	function __construct() {
 		parent::__construct();
 	}
@@ -33,7 +33,7 @@ class Dashboard_Model extends \Libs\Model
 		$id = (int)$_POST['id'];
 
 		echo $id;
-		
+
 		$this->db->delete('data', "dataid = $id");
 	}
 }

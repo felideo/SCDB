@@ -4,11 +4,11 @@ namespace Models;
 use Libs;
 
 /**
-* 
+*
 */
 class Note_Model extends \Libs\Model
 {
-	
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -16,15 +16,15 @@ class Note_Model extends \Libs\Model
 
 	public function noteList()
 	{
-		return $this->db->select('SELECT * FROM note WHERE userid = :userid', 
+		return $this->db->select('SELECT * FROM note WHERE userid = :userid',
 			array(':userid' => $_SESSION['userid']));
 	}
 
 	public function noteSingleList($noteid)
 	{
-		return $this->db->select('SELECT * FROM note WHERE userid = :userid AND noteid = :noteid', 
+		return $this->db->select('SELECT * FROM note WHERE userid = :userid AND noteid = :noteid',
 			array(':userid' => $_SESSION['userid'], ':noteid' => $noteid));
-	}	
+	}
 
 	public function create($data)
 	{
@@ -33,7 +33,7 @@ class Note_Model extends \Libs\Model
 			'userid' => $_SESSION['userid'],
 			'content' => $data['content'],
 			'date_added' => date('Y:m:d H:i:s')
-		));	
+		));
 	}
 
 	public function editSave($data)
@@ -43,12 +43,12 @@ class Note_Model extends \Libs\Model
 			'content' => $data['content']
 		);
 
-		$this->db->update('note', $postData, 
-			"`noteid` = {$data['noteid']} AND `userid` = {$_SESSION['userid']}");	
-	}	
+		$this->db->update('note', $postData,
+			"`noteid` = {$data['noteid']} AND `userid` = {$_SESSION['userid']}");
+	}
 
 	public function delete($id)
 	{
 		$this->db->delete('note', "`noteid` = {$id} AND `userid` = {$_SESSION['userid']}");
-	}	
+	}
 }

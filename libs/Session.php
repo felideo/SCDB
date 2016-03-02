@@ -2,11 +2,11 @@
 namespace Libs;
 
 /**
-* 
+*
 */
 class Session
 {
-	
+
 	public static function init()
 	{
 		@session_start();
@@ -27,5 +27,5 @@ class Session
 	{
 		// unset($_SESSION);
 		session_destroy();
-	}	
+	}
 }

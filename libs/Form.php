@@ -13,7 +13,7 @@ namespace Libs;
 */
 class Form
 {
-	
+
 	/** @var array $_currentItem Item postado imediatamente */
 	private $_currentItem = null;
 
@@ -24,13 +24,13 @@ class Form
 	private $_val = array();
 
 	/** @var array $_error Segura o erro atual no formulário */
-	private $_error = array();	
+	private $_error = array();
 
 	/**
 	 *  Construtor
 	 * Instanciar para validar os formulários
 	 */
-	public function __construct() 
+	public function __construct()
 	{
 		require 'Form/Val.php';
 		$this->_val = new Val();
@@ -43,12 +43,12 @@ class Form
 	{
 		$this->_postData[$field] = $_POST[$field];
 		$this->_currentItem = $field;
-		
+
 		return $this;
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public function fetch($fieldName = false)
 	{
@@ -60,7 +60,7 @@ class Form
 		} else {
 			return $this->_postData;
 		}
-		
+
 	}
 
 	/**

@@ -2,11 +2,11 @@
 namespace Util;
 
 /**
-* 
+*
 */
 class Auth
 {
-	
+
 	public static function handLeLoggin()
 	{
 		@session_start();
@@ -15,6 +15,6 @@ class Auth
 			session_destroy();
 			header('location: login');
 			exit;
-		}		
+		}
 	}
 }
