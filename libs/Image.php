@@ -12,7 +12,7 @@ class Image
 	private $height;
 	private $folder = IMG_FOLDER;
 	private $extension = array('jpg', 'png', 'gif');
-	
+
 	function __construct() {}
 
 	public function __set($property, $value)
@@ -72,7 +72,7 @@ class Image
 		if (move_uploaded_file($file['image']['tmp_name'], $uploadFile)) {
 			return $data;
 		} else {
-			return false;		
+			return false;
 		}
 	}
 

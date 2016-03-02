@@ -4,16 +4,16 @@ namespace Controllers;
 use Libs;
 
 /**
-* 
+*
 */
 class Note extends \Libs\Controller
 {
-	
+
 	public function __construct()
 	{
 		parent::__construct();
 		\Util\Auth::handLeLoggin();
-		
+
 		$this->view->js = array('/dashboard/js/default.js');
 	}
 
@@ -50,7 +50,7 @@ class Note extends \Libs\Controller
 
 		// @TODO: Faça seu error checking!
 
-		$this->model->editSave($data);		
+		$this->model->editSave($data);
 		header('location: ' . URL . 'note');
 	}
 
@@ -58,5 +58,5 @@ class Note extends \Libs\Controller
 	{
 		$this->model->delete($id);
 		header('location: ' . URL . 'note');
-	}			
+	}
 }

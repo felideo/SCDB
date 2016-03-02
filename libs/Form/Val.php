@@ -2,11 +2,11 @@
 namespace Libs\Form;
 
 /**
-* 
+*
 */
 class Val
 {
-	
+
 	public function __construct() {}
 
 	public function minlength($data, $arg)

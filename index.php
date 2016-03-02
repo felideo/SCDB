@@ -4,7 +4,7 @@ require 'config.php';
 require 'util/Auth.php';
 
 // spl_autoload_register
-function autoload($className) 
+function autoload($className)
 {
 	$className = ltrim($className, '\\');
 	$fileName  = '';

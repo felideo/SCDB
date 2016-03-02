@@ -4,11 +4,12 @@ namespace Models;
 use Libs;
 
 /**
-* 
+*
 */
 class Login_Model extends \Libs\Model
 {
-	
+
+
 	function __construct()
 	{
 		parent::__construct();
@@ -16,8 +17,11 @@ class Login_Model extends \Libs\Model
 
 	function run()
 	{
-		$sth = $this->db->prepare("SELECT userid, role FROM user WHERE 
+
+		$sth = $this->db->prepare("SELECT userid, role FROM user WHERE
 			username = :username AND password = :password");
+
+
 
 		$sth->execute(array(
 			':username' => $_POST['username'],

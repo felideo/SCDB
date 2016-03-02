@@ -4,11 +4,11 @@ namespace Controllers;
 use Libs;
 
 /**
-* 
+*
 */
 class Error extends \Libs\Controller
 {
-	
+
 	function __construct()
 	{
 		parent::__construct();

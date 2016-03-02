@@ -30,13 +30,13 @@
 		<a href="<?php echo URL; ?>help">Help</a>
 	<?php endif; ?>
 	<?php if(\Libs\Session::get('loggedIn') == true): ?>
-		<a href="<?php echo URL; ?>dashboard">Dashboard</a>	
-		<a href="<?php echo URL; ?>note">Notes</a>	
-		<a href="<?php echo URL; ?>image">Image</a>	
+		<a href="<?php echo URL; ?>dashboard">Dashboard</a>
+		<a href="<?php echo URL; ?>note">Notes</a>
+		<a href="<?php echo URL; ?>image">Image</a>
 		<?php if(\Libs\Session::get('role') == 'owner'): ?>
-			<a href="<?php echo URL; ?>user">Users</a>	
+			<a href="<?php echo URL; ?>user">Users</a>
 		<?php endif; ?>
-		<a href="<?php echo URL; ?>dashboard/logout">Logout</a>	
+		<a href="<?php echo URL; ?>dashboard/logout">Logout</a>
 	<?php else: ?>
 		<a href="<?php echo URL; ?>login">Login</a>
 	<?php endif; ?>

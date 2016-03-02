@@ -4,11 +4,11 @@ namespace Controllers;
 use Libs;
 
 /**
-* 
+*
 */
 class User extends \Libs\Controller
 {
-	
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -53,7 +53,7 @@ class User extends \Libs\Controller
 
 		// @TODO: Faça seu error checking!
 
-		$this->model->editSave($data);		
+		$this->model->editSave($data);
 		header('location: ' . URL . 'user');
 	}
 
@@ -61,5 +61,5 @@ class User extends \Libs\Controller
 	{
 		$this->model->delete($id);
 		header('location: ' . URL . 'user');
-	}		
+	}
 }

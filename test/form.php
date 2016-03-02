@@ -42,4 +42,4 @@ if(isset($_REQUEST['run'])) {
 		<option value="f">Female</option>
 	</select>
 	<input type="submit">
-</form>	
+</form>

@@ -4,16 +4,16 @@ namespace Controllers;
 use Libs;
 
 /**
-* 
+*
 */
 class Dashboard extends \Libs\Controller
 {
-	
+
 	function __construct()
 	{
 		parent::__construct();
 		\Util\Auth::handLeLoggin();
-		
+
 		$this->view->js = array('/dashboard/js/default.js');
 	}
 
