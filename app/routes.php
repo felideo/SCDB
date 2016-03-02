@@ -48,7 +48,11 @@ foreach (Module::getModules() as $module) {
 
 /** default routing */
 Route::get('/', 'HomeController:welcome');
-// Route::get('/lerolero', 'Hidrometros\Controllers\HidrometrosConsumo:lerolero');
+Route::get('/zzz', 'Hidrometros\Controllers\Controle:adicionar_hidrometro');
 // Route::get('/zzz', 'ModulesController:index');
+Route::get('/public/admin/controle/adicionar_hidrometro', 'Hidrometros\Controllers\Controle:adicionar_hidrometro');
+
+
+http://hidrosis.localhost/public/admin/controle/adicionar_hidrometro
 
 

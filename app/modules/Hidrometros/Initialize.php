@@ -48,5 +48,7 @@ class Initialize extends \SlimStarter\Module\Initializer{
     public function registerAdminRoute(){
         Route::resource('/controle', 'Hidrometros\Controllers\Controle');
         Route::resource('/consumo', 'Hidrometros\Controllers\Consumo');
+        Route::post('/controle/zzz', 'Hidrometros\Controllers\Controle:adicionar_hidrometro');
+
     }
 }

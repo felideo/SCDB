@@ -25,33 +25,12 @@ class Controle extends BaseController {
         View::display('@hidrometros/controle/index.twig', $this->data);
     }
 
-    public function show()
-    {
+    public function show() {
 
     }
 
-    public function store()
-    {
-
-    }
-
-    public function create()
-    {
-
-    }
-
-    public function edit()
-    {
-
-    }
-
-    public function update()
-    {
-
-    }
-
-    public function destroy()
-    {
-
-    }
+   public function adicionar_hidrometro(){
+        // debug2($_POST);
+    echo 'buceta!!!';
+   }
 }

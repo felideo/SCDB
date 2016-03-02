@@ -10,8 +10,17 @@
 </div>
 
 <pre>
-{{ dump(url) }}
+{{ url }}
 </pre>
+
+
+<form role="form" method="post" action="{{baseUrl}}admin/controle/adicionar_hidrometro">
+	<input name='localizacao'>localizacao</input>
+	<input name='origem'>origem</input>
+	<input type="submit" value="envia"></input>
+
+
+</form>
 
 
 
