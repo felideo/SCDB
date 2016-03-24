@@ -7,6 +7,7 @@ namespace Libs;
 class Database extends \PDO
 {
 
+
 	public function __construct($DB_TYPE, $DB_HOST, $DB_NAME, $DB_USER, $DB_PASS)
 	{
 		try {
@@ -53,7 +54,13 @@ class Database extends \PDO
 			$sth->bindValue(":$key", $value);
 		}
 
+
+
 		$sth->execute();
+
+		debug2($sth);
+
+
 	}
 
 	/**
@@ -69,7 +76,11 @@ class Database extends \PDO
 		$fieldDetails = NULL;
 		foreach($data as $key => $value) {
 			$fieldDetails .= "`$key` = :$key,";
+
+
 		}
+
+
 
 		$fieldDetails = rtrim($fieldDetails, ',');
 

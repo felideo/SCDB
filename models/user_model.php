@@ -4,7 +4,11 @@ namespace Models;
 use Libs;
 
 /**
+
+
 *
+
+
 */
 class User_Model extends \Libs\Model
 {
@@ -22,7 +26,11 @@ class User_Model extends \Libs\Model
 	public function userSingleList($userid)
 	{
 		return $this->db->select('SELECT userid, username, role FROM user WHERE userid = :userid', array(':userid' => $userid));
+
+
 	}
+
+
 
 	public function create($data)
 	{
@@ -30,7 +38,10 @@ class User_Model extends \Libs\Model
 			'username' => $data['username'],
 			'password' => \Libs\Hash::create('sha256', $data['password'], HASH_PASSWORD_KEY),
 			'role' => $data['role']
+
+
 		));
+
 	}
 
 	public function editSave($data)
@@ -41,12 +52,16 @@ class User_Model extends \Libs\Model
 			'role' => $data['role']
 		);
 
+
+
 		$this->db->update('user', $postData, "`userid` = {$data['userid']}");
 	}
+
 
 	public function delete($userid)
 	{
 		$result = $this->db->select('SELECT role FROM user WHERE userid = :userid', array(':userid' => $userid));
+
 
 		if($result[0]['role'] == 'owner')
 			return false;

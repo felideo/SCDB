@@ -6,8 +6,9 @@ use Libs;
 /**
 *
 */
-class Error extends \Libs\Controller
-{
+
+class Error extends \Libs\Controller {
+
 
 	function __construct()
 	{
@@ -17,7 +18,7 @@ class Error extends \Libs\Controller
 	public function index()
 	{
 		$this->view->msg = 'Esta página não existe';
-		$this->view->render('error/index');
+		$this->view->render('error');
 	}
 
 }

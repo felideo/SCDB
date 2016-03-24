@@ -9,6 +9,7 @@ use Libs;
 class Note extends \Libs\Controller
 {
 
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -20,7 +21,9 @@ class Note extends \Libs\Controller
 	public function index()
 	{
 		$this->view->noteList = $this->model->noteList();
-		$this->view->render('note/index');
+
+		$this->view->render('note');
+
 	}
 
 	public function create()
@@ -37,7 +40,9 @@ class Note extends \Libs\Controller
 	public function edit($id)
 	{
 		$this->view->note = $this->model->noteSingleList($id);
-		$this->view->render('note/edit');
+
+		$this->view->sub_render('note', 'edit');
+
 	}
 
 	public function editSave($noteid)
@@ -50,7 +55,11 @@ class Note extends \Libs\Controller
 
 		// @TODO: Faça seu error checking!
 
+
+
 		$this->model->editSave($data);
+
+
 		header('location: ' . URL . 'note');
 	}
 
@@ -58,5 +67,9 @@ class Note extends \Libs\Controller
 	{
 		$this->model->delete($id);
 		header('location: ' . URL . 'note');
+
+
 	}
+
+
 }

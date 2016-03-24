@@ -1,4 +1,6 @@
-<h1>Note: Edit</h1>
+<div class="col-lg-12">
+    <h1 class="page-header">Note: Edit</h1>
+</div>
 
 <form method="post" action="<?php echo URL; ?>note/editSave/<?php echo $this->note[0]['noteid']; ?>">
 	<label>Title</label><input type="text" name="title" value="<?php echo $this->note[0]['title']; ?>"><br>

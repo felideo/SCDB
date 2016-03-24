@@ -3,9 +3,13 @@
 require 'config.php';
 require 'util/Auth.php';
 
+require 'util/funcoes.php';
+
 // spl_autoload_register
-function autoload($className)
-{
+
+function autoload($className) {
+
+
 	$className = ltrim($className, '\\');
 	$fileName  = '';
 	$namespace = '';
@@ -17,6 +21,9 @@ function autoload($className)
 	}
 
 	$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+
+
+
 
 	require $fileName;
 }
