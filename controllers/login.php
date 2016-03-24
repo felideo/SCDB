@@ -11,20 +11,21 @@ class Login extends \Libs\Controller
 {
 
 
-	function __construct()
-	{
+
+	function __construct() {
 		parent::__construct();
 	}
 
-	function index()
-	{
-
-		$this->view->render('login/index');
-
+	function index() {
+		// if(\Libs\Session::get('loggedIn') == true){
+			$this->view->clean_render('login');
+		// } else {
+			// header('Location: /dashboard');
+		// }
 	}
 
-	function run()
-	{
+	function run() {
+
 		$this->model->run();
 	}
 }

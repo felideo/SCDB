@@ -1,4 +1,6 @@
-<h1>User: Edit</h1>
+<div class="col-lg-12">
+    <h1 class="page-header">User: Edit</h1>
+</div>
 
 <form method="post" action="<?php echo URL; ?>user/editSave/<?php echo $this->user[0]['userid']; ?>">
 	<label>Username</label><input type="text" name="username" value="<?php echo $this->user[0]['username']; ?>"><br>

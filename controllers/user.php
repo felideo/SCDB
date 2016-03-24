@@ -4,10 +4,15 @@ namespace Controllers;
 use Libs;
 
 /**
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7f345e1... DEV - implementando painel administrativo bootstrap, adicionando modulos, abstraindo renderização das views e concertando conflitos de cagada fudida!
 *
 */
 class User extends \Libs\Controller
 {
+
 
 	public function __construct()
 	{
@@ -18,7 +23,9 @@ class User extends \Libs\Controller
 	public function index()
 	{
 		$this->view->userList = $this->model->userList();
-		$this->view->render('user/index');
+
+		$this->view->render('user');
+
 	}
 
 	public function create()
@@ -39,7 +46,9 @@ class User extends \Libs\Controller
 	{
 		// Fetch user individualmente
 		$this->view->user = $this->model->userSingleList($id);
-		$this->view->render('user/edit');
+
+		$this->view->sub_render('user', 'edit');
+
 	}
 
 	public function editSave($id)
@@ -53,7 +62,11 @@ class User extends \Libs\Controller
 
 		// @TODO: Faça seu error checking!
 
+
+
 		$this->model->editSave($data);
+
+
 		header('location: ' . URL . 'user');
 	}
 
@@ -61,5 +74,9 @@ class User extends \Libs\Controller
 	{
 		$this->model->delete($id);
 		header('location: ' . URL . 'user');
+
+
 	}
+
+
 }

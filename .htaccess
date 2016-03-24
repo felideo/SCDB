@@ -3,8 +3,7 @@ php_value error_reporting 9999
 
 RewriteEngine On
 
-
-#RewriteBase /teste.localhost/SianiMVC/
+#RewriteBase /hidrosis.localhost/
 
 
 RewriteCond %{REQUEST_FILENAME} !-d

@@ -4,10 +4,11 @@ namespace Controllers;
 use Libs;
 
 /**
+
 *
 */
-class Help extends \Libs\Controller
-{
+class Help extends \Libs\Controller {
+
 
 	function __construct()
 	{
@@ -16,6 +17,8 @@ class Help extends \Libs\Controller
 
 	public function index()
 	{
-		$this->view->render('help/index');
+
+		$this->view->render('help');
+
 	}
 }

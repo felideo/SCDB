@@ -8,9 +8,9 @@ use Libs;
 */
 class Image extends \Libs\Controller
 {
-	
-	function __construct()
-	{
+
+
+	function __construct() {
 		parent::__construct();
 	}
 
@@ -30,6 +30,8 @@ class Image extends \Libs\Controller
 			}
 		}
 
-		$this->view->render('image/index');
-	}	
+
+		$this->view->render('image');
+	}
+
 }
