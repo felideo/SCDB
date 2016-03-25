@@ -17,6 +17,12 @@ class Login extends \Libs\Controller
 	}
 
 	function index() {
+
+
+		// $lerolero = \Libs\Session::get('loggedIn');
+		// if(\Libs\Session::get('loggedIn') == true){
+		// debug2($lerolero);
+
 		// if(\Libs\Session::get('loggedIn') == true){
 			$this->view->clean_render('login');
 		// } else {
