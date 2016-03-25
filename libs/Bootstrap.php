@@ -4,10 +4,8 @@ namespace Libs;
 /**
 * classe Bootstrap
 */
-class Bootstrap
-{
 
-
+class Bootstrap {
 
 	function __construct() {
 

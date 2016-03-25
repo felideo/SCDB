@@ -7,8 +7,10 @@ namespace Libs;
 abstract class Controller
 {
 
-	function __construct()
-	{
+
+	function __construct() {
+		\Util\Auth::handLeLoggin();
+
 		$this->view = new View();
 	}
 

@@ -9,7 +9,6 @@ require 'util/funcoes.php';
 
 function autoload($className) {
 
-
 	$className = ltrim($className, '\\');
 	$fileName  = '';
 	$namespace = '';
@@ -21,9 +20,6 @@ function autoload($className) {
 	}
 
 	$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-
-
-
 
 	require $fileName;
 }
