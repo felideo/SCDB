@@ -17,6 +17,7 @@ class Dashboard extends \Libs\Controller {
 	}
 
 	function index() {
+		debug2($_SESSION);
 		$this->view->render('dashboard');
 	}
 
@@ -42,3 +43,9 @@ class Dashboard extends \Libs\Controller {
 	}
 
 }
+
+// como chamar esse cu
+// 		require 'libs/Master.php';
+// 		$lerolero = new Libs\Master;
+// 		$lerolero->logout();
+// 		debug2($lerolero);

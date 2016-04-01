@@ -20,7 +20,7 @@ class User_Model extends \Libs\Model
 
 	public function userList()
 	{
-		return $this->db->select('SELECT userid, username, role FROM user');
+		return $this->db->select('SELECT userid, username, hierarquia FROM user');
 	}
 
 	public function userSingleList($userid)

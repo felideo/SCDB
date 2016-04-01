@@ -20,5 +20,4 @@ abstract class Model {
 		$full_list = 'SELECT * FROM ' . $table;
 		return $this->db->select($full_list);
 	}
-
 }
