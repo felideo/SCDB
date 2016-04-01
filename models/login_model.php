@@ -6,8 +6,7 @@ use Libs;
 /**
 *
 */
-class Login_Model extends \Libs\Model
-{
+class Login_Model extends \Libs\Model {
 
 
 	function __construct()
@@ -18,7 +17,7 @@ class Login_Model extends \Libs\Model
 	function run()
 	{
 
-		$sth = $this->db->prepare("SELECT userid, role FROM user WHERE
+		$sth = $this->db->prepare("SELECT * FROM user WHERE
 			username = :username AND password = :password");
 
 
@@ -32,12 +31,23 @@ class Login_Model extends \Libs\Model
 
 		$count = $sth->rowCount();
 
+		$modulos = $this->db->select('SELECT * FROM modulos');
+
 		if($count > 0) {
+
+			$user = [
+				'id' => $data['userid'],
+				'nome' => $data['username'],
+				'hierarquia' => $data['hierarquia'],
+
+			];
+
 			// login
 			\Libs\Session::init();
-			\Libs\Session::set('role', $data['role']);
 			\Libs\Session::set('loggedIn', true);
-			\Libs\Session::set('userid', $data['userid']);
+			\Libs\Session::set('usuario', $user);
+			\Libs\Session::set('modulos', $modulos);
+
 			header('location: ../dashboard');
 		} else {
 			header('location: ../login');

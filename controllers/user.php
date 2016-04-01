@@ -20,12 +20,9 @@ class User extends \Libs\Controller
 		\Util\Auth::handLeLoggin();
 	}
 
-	public function index()
-	{
+	public function index()	{
 		$this->view->userList = $this->model->userList();
-
 		$this->view->render('user');
-
 	}
 
 	public function create()
