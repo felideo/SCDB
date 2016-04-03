@@ -3,7 +3,7 @@ namespace Controllers;
 
 use Libs;
 
-class Hidrometro_Controle extends \Libs\Controller {
+class Hidrocontrol extends \Libs\Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -11,8 +11,8 @@ class Hidrometro_Controle extends \Libs\Controller {
 	}
 
 	public function index() {
-		$this->view->hidrometro_controle_list = $this->model->hidrometro_controle_list();
-		$this->view->render('Hidrometro_Controle');
+		// $this->view->hidrometro_controle_list = $this->model->hidrometro_controle_list();
+		$this->view->render('hidrocontrol');
 	}
 
 	public function create() {

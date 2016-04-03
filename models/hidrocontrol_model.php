@@ -4,7 +4,7 @@ namespace Models;
 use Libs;
 
 
-class Hidrometro_Controle extends \Libs\Model {
+class Hidrocontrol extends \Libs\Model {
 
 	public function __construct() {
 		parent::__construct();
