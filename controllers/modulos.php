@@ -14,6 +14,7 @@ class Modulos extends \Libs\Controller {
 	}
 
 	function index() {
+		$this->view->modulo_list = $this->model->load_full_list('modulos');
 		$this->view->render('modulos');
 	}
 }
