@@ -12,8 +12,6 @@ class Auth {
 			$logged = $_SESSION['loggedIn'];
 		} else {
 			$logged = false;
-			// debug2(URL);
-			// header('location: http://hidrosis.localhost/login');
 		}
 
 	}

@@ -14,6 +14,7 @@ class Note extends \Libs\Controller
 	{
 		parent::__construct();
 		\Util\Auth::handLeLoggin();
+		\Util\Permission::check();
 
 		$this->view->js = array('/dashboard/js/default.js');
 	}

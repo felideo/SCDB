@@ -2,13 +2,12 @@
 
 require 'config.php';
 require 'util/Auth.php';
+
 require 'util/funcoes.php';
 
 // spl_autoload_register
 
 function autoload($className) {
-
-	$indices = explode('_', $className);
 
 	$className = ltrim($className, '\\');
 	$fileName  = '';

@@ -8,10 +8,11 @@ class Hidrocontrol extends \Libs\Controller {
 	public function __construct() {
 		parent::__construct();
 		\Util\Auth::handLeLoggin();
+		\Util\Permission::check();
 	}
 
 	public function index() {
-		// $this->view->hidrometro_controle_list = $this->model->hidrometro_controle_list();
+		$this->view->hidrometro_controle_list = $this->model->hidrometro_controle_list();
 		$this->view->render('hidrocontrol');
 	}
 

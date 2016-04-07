@@ -32,6 +32,10 @@ class Login_Model extends \Libs\Model {
 		$count = $sth->rowCount();
 
 		$modulos = $this->db->select('SELECT * FROM modulos');
+		foreach ($modulos as $indice => $modulo) {
+			$modulos[$modulo['modulo']] = $modulo;
+			unset($modulos[$indice]);
+		}
 
 		if($count > 0) {
 

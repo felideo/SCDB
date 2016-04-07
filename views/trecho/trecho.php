@@ -1,13 +1,25 @@
-<h1>Trechos</h1>
-
-<form method="post" action="<?php echo URL; ?>trecho/create">
-	<label>Localizacao</label><input type="text" name="trecho[localizacao]"><br>
-	<label>&nbsp;</label><input type="submit">
-</form>
-
-<div class="col-lg-12">
+<div class="span12">
     <h1 class="page-header">Trechos</h1>
 </div>
+
+<div class="row-fluid span12">
+    <form method="post" action="<?php echo URL; ?>trecho/create">
+        <div class="row-fluid">
+            <div class="form-group span12">
+                <label>Localizacao</label>
+                <input class="form-control" type="text" name="trecho[localizacao]"><br>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="form-group span12">
+                <button type="submit" class="btn btn-primary" style="float: right;">Enviar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="display: block; clear: both;">
+
 <div class="col-lg-12">
     <div class="panel panel-default">
         <div class="panel-body">

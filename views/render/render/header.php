@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>HidroSis - </title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo URL; ?>public/bootstrap/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -36,6 +36,10 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- Morris Charts CSS -->
+    <link href="<?php echo URL; ?>public/css/default.css" rel="stylesheet">
+    <link href="<?php echo URL; ?>public/css/bootstrap.css" rel="stylesheet">
+
     <?php
 	if(isset($this->js)) {
 		foreach($this->js as $js) {
@@ -58,4 +62,4 @@
             <!-- Page Content -->
             <div id="page-wrapper">
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="row-fluid">

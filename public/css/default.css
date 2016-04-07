@@ -1,52 +1,40 @@
-body {
-	font-family: arial;
-	font-size: 13px;
-	background: silver;
+.fluid_1{
+	width: 9%;
+	display: inline-block;
 }
-
-header {
-	padding: 20px;
-	background: #11407d;
-	border-bottom: 3px solid #4370ae;
-	border-top: 1px solid #4370ae;
-	border-left: 1px solid #4370ae;
-	border-right: 1px solid #4370ae;
-	border-radius: 10px 10px 0 0;
+.fluid_2{
+	width: 19%;
+	display: inline-block;
 }
-
-header a {
-	text-decoration: none;
-	color: white;
-	font-weight: bold;
-	padding: 5px 10px;
-	background: #3e6faa;
+.fluid_3{
+	width: 29%;
+	display: inline-block;
 }
-
-header a:hover {
-	background: #4d8cd9;
+.fluid_4{
+	width: 39%;
+	display: inline-block;
 }
-
-#content {
-	padding: 20px;
-	background: white;
+.fluid_5{
+	width: 49%;
+	display: inline-block;
 }
-
-#content label {
-	float: left;
-	display: block;
-	width: 150px;
-	padding-top: 4px;
-	text-align: right;
+.fluid_6{
+	width: 59%;
+	display: inline-block;
 }
-
-#content input, #content select {
-	margin-left: 10px;
+.fluid_7{
+	width: 69%;
+	display: inline-block;
 }
-
-footer {
-	padding: 20px;
-	color: #eeeeee;
-	background: #11407d;
-	border-top: 3px solid #4370ae;
-	border-radius: 0 0 10px 10px;
+.fluid_8{
+	width: 79%;
+	display: inline-block;
+}
+.fluid_9{
+	width: 89%;
+	display: inline-block;
+}
+.fluid_10{
+	width: 99%;
+	display: inline-block;
 }

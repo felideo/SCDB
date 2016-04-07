@@ -14,10 +14,11 @@ class Dashboard extends \Libs\Controller {
 	function __construct() {
 
 		parent::__construct();
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check();
 	}
 
 	function index() {
-		debug2($_SESSION);
 		$this->view->render('dashboard');
 	}
 

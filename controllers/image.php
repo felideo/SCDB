@@ -12,6 +12,8 @@ class Image extends \Libs\Controller
 
 	function __construct() {
 		parent::__construct();
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check();
 	}
 
 	public function index()

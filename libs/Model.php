@@ -20,4 +20,18 @@ abstract class Model {
 		$full_list = 'SELECT * FROM ' . $table;
 		return $this->db->select($full_list);
 	}
+
+	public function load_active_list($table) {
+		$select = 'SELECT * FROM ' . $table . ' WHERE ativo = 1';
+		return $this->db->select($select);
+	}
+
+	public function delete($table, $id) {
+
+		$data = [
+			'ativo' => 0,
+		];
+
+		$result = $this->db->update($table, $data, "`id` = {$id}");
+	}
 }
