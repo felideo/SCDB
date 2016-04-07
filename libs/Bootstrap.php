@@ -44,7 +44,6 @@ class Bootstrap {
 
 				$controller->{$url[1]}(...array_slice($url, 2));
 
-
 			} else {
 				$this->error();
 				exit();
