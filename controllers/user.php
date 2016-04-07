@@ -18,6 +18,7 @@ class User extends \Libs\Controller
 	{
 		parent::__construct();
 		\Util\Auth::handLeLoggin();
+		\Util\Permission::check();
 	}
 
 	public function index()	{

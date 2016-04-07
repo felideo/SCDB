@@ -239,9 +239,7 @@
 	            			</a>
 						</li>
 					<?php endif ?>
-
 				<?php endforeach ?>
-
 			</ul>
 		</div>
 		<!-- /.sidebar-collapse -->

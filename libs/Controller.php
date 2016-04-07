@@ -4,18 +4,17 @@ namespace Libs;
 /**
 *
 */
-abstract class Controller
-{
+abstract class Controller {
 
 
 	function __construct() {
-		\Util\Auth::handLeLoggin();
 
+		@session_start();
 		$this->view = new View();
 	}
 
 	public function loadModel($name) {
-		$path = 'models/'.$name.'_model.php';
+		$path = 'models/'. $name .'_model.php';
 
 		if(file_exists($path)) {
 			require 'models/'.$name.'_model.php';
@@ -23,6 +22,10 @@ abstract class Controller
 			$modelName = '\\Models\\' . $name . '_Model';
 			$this->model = new $modelName;
 		}
+	}
+
+	public function get_url($url){
+
 	}
 
 	abstract public function index();
