@@ -7,7 +7,6 @@ require 'util/funcoes.php';
 
 // spl_autoload_register
 
-function autoload($className) {
 
 	$className = ltrim($className, '\\');
 	$fileName  = '';
