@@ -13,7 +13,11 @@ abstract class Model {
 	}
 
 	public function create($table, $data) {
-		$this->db->insert($table, $data);
+		$data += [
+			'ativo' => 1,
+		];
+
+		return $this->db->insert($table, $data);
 	}
 
 	public function load_full_list($table){
@@ -33,5 +37,6 @@ abstract class Model {
 		];
 
 		$result = $this->db->update($table, $data, "`id` = {$id}");
+		return $result;
 	}
 }

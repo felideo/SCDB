@@ -9,9 +9,36 @@
 		<label>&nbsp;</label><input type="submit">
 	</form> -->
 
-<div class="col-lg-12">
+<div class="span12">
     <h1 class="page-header">Usuarios</h1>
 </div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <form method="post" action="<?php echo URL; ?>user/create">
+            <div class="row-fluid">
+                <div class="form-group span4">
+                    <label>Nome de Usuario</label>
+                    <input class="form-control" name="user[username]">
+                </div>
+                <div class="form-group span4">
+                    <label>Senha</label>
+                    <input class="form-control" name="user[password]">
+                </div>
+                <div class="form-group span4">
+                    <label>Hierarquia</label>
+                    <input class="form-control" name="user[hierarquia]">
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="form-group span12">
+                    <button type="submit" class="btn btn-primary" style="float: right;">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div style="display: block; clear: both;">
 <div class="col-lg-12">
     <div class="panel panel-default">
         <div class="panel-body">

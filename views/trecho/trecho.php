@@ -30,9 +30,9 @@
                             <table aria-describedby="dataTables-example_info" role="grid" class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example">
                                 <thead>
                                     <tr role="row">
-                                        <th aria-sort="ascending" style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting_asc">ID</th>
+                                        <th aria-sort="descending" style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting_desc">ID</th>
                                         <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Localização</th>
-                                        <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Ações</th>
+                                        <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>

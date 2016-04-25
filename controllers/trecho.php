@@ -24,7 +24,7 @@ class Trecho extends \Libs\Controller {
 	}
 
 	public function delete($id) {
-		$this->model->delete($id);
+		$this->model->delete('trecho', $id);
 		header('location: ' . URL . 'trecho');
 	}
 }

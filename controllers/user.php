@@ -26,17 +26,15 @@ class User extends \Libs\Controller
 		$this->view->render('user');
 	}
 
-	public function create()
-	{
-		$data = array(
-			'username' => $_POST['username'],
-			'password' => $_POST['password'],
-			'role' => $_POST['role']
-		);
+	public function create() {
 
-		// @TODO: Faça seu error checking!
+		$user = carregar_variavel('user');
+		$user['password'] = \Libs\Hash::create('sha256', $user['password'], HASH_PASSWORD_KEY);
+		$user += [
+			'role' => 'default',
+		];
 
-		$this->model->create($data);
+		$this->model->create('user', $user);
 		header('location: ' . URL . 'user');
 	}
 

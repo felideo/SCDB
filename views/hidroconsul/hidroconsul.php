@@ -1,29 +1,27 @@
 <div class="span12">
-    <h1 class="page-header">Modulos</h1>
+    <h1 class="page-header">Hidroconsul</h1>
 </div>
-
 <div class="row-fluid">
     <div class="span12">
-        <form method="post" action="<?php echo URL; ?>hidrocontrol/create">
+        <form method="post" action="<?php echo URL; ?>hidroconsul/create">
             <div class="row-fluid">
                 <div class="form-group span4">
-                    <label>Associar ao Trecho</label>
-                    <select name="hidrocontrol[id_trecho]" required class="span6">
-                        <option>Selecione um Trecho</option>>
-                        <?php foreach ($this->trecho_list as $key => $trecho) : ?>
-                            <option value="<?php echo $trecho['id']; ?>"><?php echo $trecho['localizacao']; ?></option>
+                    <label>Associar ao Hidrometro de Controle</label>
+                    <select name="hidroconsul[id_trecho]" class="span6">
+                        <option>Selecione um Hidrometro</option>
+                        <?php foreach ($this->hidrocontrol_list as $key => $hidrometro) : ?>
+                            <option value="<?php echo $hidrometro['id'] . '+++' . $hidrometro['id_trecho']; ?>"><?php echo $hidrometro['id'] . ' - ' . $hidrometro['localizacao']; ?></option>
                         <?php endforeach ?>
                     </select>
                 </div>
+
                 <div class="form-group span4">
-                    <label>Trecho Anterior</label>
-                    <select name="hidrocontrol[trecho_anterior]" required class="span6">
-                        <option>Selecione um Trecho</option>>
-                        <?php foreach ($this->anterior_trecho_list as $key => $trecho_anterior) : ?>
-                            <option value="<?php echo $trecho_anterior['id']; ?>"><?php echo $trecho_anterior['localizacao']; ?></option>
-                        <?php endforeach ?>
-                    </select>
+                    <div class="form-group span12">
+                        <label>Localizacao</label>
+                        <input class="form-control" type="text" name="hidroconsul[localizacao]"><br>
+                    </div>
                 </div>
+
                 <div class="form-group span4">
                     <div class="form-group span12">
                         <button type="submit" class="btn btn-primary" style="float: right;">Enviar</button>
@@ -44,20 +42,18 @@
                             <table aria-describedby="dataTables-example_info" role="grid" class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example">
                                 <thead>
                                     <tr role="row">
-                                        <th aria-sort="descending" style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting_desc">ID</th>
+                                        <th aria-sort="ascending" style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting_asc">ID</th>
                                         <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Localização</th>
-                                        <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Trecho Anterior</th>
-                                        <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0">Ações</th>
+                                        <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($this->hidrocontrol_list as $indice => $hidrocontrol) : ?>
+                                    <?php foreach($this->hidroconsul_list as $indice => $hidroconsul) : ?>
                                         <tr role="row" class="gradeA odd">
-                                            <td class="sorting_1"><?php echo $hidrocontrol['id']; ?></td>
-                                            <td><?php echo $hidrocontrol['localizacao']; ?></td>
-                                            <td><?php echo $hidrocontrol['trecho_anterior']; ?></td>
+                                            <td class="sorting_1"><?php echo $hidroconsul['id']; ?></td>
+                                            <td><?php echo $hidroconsul['localizacao']; ?></td>
                                             <td>
-                                                <?php echo '<a href="' . URL . 'hidrocontrol/delete/' . $hidrocontrol['id'] . '"><i class="fa fa-trash-o fa-fw"></i></a></td>'; ?>
+                                                <?php echo '<a href="' . URL . 'hidroconsul/delete/' . $hidroconsul['id'] . '"><i class="fa fa-trash-o fa-fw"></i></a></td>'; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>

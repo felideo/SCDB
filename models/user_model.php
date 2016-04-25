@@ -31,19 +31,6 @@ class User_Model extends \Libs\Model
 	}
 
 
-
-	public function create($data)
-	{
-		$this->db->insert('user', array(
-			'username' => $data['username'],
-			'password' => \Libs\Hash::create('sha256', $data['password'], HASH_PASSWORD_KEY),
-			'role' => $data['role']
-
-
-		));
-
-	}
-
 	public function editSave($data)
 	{
 		$postData = array(
