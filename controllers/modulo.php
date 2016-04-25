@@ -29,4 +29,6 @@ class Modulo extends \Libs\Controller {
 		header('location: ' . URL . 'modulo');
 
 	}
+
+
 }

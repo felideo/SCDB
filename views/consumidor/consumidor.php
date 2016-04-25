@@ -1,32 +1,35 @@
+<?php debug2($this->consumidor_list) ?>
+
 <div class="span12">
-    <h1 class="page-header">Modulos</h1>
+    <h1 class="page-header">Consumidores</h1>
 </div>
 <div class="row-fluid">
     <div class="span12">
-        <form method="post" action="<?php echo URL; ?>modulo/create">
+        <form method="post" action="<?php echo URL; ?>consumidor/create">
             <div class="row-fluid">
                 <div class="form-group span6">
-                    <label>Modulo</label>
-                    <input class="form-control" name="modulo[modulo]">
+                    <label>Nome</label>
+                    <input class="form-control" name="consumidor[nome]">
                 </div>
                 <div class="form-group span6">
-                    <label>Nome de Exibição</label>
-                    <input class="form-control" name="modulo[nome]">
+                    <label>Email</label>
+                    <input class="form-control" name="consumidor[email]">
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="form-group span2">
-                    <label>Hierarquia</label>
-                    <input class="form-control" name="modulo[hierarquia]">
+                    <label>Telefone</label>
+                    <input class="form-control" name="consumidor[telefone]">
                 </div>
 
-                <div class="form-group span2">
-                    <label>Visível</label>
-                    <input class="form-control" name="modulo[visivel]">
-                </div>
-                <div class="form-group span8">
-                    <label>Icone</label>
-                    <input class="form-control" name="modulo[icone]">
+                <div class="form-group span4">
+                    <label>Apartamento</label>
+                    <select name="consumidor[id_hidroconsul]" class="span12">
+                        <option>Selecione um Apartamento</option>
+                        <?php foreach ($this->ap_list as $key => $ap) : ?>
+                            <option value="<?php echo $ap['id'] . '+++' . $ap['id_trecho']?>"><?php echo $ap['localizacao'] ?></option>
+                        <?php endforeach ?>
+                    </select>
                 </div>
             </div>
             <div class="row-fluid">
@@ -80,4 +83,3 @@
     </div>
     <!-- /.panel -->
 </div>
-
