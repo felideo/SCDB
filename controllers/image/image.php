@@ -9,11 +9,9 @@ use Libs;
 class Image extends \Libs\Controller
 {
 
-
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check();
 	}
 
 	public function index()
@@ -32,8 +30,6 @@ class Image extends \Libs\Controller
 			}
 		}
 
-
-		$this->view->render('image');
+		$this->view->render('image/index');
 	}
-
 }

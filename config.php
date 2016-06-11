@@ -3,18 +3,15 @@
 date_default_timezone_set('America/Sao_Paulo');
 
 // Sempre use barra (/) no final das URLs
-
-define('URL', 'http://hidrosis.localhost/');
+define('URL', 'http://teste.localhost/SianiMVC/');
 define('LIBS', 'libs/');
 
 // Configuração com Banco de Dados
 define('DB_TYPE', 'mysql');
 define('DB_HOST', 'localhost');
-
-define('DB_NAME', 'siani');
+define('DB_NAME', 'SianiMVC');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-
 
 // HASH KEY, nunca mude esta parte, pois é usada para as senhas!
 define('HASH_GENERAL_KEY', 'MixitUp200');

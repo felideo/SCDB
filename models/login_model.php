@@ -8,26 +8,26 @@ use Libs;
 */
 class Login_Model extends \Libs\Model {
 
-
 	function __construct()
 	{
 		parent::__construct();
 	}
 
-	function run()
-	{
-
-		$sth = $this->db->prepare("SELECT * FROM user WHERE
-			username = :username AND password = :password");
+	function run() {
+		$sth = $this->db->prepare("SELECT * FROM usuario WHERE
+			email = :email AND senha = :senha");
 
 
 
 		$sth->execute(array(
-			':username' => $_POST['username'],
-			':password' => \Libs\Hash::create('sha256', $_POST['password'], HASH_PASSWORD_KEY)
+			':email' => $_POST['email'],
+			// ':senha' => \Libs\Hash::create('sha256', $_POST['senha'], HASH_senha_KEY)
+			':senha' => $_POST['senha']
 		));
 
 		$data = $sth->fetch();
+
+		debug2();
 
 		$count = $sth->rowCount();
 
@@ -41,7 +41,7 @@ class Login_Model extends \Libs\Model {
 
 			$user = [
 				'id' => $data['userid'],
-				'nome' => $data['username'],
+				'nome' => $data['email'],
 				'hierarquia' => $data['hierarquia'],
 
 			];
@@ -52,7 +52,7 @@ class Login_Model extends \Libs\Model {
 			\Libs\Session::set('usuario', $user);
 			\Libs\Session::set('modulos', $modulos);
 
-			header('location: ../dashboard');
+			header('location: ../painel_controle');
 		} else {
 			header('location: ../login');
 		}

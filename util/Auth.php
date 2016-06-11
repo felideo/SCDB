@@ -4,7 +4,6 @@ use Libs;
 /**
 *
 */
-
 class Auth {
 	public static function handLeLoggin() {
 		@session_start();
@@ -12,7 +11,9 @@ class Auth {
 			$logged = $_SESSION['loggedIn'];
 		} else {
 			$logged = false;
+			// session_destroy();
+			// header('location: login');
+			// exit;
 		}
-
 	}
 }

@@ -15,14 +15,9 @@
                 </div>
             </div>
             <div class="row-fluid">
-                <div class="form-group span2">
+                <div class="form-group span4">
                     <label>Hierarquia</label>
                     <input class="form-control" name="modulo[hierarquia]">
-                </div>
-
-                <div class="form-group span2">
-                    <label>Visível</label>
-                    <input class="form-control" name="modulo[visivel]">
                 </div>
                 <div class="form-group span8">
                     <label>Icone</label>
