@@ -12,7 +12,7 @@ class Index extends \Libs\Controller {
 	}
 
 	public function index() {
-		$this->view->render('index');
+		$this->view->clean_render('index');
 	}
 
 }
