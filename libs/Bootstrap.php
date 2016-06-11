@@ -5,8 +5,7 @@ namespace Libs;
 * classe Bootstrap
 */
 class Bootstrap {
-	function __construct() {
-
+	function __construct($twig) {
 		$url = isset($_GET['url']) ? $_GET['url'] : null;
 		$url = rtrim($url, '/');
 		$url = filter_var($url, FILTER_SANITIZE_URL);
@@ -54,8 +53,10 @@ class Bootstrap {
 		}
 
 		$instancia_controller = '\\Controllers\\' . $url[0];
-		// str_replace($remove, '', $file);
-		$controller = new $instancia_controller;
+
+		$file = str_replace('.php', '', $file);
+
+		$controller = new $instancia_controller($twig);
 
 		if(!empty($url[($method - 1)])){
 			$controller->loadModel($url[($method - 1)]);

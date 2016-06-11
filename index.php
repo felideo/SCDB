@@ -24,4 +24,9 @@ function autoload($class_name) {
 
 spl_autoload_register('autoload');
 
-$lib = new Libs\Bootstrap();
+require 'vendor/autoload.php';
+$loader = new Twig_Loader_Filesystem('views');
+$twig = new Twig_Environment($loader, ['cache' => 'twig_cache', 'debug' => true]);
+$twig->addExtension(new Twig_Extension_Debug());
+
+$lib = new Libs\Bootstrap($twig);
