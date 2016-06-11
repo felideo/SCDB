@@ -11,12 +11,13 @@ class Modulo_Model extends \Libs\Model {
 		parent::__construct();
 	}
 
-	public function delete($id) {
+	public function delete($table, $id) {
 
 		$data = [
-			'visivel' => 0,
+			'ativo' => 0,
 		];
 
-		$result = $this->db->update('trecho', $data, "`id` = {$id}");
+		$result = $this->db->update($table, $data, "`id` = {$id}");
+		return $result;
 	}
 }

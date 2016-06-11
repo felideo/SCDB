@@ -6,7 +6,8 @@ namespace Libs;
 */
 class Database extends \PDO {
 
-	public function __construct($DB_TYPE, $DB_HOST, $DB_NAME, $DB_USER, $DB_PASS) {
+	public function __construct($DB_TYPE, $DB_HOST, $DB_NAME, $DB_USER, $DB_PASS)
+	{
 		try {
 			parent::__construct($DB_TYPE.':host='.$DB_HOST.';dbname='.$DB_NAME, $DB_USER, $DB_PASS);
 		} catch(Exception $e) {
@@ -21,7 +22,8 @@ class Database extends \PDO {
 	 * @param constant $fetchMode Modo de captura de dados
 	 * return mixed
 	 */
-	public function select($sql, $array = array(), $fetchMode = \PDO::FETCH_ASSOC) {
+	public function select($sql, $array = array(), $fetchMode = \PDO::FETCH_ASSOC)
+	{
 		$sth = $this->prepare($sql);
 		foreach($array as $key => $value) {
 			$sth->bindValue("$key", $value);
@@ -37,8 +39,8 @@ class Database extends \PDO {
 	 * @param string $table Nome da tabela a ser inserida
 	 * @param string $data Um array associado
 	 */
-
-	public function insert($table, $data) {
+	public function insert($table, $data)
+	{
 		ksort($data);
 
 		$fieldNames = implode('`, `', array_keys($data));
@@ -50,8 +52,7 @@ class Database extends \PDO {
 			$sth->bindValue(":$key", $value);
 		}
 
-
-		return $sth->execute();
+		$sth->execute();
 	}
 
 	/**
@@ -60,16 +61,14 @@ class Database extends \PDO {
 	 * @param string $data Um array associado
 	 * @param string $where Onde será atualizado
 	 */
-	public function update($table, $data, $where) {
+	public function update($table, $data, $where)
+	{
 		ksort($data);
 
 		$fieldDetails = NULL;
 		foreach($data as $key => $value) {
 			$fieldDetails .= "`$key` = :$key,";
-
-
 		}
-
 
 		$fieldDetails = rtrim($fieldDetails, ',');
 
@@ -79,7 +78,7 @@ class Database extends \PDO {
 			$sth->bindValue(":$key", $value);
 		}
 
-		return $sth->execute();
+		$sth->execute();
 	}
 
 	/**
@@ -89,7 +88,7 @@ class Database extends \PDO {
 	 * @param integer $limit
 	 * @return integer Affected Rows
 	 */
-	public function delete($table, $where, $limit = 1) {
+	public function delete($table, $where, $limit = 1){
 		return $this->exec("DELETE FROM $table WHERE $where LIMIT $limit");
 	}
 }

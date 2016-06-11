@@ -4,31 +4,25 @@ namespace Controllers;
 use Libs;
 
 /**
-
 *
 */
-class Dashboard extends \Libs\Controller {
-
-
-
+class Painel_Controle extends \Libs\Controller {
 	function __construct() {
-
 		parent::__construct();
 		\Util\Auth::handLeLoggin();
-		\Util\Permission::check();
+
+		$this->view->js = array('/dashboard/js/default.js');
 	}
 
 	function index() {
-		$this->view->render('dashboard');
+		$this->view->render('painel_controle');
 	}
 
 	function logout() {
-
 		\Libs\Session::destroy();
 		header('location: '. URL .'login');
 		exit;
 	}
-
 
 	function xhrInsert() {
 		$this->model->xhrInsert();
@@ -39,14 +33,7 @@ class Dashboard extends \Libs\Controller {
 	}
 
 	function xhrDeleteListing() {
-
 		$this->model->xhrDeleteListing();
 	}
 
 }
-
-// como chamar esse cu
-// 		require 'libs/Master.php';
-// 		$lerolero = new Libs\Master;
-// 		$lerolero->logout();
-// 		debug2($lerolero);

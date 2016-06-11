@@ -115,8 +115,6 @@ function transformar_array($variavel) {
 function gravar_banco_dados($post = array(), $tabela) {
     $db = new Libs\Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
     $db->insert($tabela, $post);
-
-    debug2($db);
 }
 
 function modulos(){
@@ -133,6 +131,3 @@ function modulos(){
 
     return array_values($retorno);
 }
-
-$asdf = "maria";
-

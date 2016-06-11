@@ -1,13 +1,13 @@
-<!-- 	<form method="post" action="<?php echo URL; ?>user/create">
-		<label>Username</label><input type="text" name="username"><br>
-		<label>Password</label><input type="text" name="password"><br>
-		<label>Role</label>
-		<select name="role">
-			<option value="default">Default</option>
-			<option value="admin">Admin</option>
-		</select><br>
-		<label>&nbsp;</label><input type="submit">
-	</form> -->
+<!--    <form method="post" action="<?php echo URL; ?>user/create">
+        <label>Username</label><input type="text" name="username"><br>
+        <label>Password</label><input type="text" name="password"><br>
+        <label>Role</label>
+        <select name="role">
+            <option value="default">Default</option>
+            <option value="admin">Admin</option>
+        </select><br>
+        <label>&nbsp;</label><input type="submit">
+    </form> -->
 
 <div class="span12">
     <h1 class="page-header">Usuarios</h1>
@@ -56,21 +56,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-									<?php foreach($this->userList as $indice => $usuario) : ?>
-	                                    <tr role="row" class="gradeA odd">
-	                                        <td class="sorting_1"><?php echo $usuario['userid']; ?></td>
-	                                        <td><?php echo $usuario['username']; ?></td>
-	                                        <td><?php echo $usuario['hierarquia']; ?></td>
-	                                        <td>
-	                                        	<?php echo '<a href="'.URL.'user/edit/'.$usuario['userid'].'" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
-	                                        	<?php
-	                                        		if($_SESSION['usuario']['id'] != $usuario['userid']) {
-	                                        	 		echo '<a href="'.URL.'user/delete/'.$usuario['userid'].'"><i class="fa fa-trash-o fa-fw"></i></a></td>';
-	                                        	 	}
-	                                        	 ?>
-	                                        </td>
-	                                    </tr>
-                                	<?php endforeach ?>
+                                    <?php foreach($this->userList as $indice => $usuario) : ?>
+                                        <tr role="row" class="gradeA odd">
+                                            <td class="sorting_1"><?php echo $usuario['userid']; ?></td>
+                                            <td><?php echo $usuario['username']; ?></td>
+                                            <td><?php echo $usuario['hierarquia']; ?></td>
+                                            <td>
+                                                <?php echo '<a href="'.URL.'user/edit/'.$usuario['userid'].'" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
+                                                <?php
+                                                    if($_SESSION['usuario']['id'] != $usuario['userid']) {
+                                                        echo '<a href="'.URL.'user/delete/'.$usuario['userid'].'"><i class="fa fa-trash-o fa-fw"></i></a></td>';
+                                                    }
+                                                 ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach ?>
                                 </tbody>
                             </table>
                         </div>
