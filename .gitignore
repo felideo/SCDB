@@ -1,2 +1,5 @@
-vendor
-dev
+.htaccess
+config.php
+license
+mvc.sql
+readme.md

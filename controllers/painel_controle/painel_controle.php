@@ -7,11 +7,7 @@ use Libs;
 *
 */
 class Painel_Controle extends \Libs\Controller {
-	function __construct($twig) {
-
-		$this->set_cu($twig);
-
-
+	function __construct() {
 		parent::__construct();
 		\Util\Auth::handLeLoggin();
 
@@ -19,12 +15,7 @@ class Painel_Controle extends \Libs\Controller {
 	}
 
 	function index() {
-		// debug2($this->cu);
-		// $this->view->render('painel_controle');
-
-		// $twig = new Twig_Enviroment($loader, ['cache' => 'twig_cache']);
-
-		echo $this->cu->render('painel_controle/painel_controle.html', array('cu' => 'Fabien'));
+		$this->view->render('painel_controle');
 	}
 
 	function logout() {
@@ -34,6 +25,7 @@ class Painel_Controle extends \Libs\Controller {
 	}
 
 	function xhrInsert() {
+		echo 'lerolero';
 		$this->model->xhrInsert();
 	}
 
@@ -44,7 +36,5 @@ class Painel_Controle extends \Libs\Controller {
 	function xhrDeleteListing() {
 		$this->model->xhrDeleteListing();
 	}
-
-
 
 }

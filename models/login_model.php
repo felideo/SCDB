@@ -8,8 +8,7 @@ use Libs;
 */
 class Login_Model extends \Libs\Model {
 
-	function __construct()
-	{
+	function __construct() {
 		parent::__construct();
 	}
 
@@ -17,21 +16,18 @@ class Login_Model extends \Libs\Model {
 		$sth = $this->db->prepare("SELECT * FROM usuario WHERE
 			email = :email AND senha = :senha");
 
-
-
 		$sth->execute(array(
 			':email' => $_POST['email'],
-			// ':senha' => \Libs\Hash::create('sha256', $_POST['senha'], HASH_senha_KEY)
+			// ':senha' => \Libs\Hash::create('sha256', $_POST['senha'], HASH_PASSWORD_KEY)
 			':senha' => $_POST['senha']
 		));
 
 		$data = $sth->fetch();
 
-		debug2();
 
 		$count = $sth->rowCount();
+		$modulos = $this->db->select('SELECT * FROM modulo WHERE ATIVO = 1 ORDER BY ordem');
 
-		$modulos = $this->db->select('SELECT * FROM modulos');
 		foreach ($modulos as $indice => $modulo) {
 			$modulos[$modulo['modulo']] = $modulo;
 			unset($modulos[$indice]);
@@ -40,7 +36,7 @@ class Login_Model extends \Libs\Model {
 		if($count > 0) {
 
 			$user = [
-				'id' => $data['userid'],
+				'id' => $data['id'],
 				'nome' => $data['email'],
 				'hierarquia' => $data['hierarquia'],
 
@@ -48,9 +44,11 @@ class Login_Model extends \Libs\Model {
 
 			// login
 			\Libs\Session::init();
-			\Libs\Session::set('loggedIn', true);
+			\Libs\Session::set('logado', true);
 			\Libs\Session::set('usuario', $user);
 			\Libs\Session::set('modulos', $modulos);
+
+
 
 			header('location: ../painel_controle');
 		} else {

@@ -18,4 +18,10 @@ class Master extends \Libs\Controller {
 		header('location: '. URL .'login');
 		exit;
 	}
+
+	function limpar_alertas_ajax(){
+		unset($_SESSION['alertas']);
+		echo json_encode("Alertas limpos");
+			exit;
+	}
 }

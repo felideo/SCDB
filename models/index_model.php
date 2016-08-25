@@ -8,7 +8,7 @@ use Libs;
 */
 class Index_Model extends \Libs\Model
 {
-
+	
 	function __construct()
 	{
 		parent::__construct();

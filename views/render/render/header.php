@@ -3,13 +3,13 @@
 
 <head>
 
-    <meta charset="utf-8">
+    <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>HidroSis - </title>
+    <title><?php echo APP_NAME; ?></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo URL; ?>public/bootstrap/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +26,7 @@
     <!-- Morris Charts CSS -->
     <link href="<?php echo URL; ?>public/bootstrap/bower_components/morrisjs/morris.css" rel="stylesheet">
 
-    <!-- Custom Fonts -->
+    <!-- Custom Fonts CSS -->
     <link href="<?php echo URL; ?>public/bootstrap/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -36,22 +36,41 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- jQuery -->
+    <script src="<?php echo URL; ?>public/bootstrap/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<?php echo URL; ?>public/bootstrap/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="<?php echo URL; ?>public/bootstrap/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="<?php echo URL; ?>public/bootstrap/dist/js/sb-admin-2.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="<?php echo URL; ?>public/bootstrap/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="<?php echo URL; ?>public/bootstrap/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="<?php echo URL; ?>public/bootstrap/dist/js/sb-admin-2.js"></script>
+
     <!-- Morris Charts CSS -->
     <link href="<?php echo URL; ?>public/css/default.css" rel="stylesheet">
     <link href="<?php echo URL; ?>public/css/bootstrap.css" rel="stylesheet">
 
+    <!-- Sweet Alert -->
+    <script src="<?php echo URL; ?>public/sweetalert-master/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="public/sweetalert-master/dist/sweetalert.css">
+
     <?php
-	if(isset($this->js)) {
-		foreach($this->js as $js) {
-			echo '<script type="text/javascript" src="'.URL.'views'.$js.'"></script>';
-		}
-	}
+    	if(isset($this->js)) {
+    		foreach($this->js as $js) {
+    			echo '<script type="text/javascript" src="'.URL.'views'.$js.'"></script>';
+    		}
+    	}
 	?>
-
-
-
 </head>
-
 <body>
 
     <?php \Libs\Session::init(); ?>
@@ -60,6 +79,6 @@
         <div id="content">
             <?php require 'views/render/render/sidebar.php'; ?>
             <!-- Page Content -->
-            <div id="page-wrapper">
+            <div id="page-wrapper" style="margin-left: 185px;">
                 <div class="container-fluid">
                     <div class="row-fluid">
