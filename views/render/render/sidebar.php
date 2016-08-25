@@ -7,7 +7,7 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="index.html">HidroSis</a>
+		<a class="navbar-brand" href="index.html"><?php echo APP_NAME; ?></a>
 	</div>
 	<!-- /.navbar-header -->
 
@@ -18,9 +18,11 @@
 				<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu dropdown-user">
-				<li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-				</li>
-				<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+				<li>
+					<a href="#">
+						<i class="fa fa-user fa-fw"></i>
+						User Profile
+					</a>
 				</li>
 				<li class="divider"></li>
 				<li><a href="<?php echo URL; ?>master/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -32,7 +34,7 @@
 	</ul>
 	<!-- /.navbar-top-links -->
 
-	<div class="navbar-default sidebar" role="navigation">
+	<div class="navbar-default sidebar" role="navigation" style="width: 185px;">
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
 				<li>
