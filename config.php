@@ -3,15 +3,19 @@
 date_default_timezone_set('America/Sao_Paulo');
 
 // Sempre use barra (/) no final das URLs
-define('URL', 'http://teste.localhost/NeuroSis/');
+define('URL', 'http://teste.localhost/neurosis/');
+// define('URL', 'http://felideo.com.br/neurosis/');
+
 define('LIBS', 'libs/');
 
 // Configuração com Banco de Dados
 define('DB_TYPE', 'mysql');
 define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'NeuroSis');
+define('DB_NAME', 'SianiMVCBase');
 define('DB_USER', 'root');
 define('DB_PASS', 'lilith');
+
+
 
 
 define('APP_NAME', 'NeuroSis');

@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Bio-SenseLab</title>
+    <title><?php APP_NAME ?></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo URL; ?>public/bootstrap/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
