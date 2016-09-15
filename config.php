@@ -3,18 +3,18 @@
 date_default_timezone_set('America/Sao_Paulo');
 
 // Sempre use barra (/) no final das URLs
-define('URL', 'http://teste.localhost/SianiMVCBase/');
+define('URL', 'http://teste.localhost/NeuroSis/');
 define('LIBS', 'libs/');
 
 // Configuração com Banco de Dados
 define('DB_TYPE', 'mysql');
 define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'SianiMVCBase');
+define('DB_NAME', 'NeuroSis');
 define('DB_USER', 'root');
 define('DB_PASS', 'lilith');
 
 
-define('APP_NAME', 'SianiMVCBase');
+define('APP_NAME', 'NeuroSis');
 
 // HASH KEY, nunca mude esta parte, pois é usada para as senhas!
 define('HASH_GENERAL_KEY', 'ze4umudrajadr3fracruba834be4utra');
