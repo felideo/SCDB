@@ -1,12 +1,6 @@
-Dashboard... Logged in Only
+<div class="span12">
+    <h1 class="page-header"><?php echo $this->modulo['name']; ?></h1>
+</div>
 
-<br>
 
-<form id="randomInsert" action="<?php echo URL; ?>painel_controle/xhrInsert" method="post">
-	<input type="text" name="text">
-	<input type="submit">
-</form>
-
-<br>
-
-<div id="listInserts"></div>
+<div style="display: block; clear: both;">

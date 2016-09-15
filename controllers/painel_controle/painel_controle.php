@@ -3,19 +3,26 @@ namespace Controllers;
 
 use Libs;
 
-/**
-*
-*/
 class Painel_Controle extends \Libs\Controller {
+
+	private $modulo = [
+		'modulo' 	=> 'painel_controle',
+		'name'		=> 'Painel de Controle',
+		'send'		=> 'Painel de Controle'
+	];
+
 	function __construct() {
 		parent::__construct();
 		\Util\Auth::handLeLoggin();
+
+		$this->view->modulo = $this->modulo;
+
 
 		$this->view->js = array('/dashboard/js/default.js');
 	}
 
 	function index() {
-		$this->view->render('painel_controle');
+		$this->view->render($this->modulo['modulo'] . '/' . $this->modulo['modulo']);
 	}
 
 	function logout() {
