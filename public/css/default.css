@@ -38,3 +38,18 @@
 	width: 99%;
 	display: inline-block;
 }
+
+.marginT10 {
+	margin-top: 10px;}
+
+.marginL10 {
+	margin-left: 10px;
+}
+
+.marginB10 {
+	margin-bottom: 10px;
+}
+
+.marginR10 {
+	margin-right: 10px;
+}
