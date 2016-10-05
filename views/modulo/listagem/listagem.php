@@ -17,6 +17,7 @@
                                     <tr role="row">
                                         <th aria-sort="ascending" style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting_asc">ID</th>
                                         <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Modulo</th>
+                                        <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Submenu</th>
                                         <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Link</th>
                                         <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Hierarquia</th>
                                         <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Icone</th>
@@ -28,6 +29,8 @@
                                         <tr role="row" class="gradeA odd">
                                             <td class="sorting_1"><?php echo $modulo['id']; ?></td>
                                             <td><?php echo $modulo['nome']; ?></td>
+                                            <td><?php echo $modulo['submenu']; ?></td>
+
                                             <td>/<?php echo $modulo['modulo']; ?></td>
                                             <td><?php echo $modulo['hierarquia']; ?></td>
                                             <td><?php echo $modulo['icone']; ?></td>
