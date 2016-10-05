@@ -13,6 +13,7 @@ CREATE TABLE `modulo` (
 	`id` 					int(11) 	NOT NULL AUTO_INCREMENT,
 	`modulo` 				varchar(64) NOT NULL,
 	`nome` 					varchar(64) NOT NULL,
+	`submenu`					varchar(64) NULL,
 	`hierarquia` 			int(11) 	NOT NULL,
 	`icone` 				varchar(64) NOT NULL DEFAULT 'fa-angle-right',
 	`oculto` 				tinyint(1) 	NOT NULL DEFAULT '0',
@@ -37,3 +38,19 @@ VALUES
 
 INSERT INTO `usuario` VALUES ('1', 'felideo@gmail.com', '12345', '0', '1');
 
+ALTER TABLE `modulo`
+    ADD COLUMN `submenu` varchar(64) NULL AFTER `nome`;
+
+CREATE TABLE `paciente` (
+	`id` 					int(11) 		NOT NULL AUTO_INCREMENT,
+	`nome` 					varchar(128) 	NOT NULL,
+	`pai` 					varchar(128) 	NOT NULL,
+	`mae`					varchar(128) 	NULL,
+	`nascimento` 			date 	 		NOT NULL,
+	`sexo` 					tinyint(1) 		NOT NULL COMMENT "Masculino 1; Feminino 0",
+	`patologia`				varchar(128) 	NOT NULL,
+	`descricao`				text 			NULL,
+	`tipo`					tinyint(1)		NOT NULL DEFAULT '0' COMMENT "Candidato 0; Paciente 1, Ex Paciente 2",
+	`ativo` 				tinyint(1) 		NOT NULL DEFAULT '1',
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

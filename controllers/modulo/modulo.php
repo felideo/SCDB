@@ -20,6 +20,10 @@ class Modulo extends \Libs\Controller {
 	}
 
 	public function index() {
+
+		// debug2($_SESSION);
+
+
 		$this->view->modulo_list = $this->model->load_active_list($this->modulo['modulo']);
 		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
 	}

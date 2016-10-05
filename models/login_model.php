@@ -28,6 +28,11 @@ class Login_Model extends \Libs\Model {
 		$count = $sth->rowCount();
 		$modulos = $this->db->select('SELECT * FROM modulo WHERE ATIVO = 1 ORDER BY ordem');
 
+
+		foreach ($modulos as $indice => $modulo) {
+			$menus[!empty($modulo['submenu']) ? $modulo['submenu'] : $modulo['nome']][] = $modulo;
+		}
+
 		foreach ($modulos as $indice => $modulo) {
 			$modulos[$modulo['modulo']] = $modulo;
 			unset($modulos[$indice]);
@@ -47,8 +52,7 @@ class Login_Model extends \Libs\Model {
 			\Libs\Session::set('logado', true);
 			\Libs\Session::set('usuario', $user);
 			\Libs\Session::set('modulos', $modulos);
-
-
+			\Libs\Session::set('menus', $menus);
 
 			header('location: ../painel_controle');
 		} else {
