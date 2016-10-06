@@ -8,7 +8,7 @@
                 <form role="form" method="post" action="login/run">
                     <fieldset>
                         <div class="form-group">
-                            <input class="form-control" placeholder="Email" name="email" type="text" autofocus>
+                            <input class="form-control validar_email" placeholder="Email" name="email" type="text" autofocus>
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="Senha" name="senha" type="password" value="">

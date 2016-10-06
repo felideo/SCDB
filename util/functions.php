@@ -111,3 +111,26 @@ function transformar_array($variavel) {
 
     return $variavel;
 }
+
+function transformar_data($data) {
+
+    $var = $data;
+
+    $dataHora = explode(' ', $var);
+
+    if (isset($dataHora[0])) {
+        $data = explode('/', $dataHora[0]);
+
+        if (count($data) != 3) {
+            return $var;
+        }
+
+        $var = $data[2] . '-' . $data[1] . '-' . $data[0];
+
+        if (isset($dataHora[1])) {
+            $var .= ' ' . $dataHora[1];
+        }
+    }
+
+    return $var;
+}

@@ -10,16 +10,16 @@
 
             <div class="row-fluid">
                 <div class="form-group span4">
-                    <label>Nome de Usuario</label>
-                    <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[email]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['email'];} ?>" required>
+                    <label>Email</label>
+                    <input class="form-control validar_email" name="<?php echo $this->modulo['modulo']; ?>[email]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['email'];} ?>" required>
                 </div>
                 <div class="form-group span4">
                     <label>Senha</label>
-                    <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[senha]" <?php if(!isset($this->cadastro)){echo 'required';} ?> >
+                    <input class="form-control" type="password" name="<?php echo $this->modulo['modulo']; ?>[senha]" <?php if(!isset($this->cadastro)){echo 'required';} ?> >
                 </div>
                 <div class="form-group span4">
                     <label>Hierarquia</label>
-                    <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[hierarquia]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['hierarquia'];} ?>" required>
+                    <input class="form-control" type="number" name="<?php echo $this->modulo['modulo']; ?>[hierarquia]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['hierarquia'];} ?>" required>
                 </div>
             </div>
             <div class="row-fluid">

@@ -35,6 +35,17 @@ abstract class Model {
 		return $result;
 	}
 
+	public function delete_relacao($table, $where, $id) {
+
+		$data = [
+			'ativo' => 0,
+		];
+
+		$result = $this->db->update($table, $data, "`{$where}` = {$id}");
+
+		return $result;
+	}
+
 	public function full_load_by_id($table, $id){
 		$query = 'SELECT * FROM ' . $table
 			. ' WHERE ID = ' . $id;

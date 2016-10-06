@@ -23,4 +23,18 @@ class Candidato_Model extends \Libs\Model {
 
 		return $this->db->update($table, $data, "`id` = {$id}");
 	}
+
+	public function update_relacao($table, $where, $id, $data){
+		return $this->db->update($table, $data, "`{$where}` = {$id}");
+	}
+
+	public function load_pacientes_list($tipo){
+
+		$select = 'SELECT paciente.id, paciente.nome, paciente.nascimento, paciente.patologia, paciente.sexo'
+    	. ' FROM paciente paciente'
+    	. ' WHERE paciente.ativo = 1'
+    	. ' AND paciente.tipo = ' . $tipo;
+
+		return $this->db->select($select);
+	}
 }
