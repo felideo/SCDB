@@ -76,6 +76,7 @@ class Database extends \PDO {
 	 * @param string $where Onde será atualizado
 	 */
 	public function update($table, $data, $where) {
+
 		ksort($data);
 
 		$fieldDetails = NULL;

@@ -16,7 +16,7 @@
                                 <thead>
                                     <tr role="row">
                                         <th aria-sort="ascending" style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting_asc">ID</th>
-                                        <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">User Name</th>
+                                        <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Email</th>
                                         <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Hierarquia</th>
                                         <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Ações</th>
                                     </tr>
