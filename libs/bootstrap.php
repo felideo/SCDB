@@ -16,7 +16,6 @@ class bootstrap {
 			return false;
 		}
 
-
 		$amp = $this->identificar_arquivo_metoro_parametro($url);
 
 		// debug2($amp);
@@ -59,6 +58,8 @@ class bootstrap {
 		$file = 'controllers/';
 
 		foreach ($url as $indice => $value) {
+
+
 			$file .= $value . '/';
 
 			// if($indice == (count($url) - 1)) {

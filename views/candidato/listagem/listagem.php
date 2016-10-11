@@ -45,8 +45,10 @@
 
                                             <td><?php echo $candidato['patologia']; ?></td>
                                             <td>
-                                                <?php echo '<a href="' . URL . 'candidato/editar/' . $candidato['id'] . '" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
-                                                <?php echo '<a href="' . URL . 'candidato/delete/' . $candidato['id'] . '"><i class="fa fa-trash-o fa-fw"></i></a></td>'; ?>
+                                                <!-- ZZZ: Configuração de hierarquia transforar em paciente -->
+                                                <?php echo '<a href="#" class="transformar_paciente" data-id-paciente="' . $candidato['id'] . '" title="Transformar em Paciente"><i class="fa fa-ambulance fa-fw"></i></a>'; ?>
+                                                <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/editar/' . $candidato['id'] . '" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
+                                                <?php // echo '<a href="' . URL . $this->modulo['modulo'] . '/delete/' . $candidato['id'] . '"><i class="fa fa-trash-o fa-fw"></i></a></td>'; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>
@@ -62,16 +64,4 @@
     <!-- /.panel -->
 </div>
 
-<script>
-$(document).ready(function() {
-    $('#data_table').DataTable({
-        responsive: true,
-        "order": [[ 2, "asc" ]],
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json"
-        }
-    });
-});
-</script>
-
-
+<?php include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/listagem/listagem.js.php'; ?>

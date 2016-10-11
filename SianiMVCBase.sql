@@ -41,6 +41,9 @@ INSERT INTO `usuario` VALUES ('1', 'felideo@gmail.com', '12345', '0', '1');
 ALTER TABLE `modulo`
     ADD COLUMN `submenu` varchar(64) NULL AFTER `nome`;
 
+ALTER TABLE `modulo`
+    ADD COLUMN `icone-submenu` varchar(64) NULL AFTER `nome`;
+
 CREATE TABLE `paciente` (
 	`id` 					int(11) 		NOT NULL AUTO_INCREMENT,
 	`nome` 					varchar(128) 	NOT NULL,
@@ -53,4 +56,29 @@ CREATE TABLE `paciente` (
 	`tipo`					tinyint(1)		NOT NULL DEFAULT '0' COMMENT "Candidato 0; Paciente 1, Ex Paciente 2",
 	`ativo` 				tinyint(1) 		NOT NULL DEFAULT '1',
 	PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+CREATE TABLE `contato` (
+	`id` 					int(11) 		NOT NULL AUTO_INCREMENT,
+	`id_paciente` 			int(11) 		NULL,
+	`contato` 				varchar(128) 	NOT NULL,
+	`tipo`					tinyint(1)		NOT NULL COMMENT "Telefone 0; Celular 1, Email 2",
+	`ativo` 				tinyint(1) 		NOT NULL DEFAULT '1',
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`id_paciente`)      REFERENCES paciente(id)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+CREATE TABLE `endereco` (
+	`id` 					int(11) 		NOT NULL AUTO_INCREMENT,
+	`id_paciente` 			int(11) 		NOT NULL,
+	`cep` 					int(8) 			NOT NULL,
+	`rua`					varchar(128) 	NOT NULL,
+	`numero`				int 			NOT NULL,
+	`complemento`			varchar(128) 	NULL,
+	`bairro`				varchar(128) 	NOT NULL,
+	`cidade`				varchar(128) 	NOT NULL,
+	`uf`					varchar(128) 	NOT NULL,
+	`ativo` 				tinyint(1) 		NOT NULL DEFAULT '1',
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`id_paciente`)      REFERENCES paciente(id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

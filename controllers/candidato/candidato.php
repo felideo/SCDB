@@ -21,7 +21,7 @@ class Candidato extends \Libs\Controller {
 
 	public function index() {
 
-		$this->view->listagem_candidatos = $this->model->load_pacientes_list(0);
+		$this->view->listagem_candidatos = $this->load_external_model('paciente')->load_pacientes_list(0);
 		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
 	}
 
@@ -76,8 +76,6 @@ class Candidato extends \Libs\Controller {
 
 	public function update($id) {
 
-		debug2($_POST);
-
 		$update_db = carregar_variavel($this->modulo['modulo']);
 
 		$update_db += [
@@ -119,6 +117,23 @@ class Candidato extends \Libs\Controller {
 			$this->view->alert_js('Remoção efetuada com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do cadastro, por favor tente novamente...', 'erro');
+		}
+
+		header('location: ' . URL . $this->modulo['modulo']);
+	}
+
+	public function transformar_paciente($id){
+
+		$update_db = [
+			"tipo" => 1
+		];
+
+		$retorno = $this->model->update('paciente', $id[0], $update_db);
+
+		if($retorno['status']){
+			$this->view->alert_js('Alteração de para paciente efetuada com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao transformar o candidato em paciente, por favor tente novamente...', 'erro');
 		}
 
 		header('location: ' . URL . $this->modulo['modulo']);
