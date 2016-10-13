@@ -27,8 +27,9 @@ class Ex_Paciente extends \Libs\Controller {
 	}
 
 	public function editar($id) {
-		$this->view->cadastro = $this->model->full_load_by_id('modulo', $id[0])[0];
+		$this->view->cadastro = $this->load_external_model('paciente')->load_paciente($id[0]);
 		$this->view->render($this->modulo['modulo'] . '/editar/editar');
+
 	}
 
 	public function create() {
