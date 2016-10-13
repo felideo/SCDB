@@ -24,7 +24,4 @@ class Candidato_Model extends \Libs\Model {
 		return $this->db->update($table, $data, "`id` = {$id}");
 	}
 
-	public function update_relacao($table, $where, $id, $data){
-		return $this->db->update($table, $data, "`{$where}` = {$id}");
-	}
 }
