@@ -26,47 +26,54 @@ class Ex_Paciente extends \Libs\Controller {
 		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
 	}
 
-	public function editar($id) {
-		$this->view->cadastro = $this->load_external_model('paciente')->load_paciente($id[0]);
-		$this->view->render($this->modulo['modulo'] . '/editar/editar');
-
-	}
-
-	public function create() {
-		$insert_db = carregar_variavel($this->modulo['modulo']);
-		$retorno = $this->model->create('modulo', $insert_db);
-
-		if($retorno['status']){
-			$this->view->alert_js('Cadastro efetuado com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro, por favor tente novamente...', 'erro');
-		}
-
-		header('location: ' . URL . 'modulo');
-	}
-
-	public function update($id) {
-		$update_db = carregar_variavel('modulo');
-		$retorno = $this->model->update('modulo', $id[0], $update_db);
-
-		if($retorno['status']){
-			$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');
-		}
-
-		header('location: ' . URL . 'modulo');
-	}
-
 	public function delete($id) {
-		$retorno = $this->model->delete('modulo', $id[0]);
+		$retorno_paciente = $this->model->delete('paciente', $id[0]);
 
-		if($retorno['status']){
+		if($retorno_paciente['status']){
+			$retorno_contato = $this->model->delete_relacao('contato', 'id_paciente', $id[0]);
+			$retorno_endereco = $this->model->delete_relacao('endereco', 'id_paciente', $id[0]);
+		}
+
+		if($retorno_paciente['status']){
 			$this->view->alert_js('Remoção efetuada com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do cadastro, por favor tente novamente...', 'erro');
 		}
 
-		header('location: ' . URL . 'modulo');
+		header('location: ' . URL . $this->modulo['modulo']);
+	}
+
+	public function transformar_paciente($id){
+
+		$update_db = [
+			"tipo" => 1
+		];
+
+		$retorno = $this->model->update('paciente', $id[0], $update_db);
+
+		if($retorno['status']){
+			$this->view->alert_js('Alteração de para paciente efetuada com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao transformar o candidato em paciente, por favor tente novamente...', 'erro');
+		}
+
+		header('location: ' . URL . $this->modulo['modulo']);
+	}
+
+	public function transformar_candidato($id){
+
+		$update_db = [
+			"tipo" => 0
+		];
+
+		$retorno = $this->model->update('paciente', $id[0], $update_db);
+
+		if($retorno['status']){
+			$this->view->alert_js('Alteração de para ex paciente efetuada com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao transformar o paciente em candidato, por favor tente novamente...', 'erro');
+		}
+
+		header('location: ' . URL . $this->modulo['modulo']);
 	}
 }
