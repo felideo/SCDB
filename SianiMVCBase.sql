@@ -82,3 +82,19 @@ CREATE TABLE `endereco` (
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`id_paciente`)      REFERENCES paciente(id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+CREATE TABLE `aluno` (
+	`id` 					int(11) 		NOT NULL AUTO_INCREMENT,
+	`id_usuario` 			int(11) 		NOT NULL,
+	`nome` 					varchar(128)	NOT NULL,
+	`rgm`					int(11) 		NOT NULL,
+	`curso`					varchar(128)	NOT NULL,
+	`semestre`				int 		 	NOT NULL,
+	`turma`					varchar(16) 	NOT NULL,
+	`ativo` 				tinyint(1) 		NOT NULL DEFAULT '1',
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`id_usuario`)      REFERENCES usuario(id)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+ALTER TABLE `contato`
+	ADD COLUMN `id_aluno` int('') null after `id_paciente`;

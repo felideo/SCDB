@@ -46,9 +46,11 @@
                                             <td><?php echo $ex_paciente['patologia']; ?></td>
                                             <td>
                                                 <!-- ZZZ: Configuração de hierarquia transforar em paciente -->
-                                                <?php echo '<a href="#" class="transformar_ex_paciente" data-id-paciente="' . $ex_paciente['id'] . '" title="Transformar em Paciente"><i class="fa fa-times fa-fw"></i></a>'; ?>
-                                                <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/editar/' . $ex_paciente['id'] . '" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
-                                                <?php // echo '<a href="' . URL . $this->modulo['modulo'] . '/delete/' . $ex_paciente['id'] . '"><i class="fa fa-trash-o fa-fw"></i></a></td>'; ?>
+                                                <?php echo '<a href="#" class="transformar_paciente" data-id-paciente="' . $ex_paciente['id'] . '" title="Transformar em Paciente"><i class="fa fa-ambulance fa-fw"></i></a>'; ?>
+                                                <?php echo '<a href="#" class="transformar_candidato" data-id-paciente="' . $ex_paciente['id'] . '" title="Transformar em Paciente"><i class="fa fa-check fa-fw"></i></a>'; ?>
+
+                                                <?php //echo '<a href="' . URL . $this->modulo['modulo'] . '/editar/' . $ex_paciente['id'] . '" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
+                                                <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/delete/' . $ex_paciente['id'] . '"><i class="fa fa-trash-o fa-fw"></i></a></td>'; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>

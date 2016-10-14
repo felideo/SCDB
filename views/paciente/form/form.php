@@ -54,11 +54,11 @@
                 </div>
                 <div class="form-group span4">
                     <label>Celular</label>
-                    <input class="form-control mascara_celular" name="contato[1]" value="<?php if(isset($this->cadastro['contato'][1])){echo $this->cadastro['contato'][1]['contato'];} ?>" required>
+                    <input class="form-control mascara_celular" name="contato[1]" value="<?php if(isset($this->cadastro['contato'][1])){echo $this->cadastro['contato'][1]['contato'];} ?>" >
                 </div>
                 <div class="form-group span4">
                     <label>Email</label>
-                    <input class="form-control validar_email" maxlength="128" name="contato[2]" value="<?php if(isset($this->cadastro['contato'][2])){echo $this->cadastro['contato'][2]['contato'];} ?>" required>
+                    <input class="form-control validar_email" maxlength="128" name="contato[2]" value="<?php if(isset($this->cadastro['contato'][2])){echo $this->cadastro['contato'][2]['contato'];} ?>" >
                 </div>
             </div>
 
@@ -66,37 +66,37 @@
             <div class="row-fluid">
                 <div class="form-group span2">
                     <label>CEP</label>
-                    <input id="buscar_cep" class="form-control mascara_cep" name="endereco[cep]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['cep'];} ?>" required>
+                    <input id="buscar_cep" class="form-control mascara_cep" name="endereco[cep]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['cep'];} ?>" >
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="form-group span10">
                     <label>Rua</label>
-                    <input id="rua" maxlength="128" class="form-control" name="endereco[rua]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['rua'];} ?>" required>
+                    <input id="rua" maxlength="128" class="form-control" name="endereco[rua]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['rua'];} ?>" >
                 </div>
                 <div class="form-group span2">
                     <label>Numero</label>
-                    <input class="form-control" name="endereco[numero]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['numero'];} ?>" required>
+                    <input class="form-control" name="endereco[numero]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['numero'];} ?>" >
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="form-group span12">
                     <label>Complemento</label>
-                    <input class="form-control" maxlength="128" name="endereco[complemento]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['complemento'];} ?>" required>
+                    <input class="form-control" maxlength="128" name="endereco[complemento]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['complemento'];} ?>" >
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="form-group span5">
                     <label>Bairro</label>
-                    <input id="bairro" class="form-control" maxlength="128" name="endereco[bairro]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['bairro'];} ?>" required>
+                    <input id="bairro" class="form-control" maxlength="128" name="endereco[bairro]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['bairro'];} ?>" >
                 </div>
                 <div class="form-group span5">
                     <label>Cidade</label>
-                    <input id="cidade" class="form-control" maxlength="128" name="endereco[cidade]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['cidade'];} ?>" required>
+                    <input id="cidade" class="form-control" maxlength="128" name="endereco[cidade]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['cidade'];} ?>" >
                 </div>
                 <div class="form-group span2">
                     <label>UF</label>
-                    <input id="uf" class="form-control" maxlength="2" name="endereco[uf]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['uf'];} ?>" required>
+                    <input id="uf" class="form-control" maxlength="2" name="endereco[uf]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['uf'];} ?>" >
                 </div>
             </div>
             <div class="row-fluid marginB10">

@@ -24,13 +24,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($this->listagem_pacientes as $indice => $candidato) : ?>
+                                    <?php foreach($this->listagem_pacientes as $indice => $paciente) : ?>
                                         <tr role="row" class="gradeA odd">
-                                            <td class="sorting_1"><?php echo $candidato['id']; ?></td>
-                                            <td><?php echo $candidato['nome']; ?></td>
+                                            <td class="sorting_1"><?php echo $paciente['id']; ?></td>
+                                            <td><?php echo $paciente['nome']; ?></td>
 
                                             <?php
-                                                $nascimento = new DateTime($candidato['nascimento']);
+                                                $nascimento = new DateTime($paciente['nascimento']);
                                                 $hoje = new DateTime(date('Y-m-d'));
                                                 $diferenca = $nascimento->diff($hoje);
 
@@ -40,15 +40,17 @@
                                             ?>
 
                                             <td><?php echo $idade; ?></td>
-                                            <td><?php echo ($candidato['sexo'] == 1) ? 'Masculino' : 'Feminino'; ?></td>
+                                            <td><?php echo ($paciente['sexo'] == 1) ? 'Masculino' : 'Feminino'; ?></td>
 
 
-                                            <td><?php echo $candidato['patologia']; ?></td>
+                                            <td><?php echo $paciente['patologia']; ?></td>
                                             <td>
                                                 <!-- ZZZ: Configuração de hierarquia transforar em paciente -->
-                                                <?php echo '<a href="#" class="transformar_ex_paciente" data-id-paciente="' . $candidato['id'] . '" title="Transformar em Paciente"><i class="fa fa-times fa-fw"></i></a>'; ?>
-                                                <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/editar/' . $candidato['id'] . '" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
-                                                <?php // echo '<a href="' . URL . $this->modulo['modulo'] . '/delete/' . $candidato['id'] . '"><i class="fa fa-trash-o fa-fw"></i></a></td>'; ?>
+                                                <?php echo '<a href="#" class="transformar_ex_paciente" data-id-paciente="' . $paciente['id'] . '" title="Transformar em Paciente"><i class="fa fa-times fa-fw"></i></a>'; ?>
+                                                <?php echo '<a href="#" class="transformar_candidato" data-id-paciente="' . $paciente['id'] . '" title="Transformar em Paciente"><i class="fa fa-check fa-fw"></i></a>'; ?>
+
+                                                <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/editar/' . $paciente['id'] . '" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
+                                                <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/delete/' . $paciente['id'] . '"><i class="fa fa-trash-o fa-fw"></i></a></td>'; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>

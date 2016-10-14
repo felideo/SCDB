@@ -59,5 +59,16 @@ abstract class Model {
 		return $this->db->select($query);
 	}
 
+	public function update_relacao($table, $where, $id, $data){
+		return $this->db->update($table, $data, "`{$where}` = {$id}");
+	}
+
+	public function create($table, $data){
+		return $this->get_insert($table, $data);
+	}
+
+	public function update($table, $id, $data){
+		return $this->db->update($table, $data, "`id` = {$id}");
+	}
 
 }

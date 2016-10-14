@@ -138,4 +138,21 @@ class Candidato extends \Libs\Controller {
 
 		header('location: ' . URL . $this->modulo['modulo']);
 	}
+
+	public function transformar_ex_paciente($id){
+
+		$update_db = [
+			"tipo" => 2
+		];
+
+		$retorno = $this->model->update('paciente', $id[0], $update_db);
+
+		if($retorno['status']){
+			$this->view->alert_js('Alteração de para ex paciente efetuada com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao transformar o candidato em ex paciente, por favor tente novamente...', 'erro');
+		}
+
+		header('location: ' . URL . $this->modulo['modulo']);
+	}
 }
