@@ -31,7 +31,6 @@
                         <?php endforeach ?>
                      </select>
                 </div>
-
                 <div class="form-group span3">
                     <label>Hierarquia</label>
                     <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[hierarquia]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['hierarquia'];} ?>" required>
