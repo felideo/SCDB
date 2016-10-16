@@ -199,6 +199,7 @@ INSERT INTO `modulo`
         (8,'ex_paciente','Ex Pacientes',2,1,'fa-times-circle',0,1000,1),
         (9,'aluno','Alunos',NULL,1,'fa-book',0,1000,1);
 
+<<<<<<< HEAD
 INSERT INTO `permissao`
     VALUES
         (21,6,'candidato_criar','3d9c9470ad8763c304c9b6863503f2f3'),
