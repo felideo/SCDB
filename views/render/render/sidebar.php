@@ -43,7 +43,6 @@
         			</a>
 				</li>
 
-
 					<?php foreach ($_SESSION['menus'] as $indice_01 => $menu) : ?>
 	 					<?php if($_SESSION['usuario']['hierarquia'] <= $menu[0]['hierarquia']) : ?>
 							<li>
