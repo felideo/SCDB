@@ -5,7 +5,8 @@
 <?php //include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/form/form.php'; ?>
 
 <div style="display: block; clear: both;">
-<<!-- div class="col-lg-12">
+<!--
+<div class="col-lg-12">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">

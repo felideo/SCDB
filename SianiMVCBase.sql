@@ -98,3 +98,16 @@ CREATE TABLE `aluno` (
 
 ALTER TABLE `contato`
 	ADD COLUMN `id_aluno` int('') null after `id_paciente`;
+
+ALTER TABLE `modulo`
+    ADD COLUMN `submenu` 		varchar(64) NULL AFTER `nome`,
+    ADD COLUMN `submenu_icone` 	varchar(64) NULL AFTER `submenu`;
+
+CREATE TABLE `permissao` (
+	`id` 					int(11) 		NOT NULL AUTO_INCREMENT,
+	`modulo` 				int(11) 		NOT NULL,
+	`permissao` 			varchar(64) 	NOT NULL,
+	`hash` 					varchar(128) 	NOT NULL,
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`modulo`)    REFERENCES `modulo`    (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
