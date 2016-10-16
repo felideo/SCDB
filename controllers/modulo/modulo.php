@@ -35,6 +35,10 @@ class Modulo extends \Libs\Controller {
 		$retorno = $this->model->create($this->modulo['modulo'], $insert_db);
 
 		if($retorno['status']){
+			$retorno_permissoes = $this->model->permissoes_basicas($this->modulo['modulo'], $retorno['id']);
+		}
+
+		if($retorno['status'] && $retorno_permissoes[count($retorno_permissoes)]['erros'] == 0){
 			$this->view->alert_js('Cadastro efetuado com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro, por favor tente novamente...', 'erro');
