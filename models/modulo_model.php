@@ -52,5 +52,3 @@ class Modulo_Model extends \Libs\Model {
 
 		return $retorno;
 	}
-
-}
