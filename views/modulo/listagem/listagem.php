@@ -1,7 +1,3 @@
-<div class="span12">
-    <h1 class="page-header"><?php echo $this->modulo['name']; ?></h1>
-</div>
-
 <?php include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/form/form.php'; ?>
 
 <div style="display: block; clear: both;">
@@ -20,8 +16,6 @@
                                         <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Submenu</th>
                                         <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Link</th>
                                         <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Hierarquia</th>
-                                        <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Ordem</th>
-
                                         <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Icone</th>
                                         <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Ações</th>
                                     </tr>
@@ -34,11 +28,7 @@
                                             <td><i class="fa <?php echo $modulo['submenu_icone']; ?> fa-fw"></i> <?php echo $modulo['submenu_nome_exibicao']; ?></td>
                                             <td>/<?php echo $modulo['modulo']; ?></td>
                                             <td><?php echo $modulo['hierarquia']; ?></td>
-
-                                            <td><?php echo $modulo['ordem']; ?></td>
-
                                             <td><i class="fa <?php echo $modulo['icone']; ?> fa-fw"></i> <?php echo $modulo['icone']; ?></td>
-
                                             <td>
                                                 <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/editar/' . $modulo['id'] . '" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
                                                 <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/delete/' . $modulo['id'] . '"><i class="fa fa-trash-o fa-fw"></i></a></td>'; ?>
