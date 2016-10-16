@@ -112,8 +112,6 @@ CREATE TABLE `permissao` (
 	`hash` 					varchar(128) 	NOT NULL,
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`modulo`)    REFERENCES `modulo`    (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-    ADD COLUMN `submenu` 		varchar(64) NULL AFTER `nome`,
-    ADD COLUMN `submenu_icone` 	varchar(64) NULL AFTER `submenu`;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
