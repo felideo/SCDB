@@ -8,6 +8,7 @@ class Modulo_Model extends \Libs\Model {
 		parent::__construct();
 	}
 
+<<<<<<< HEAD
 	public function load_modulo_list(){
 		$select = 'SELECT modulo.*, submenu.id as id_submenu, submenu.nome as submenu_nome, submenu.nome_exibicao as submenu_nome_exibicao, submenu.icone as submenu_icone'
 	    	. ' FROM modulo modulo'
@@ -17,6 +18,8 @@ class Modulo_Model extends \Libs\Model {
 	    return $this->db->select($select);
 	}
 
+=======
+>>>>>>> 3262821... DEV/FIX - SianiMVCBasa
 	public function permissoes_basicas($modulo, $id_modulo){
 		$permissoes_basicas = [
 			'criar' => [

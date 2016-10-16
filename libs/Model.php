@@ -27,8 +27,11 @@ abstract class Model {
 			'ativo' => 1,
 		];
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 3262821... DEV/FIX - SianiMVCBasa
 		return $this->db->update($table, $data, "`id` = {$id}");
 	}
 
