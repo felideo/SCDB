@@ -8,22 +8,6 @@ class Modulo_Model extends \Libs\Model {
 		parent::__construct();
 	}
 
-	public function create($table, $data){
-		$data += [
-			'ativo' => 1,
-		];
-
-		return $this->get_insert($table, $data);
-	}
-
-	public function update($table, $id, $data){
-		$data += [
-			'ativo' => 1,
-		];
-
-		return $this->db->update($table, $data, "`id` = {$id}");
-	}
-
 	public function permissoes_basicas($modulo, $id_modulo){
 		$permissoes_basicas = [
 			'criar' => [
