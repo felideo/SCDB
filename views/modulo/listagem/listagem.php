@@ -32,7 +32,6 @@
                                             <td class="sorting_1"><?php echo $modulo['id']; ?></td>
                                             <td><?php echo $modulo['nome']; ?></td>
                                             <td><?php echo $modulo['submenu']; ?></td>
-
                                             <td>/<?php echo $modulo['modulo']; ?></td>
                                             <td><?php echo $modulo['hierarquia']; ?></td>
                                             <td><?php echo $modulo['ordem']; ?></td>

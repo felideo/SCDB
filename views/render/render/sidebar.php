@@ -44,39 +44,37 @@
 				</li>
 
 				<?php foreach ($_SESSION['menus'] as $indice_01 => $menu) : ?>
-					<?php //if($_SESSION['usuario']['hierarquia'] <= $modulo['hierarquia']) : ?>
-						<li>
-	            			<?php if(count($menu) == 1) : ?>
-								<a href="<?php echo URL . $menu[0]['modulo']; ?>">
-									<i class="fa <?php echo $menu[0]['icone']; ?> fa-fw"></i>
-									<?php echo !empty($menu[0]['submenu']) ? $menu[0]['submenu'] : $menu[0]['nome']; ?>
-		            			</a>
+	 					<?php if($_SESSION['usuario']['hierarquia'] <= $menu[0]['hierarquia']) : ?>
+							<li>
+								<?php if(count($menu) == 1) : ?>
+	 								<a href="<?php echo URL . $menu[0]['modulo']; ?>">
+	 									<i class="fa <?php echo $menu[0]['icone']; ?> fa-fw"></i>
+	 									<?php echo !empty($menu[0]['submenu']) ? $menu[0]['submenu'] : $menu[0]['nome']; ?>
+	 		            			</a>
+	 							<?php else : ?>
+	 								<a href="#">
+	 									<span class="fa arrow"></span>
+	 									<i class="fa <?php echo $menu[0]['icone']; ?> fa-fw"></i>
+	 									<?php echo !empty($menu[0]['submenu']) ? $menu[0]['submenu'] : $menu[0]['nome']; ?>
+	 		            			</a>
+	 							<?php endif ?>
+	 	            			<?php if(count($menu) > 1) : ?>
+	 	            				<ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+	 	            					<?php foreach ($menu as $indice_02 => $submenu) : ?>
+	 	            						<?php if($_SESSION['usuario']['hierarquia'] <= $submenu['hierarquia']) : ?>
+		 	                        			<li>
+		 	                            			<a href="<?php echo URL . $submenu['modulo']; ?>">
+		 	                            				<i class="fa <?php echo $submenu['icone']; ?> fa-fw"></i>
+		 	                            				<?php echo $submenu['nome']; ?>
+		 	                            			</a>
+		 	                        			</li>
+	 										<?php endif ?>
+	 									<?php endforeach ?>
+	                                 </ul>
+	 							<?php endif ?>
+ 							</li>
+						<?php endif ?>
 
-							<?php else : ?>
-								<a href="#">
-									<span class="fa arrow"></span>
-									<i class="fa <?php echo $menu[0]['icone']; ?> fa-fw"></i>
-									<?php echo !empty($menu[0]['submenu']) ? $menu[0]['submenu'] : $menu[0]['nome']; ?>
-		            			</a>
-
-
-							<?php endif ?>
-
-	            			<?php if(count($menu) > 1) : ?>
-	            				<ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
-	            					<?php foreach ($menu as $indice_02 => $submenu) : ?>
-	                        			<li>
-	                            			<a href="<?php echo URL . $submenu['modulo']; ?>">
-	                            				<i class="fa <?php echo $submenu['icone']; ?> fa-fw"></i>
-	                            				<?php echo $submenu['nome']; ?>
-	                            			</a>
-	                        			</li>
-									<?php endforeach ?>
-                                </ul>
-							<?php endif ?>
-
-							</li>
-					<?php //endif ?>
 				<?php endforeach ?>
 			</ul>
 		</div>

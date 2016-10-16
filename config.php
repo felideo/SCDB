@@ -3,6 +3,7 @@
 date_default_timezone_set('America/Sao_Paulo');
 
 // Sempre use barra (/) no final das URLs
+
 define('URL', 'http://teste.localhost/neurosis/');
 // define('URL', 'http://felideo.com.br/neurosis/');
 
