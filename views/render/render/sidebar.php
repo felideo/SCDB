@@ -73,19 +73,19 @@
 								<i class="fa <?php echo $_SESSION['menus'][$submenus]['icone']; ?> fa-fw"></i>
 								<?php echo $_SESSION['menus'][$submenus]['nome_exibicao'] ?>
 	            			</a>
-							<?php foreach ($_SESSION['menus'][$submenus]['modulos'] as $indice_04 => $submenu) : ?>
-	            				<ul class="nav nav-second-level collapse in">
-	 	            				<?php if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$submenu['modulo']])) : ?>
-		 	                        	<li>
- 	                            			<a href="<?php echo URL . $submenu['modulo']; ?>">
-		 	                            		<i class="fa <?php echo $submenu['icone']; ?> fa-fw"></i>
-		 	                            		<?php echo $submenu['nome']; ?>
-		 	                            	</a>
-		 	                        	</li>
-	 								<?php endif ?>
-                                </ul>
-		            		</li>
-		            	<?php endforeach ?>
+            				<ul class="nav nav-second-level collapse in">
+								<?php foreach ($_SESSION['menus'][$submenus]['modulos'] as $indice_04 => $submenu) : ?>
+		 	            				<?php if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$submenu['modulo']])) : ?>
+			 	                        	<li>
+	 	                            			<a href="<?php echo URL . $submenu['modulo']; ?>">
+			 	                            		<i class="fa <?php echo $submenu['icone']; ?> fa-fw"></i>
+			 	                            		<?php echo $submenu['nome']; ?>
+			 	                            	</a>
+			 	                        	</li>
+		 								<?php endif ?>
+				            	<?php endforeach ?>
+                        	</ul>
+	            		</li>
 		            <?php endforeach ?>
 				<?php endif ?>
 			</ul>

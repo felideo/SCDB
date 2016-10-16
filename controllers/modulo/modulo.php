@@ -84,7 +84,9 @@ class Modulo extends \Libs\Controller {
 	}
 
 	public function delete($id) {
+
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
+
 
 		$retorno = $this->model->delete($this->modulo['modulo'], $id[0]);
 
