@@ -31,6 +31,7 @@
                         <?php endforeach ?>
                      </select>
                 </div>
+
                 <div class="form-group span3">
                     <label>Hierarquia</label>
                     <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[hierarquia]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['hierarquia'];} ?>" required>
@@ -38,10 +39,6 @@
                 <div class="form-group span3">
                     <label>Icone</label>
                     <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[icone]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['icone'];} ?>" required>
-                </div>
-                <div class="form-group span3">
-                    <label>Ordem</label>
-                    <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[ordem]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['ordem'];} ?>" >
                 </div>
             </div>
             <div class="row-fluid">
