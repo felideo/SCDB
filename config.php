@@ -3,14 +3,10 @@
 date_default_timezone_set('America/Sao_Paulo');
 
 // Sempre use barra (/) no final das URLs
-<<<<<<< HEAD
 
 define('URL', 'http://teste.localhost/neurosis/');
 // define('URL', 'http://felideo.com.br/neurosis/');
 
-=======
-define('URL', 'http://teste.localhost/sianimvcbase/');
->>>>>>> 4e2f379... MOD - SianiMVCBase
 define('LIBS', 'libs/');
 
 // Configuração com Banco de Dados
