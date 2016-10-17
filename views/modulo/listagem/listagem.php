@@ -20,6 +20,8 @@
                                         <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Submenu</th>
                                         <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Link</th>
                                         <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Hierarquia</th>
+                                        <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Ordem</th>
+
                                         <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Icone</th>
                                         <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Ações</th>
                                     </tr>
@@ -33,6 +35,8 @@
 
                                             <td>/<?php echo $modulo['modulo']; ?></td>
                                             <td><?php echo $modulo['hierarquia']; ?></td>
+                                            <td><?php echo $modulo['ordem']; ?></td>
+
                                             <td><?php echo $modulo['icone']; ?></td>
                                             <td>
                                                 <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/editar/' . $modulo['id'] . '" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
