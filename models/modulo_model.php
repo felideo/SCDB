@@ -8,39 +8,12 @@ class Modulo_Model extends \Libs\Model {
 		parent::__construct();
 	}
 
-	public function permissoes_basicas($modulo, $id_modulo){
-		$permissoes_basicas = [
-			'criar' => [
-				'modulo' => $id_modulo,
-				'permissao' => $modulo . '_criar',
-				'hash' => \Util\Hash::get_unic_hash()
-			],
-			'visualizar' => [
-				'modulo' => $id_modulo,
-				'permissao' => $modulo . '_visualizar',
-				'hash' => \Util\Hash::get_unic_hash()
-			],
-			'editar' => [
-				'modulo' => $id_modulo,
-				'permissao' => $modulo . '_editar',
-				'hash' => \Util\Hash::get_unic_hash()
-			],
-			'deletar' => [
-				'modulo' => $id_modulo,
-				'permissao' => $modulo . '_deletar',
-				'hash' => \Util\Hash::get_unic_hash()
-			]
-		];
+	public function load_modulo_list(){
+		$select = 'SELECT modulo.*, submenu.id as id_submenu, submenu.nome as submenu_nome, submenu.nome_exibicao as submenu_nome_exibicao, submenu.icone as submenu_icone'
+	    	. ' FROM modulo modulo'
+    		. ' LEFT JOIN submenu submenu ON submenu.id = modulo.id_submenu AND submenu.ativo = 1'
+	    	. ' WHERE modulo.ativo = 1';
 
-		$erros = 0;
-
-		foreach ($permissoes_basicas as $indice => $permissao) {
-			$retorno[$indice] = $this->get_insert('permissao', $permissao);
-			$erros = !empty($retorno[$indice]['id']) ? $erros++ : $erros;
-
-			$retorno[$indice]['erros'] = $erros;
-		}
-
-		return $retorno;
+	    return $this->db->select($select);
 	}
 }

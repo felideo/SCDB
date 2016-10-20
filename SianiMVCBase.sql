@@ -112,6 +112,38 @@ CREATE TABLE `permissao` (
 	`hash` 					varchar(128) 	NOT NULL,
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`modulo`)    REFERENCES `modulo`    (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+CREATE TABLE `permissao` (
+	`id` 					int(11) 		NOT NULL AUTO_INCREMENT,
+	`modulo` 				int(11) 		NOT NULL,
+	`permissao` 			varchar(64) 	NOT NULL,
+	`hash` 					varchar(128) 	NOT NULL,
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`modulo`)    REFERENCES `modulo`    (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+  CREATE TABLE `submenu` (
+	`id` 				int(11) 		NOT NULL AUTO_INCREMENT,
+	`nome` 				varchar(64) NOT NULL,
+	`icone` 			varchar(64) NOT NULL DEFAULT 'fa-angle-right',
+	PRIMARY KEY (`id`),
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+
+insert into `submenu` (`nome`, `nome_exibicao`, `icone`) VALUES ('desenvolvedor', 'Desenvolvedor', 'fa-github');
+
+alter table `modulo`
+	drop COLUMN submenu,
+	drop COLUMN submenu_icone;
+
+ALTER TABLE `modulo`
+	drop COLUMN submenu,
+	add COLUMN id_submenu int(11) null after nome;
+
+ALTER TABLE `modulo`
+	  ADD CONSTRAINT `modulo_ibfk_1` FOREIGN KEY (`submenu`) REFERENCES `submenu` (`id`);
+
+ ALTER TABLE `submenu`
+	ADD COLUMN `ativo` tinyint(1) NOT NULL DEFAULT '1';
 

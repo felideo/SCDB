@@ -44,7 +44,7 @@
 				</li>
 
 					<?php foreach ($_SESSION['menus'] as $indice_01 => $menu) : ?>
-	 					<?php if($_SESSION['usuario']['hierarquia'] <= $menu[0]['hierarquia']) : ?>
+	 					<?php //if($_SESSION['usuario']['hierarquia'] <= $menu[0]['hierarquia']) : ?>
 							<li>
 								<?php if(count($menu) == 1) : ?>
 	 								<a href="<?php echo URL . $menu[0]['modulo']; ?>">
@@ -54,26 +54,26 @@
 	 							<?php else : ?>
 	 								<a href="#">
 	 									<span class="fa arrow"></span>
-	 									<i class="fa <?php echo $menu[0]['icone']; ?> fa-fw"></i>
-	 									<?php echo !empty($menu[0]['submenu']) ? $menu[0]['submenu'] : $menu[0]['nome']; ?>
+	 									<i class="fa <?php echo $menu['icone']; ?> fa-fw"></i>
+	 									<?php echo $menu['nome_exibicao'] ?>
 	 		            			</a>
 	 							<?php endif ?>
 	 	            			<?php if(count($menu) > 1) : ?>
-	 	            				<ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
-	 	            					<?php foreach ($menu as $indice_02 => $submenu) : ?>
-	 	            						<?php if($_SESSION['usuario']['hierarquia'] <= $submenu['hierarquia']) : ?>
+	 	            				<ul class="nav nav-second-level collapse in">
+	 	            					<?php foreach ($menu['modulos']as $indice_02 => $submenu) : ?>
+	 	            						<?php // if($_SESSION['usuario']['hierarquia'] <= $submenu['hierarquia']) : ?>
 		 	                        			<li>
 		 	                            			<a href="<?php echo URL . $submenu['modulo']; ?>">
 		 	                            				<i class="fa <?php echo $submenu['icone']; ?> fa-fw"></i>
 		 	                            				<?php echo $submenu['nome']; ?>
 		 	                            			</a>
 		 	                        			</li>
-	 										<?php endif ?>
+	 										<?php // endif ?>
 	 									<?php endforeach ?>
 	                                 </ul>
 	 							<?php endif ?>
  							</li>
-						<?php endif ?>
+						<?php // endif ?>
 				<?php endforeach ?>
 			</ul>
 		</div>
