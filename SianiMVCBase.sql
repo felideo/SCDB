@@ -12,6 +12,7 @@ CREATE TABLE `usuario` (
 CREATE TABLE `modulo` (
 	`id` 					int(11) 	NOT NULL AUTO_INCREMENT,
 	`modulo` 				varchar(64) NOT NULL,
+	`id_submenu`			int(11) 	null,
 	`nome` 					varchar(64) NOT NULL,
 	`submenu`					varchar(64) NULL,
 	`hierarquia` 			int(11) 	NOT NULL,
@@ -19,7 +20,8 @@ CREATE TABLE `modulo` (
 	`oculto` 				tinyint(1) 	NOT NULL DEFAULT '0',
 	`ordem`					int(11) 	NOT NULL DEFAULT '1000',
 	`ativo` 				tinyint(1) 	NOT NULL DEFAULT '1',
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`id_submenu`)    REFERENCES `submenu`    (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 CREATE TABLE `configuracao_sistema` (
@@ -37,6 +39,7 @@ VALUES
 	(3, 'configuracao_sistema', 'Configurações de Sistema', 0, 'fa-cog', 0, 1000, 1);
 
 INSERT INTO `usuario` VALUES ('1', 'felideo@gmail.com', '12345', '0', '1');
+
 
 ALTER TABLE `modulo`
 
@@ -114,6 +117,7 @@ CREATE TABLE `permissao` (
 	FOREIGN KEY (`modulo`)    REFERENCES `modulo`    (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
+
 CREATE TABLE `permissao` (
 	`id` 					int(11) 		NOT NULL AUTO_INCREMENT,
 	`modulo` 				int(11) 		NOT NULL,
@@ -125,13 +129,15 @@ CREATE TABLE `permissao` (
 
   CREATE TABLE `submenu` (
 	`id` 				int(11) 		NOT NULL AUTO_INCREMENT,
-	`nome` 				varchar(64) NOT NULL,
-	`icone` 			varchar(64) NOT NULL DEFAULT 'fa-angle-right',
+	`nome` 				varchar(64) 	NOT NULL,
+	`icone` 			varchar(64) 	NOT NULL DEFAULT 'fa-angle-right',
+	`ativo` 			tinyint(1) 		NOT NULL DEFAULT '1',
 	PRIMARY KEY (`id`),
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 insert into `submenu` (`nome`, `nome_exibicao`, `icone`) VALUES ('desenvolvedor', 'Desenvolvedor', 'fa-github');
+
 
 alter table `modulo`
 	drop COLUMN submenu,
@@ -146,4 +152,5 @@ ALTER TABLE `modulo`
 
  ALTER TABLE `submenu`
 	ADD COLUMN `ativo` tinyint(1) NOT NULL DEFAULT '1';
+
 
