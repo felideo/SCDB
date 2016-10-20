@@ -21,12 +21,17 @@
             <div class="row-fluid">
                 <div class="form-group span3">
                      <label>Submenu</label>
-                     <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[submenu]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['submenu'];} ?>" >
+                     <br>
+                     <select class="form-group span12"name="<?php echo $this->modulo['modulo']; ?>[id_submenu]" >
+                        <option></option>
+                        <?php foreach ($this->submenu_list as $indice => $submenu) : ?>
+                            <option value="<?php echo $submenu['id']?>" <?php if(isset($this->cadastro) && $this->cadastro['submenu'] == $submenu['id']){echo ' selected ';} ?> >
+                                <?php echo $submenu['nome_exibicao']; ?>
+                            </option>
+                        <?php endforeach ?>
+                     </select>
                 </div>
-                <div class="form-group span3">
-                    <label>Submenu Icone</label>
-                    <input class="form-control" name="<?php echo $this->modulo['submenu_icone']; ?>[icone]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['submenu_icone'];} ?>" >
-                </div>
+
                 <div class="form-group span3">
                     <label>Hierarquia</label>
                     <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[hierarquia]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['hierarquia'];} ?>" required>

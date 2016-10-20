@@ -31,12 +31,14 @@
                                         <tr role="row" class="gradeA odd">
                                             <td class="sorting_1"><?php echo $modulo['id']; ?></td>
                                             <td><?php echo $modulo['nome']; ?></td>
-                                            <td><?php echo $modulo['submenu']; ?></td>
+                                            <td><i class="fa <?php echo $modulo['submenu_icone']; ?> fa-fw"></i> <?php echo $modulo['submenu_nome_exibicao']; ?></td>
                                             <td>/<?php echo $modulo['modulo']; ?></td>
                                             <td><?php echo $modulo['hierarquia']; ?></td>
+
                                             <td><?php echo $modulo['ordem']; ?></td>
 
-                                            <td><?php echo $modulo['icone']; ?></td>
+                                            <td><i class="fa <?php echo $modulo['icone']; ?> fa-fw"></i> <?php echo $modulo['icone']; ?></td>
+
                                             <td>
                                                 <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/editar/' . $modulo['id'] . '" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
                                                 <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/delete/' . $modulo['id'] . '"><i class="fa fa-trash-o fa-fw"></i></a></td>'; ?>
