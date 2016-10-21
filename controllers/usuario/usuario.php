@@ -22,17 +22,24 @@ class Usuario extends \Libs\Controller {
 
 	public function index() {
 		$this->view->listagem_usuarios = $this->model->load_active_list($this->modulo['modulo']);
+		$this->view->hierarquia_list = $this->model->load_active_list('hierarquia');
 		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
 	}
 
 	public function editar($id) {
 		$this->view->cadastro = $this->model->full_load_by_id('usuario', $id[0])[0];
+		$this->view->hierarquia_list = $this->model->load_active_list('hierarquia');
 		$this->view->render($this->modulo['modulo'] . '/editar/editar');
 	}
 
 	public function create(){
 		$insert_db = carregar_variavel('usuario');
 		$retorno = $this->model->create('usuario', $insert_db);
+
+
+
+		debug2($retorno);
+		exit;
 
 		if($retorno['status']){
 			$this->view->alert_js('Cadastro efetuado com sucesso!!!', 'sucesso');

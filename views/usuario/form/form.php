@@ -1,3 +1,5 @@
+<?php debug2($this->hierarquia_list) ?>
+
 <div class="row-fluid">
     <div class="span12">
         <form method="post"
@@ -18,8 +20,16 @@
                     <input class="form-control" type="password" name="<?php echo $this->modulo['modulo']; ?>[senha]" <?php if(!isset($this->cadastro)){echo 'required';} ?> >
                 </div>
                 <div class="form-group span4">
-                    <label>Hierarquia</label>
-                    <input class="form-control" type="number" name="<?php echo $this->modulo['modulo']; ?>[hierarquia]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['hierarquia'];} ?>" required>
+                     <label>Hierarquia</label>
+                     <br>
+                     <select class="form-group span12"name="<?php echo $this->modulo['modulo']; ?>[hierarquia]" >
+                        <option></option>
+                        <?php foreach ($this->hierarquia_list as $indice => $hierarquia) : ?>
+                            <option value="<?php echo $hierarquia['id']?>" <?php if(isset($this->cadastro) && $this->cadastro['submenu'] == $submenu['id']){echo ' selected ';} ?> >
+                                <?php echo $hierarquia['nome']; ?>
+                            </option>
+                        <?php endforeach ?>
+                     </select>
                 </div>
             </div>
             <div class="row-fluid">

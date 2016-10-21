@@ -1,3 +1,5 @@
+
+
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 	<div class="navbar-header">
@@ -33,7 +35,6 @@
 		<!-- /.dropdown -->
 	</ul>
 	<!-- /.navbar-top-links -->
-
 	<div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
@@ -43,38 +44,50 @@
         			</a>
 				</li>
 
-					<?php foreach ($_SESSION['menus'] as $indice_01 => $menu) : ?>
-	 					<?php //if($_SESSION['usuario']['hierarquia'] <= $menu[0]['hierarquia']) : ?>
+				<?php foreach ($_SESSION['menus'] as $indice_01 => $menu) : ?>
+					<?php if(count($menu) == 1) : ?>
+						<?php if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$menu[0]['modulo']])) : ?>
 							<li>
-								<?php if(count($menu) == 1) : ?>
-	 								<a href="<?php echo URL . $menu[0]['modulo']; ?>">
-	 									<i class="fa <?php echo $menu[0]['icone']; ?> fa-fw"></i>
-	 									<?php echo !empty($menu[0]['submenu']) ? $menu[0]['submenu'] : $menu[0]['nome']; ?>
-	 		            			</a>
-	 							<?php else : ?>
-	 								<a href="#">
-	 									<span class="fa arrow"></span>
-	 									<i class="fa <?php echo $menu['icone']; ?> fa-fw"></i>
-	 									<?php echo $menu['nome_exibicao'] ?>
-	 		            			</a>
-	 							<?php endif ?>
-	 	            			<?php if(count($menu) > 1) : ?>
-	 	            				<ul class="nav nav-second-level collapse in">
-	 	            					<?php foreach ($menu['modulos']as $indice_02 => $submenu) : ?>
-	 	            						<?php // if($_SESSION['usuario']['hierarquia'] <= $submenu['hierarquia']) : ?>
-		 	                        			<li>
-		 	                            			<a href="<?php echo URL . $submenu['modulo']; ?>">
-		 	                            				<i class="fa <?php echo $submenu['icone']; ?> fa-fw"></i>
-		 	                            				<?php echo $submenu['nome']; ?>
-		 	                            			</a>
-		 	                        			</li>
-	 										<?php // endif ?>
-	 									<?php endforeach ?>
-	                                 </ul>
-	 							<?php endif ?>
- 							</li>
-						<?php // endif ?>
+ 								<a href="<?php echo URL . $menu[0]['modulo']; ?>">
+ 									<i class="fa <?php echo $menu[0]['icone']; ?> fa-fw"></i>
+ 									<?php echo !empty($menu[0]['submenu']) ? $menu[0]['submenu'] : $menu[0]['nome']; ?>
+ 		            			</a>
+ 		            		</li>
+ 		            	<?php endif ?>
+	            	<?php elseif(count($menu) > 1) : ?>
+						<?php foreach ($menu['modulos'] as $indice_02 => $submenu) : ?>
+							<?php if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$submenu['modulo']])) : ?>
+								<?php $submenus_com_permissao[] = $indice_01; ?>
+ 	 						<?php endif ?>
+	 					<?php endforeach ?>
+					<?php endif ?>
 				<?php endforeach ?>
+
+				<?php $submenus_com_permissao = array_unique($submenus_com_permissao); ?>
+
+				<?php if(isset($submenus_com_permissao)) : ?>
+					<?php foreach ($submenus_com_permissao as $indice_03 => $submenus) : ?>
+						<li>
+	            			<a href="#">
+								<span class="fa arrow"></span>
+								<i class="fa <?php echo $_SESSION['menus'][$submenus]['icone']; ?> fa-fw"></i>
+								<?php echo $_SESSION['menus'][$submenus]['nome_exibicao'] ?>
+	            			</a>
+							<?php foreach ($_SESSION['menus'][$submenus]['modulos'] as $indice_04 => $submenu) : ?>
+	            				<ul class="nav nav-second-level collapse in">
+	 	            				<?php if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$submenu['modulo']])) : ?>
+		 	                        	<li>
+ 	                            			<a href="<?php echo URL . $submenu['modulo']; ?>">
+		 	                            		<i class="fa <?php echo $submenu['icone']; ?> fa-fw"></i>
+		 	                            		<?php echo $submenu['nome']; ?>
+		 	                            	</a>
+		 	                        	</li>
+	 								<?php endif ?>
+                                </ul>
+		            		</li>
+		            	<?php endforeach ?>
+		            <?php endforeach ?>
+				<?php endif ?>
 			</ul>
 		</div>
 		<!-- /.sidebar-collapse -->
