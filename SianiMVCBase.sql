@@ -120,11 +120,11 @@ CREATE TABLE `permissao` (
 
 CREATE TABLE `permissao` (
 	`id` 					int(11) 		NOT NULL AUTO_INCREMENT,
-	`modulo` 				int(11) 		NOT NULL,
+	`id_modulo` 				int(11) 		NOT NULL,
 	`permissao` 			varchar(64) 	NOT NULL,
 	`hash` 					varchar(128) 	NOT NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`modulo`)    REFERENCES `modulo`    (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+	FOREIGN KEY (`id_modulo`)    REFERENCES `modulo`    (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
   CREATE TABLE `submenu` (
@@ -137,6 +137,7 @@ CREATE TABLE `permissao` (
 
 
 insert into `submenu` (`nome`, `nome_exibicao`, `icone`) VALUES ('desenvolvedor', 'Desenvolvedor', 'fa-github');
+
 
 
 alter table `modulo`
@@ -153,4 +154,44 @@ ALTER TABLE `modulo`
  ALTER TABLE `submenu`
 	ADD COLUMN `ativo` tinyint(1) NOT NULL DEFAULT '1';
 
+
+
+ CREATE TABLE `hierarquia` (
+	`id` 				int(11) 		NOT NULL AUTO_INCREMENT,
+	`nome` 				varchar(64) 	NOT NULL,
+	`ativo` 			tinyint(1) 		NOT NULL DEFAULT '1',
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+ CREATE TABLE `hierarquia_relaciona_permissao` (
+	`id` 					int(11) 		NOT NULL AUTO_INCREMENT,
+	`id_hierarquia` 		int(11) 		NOT NULL,
+	`id_permissao` 			int(11) 		NOT NULL,
+	`ativo` 				tinyint(1) 		NOT NULL DEFAULT '1',
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`id_hierarquia`)    	REFERENCES `hierarquia`    (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN KEY (`id_permissao`)    	REFERENCES `permissao`    (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+
+ insert into permissao values (1,	1,	'modulo_criar',	'cc3bb12c0fbfaf466b4b3442aec26ae5');
+insert into permissao values (2,	1,	'modulo_visualizar',	'21006e54557171565f06d4b79480c62e');
+insert into permissao values (3,	1,	'modulo_editar',	'0a61da91a3d6953396eb49f844399776');
+insert into permissao values (4,	1,	'modulo_deletar',	'1e13c49199d07d25108253d4982f5efa');
+insert into permissao values (5,	2,	'usuario_criar',	'df7afc5232a6e220c22166323ca5f551');
+insert into permissao values (6,	2,	'usuario_visualizar',	'e88cc50fe5e03eb08e8e1e78ac379df6');
+insert into permissao values (7,	2,	'usuario_editar',	'75a565eade80c3eb9431b22e28365939');
+insert into permissao values (8,	2,	'usuario_deletar',	'887268422c47fce0482cf3f9c22157ac');
+insert into permissao values (9,	3,	'configuracao_criar',	'13775a7912dd755ee9b4efde6c3d3844');
+insert into permissao values (10,	3,	'configuracao_visualizar',	'e5303147cb6974926266f2294ce4561c');
+insert into permissao values (11,	3,	'configuracao_editar',	'2b826c13ec3182bf7deed873b771e5fd');
+insert into permissao values (12,	3,	'configuracao_deletar',	'bb3d9288e744f73f09e4ea9cd4485d8c');
+insert into permissao values (13,	4,	'submenu_criar',	'd10379017fafe92880e8b29d75bad6a4');
+insert into permissao values (14,	4,	'submenu_visualizar',	'ed065364bd719b8746c3792606844e82');
+insert into permissao values (15,	4,	'submenu_editar',	'd0a836f04fff1c81daf41df627ee9731');
+insert into permissao values (16,	4,	'submenu_deletar',	'fffb557355b50c87c2c4201592579553');
+insert into permissao values (17,	6,	'hierarquia_criar',	'78b69f969483e811894a6a043a6ca4c5');
+insert into permissao values (18,	6,	'hierarquia_visualizar',	'73830dc1f025487a276655271365cdcf');
+insert into permissao values (19,	6,	'hierarquia_editar',	'c3252221d02fcb92834f875d880e0fd0');
+insert into permissao values (20,	6,	'hierarquia_deletar',	'9caa48ecea8dd2547fcc5353ac119263');
 

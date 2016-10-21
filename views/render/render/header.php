@@ -88,6 +88,8 @@
         <div id="content">
             <?php require 'views/render/render/sidebar.php'; ?>
             <!-- Page Content -->
-            <div id="page-wrapper" >
+
+            <div id="page-wrapper">
+
                 <div class="container-fluid">
                     <div class="row-fluid">
