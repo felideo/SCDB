@@ -35,7 +35,7 @@
 	<!-- /.navbar-top-links -->
 
 	<div class="navbar-default sidebar" role="navigation">
-		<div class="sidebar-nav navbar-collapse">
+        <div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
 				<li>
 					<a href="<?php echo URL; ?>painel_controle"><i class="fa fa-dashboard fa-fw"></i>

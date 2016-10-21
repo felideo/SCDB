@@ -53,6 +53,9 @@ class Login_Model extends \Libs\Model {
 		$submenus = $this->db->select('SELECT * FROM submenu WHERE ATIVO = 1');
 
 		foreach ($modulos as $indice_01 => $modulo) {
+
+			$retorno_modulos[$modulo['modulo']] = $modulo;
+
 			if(empty($modulo['id_submenu'])){
 				$menus[$modulo['nome']][0] = $modulo;
 			} else {
@@ -71,7 +74,7 @@ class Login_Model extends \Libs\Model {
 			}
 		}
 
-		\Libs\Session::set('modulos', $modulos);
+		\Libs\Session::set('modulos', $retorno_modulos);
 		\Libs\Session::set('menus', $menus);
 	}
 }

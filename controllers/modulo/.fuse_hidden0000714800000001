@@ -37,11 +37,6 @@ class Modulo extends \Libs\Controller {
 
 	public function create() {
 		$insert_db = carregar_variavel($this->modulo['modulo']);
-
-		if(empty($insert_db['id_submenu'])){
-			$insert_db['id_submenu'] = NULL;
-		}
-
 		$retorno = $this->model->create($this->modulo['modulo'], $insert_db);
 
 		if($retorno['status']){
@@ -59,11 +54,6 @@ class Modulo extends \Libs\Controller {
 
 	public function update($id) {
 		$update_db = carregar_variavel($this->modulo['modulo']);
-
-		if(empty($update_db['id_submenu'])){
-			$update_db['id_submenu'] = NULL;
-		}
-
 		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
 
 		if($retorno['status']){
