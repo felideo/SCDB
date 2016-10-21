@@ -23,17 +23,17 @@
                             </div>
                             <div class="panel-body">
                                 <?php foreach ($modulo['permissoes'] as $indice_02 => $permissao) : ?>
-                                   
+
                                     <div class="checkbox">
                                         <label>
-                                            <input 
+                                            <input
                                                 value="<?php echo $permissao['id'] ?>"
                                                 name="hierarquia_relaciona_permissao[]"
                                                 type="checkbox"
-                                                <?php 
+                                                <?php
                                                     if(isset($this->cadastro[$permissao['id']])){
                                                         echo " checked ";
-                                                    } 
+                                                    }
                                                 ?> ><?php echo $permissao['nome']; ?>
                                         </label>
                                     </div>

@@ -1,57 +1,96 @@
-<div class="row-fluid">
-    <div class="span12">
-        <form method="post"
-            <?php if(isset($this->cadastro)) : ?>
-                action="<?php echo URL . $this->modulo['modulo']; ?>/update/<?php echo $this->cadastro['id']; ?>"
-            <?php else : ?>
-                action="<?php echo URL . $this->modulo['modulo']; ?>/create"
-            <?php endif ?>
-        >
 
-            <div class="row-fluid">
-                <div class="form-group span6">
-                    <label>Modulo</label>
-                    <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[modulo]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['modulo'];} ?>" required>
-                </div>
-                <div class="form-group span6">
-                    <label>Nome de Exibição</label>
-                    <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[nome]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['nome'];} ?>" required>
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="form-group span3">
-                     <label>Submenu</label>
-                     <br>
-                     <select class="form-group span12"name="<?php echo $this->modulo['modulo']; ?>[id_submenu]" >
-                        <option></option>
-                        <?php foreach ($this->submenu_list as $indice => $submenu) : ?>
-                            <option value="<?php echo $submenu['id']?>" <?php if(isset($this->cadastro) && $this->cadastro['submenu'] == $submenu['id']){echo ' selected ';} ?> >
-                                <?php echo $submenu['nome_exibicao']; ?>
-                            </option>
-                        <?php endforeach ?>
-                     </select>
-                </div>
 
-                <div class="form-group span3">
-                    <label>Hierarquia</label>
-                    <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[hierarquia]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['hierarquia'];} ?>" required>
-                </div>
-                <div class="form-group span3">
-                    <label>Icone</label>
-                    <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[icone]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['icone'];} ?>" required>
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="form-group span12">
-                    <button type="submit" class="btn btn-primary" style="float: right;">
-                        <?php if(isset($this->cadastro)) : ?>
-                            Editar <?php echo $this->modulo['send']; ?>
-                        <?php else : ?>
-                            Cadastrar Novo <?php echo $this->modulo['send']; ?>
-                        <?php endif?>
-                    </button>
-                </div>
-            </div>
-        </form>
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><?php echo APP_NAME; ?></a>
     </div>
-</div>
+    <!-- /.navbar-header -->
+
+    <ul class="nav navbar-top-links navbar-right">
+        <!-- /.dropdown -->
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <li>
+                    <a href="#">
+                        <i class="fa fa-user fa-fw"></i>
+                        User Profile
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="<?php echo URL; ?>master/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                </li>
+            </ul>
+            <!-- /.dropdown-user -->
+        </li>
+        <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-top-links -->
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+                <li>
+                    <a href="<?php echo URL; ?>painel_controle"><i class="fa fa-dashboard fa-fw"></i>
+                        Painel de Controle
+                    </a>
+                </li>
+
+                <?php foreach ($_SESSION['menus'] as $indice_01 => $menu) : ?>
+                    <?php if(count($menu) == 1) : ?>
+                        <?php if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$menu[0]['modulo']])) : ?>
+                            <li>
+                                <a href="<?php echo URL . $menu[0]['modulo']; ?>">
+                                    <i class="fa <?php echo $menu[0]['icone']; ?> fa-fw"></i>
+                                    <?php echo !empty($menu[0]['submenu']) ? $menu[0]['submenu'] : $menu[0]['nome']; ?>
+                                </a>
+                            </li>
+                        <?php endif ?>
+                    <?php elseif(count($menu) > 1) : ?>
+                        <?php foreach ($menu['modulos'] as $indice_02 => $submenu) : ?>
+                            <?php if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$submenu['modulo']])) : ?>
+                                <?php $submenus_com_permissao[] = $indice_01; ?>
+                            <?php endif ?>
+                        <?php endforeach ?>
+                    <?php endif ?>
+                <?php endforeach ?>
+
+                <?php if(!empty($submenus_com_permissao)) : ?>
+                <?php $submenus_com_permissao = array_unique($submenus_com_permissao); ?>
+
+                    <?php foreach ($submenus_com_permissao as $indice_03 => $submenus) : ?>
+                        <li>
+                            <a href="#">
+                                <span class="fa arrow"></span>
+                                <i class="fa <?php echo $_SESSION['menus'][$submenus]['icone']; ?> fa-fw"></i>
+                                <?php echo $_SESSION['menus'][$submenus]['nome_exibicao'] ?>
+                            </a>
+                            <ul class="nav nav-second-level collapse in">
+                                <?php foreach ($_SESSION['menus'][$submenus]['modulos'] as $indice_04 => $submenu) : ?>
+                                        <?php if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$submenu['modulo']])) : ?>
+                                            <li>
+                                                <a href="<?php echo URL . $submenu['modulo']; ?>">
+                                                    <i class="fa <?php echo $submenu['icone']; ?> fa-fw"></i>
+                                                    <?php echo $submenu['nome']; ?>
+                                                </a>
+                                            </li>
+                                        <?php endif ?>
+                                <?php endforeach ?>
+                            </ul>
+                        </li>
+                    <?php endforeach ?>
+                <?php endif ?>
+            </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
+    <!-- /.navbar-static-side -->
+</nav>
