@@ -36,7 +36,7 @@ class Permissao_Model extends \Libs\Model {
 	            'hash' => $permissao['hash']
 			];
 		}
-		
+
 		return $retorno;
 
 	}

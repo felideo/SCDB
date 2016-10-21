@@ -27,7 +27,7 @@ class Hierarquia_Model extends \Libs\Model {
 			return $retorno;
 		}catch(Exception $e){
             if (ERROS) throw new Exception('<pre>' . $e->getMessage() . '</pre>');
-			
+
 		}
 	}
 }
