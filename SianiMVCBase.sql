@@ -1,13 +1,27 @@
 CREATE DATABASE SianiMVCBase CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+
+set foreign_key_checks = 0;
+
+DROP TABLE `usuario`;
 CREATE TABLE `usuario` (
-	`id`           			int(11) NOT NULL AUTO_INCREMENT,
-	`email`					varchar(256) NOT NULL,
-	`senha` 				varchar(64) NOT NULL,
-	`hierarquia` 			int(11) NOT NULL,
-	`ativo` 				tinyint(1) NOT NULL DEFAULT '1',
-	PRIMARY KEY (`id`)
+	`id`          	int(11) 		NOT NULL AUTO_INCREMENT,
+	`email`       	varchar(256) 	NOT NULL,
+	`senha`       	varchar(64) 	NOT NULL,
+	`hierarquia`  	int(11) 		NOT NULL,
+	`super_admin` 	tinyint(1) 		NOT NULL DEFAULT '0',
+	`ativo`       	tinyint(1) 		NOT NULL DEFAULT '1',
+	FOREIGN       	KEY (`hierarquia`)    REFERENCES `hierarquia`    (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+	PRIMARY       	KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+INSERT INTO `usuario` VALUES ('1', 'felideo@gmail.com', '12345', '17', '1', '1');
+
+set foreign_key_checks = 1;
+
+
+
+
 
 CREATE TABLE `modulo` (
 	`id` 					int(11) 	NOT NULL AUTO_INCREMENT,
@@ -38,7 +52,6 @@ VALUES
 	(2, 'usuarior', 'Usuarios', 1, 'fa-users', 0, 2, 1),
 	(3, 'configuracao_sistema', 'Configurações de Sistema', 0, 'fa-cog', 0, 1000, 1);
 
-INSERT INTO `usuario` VALUES ('1', 'felideo@gmail.com', '12345', '0', '1');
 
 
 ALTER TABLE `modulo`

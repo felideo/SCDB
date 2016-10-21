@@ -26,7 +26,7 @@ class Hierarquia extends \Libs\Controller {
 	}
 
 	public function editar($id) {
-		$this->view->cadastro = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
+		$this->view->cadastro = $this->model->load_hierarquia($id[0]);
 		$this->view->permissoes_list = $this->load_external_model('permissao')->load_permissions_list();
 		$this->view->render($this->modulo['modulo'] . '/editar/editar');
 	}
@@ -34,6 +34,19 @@ class Hierarquia extends \Libs\Controller {
 	public function create() {
 		$insert_db = carregar_variavel($this->modulo['modulo']);
 		$retorno = $this->model->create($this->modulo['modulo'], $insert_db);
+
+		if($retorno['status']){
+			foreach (carregar_variavel('hierarquia_relaciona_permissao') as $indice => $permissao) {
+					$insert_permissao = [
+						'id_hierarquia' => $retorno['id'],
+						'id_permissao' => $permissao
+					];
+
+				$retorno_permissoes[] = $this->model->create('hierarquia_relaciona_permissao', $insert_permissao);
+				unset($insert_permissao);
+
+			}
+		}
 
 		if($retorno['status'] && $retorno_permissoes[count($retorno_permissoes)]['erros'] == 0){
 			$this->view->alert_js('Cadastro efetuado com sucesso!!!', 'sucesso');
@@ -45,9 +58,9 @@ class Hierarquia extends \Libs\Controller {
 	}
 
 	public function update($id) {
+
 		$update_db = carregar_variavel($this->modulo['modulo']);
 		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
-
 
 		if($retorno['status']){
 			$retorno = $this->model->update_relacao('hierarquia_relaciona_permissao', 'id_hierarquia', $id[0], ['ativo' => 0]);
@@ -56,6 +69,9 @@ class Hierarquia extends \Libs\Controller {
 					'id_hierarquia' => $id[0],
 					'id_permissao' => $permissao
 				];
+
+				$retorno_permissoes[] = $this->model->create('hierarquia_relaciona_permissao', $insert_permissao);
+				unset($insert_permissao);
 			}
 		}
 
@@ -70,6 +86,9 @@ class Hierarquia extends \Libs\Controller {
 
 	public function delete($id) {
 		$retorno = $this->model->delete($this->modulo['modulo'], $id[0]);
+		$retorno = $this->model->delete('permissao', $id[0]);
+		$retorno = $this->model->delete('hierarquia_relaciona_permissao', $id[0]);
+
 
 		if($retorno['status']){
 			$this->view->alert_js('Remoção efetuada com sucesso!!!', 'sucesso');

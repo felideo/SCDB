@@ -2,7 +2,7 @@
     <div class="span12">
         <form method="post"
             <?php if(isset($this->cadastro)) : ?>
-                action="<?php echo URL . $this->modulo['modulo']; ?>/update/<?php echo $this->cadastro['id']; ?>"
+                action="<?php echo URL . $this->modulo['modulo']; ?>/update/<?php echo array_values($this->cadastro)[0]['id_hierarquia']; ?>"
             <?php else : ?>
                 action="<?php echo URL . $this->modulo['modulo']; ?>/create"
             <?php endif ?>
@@ -11,12 +11,12 @@
             <div class="row-fluid">
                 <div class="form-group span6">
                     <label>Nome</label>
-                    <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[nome]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['nome'];} ?>" required>
+                    <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[nome]" value="<?php if(isset($this->cadastro)){echo array_values($this->cadastro)[0]['nome'];} ?>" required>
                 </div>
             </div>
             <div class="row">
                 <?php foreach ($this->permissoes_list as $indice_01 => $modulo) : ?>
-                    <div class="col-lg-4">
+                    <div class="col-lg-2 col-md-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4><i class="fa <?php echo $modulo['modulo']['icone']; ?> fa-fw"></i> <?php echo $modulo['modulo']['nome']; ?></h4>
@@ -26,7 +26,15 @@
                                    
                                     <div class="checkbox">
                                         <label>
-                                            <input value="<?php echo $permissao['id'] ?>" name="hierarquia_relaciona_permissao[]" type="checkbox"><?php echo $permissao['nome']; ?>
+                                            <input 
+                                                value="<?php echo $permissao['id'] ?>"
+                                                name="hierarquia_relaciona_permissao[]"
+                                                type="checkbox"
+                                                <?php 
+                                                    if(isset($this->cadastro[$permissao['id']])){
+                                                        echo " checked ";
+                                                    } 
+                                                ?> ><?php echo $permissao['nome']; ?>
                                         </label>
                                     </div>
 
