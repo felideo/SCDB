@@ -41,11 +41,6 @@ class Usuario extends \Libs\Controller {
 		$insert_db = carregar_variavel('usuario');
 		$retorno = $this->model->create('usuario', $insert_db);
 
-
-
-		debug2($retorno);
-		exit;
-
 		if($retorno['status']){
 			$this->view->alert_js('Cadastro efetuado com sucesso!!!', 'sucesso');
 		} else {
