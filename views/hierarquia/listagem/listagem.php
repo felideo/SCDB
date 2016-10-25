@@ -1,17 +1,14 @@
-<div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header"><i class="fa <?php echo $_SESSION['modulos'][$this->modulo['modulo']]['icone']; ?> fa-fw"></i> <?php echo $this->modulo['name']; ?></h1>
-    </div>
-</div>
-
 <?php include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/form/form.php'; ?>
-
 <div style="display: block; clear: both;">
+
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4><i class="fa <?php echo $_SESSION['modulos'][$this->modulo['modulo']]['icone']; ?> fa-fw"></i> Listagem de <?php echo $this->modulo['name']; ?></h4>
+                <h4>
+                    <i class="fa <?php echo $_SESSION['modulos'][$this->modulo['modulo']]['icone']; ?> fa-fw"></i>
+                    Listagem de <?php echo $this->modulo['name']; ?>
+                </h4>
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
