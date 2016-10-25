@@ -9,9 +9,7 @@ class Index extends \Libs\Controller {
 	}
 
 	public function index() {
-
-			header('location: ' . URL . '/login');
-		$this->view->listagem_colaboradores = $this->model->load_active_list('colaborador');
+		header('location: ' . URL . 'login');
 		$this->view->clean_render('index');
 	}
 }
