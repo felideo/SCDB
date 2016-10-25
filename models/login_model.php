@@ -92,13 +92,13 @@ class Login_Model extends \Libs\Model {
 				. ' ON permissao.id = relacao.id_permissao'
 				. ' LEFT JOIN modulo modulo'
 				. ' ON modulo.id = permissao.id_modulo'
-				. ' WHERE hierarquia.id = ' . $_SESSION['id'];
+				. ' WHERE hierarquia.id = ' . $_SESSION['usuario']['hierarquia'];
 
 			$permissoes = $this->db->select($select);
 
 
 			foreach($permissoes as $indice => $permissao){
-				$retorno_permissoes[$permissao['modulo']][] = $permissao;
+				$retorno_permissoes[$permissao['modulo']][$permissao['permissao']] = $permissao;
 			}
 
 		}catch(Exception $e){

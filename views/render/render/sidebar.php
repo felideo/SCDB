@@ -63,9 +63,9 @@
 					<?php endif ?>
 				<?php endforeach ?>
 
+				<?php if(!empty($submenus_com_permissao)) : ?>
 				<?php $submenus_com_permissao = array_unique($submenus_com_permissao); ?>
 
-				<?php if(isset($submenus_com_permissao)) : ?>
 					<?php foreach ($submenus_com_permissao as $indice_03 => $submenus) : ?>
 						<li>
 	            			<a href="#">
