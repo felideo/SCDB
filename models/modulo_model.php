@@ -20,22 +20,22 @@ class Modulo_Model extends \Libs\Model {
 	public function permissoes_basicas($modulo, $id_modulo){
 		$permissoes_basicas = [
 			'criar' => [
-				'modulo' => $id_modulo,
+				'id_modulo' => $id_modulo,
 				'permissao' => $modulo . '_criar',
 				'hash' => \Util\Hash::get_unic_hash()
 			],
 			'visualizar' => [
-				'modulo' => $id_modulo,
+				'id_modulo' => $id_modulo,
 				'permissao' => $modulo . '_visualizar',
 				'hash' => \Util\Hash::get_unic_hash()
 			],
 			'editar' => [
-				'modulo' => $id_modulo,
+				'id_modulo' => $id_modulo,
 				'permissao' => $modulo . '_editar',
 				'hash' => \Util\Hash::get_unic_hash()
 			],
 			'deletar' => [
-				'modulo' => $id_modulo,
+				'id_modulo' => $id_modulo,
 				'permissao' => $modulo . '_deletar',
 				'hash' => \Util\Hash::get_unic_hash()
 			]

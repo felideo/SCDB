@@ -15,7 +15,6 @@ class Usuario extends \Libs\Controller {
 	function __construct() {
 		parent::__construct();
 		\Util\Auth::handLeLoggin();
-		\Util\Permission::check();
 
 		$this->view->modulo = $this->modulo;
 	}
