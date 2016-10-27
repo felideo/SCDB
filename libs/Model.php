@@ -58,7 +58,6 @@ abstract class Model {
 		return $result;
 	}
 
-
 	public function load_full_list($table){
 		$full_list = 'SELECT * FROM ' . $table;
 		return $this->db->select($full_list);
@@ -81,19 +80,4 @@ abstract class Model {
 			. ' AND ativo = 1';
 		return $this->db->select($query);
 	}
-
-
-	public function update_relacao($table, $where, $id, $data){
-		return $this->db->update($table, $data, "`{$where}` = {$id}");
-	}
-
-	public function create($table, $data){
-		return $this->get_insert($table, $data);
-	}
-
-	public function update($table, $id, $data){
-		return $this->db->update($table, $data, "`id` = {$id}");
-	}
-
-
 }
