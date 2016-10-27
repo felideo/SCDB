@@ -15,7 +15,6 @@ class Modulo extends \Libs\Controller {
 		parent::__construct();
 		\Util\Auth::handLeLoggin();
 
-
 		$this->view->modulo = $this->modulo;
 	}
 

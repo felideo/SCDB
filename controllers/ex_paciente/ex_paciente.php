@@ -15,7 +15,6 @@ class Ex_Paciente extends \Libs\Controller {
 
 		parent::__construct();
 		\Util\Auth::handLeLoggin();
-		\Util\Permission::check();
 
 		$this->view->modulo = $this->modulo;
 	}
