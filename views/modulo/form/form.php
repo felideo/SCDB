@@ -1,6 +1,7 @@
 <div class="row-fluid">
     <div class="span12">
         <form method="post"
+            id="lazy_view"
             <?php if(isset($this->cadastro)) : ?>
                 action="<?php echo URL . $this->modulo['modulo']; ?>/update/<?php echo $this->cadastro['id']; ?>"
             <?php else : ?>
@@ -33,9 +34,15 @@
                 </div>
 
                 <div class="form-group span3">
-                    <label>Hierarquia</label>
-                    <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[hierarquia]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['hierarquia'];} ?>" required>
-                </div>
+                    <label>Acesso</label>
+                        <br>
+                        <label class="radio-inline">
+                            <input name="<?php echo $this->modulo['modulo']; ?>[hierarquia]" value="0" type="radio" <?php if(isset($this->cadastro['hierarquia'])){if($this->cadastro['hierarquia'] == 0){ echo " checked "; }} ?> >Super Admin
+                        </label>
+                        <label class="radio-inline">
+                            <input name="<?php echo $this->modulo['modulo']; ?>[hierarquia]" value="1" type="radio" <?php if(isset($this->cadastro['hierarquia'])){if($this->cadastro['hierarquia'] == 1){ echo " checked "; }} ?> >Hierarquico
+                        </label>
+                    </div>
                 <div class="form-group span3">
                     <label>Icone</label>
                     <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[icone]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['icone'];} ?>" required>

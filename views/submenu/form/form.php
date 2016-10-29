@@ -1,6 +1,7 @@
 <div class="row-fluid">
     <div class="span12">
         <form method="post"
+            id="lazy_view"
             <?php if(isset($this->cadastro)) : ?>
                 action="<?php echo URL . $this->modulo['modulo']; ?>/update/<?php echo $this->cadastro['id']; ?>"
             <?php else : ?>
@@ -22,7 +23,7 @@
                     <input class="form-control" name="<?php echo $this->modulo['modulo']; ?>[icone]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['icone'];} ?>" required>
                 </div>
             </div>
-           
+
             <div class="row-fluid">
                 <div class="form-group span12">
                     <button type="submit" class="btn btn-primary" style="float: right;">

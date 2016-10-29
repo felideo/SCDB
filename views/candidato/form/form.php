@@ -1,6 +1,7 @@
 <div class="row-fluid">
     <div class="span12">
         <form method="post"
+            id="lazy_view"
             <?php if(isset($this->cadastro)) : ?>
                 action="<?php echo URL . $this->modulo['modulo']; ?>/update/<?php echo $this->cadastro['id']; ?>"
             <?php else : ?>
@@ -30,7 +31,7 @@
             <div class="row-fluid">
                 <div class="form-group span3" style="position: relative;">
                     <label>Data de Nascimento</label>
-                    <input id="data_nascimento" class="form-control mascara_data somente_numeros" name="<?php echo $this->modulo['modulo']; ?>[data__nascimento]" value="<?php if(isset($this->cadastro)){echo date('d/m/Y', strtotime($this->cadastro['nascimento']));} ?>" required>
+                    <input id="data_nascimento" autocomplete="off" class="form-control mascara_data somente_numeros" name="<?php echo $this->modulo['modulo']; ?>[data__nascimento]" value="<?php if(isset($this->cadastro)){echo date('d/m/Y', strtotime($this->cadastro['nascimento']));} ?>" required>
 
                 </div>
                 <div class="form-group span2">
@@ -99,10 +100,16 @@
                     <input id="uf" class="form-control somente_letras" maxlength="2" name="endereco[uf]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['uf'];} ?>" >
                 </div>
             </div>
-            <div class="row-fluid marginB10">
-                <label>Descrição do Caso</label>
-                <textarea rows="10" cols="88" name="<?php echo $this->modulo['modulo']; ?>[descricao]"><?php if(isset($this->cadastro)){echo $this->cadastro['descricao'];} ?></textarea>
+
+            <div class="row-fluid">
+                <div class="form-group span12">
+                    <label>Descrição do Caso</label>
+                </div>
+               <div class="form-group col-lg-12 col-md-12">
+                    <textarea class="form-control" rows="3" name="<?php echo $this->modulo['modulo']; ?>[descricao]"><?php if(isset($this->cadastro)){echo $this->cadastro['descricao'];} ?></textarea>
+                </div>
             </div>
+
             <div class="row-fluid">
                 <div class="form-group span12">
                     <button type="submit" class="btn btn-primary" style="float: right;">

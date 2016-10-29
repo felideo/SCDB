@@ -19,7 +19,7 @@ class usuario_model extends \Libs\Model
 			'ativo' => 1,
 		];
 
-		$data['senha'] = \Libs\Hash::create('sha1', $data['senha'], HASH_PASSWORD_KEY);
+		// $data['senha'] = \Libs\Hash::create('sha1', $data['senha'], HASH_PASSWORD_KEY);
 
 		return $this->get_insert($table, $data);
 	}

@@ -1,6 +1,7 @@
 <div class="row-fluid">
     <div class="span12">
         <form method="post"
+            id="lazy_view"
             <?php if(isset($this->cadastro)) : ?>
                 action="<?php echo URL . $this->modulo['modulo']; ?>/update/<?php echo $this->cadastro['id']; ?>"
             <?php else : ?>

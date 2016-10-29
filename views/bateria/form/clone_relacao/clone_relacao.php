@@ -2,8 +2,8 @@
     <div class="col-lg-12 col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="col-lg-4 col-md-4"><i class="fa fa-bell fa-fw"></i> Relação Aluno x Paciente </h4>
-                <button id="clone_relacao" type="button" class="btn btn-primary" style="float: right;"> adicionar relação </button>
+                <h4 class="col-lg-6 col-md-6"><i class="fa fa-link  fa-fw"> </i> Relação Aluno x Paciente </h4>
+                <button id="clone_relacao" type="button" class="btn btn-primary" style="float: right;"> <i class="fa fa-plus fa-fw"> </i> Adicionar Relação </button>
                 <div style="display:block; clear: both;"></div>
             </div>
             <!-- /.panel-heading -->
@@ -17,21 +17,32 @@
         <!-- /.panel -->
     </div>
 </div>
-
 <div class="row">
-    <div class="col-lg-4 col-md-4" id="clonar" >
+    <div class="col-lg-4 col-md-4" id="clonar" style="display: none;">
         <div class="panel panel-default" data-id_clone="$id_clone" id="clone_$id_clone">
             <div class="panel-heading">
-                <h4><i class="fa fa-fw"></i>Clone => $id_clone</h4>
-                <button type="button" class="btn btn-primary remove-box" data-id_remover="$id_clone" style="float: right;"> Remover </button>
+                <h4> <i class="fa fa-link fa-fw"> </i> Relação Aluno x Pacinete $id_clone</h4>
+                <button type="button" class="btn btn-primary remove-box" data-id_remover="$id_clone" style="float: right;"> <i class="fa fa-minus fa-fw"> </i> Remover </button>
                 <div style="display:block; clear: both;"></div>
             </div>
             <div class="panel-body">
                 <div class="row-fluid">
-                    <div class="form-group span3">
-                         <label>Paciente</label>
+                    <div class="form-group span4" id="relacao_aluno_$id_clone">
+                         <label>Aluno:</label>
                          <br>
-                         <select class="form-group span12" name="<?php echo $this->modulo['modulo']; ?>[id_submenu]" >
+                         <select class="form-group span12" name="relacao_aluno_paciente[$id_clone][relacao][aluno]" required disabled >
+                            <option ></option>
+                            <?php foreach ($this->aluno_list as $indice => $aluno) : ?>
+                                <option value="<?php echo $aluno['id']?>" >
+                                    <?php echo $aluno['nome']; ?>
+                                </option>
+                            <?php endforeach ?>
+                         </select>
+                    </div>
+                    <div class="form-group span4" id="relacao_paciente_$id_clone">
+                         <label>Paciente:</label>
+                         <br>
+                         <select class="form-group span12" name="relacao_aluno_paciente[$id_clone][relacao][paciente]" required disabled >
                             <option></option>
                             <?php foreach ($this->paciente_list as $indice => $paciente) : ?>
                                 <option value="<?php echo $paciente['id']?>" >
@@ -40,6 +51,10 @@
                             <?php endforeach ?>
                          </select>
                     </div>
+                    <div class="form-group span4" style="position: relative;">
+                    <label>Data Primeira Consulta:</label>
+                    <input id="data_agendamento_$id_clone" autocomplete="off" class="form-control" name="relacao_aluno_paciente[$id_clone][relacao][data__data_agendamento]" required disabled>
+                </div>
                 </div>
             </div>
             <!-- /.panel-body -->
@@ -49,38 +64,8 @@
     <!-- /.col-lg-4 -->
 </div>
 
+<?php include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/form/clone_relacao/clone_relacao.js.php'; ?>
 
-<script type="text/javascript">
-    $(document).ready(function(){
 
-        $('#clone_relacao').on('click', function(){
-            var container_clone = $('#container_clone');
-            console.log(container_clone);
-            var id_container_clone = get_id_proximo_itens_clone(container_clone);
 
-            $('#nenhum_clone_adicionado').hide();
 
-            var clone = $('#clonar').html();
-            clone = clone.replaceAll("$id_clone", id_container_clone);
-            // clone = str_replace("disabled=\"disabled\"", "", clone);
-
-            container_clone.prepend(clone);
-
-            $('#clone_' + id_container_clone).find('.remove-box').click(function() {
-                console.log(this);
-                console.log($(this).data('id_remover'));
-                $('#clone_' + $(this).data('id_remover')).remove();
-            });
-        });
-    });
-
-    String.prototype.replaceAll = function(search, replacement){
-        var target = this;
-        return target.split(search).join(replacement);
-    }
-
-    function get_id_proximo_itens_clone(id_container_clone) {
-        return ($('#container_clone').children(":not(#nenhum_clone_adicionado)").first().data('id_clone') + 1 || 0);
-    }
-
-</script>
