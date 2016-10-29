@@ -10,7 +10,7 @@ class Permissao_Model extends \Libs\Model {
 
 	public function load_permissions_list() {
 		$select = 'SELECT permissao.*,'
-			. '  modulo.id as modulo_id, modulo.nome as modulo_nome, modulo.icone as modulo_icone, modulo.modulo as modulo_modulo'
+			. '  modulo.id as modulo_id, modulo.nome as modulo_nome, modulo.icone as modulo_icone, modulo.modulo as modulo_modulo, modulo.hierarquia as modulo_hierarquia'
 			. ' FROM permissao permissao'
 			. ' LEFT JOIN modulo modulo'
 			. ' ON modulo.id = permissao.id_modulo'
@@ -19,6 +19,10 @@ class Permissao_Model extends \Libs\Model {
 		foreach ($this->db->select($select) as $indice => $permissao) {
 
 			if(!isset($retorno[$permissao['modulo_modulo']])){
+				if($_SESSION['usuario']['super_admin'] != 0 || $_SESSION['usuario']['hierarquia'] > $permissao['modulo_hierarquia']){
+					continue;
+				}
+
 				$retorno[$permissao['modulo_modulo']] = [
 					'modulo' => [
 						'id' => $permissao['modulo_id'],

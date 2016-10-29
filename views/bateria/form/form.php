@@ -1,3 +1,6 @@
+<?php debug2($this->relacoes_list) ?>
+
+
 <div class="row-fluid">
     <div class="span12">
         <form method="post"
@@ -9,18 +12,21 @@
         >
 
             <div class="row-fluid">
-                <div class="form-group span5" style="position: relative;">
+                <div class="form-group span4" style="position: relative;">
                     <label>Inicio da Bateria</label>
-                    <input id="inicio_bateria" class="form-control" name="<?php echo $this->modulo['modulo']; ?>[data__data_inicio]" required>
+                    <input id="inicio_bateria" autocomplete="off" class="form-control" name="<?php echo $this->modulo['modulo']; ?>[data__data_inicio]" required>
                 </div>
-                <div class="form-group span2">
-                </div>
-                <div class="form-group span5" style="position: relative;">
+                <div class="form-group span4" style="position: relative;">
                     <label>Final da Bateria:</label>
-                    <input id="fim_bateria" class="form-control" name="<?php echo $this->modulo['modulo']; ?>[data__data_fim]" required>
+                    <input id="fim_bateria" autocomplete="off" class="form-control" name="<?php echo $this->modulo['modulo']; ?>[data__data_fim]" required>
+                </div>
+                <div class="form-group span4">
+                    <label>Atendimentos por Dia:</label>
+                    <input id="qtd_atendimentos_dia" class="form-control somente_numeros" maxlength="1" name="<?php echo $this->modulo['modulo']; ?>[qtd_atendimentos_dia]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['qtd_atendimentos_dia'];} ?>" required>
                 </div>
             </div>
 
+            <?php include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/form/clone_relacao/clone_relacao.php'; ?>
 
 
             <div class="row-fluid">
@@ -38,25 +44,4 @@
     </div>
 </div>
 
-<?php include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/form/clone_relacao/clone_relacao.php'; ?>
-
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('#inicio_bateria').datetimepicker({
-            inline: true,
-            sideBySide: true,
-            debug: false,
-            format: 'DD/MM/YYYY'
-        });
-
-        $('#fim_bateria').datetimepicker({
-            inline: true,
-            sideBySide: true,
-            debug: false,
-            format: 'DD/MM/YYYY'
-        });
-
-
-    });
-</script>
-
+<?php include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/form/form.js.php'; ?>

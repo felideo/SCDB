@@ -1,4 +1,6 @@
 <script type="text/javascript">
+    autosize(document.querySelectorAll('textarea'));
+
 	$('#buscar_cep').keyup(function(){
 		if($('#buscar_cep').val().length != 9){
 			return false;

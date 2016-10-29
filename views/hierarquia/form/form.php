@@ -1,6 +1,7 @@
 <div class="row-fluid">
     <div class="span12">
         <form method="post"
+            id="lazy_view"
             <?php if(isset($this->cadastro)) : ?>
                 action="<?php echo URL . $this->modulo['modulo']; ?>/update/<?php echo array_values($this->cadastro)[0]['id_hierarquia']; ?>"
             <?php else : ?>
@@ -16,7 +17,7 @@
             </div>
             <div class="row">
                 <?php foreach ($this->permissoes_list as $indice_01 => $modulo) : ?>
-                    <div class="col-lg-2 col-md-4">
+                    <div class="col-lg-4 col-md-5">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4><i class="fa <?php echo $modulo['modulo']['icone']; ?> fa-fw"></i> <?php echo $modulo['modulo']['nome']; ?></h4>
@@ -27,14 +28,18 @@
                                     <div class="checkbox">
                                         <label>
                                             <input
+                                                class="permissao_hierarquia"
+                                                id="<?php echo $modulo['modulo']['modulo']; ?>_<?php echo $permissao['nome']; ?>"
                                                 value="<?php echo $permissao['id'] ?>"
                                                 name="hierarquia_relaciona_permissao[]"
                                                 type="checkbox"
+                                                data-permissao="<?php echo $permissao['nome']; ?>"
+                                                data-modulo="<?php echo $modulo['modulo']['modulo']; ?>"
                                                 <?php
                                                     if(isset($this->cadastro[$permissao['id']])){
                                                         echo " checked ";
                                                     }
-                                                ?> ><?php echo $permissao['nome']; ?>
+                                                ?> ><?php echo ucwords($permissao['nome']); ?>
                                         </label>
                                     </div>
 
@@ -62,3 +67,11 @@
         </form>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(".permissao_hierarquia").on('click', function(){
+        if($(this).data('permissao') != 'visualizar' && $(this).prop('checked')){
+            $('#' + $(this).data('modulo') + '_visualizar').prop('checked', true);
+        }
+    });
+</script>

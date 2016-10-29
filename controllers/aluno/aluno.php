@@ -19,16 +19,52 @@ class Aluno extends \Libs\Controller {
 	}
 
 	public function index() {
-		$this->view->aluno_list = $this->model->load_active_list($this->modulo['modulo']);
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+
+
+		$this->view->set_colunas_datatable(['Nome', 'Curso', 'Semestre', 'Turma', 'RGM', 'Ações']);
+		$this->listagem($this->model->load_active_list($this->modulo['modulo']));
+
 		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
 	}
 
+	public function listagem($dados_linha){
+		foreach ($dados_linha as $indice => $linha) {
+			$retorno_linhas[] = [
+				"<td class='sorting_1'>{$linha['id']}</td>",
+				"<td>{$linha['nome']}</td>",
+				"<td>{$linha['curso']}</td>",
+				"<td>{$linha['semestre']}</td>",
+				"<td>{$linha['turma']}</td>",
+				"<td>{$linha['rgm']}</td>",
+	        	"<td>" . $this->view->default_buttons_listagem($linha['id']) . "</td>"
+			];
+		}
+
+		$this->view->linhas_datatable = $retorno_linhas;
+	}
+
 	public function editar($id) {
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+
 		$this->view->cadastro = $this->model->load_aluno($id[0]);
 		$this->view->render($this->modulo['modulo'] . '/editar/editar');
 	}
 
+	public function visualizar($id){
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+
+		$this->view->cadastro = $this->model->load_aluno($id[0]);
+
+		$this->view->render($this->modulo['modulo'] . '/editar/editar');
+
+		$this->view->lazy_view();
+	}
+
 	public function create() {
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar");
+
+
 		$insert_db = carregar_variavel($this->modulo['modulo']);
 		$insert_contato = carregar_variavel('contato');
 
@@ -72,6 +108,9 @@ class Aluno extends \Libs\Controller {
 	}
 
 	public function update($id) {
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+
+
 		$update_db = carregar_variavel($this->modulo['modulo']);
 		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
 
@@ -85,6 +124,8 @@ class Aluno extends \Libs\Controller {
 	}
 
 	public function delete($id) {
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
+
 
 		$retorno_usuario = $this->model->delete('usuario', $id[1]);
 

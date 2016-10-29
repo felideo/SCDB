@@ -75,6 +75,10 @@
     <link rel="stylesheet" href="<?php echo URL; ?>public/bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="<?php echo URL; ?>public/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
 
+    <!-- Autosize -->
+    <script type="text/javascript" src="<?php echo URL; ?>public/autosize-master/dist/autosize.js"></script>
+
+
     <?php
         if(isset($this->js)) {
             foreach($this->js as $js) {

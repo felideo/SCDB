@@ -19,18 +19,73 @@ class Candidato extends \Libs\Controller {
 	}
 
 	public function index() {
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
-		$this->view->listagem_candidatos = $this->load_external_model('paciente')->load_pacientes_list(0);
+		$this->view->set_colunas_datatable(['ID', 'Nome', 'Idade', 'Sexo', 'Patologia', 'Ações']);
+		$this->listagem($this->load_external_model('paciente')->load_pacientes_list(0));
+
 		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
 	}
 
+	public function listagem($dados_linha){
+		if(empty($dados_linha)){
+			return;
+		}
+
+		foreach ($dados_linha as $indice => $linha) {
+			$nascimento = new \DateTime($linha['nascimento']);
+	        $hoje = new \DateTime(date('Y-m-d'));
+	        $diferenca = $nascimento->diff($hoje);
+
+	        // $idade = $diferenca->y . ' anos e ' . $diferenca->m . ' meses';
+	        $idade = $diferenca->y . ' anos';
+
+			$sexo = $linha['sexo'] == 1 ? "Masculino" : "Feminino";
+
+			$botao_paciente = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformar_paciente") ?
+				"<a href='#' class='transformar_paciente' data-id-paciente='{$linha['id']}' title='Transformar em Paciente'><i class='fa fa-check-circle fa-fw'></i></a>" :
+				'';
+    		$botao_ex_paciente = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformas_ex_paciente") ?
+    			"<a href='#' class='transformar_ex_paciente' data-id-paciente='{$linha['id']}' title='Transformar em EX Paciente'><i class='fa fa-times-circle fa-fw'></i></a>" :
+    			'';
+
+    		$botao_candidato = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformas_candidato") ?
+    			"<a href='#' class='transformar_candidato' data-id-paciente='{$linha['id']}' title='Transformar em Candidato'><i class='fa fa-question-circle fa-fw'></i></i></a>" :
+    			'';
+
+			$retorno_linhas[] = [
+				"<td class='sorting_1'>{$linha['id']}</td>",
+				"<td>{$linha['nome']}</td>",
+				"<td>{$idade}</td>",
+				"<td>{$sexo}</td>",
+				"<td>{$linha['patologia']}</td>",
+	        	"<td>" . $this->view->default_buttons_listagem($linha['id']) . $botao_paciente . $botao_ex_paciente . "</td>"
+			];
+		}
+
+		$this->view->linhas_datatable = $retorno_linhas;
+	}
+
 	public function editar($id) {
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+
 
 		$this->view->cadastro = $this->load_external_model('paciente')->load_paciente($id[0]);
 		$this->view->render($this->modulo['modulo'] . '/editar/editar');
 	}
 
+	public function visualizar($id){
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+
+		$this->view->cadastro = $this->load_external_model('paciente')->load_paciente($id[0]);
+		$this->view->render($this->modulo['modulo'] . '/editar/editar');
+
+		$this->view->lazy_view();
+	}
+
 	public function create() {
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar");
+
 
 		$insert_db = carregar_variavel($this->modulo['modulo']);
 
@@ -77,6 +132,8 @@ class Candidato extends \Libs\Controller {
 	}
 
 	public function update($id) {
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+
 
 		$update_db = carregar_variavel($this->modulo['modulo']);
 
@@ -110,6 +167,8 @@ class Candidato extends \Libs\Controller {
 	}
 
 	public function delete($id) {
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
+
 		$retorno_paciente = $this->model->delete('paciente', $id[0]);
 
 		if($retorno_paciente['status']){
@@ -135,9 +194,9 @@ class Candidato extends \Libs\Controller {
 		$retorno = $this->model->update('paciente', $id[0], $update_db);
 
 		if($retorno['status']){
-			$this->view->alert_js('Alteração de candidato para paciente efetuada com sucesso!!!', 'sucesso');
+			$this->view->alert_js('Alteração para paciente efetuada com sucesso!!!', 'sucesso');
 		} else {
-			$this->view->alert_js('Ocorreu um erro ao transformar o candidato em paciente, por favor tente novamente...', 'erro');
+			$this->view->alert_js('Ocorreu um erro ao transformar em paciente, por favor tente novamente...', 'erro');
 		}
 
 		header('location: ' . URL . $this->modulo['modulo']);
@@ -152,9 +211,26 @@ class Candidato extends \Libs\Controller {
 		$retorno = $this->model->update('paciente', $id[0], $update_db);
 
 		if($retorno['status']){
-			$this->view->alert_js('Alteração de candidato para ex paciente efetuada com sucesso!!!', 'sucesso');
+			$this->view->alert_js('Alteração ex paciente efetuada com sucesso!!!', 'sucesso');
 		} else {
-			$this->view->alert_js('Ocorreu um erro ao transformar o candidato em ex paciente, por favor tente novamente...', 'erro');
+			$this->view->alert_js('Ocorreu um erro ao transformar ex paciente, por favor tente novamente...', 'erro');
+		}
+
+		header('location: ' . URL . $this->modulo['modulo']);
+	}
+
+	public function transformar_candidato($id){
+
+		$update_db = [
+			"tipo" => 0
+		];
+
+		$retorno = $this->model->update('paciente', $id[0], $update_db);
+
+		if($retorno['status']){
+			$this->view->alert_js('Alteração para candidato efetuada com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao transformar em candidato, por favor tente novamente...', 'erro');
 		}
 
 		header('location: ' . URL . $this->modulo['modulo']);
