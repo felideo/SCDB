@@ -48,6 +48,9 @@ class Candidato extends \Libs\Controller {
 			];
 
 			$insert_endereco['cep'] = str_replace('-', '', $insert_endereco['cep']);
+
+
+			$insert_endereco['cep'] = str_replace('-', '', $insert_endereco['cep']);
 			$retorno_endereco = $this->model->create('endereco', $insert_endereco);
 		}
 
@@ -81,10 +84,12 @@ class Candidato extends \Libs\Controller {
 			"tipo" => 0
 		];
 
-
 		$retorno_paciente = $this->model->update('paciente', $id[0], $update_db);
 
 		$update_endereco = carregar_variavel('endereco');
+
+		$update_endereco['cep'] = str_replace('-', '', $update_endereco['cep']);
+
 		$retorno_endereco = $this->model->update_relacao('endereco', 'id_paciente', $id[0], $update_endereco);
 
 		foreach (carregar_variavel('contato') as $indice => $contato) {
@@ -130,7 +135,7 @@ class Candidato extends \Libs\Controller {
 		$retorno = $this->model->update('paciente', $id[0], $update_db);
 
 		if($retorno['status']){
-			$this->view->alert_js('Alteração de para paciente efetuada com sucesso!!!', 'sucesso');
+			$this->view->alert_js('Alteração de candidato para paciente efetuada com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao transformar o candidato em paciente, por favor tente novamente...', 'erro');
 		}
@@ -147,7 +152,7 @@ class Candidato extends \Libs\Controller {
 		$retorno = $this->model->update('paciente', $id[0], $update_db);
 
 		if($retorno['status']){
-			$this->view->alert_js('Alteração de para ex paciente efetuada com sucesso!!!', 'sucesso');
+			$this->view->alert_js('Alteração de candidato para ex paciente efetuada com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao transformar o candidato em ex paciente, por favor tente novamente...', 'erro');
 		}

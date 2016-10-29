@@ -16,7 +16,7 @@ $(document).ready(function() {
 
         swal({
           title: "Tem certeza?",
-          text: "Transformar este candidato em paciente?",
+          text: "Transformar este ex candidato em paciente?",
           type: "warning",
           showCancelButton: true,
           confirmButtonColor: "#A5DC86",
@@ -26,7 +26,7 @@ $(document).ready(function() {
         },
         function(){
             console.log(id_candidato);
-            window.location='paciente/transformar_paciente/' +  id_candidato;
+            window.location='ex_paciente/transformar_paciente/' +  id_candidato;
         });
     });
 
@@ -37,7 +37,7 @@ $(document).ready(function() {
 
         swal({
           title: "Tem certeza?",
-          text: "Transformar este paciente em candidato?",
+          text: "Transformar este ex paciente em candidato?",
           type: "warning",
           showCancelButton: true,
           confirmButtonColor: "#A5DC86",
@@ -47,7 +47,7 @@ $(document).ready(function() {
         },
         function(){
             console.log(id_candidato);
-            window.location='paciente/transformar_candidato/' +  id_candidato;
+            window.location='ex_paciente/transformar_candidato/' +  id_candidato;
         });
     });
 

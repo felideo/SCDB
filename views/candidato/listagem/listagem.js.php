@@ -37,7 +37,7 @@ $(document).ready(function() {
 
         swal({
           title: "Tem certeza?",
-          text: "Transformar este paciente em ex paciente?",
+          text: "Transformar este candidato em ex paciente?",
           type: "warning",
           showCancelButton: true,
           confirmButtonColor: "#A5DC86",

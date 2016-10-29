@@ -217,3 +217,14 @@ INSERT INTO `permissao`
         (34,9,'aluno_visualizar','5d1bbd93e9beb245489558aef962b5b9'),
         (35,9,'aluno_editar','0e7cee61ae888dea957667b370fe5875'),
         (36,9,'aluno_deletar','c793f72c38e1005344d1041b288c459f');
+
+CREATE TABLE `bateria` (
+  `id`              int(11)       NOT NULL AUTO_INCREMENT,
+  `data_inicio`     date          NOT NULL,
+  `data_fim`        date          NOT NULL,
+  `ativo`           tinyint(1)    NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+INSERT INTO `hierarquia`
+  VALUES (2,'Aluno',1);

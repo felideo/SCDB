@@ -42,8 +42,8 @@
                                             <td><?php echo $paciente['patologia']; ?></td>
                                             <td>
                                                 <!-- ZZZ: Configuração de hierarquia transforar em paciente -->
-                                                <?php echo '<a href="#" class="transformar_ex_paciente" data-id-paciente="' . $paciente['id'] . '" title="Transformar em Paciente"><i class="fa fa-times fa-fw"></i></a>'; ?>
-                                                <?php echo '<a href="#" class="transformar_candidato" data-id-paciente="' . $paciente['id'] . '" title="Transformar em Paciente"><i class="fa fa-check fa-fw"></i></a>'; ?>
+                                                <?php echo '<a href="#" class="transformar_ex_paciente" data-id-paciente="' . $paciente['id'] . '" title="Transformar em Ex Paciente"><i class="fa fa-times fa-fw"></i></a>'; ?>
+                                                <?php echo '<a href="#" class="transformar_candidato" data-id-paciente="' . $paciente['id'] . '" title="Transformar em Candidato"><i class="fa fa-check fa-fw"></i></a>'; ?>
 
                                                 <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/editar/' . $paciente['id'] . '" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
                                                 <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/delete/' . $paciente['id'] . '"><i class="fa fa-trash-o fa-fw"></i></a></td>'; ?>
