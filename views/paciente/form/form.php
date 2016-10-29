@@ -28,9 +28,9 @@
             </div>
 
             <div class="row-fluid">
-                <div class="form-group span3">
+                <div class="form-group span3" style="position: relative;">
                     <label>Data de Nascimento</label>
-                    <input class="form-control mascara_data" name="<?php echo $this->modulo['modulo']; ?>[data__nascimento]" value="<?php if(isset($this->cadastro)){echo date('d/m/Y', strtotime($this->cadastro['nascimento']));} ?>" required>
+                    <input id="data_nascimento" class="form-control mascara_data" name="<?php echo $this->modulo['modulo']; ?>[data__nascimento]" value="<?php if(isset($this->cadastro)){echo date('d/m/Y', strtotime($this->cadastro['nascimento']));} ?>" required>
 
                 </div>
                 <div class="form-group span2">

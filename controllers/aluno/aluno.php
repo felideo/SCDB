@@ -19,29 +19,27 @@ class Aluno extends \Libs\Controller {
 	}
 
 	public function index() {
-
 		$this->view->aluno_list = $this->model->load_active_list($this->modulo['modulo']);
 		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
 	}
 
 	public function editar($id) {
-
 		$this->view->cadastro = $this->model->load_aluno($id[0]);
 		$this->view->render($this->modulo['modulo'] . '/editar/editar');
 	}
 
 	public function create() {
-
 		$insert_db = carregar_variavel($this->modulo['modulo']);
 		$insert_contato = carregar_variavel('contato');
 
 		$insert_usuario = [
 			'email' 	 => $insert_contato[2],
 			'senha' 	 => "null",
-			'hierarquia' => 99
+			'hierarquia' => 2
 		];
 
 		$retorno_usuario = $this->model->create('usuario', $insert_usuario);
+
 
 		if(isset($retorno_usuario['id']) && $retorno_usuario['status'] == 1){
 			$insert_db += [

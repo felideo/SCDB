@@ -63,6 +63,18 @@
     <script src="<?php echo URL; ?>public/sweetalert-master/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" type="text/css" href="public/sweetalert-master/dist/sweetalert.css">
 
+    <!-- Mascaras -->
+    <script src="<?php echo URL; ?>public/js/jquery.mask.js"></script>
+    <script src="<?php echo URL; ?>public/js/mascaras.js"></script>
+    <script src="<?php echo URL; ?>public/js/validacoes.js"></script>
+
+    <!-- Date Time Picker -->
+    <script type="text/javascript" src="<?php echo URL; ?>public/bower_components/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="<?php echo URL; ?>public/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
+    <link rel="stylesheet" href="<?php echo URL; ?>public/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="<?php echo URL; ?>public/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+
     <?php
         if(isset($this->js)) {
             foreach($this->js as $js) {

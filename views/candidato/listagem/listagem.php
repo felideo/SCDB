@@ -1,5 +1,4 @@
 <?php include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/form/form.php'; ?>
-
 <div style="display: block; clear: both;">
 <div class="col-lg-12">
     <div class="panel panel-default">
@@ -42,8 +41,8 @@
                                             <td><?php echo $candidato['patologia']; ?></td>
                                             <td>
                                                 <!-- ZZZ: Configuração de hierarquia transforar em paciente -->
-                                                <?php echo '<a href="#" class="transformar_paciente" data-id-paciente="' . $candidato['id'] . '" title="Transformar em Paciente"><i class="fa fa-ambulance fa-fw"></i></a>'; ?>
-                                                <?php echo '<a href="#" class="transformar_ex_paciente" data-id-paciente="' . $candidato['id'] . '" title="Transformar em EX Paciente"><i class="fa fa-times fa-fw"></i></a>'; ?>
+                                                <?php echo '<a href="#" class="transformar_paciente" data-id-paciente="' . $candidato['id'] . '" title="Transformar em Paciente"><i class="fa fa-check-circle fa-fw"></i></a>'; ?>
+                                                <?php echo '<a href="#" class="transformar_ex_paciente" data-id-paciente="' . $candidato['id'] . '" title="Transformar em EX Paciente"><i class="fa fa-times-circle fa-fw"></i></a>'; ?>
 
                                                 <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/editar/' . $candidato['id'] . '" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
                                                 <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/delete/' . $candidato['id'] . '"><i class="fa fa-trash-o fa-fw"></i></a></td>'; ?>

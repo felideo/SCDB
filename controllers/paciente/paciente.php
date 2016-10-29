@@ -87,7 +87,7 @@ class Paciente extends \Libs\Controller {
 		$retorno = $this->model->update('paciente', $id[0], $update_db);
 
 		if($retorno['status']){
-			$this->view->alert_js('Alteração de para ex paciente efetuada com sucesso!!!', 'sucesso');
+			$this->view->alert_js('Alteração de paciente para ex paciente efetuada com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao transformar o paciente em ex paciente, por favor tente novamente...', 'erro');
 		}
@@ -104,7 +104,7 @@ class Paciente extends \Libs\Controller {
 		$retorno = $this->model->update('paciente', $id[0], $update_db);
 
 		if($retorno['status']){
-			$this->view->alert_js('Alteração de para ex paciente efetuada com sucesso!!!', 'sucesso');
+			$this->view->alert_js('Alteração de paciente para ex paciente efetuada com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao transformar o paciente em candidato, por favor tente novamente...', 'erro');
 		}
