@@ -1,6 +1,3 @@
-<?php debug2($this->relacoes_list) ?>
-
-
 <div class="row-fluid">
     <div class="span12">
         <form method="post"

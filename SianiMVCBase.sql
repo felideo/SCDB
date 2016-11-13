@@ -659,8 +659,8 @@ INSERT INTO `permissao`
   (49,11,'candidato_transformas_ex_paciente','51120561544488a14ecb7e32ca4d87c0'),
   (50,11,'candidato_transformas_candidato','51120561544488a14ecb7e32ca4d87c0'),
   (51,11,'candidato_transformar_paciente','51120561544488a14ecb7e32ca4d87c0'),
-  (51,11,'candidato_transformas_ex_paciente','51120561544488a14ecb7e32ca4d87c0'),
-  (52,11,'candidato_transformas_candidato','51120561544488a14ecb7e32ca4d87c0');
+  (52,11,'candidato_transformas_ex_paciente','51120561544488a14ecb7e32ca4d87c0'),
+  (53,11,'candidato_transformas_candidato','51120561544488a14ecb7e32ca4d87c0');
 
 
 INSERT INTO `hierarquia`
@@ -719,7 +719,7 @@ INSERT INTO `hierarquia_relaciona_permissao`
 INSERT INTO `usuario`
   VALUES
 	(1,'felideo@gmail.com','12345',NULL,1,1),
-	(2,'admin@amin.com.br','12345',1,0,1);
+	(2,'admin@admin.com.br','12345',1,0,1);
 
 
 

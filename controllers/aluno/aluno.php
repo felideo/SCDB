@@ -29,6 +29,9 @@ class Aluno extends \Libs\Controller {
 	}
 
 	public function listagem($dados_linha){
+		if(empty($dados_linha)){
+			return false;
+		}
 		foreach ($dados_linha as $indice => $linha) {
 			$retorno_linhas[] = [
 				"<td class='sorting_1'>{$linha['id']}</td>",
