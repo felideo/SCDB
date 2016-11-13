@@ -22,7 +22,6 @@ class Painel_Controle extends \Libs\Controller {
 	}
 
 	function index() {
-
 		$this->view->render($this->modulo['modulo'] . '/' . $this->modulo['modulo']);
 	}
 

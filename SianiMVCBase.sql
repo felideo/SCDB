@@ -593,18 +593,18 @@ INSERT INTO `submenu`
 		(2,'paciente','fa-hospital-o',1,'Pacientes');
 
 INSERT INTO `modulo`
-	VALUES
-		(1,'modulo','Modulos',1,0,'fa-check-square-o',0,1000,1),
-		(2,'usuario','Usuarios',NULL,1,'fa-users',0,1000,1),
-		(3,'configuracao','Configurações',1,0,'fa-arrows-h',0,1000,1),
-		(4,'submenu','Submenus',1,0,'fa-sitemap',0,1000,1),
-		(5,'hierarquia','Hierarquias',NULL,1,'fa-sitemap',0,1000,1),
-		(6,'candidato','Candidatos',2,1,'fa-question-circle',0,1000,1),
-		(7,'paciente','Pacientes',2,1,'fa-check-circle',0,1000,1),
-		(8,'ex_paciente','Ex Pacientes',2,1,'fa-times-circle',0,1000,1),
-		(9,'aluno','Alunos',NULL,1,'fa-book',0,1000,1),
-		(10,'bateria','Baterias',NULL,1,'fa-calendar ',0,1000,1),
-		(11,'ficha_clinica','Fichas Clinicas',NULL,1,'fa-file-text ',0,1000,1);
+    VALUES
+        (1,'modulo','Modulos',1,0,'fa-check-square-o',0,1000,1),
+        (2,'usuario','Usuarios',NULL,1,'fa-users',0,1000,1),
+        (3,'configuracao','Configurações',1,0,'fa-arrows-h',0,1200,1),
+        (4,'submenu','Submenus',1,0,'fa-sitemap',0,1100,1),
+        (5,'hierarquia','Hierarquias',NULL,1,'fa-sitemap',0,2000,1),
+        (6,'candidato','Candidatos',2,1,'fa-question-circle',0,1000,1),
+        (7,'paciente','Pacientes',2,1,'fa-check-circle',0,1100,1),
+        (8,'ex_paciente','Ex Pacientes',2,1,'fa-times-circle',0,1200,1),
+        (9,'aluno','Alunos',NULL,1,'fa-book',0,1100,1),
+        (10,'bateria','Baterias',NULL,1,'fa-calendar ',0,1200,1),
+        (11,'ficha_clinica','Fichas Clinicas',NULL,1,'fa-file-text ',0,1300,1);
 
 INSERT INTO `permissao`
   VALUES
@@ -720,11 +720,3 @@ INSERT INTO `usuario`
   VALUES
 	(1,'felideo@gmail.com','12345',NULL,1,1),
 	(2,'admin@admin.com.br','12345',1,0,1);
-
-
-
-
-
-
-
-
