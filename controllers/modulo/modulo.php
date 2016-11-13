@@ -21,7 +21,7 @@ class Modulo extends \Libs\Controller {
 	public function index() {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
-		$this->view->set_colunas_datatable(['ID', 'Modulo', 'Submenu', 'Link', 'Acesso', 'Icone', 'Ações']);
+		$this->view->set_colunas_datatable(['ID', 'Modulo', 'Ordem' ,'Submenu', 'Link', 'Acesso', 'Icone', 'Ações']);
 		$this->listagem($this->model->load_modulo_list($this->modulo['modulo']));
 
 		$this->view->submenu_list = $this->model->load_active_list('submenu');
@@ -29,10 +29,16 @@ class Modulo extends \Libs\Controller {
 	}
 
 	public function listagem($dados_linha){
+		// debug2($dados_linha);
+
+
+		// ordem
 		foreach ($dados_linha as $indice => $linha) {
 			$retorno_linhas[] = [
 				"<td class='sorting_1'>{$linha['id']}</td>",
 	        	"<td>{$linha['nome']}</td>",
+	        	"<td>{$linha['ordem']}</td>",
+
 	        	"<td><i class='fa {$linha['submenu_icone']} fa-fw'></i> {$linha['submenu_nome_exibicao']} </td>",
 	        	"<td>/{$linha['modulo']}</td>",
 	        	$linha['hierarquia'] == 0 ? "<td>Super Admin</td>" : "<td></td>",

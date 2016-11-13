@@ -30,10 +30,26 @@ class Hierarquia extends \Libs\Controller {
 
 	public function listagem($dados_linha){
 		foreach ($dados_linha as $indice => $linha) {
+
+			$url = URL;
+
+			$botao_visualizar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar") ?
+				"<a href='{$url}{$this->modulo['modulo']}/visualizar/{$linha['id']}' title='Visualizar'><i class='fa fa-eye fa-fw'></i></a>" :
+				'';
+
+			$botao_editar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar") ?
+				"<a href='{$url}{$this->modulo['modulo']}/editar/{$linha['id']}' title='Editar'><i class='fa fa-pencil fa-fw'></i></a>" :
+				 '';
+			$botao_excluir = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar")  && $linha['id'] > 3 ?
+				"<a href='{$url}{$this->modulo['modulo']}/delete/{$linha['id']}' title='Deletar'><i class='fa fa-trash-o fa-fw'></i></a>" :
+				'';
+
+
+
 			$retorno_linhas[] = [
 				"<td class='sorting_1'>{$linha['id']}</td>",
 				"<td>{$linha['nome']}</td>",
-	        	"<td>" . $this->view->default_buttons_listagem($linha['id']) . "</td>"
+	        	"<td>" . $botao_visualizar . $botao_editar . $botao_excluir . "</td>"
 			];
 		}
 
