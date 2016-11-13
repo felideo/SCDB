@@ -16,10 +16,12 @@ class Permissao_Model extends \Libs\Model {
 			. ' ON modulo.id = permissao.id_modulo'
 			. ' WHERE modulo.ativo = 1';
 
-		foreach ($this->db->select($select) as $indice => $permissao) {
 
+		$permissoes = $this->db->select($select);
+
+		foreach ($permissoes as $indice => $permissao) {
 			if(!isset($retorno[$permissao['modulo_modulo']])){
-				if($_SESSION['usuario']['super_admin'] != 0 || $_SESSION['usuario']['hierarquia'] > $permissao['modulo_hierarquia']){
+				if($_SESSION['usuario']['hierarquia'] > $permissao['modulo_hierarquia']){
 					continue;
 				}
 

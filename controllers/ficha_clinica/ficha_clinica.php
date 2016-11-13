@@ -27,7 +27,10 @@ class Ficha_Clinica extends \Libs\Controller {
 		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
 	}
 
-	public function listagem($dados_linha){
+		public function listagem($dados_linha){
+			if(empty($dados_linha)){
+				return false;
+			}
 		foreach ($dados_linha as $indice => $linha) {
 			$retorno_linhas[] = [
 				"<td class='sorting_1'>{$linha['id_ficha_clinica']}</td>",
@@ -70,6 +73,20 @@ class Ficha_Clinica extends \Libs\Controller {
 			$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');
+		}
+
+		header('location: ' . URL . $this->modulo['modulo']);
+	}
+
+	public function delete($id) {
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
+
+		$retorno = $this->model->delete($this->modulo['modulo'], $id[0]);
+
+		if($retorno['status']){
+			$this->view->alert_js('Remoção efetuada com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do cadastro, por favor tente novamente...', 'erro');
 		}
 
 		header('location: ' . URL . $this->modulo['modulo']);
