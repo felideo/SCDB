@@ -61,7 +61,7 @@
 
     <!-- Sweet Alert -->
     <script src="<?php echo URL; ?>public/sweetalert-master/dist/sweetalert.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="public/sweetalert-master/dist/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo URL; ?>public/sweetalert-master/dist/sweetalert.css">
 
     <!-- Mascaras -->
     <script src="<?php echo URL; ?>public/js/jquery.mask.js"></script>

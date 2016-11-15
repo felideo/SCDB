@@ -23,4 +23,23 @@ class usuario_model extends \Libs\Model
 
 		return $this->get_insert($table, $data);
 	}
+
+	public function load_user_by_email($email){
+		try {
+			$select = "SELECT * FROM usuario WHERE email = '{$email}'";
+
+			return $this->db->select($select);
+		}catch(Exception $e){
+            if (ERROS) throw new Exception('<pre>' . $e->getMessage() . '</pre>');
+		}
+	}
+
+	public function check_token($token){
+		try {
+			$select = "SELECT * FROM usuario WHERE token = '{$token}'";
+			return $this->db->select($select);
+		}catch(Exception $e){
+            if (ERROS) throw new Exception('<pre>' . $e->getMessage() . '</pre>');
+		}
+	}
 }
