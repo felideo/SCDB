@@ -71,9 +71,10 @@ class Aluno extends \Libs\Controller {
 		$insert_db = carregar_variavel($this->modulo['modulo']);
 		$insert_contato = carregar_variavel('contato');
 
+
 		$insert_usuario = [
 			'email' 	 => $insert_contato[2],
-			'senha' 	 => "null",
+			'senha' 	 => md5($insert_contato[2]),
 			'hierarquia' => 2
 		];
 

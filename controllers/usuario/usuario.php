@@ -68,7 +68,13 @@ class Usuario extends \Libs\Controller {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar");
 
 		$insert_db = carregar_variavel('usuario');
+
+		$insert_db += [
+			"senha" => \Util\Hash::get_unic_hash()
+		];
+
 		$retorno = $this->model->create('usuario', $insert_db);
+
 
 		if($retorno['status']){
 			$this->view->alert_js('Cadastro efetuado com sucesso!!!', 'sucesso');
