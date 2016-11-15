@@ -10,13 +10,9 @@
         >
 
             <div class="row-fluid">
-                <div class="form-group span4">
+                <div class="form-group span8">
                     <label>Email</label>
                     <input class="form-control validar_email" name="<?php echo $this->modulo['modulo']; ?>[email]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['email'];} ?>" required>
-                </div>
-                <div class="form-group span4">
-                    <label>Senha</label>
-                    <input class="form-control" type="password" name="<?php echo $this->modulo['modulo']; ?>[senha]" <?php if(!isset($this->cadastro)){echo 'required';} ?> >
                 </div>
                 <div class="form-group span4">
                      <label>Hierarquia</label>
