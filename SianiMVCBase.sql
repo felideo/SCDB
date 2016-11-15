@@ -579,6 +579,7 @@ CREATE TABLE `usuario` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(256) NOT NULL,
   `senha` varchar(64) NOT NULL,
+  `token` varchar(32) NULL,
   `hierarquia` int(11) DEFAULT NULL,
   `super_admin` tinyint(1) NOT NULL DEFAULT '0',
   `ativo` tinyint(1) NOT NULL DEFAULT '1',

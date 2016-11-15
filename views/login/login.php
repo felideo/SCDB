@@ -19,9 +19,13 @@
                             </label>
                         </div> -->
                         <input class="btn btn-lg btn-success btn-block" type="submit" value="Entrar">
+                        <br>
+                        <button id="recuperar_senha" type="button" class="btn btn-lg btn-primary btn-block">Recuperar Senha</button>
                     </fieldset>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<?php include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/login.js.php'; ?>
