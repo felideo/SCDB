@@ -18,7 +18,7 @@ class Painel_Controle extends \Libs\Controller {
 		$this->view->modulo = $this->modulo;
 
 
-		$this->view->js = array('/dashboard/js/default.js');
+		// $this->view->js = array('/dashboard/js/default.js');
 	}
 
 	function index() {
@@ -46,13 +46,10 @@ class Painel_Controle extends \Libs\Controller {
 
 	function cu(){
 
-    $headers = "From: felideo@gmail.com\r\n" .
-               "Reply-To: felideo@gmail.com\r\n" .
-               "X-Mailer: PHP/" . phpversion() . "\r\n";
-    $headers .= "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+    $lerolero = $mpdf = new \vendor\Mpdf\Mpdf();
 
- 		debug2(mail('felideo@gmail.com', 'funciona', nl2br('mensagem'), $headers));
+    debug2($lerolero);
+    exit;
 	}
 
 

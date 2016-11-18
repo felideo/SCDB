@@ -1,7 +1,9 @@
 <?php
+	require 'util/functions.php';
 	require 'config.php';
 	require 'util/auth.php';
-	require 'util/functions.php';
+	include __DIR__ . '/vendor/autoload.php';
+
 	session_start();
 	// debug2($_SESSION);
 
@@ -28,10 +30,11 @@ function autoload($class_name) {
 	$file_name .= $class_name . '.php';
 	// debug2($file_names);
 
-	// if(file_exists($file_name)){
+	if(file_exists($file_name)){
 		require $file_name;
-	// }
+	}
 }
 
 spl_autoload_register('autoload');
 $lib = new libs\bootstrap();
+

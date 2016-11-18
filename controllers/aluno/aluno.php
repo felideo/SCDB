@@ -22,7 +22,7 @@ class Aluno extends \Libs\Controller {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
 
-		$this->view->set_colunas_datatable(['Nome', 'Curso', 'Semestre', 'Turma', 'RGM', 'Ações']);
+		$this->view->set_colunas_datatable(['ID', 'Nome', 'Curso', 'Semestre', 'Turma', 'RGM', 'Ações']);
 		$this->listagem($this->model->load_active_list($this->modulo['modulo']));
 
 		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
@@ -74,7 +74,7 @@ class Aluno extends \Libs\Controller {
 		$insert_usuario = [
 			'email' 	 => $insert_contato[2],
 			'senha' 	 => md5($insert_contato[2]),
-			'hierarquia' => 2
+			'hierarquia' => 3
 		];
 
 		$retorno_usuario = $this->model->create('usuario', $insert_usuario);

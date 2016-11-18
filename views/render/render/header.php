@@ -49,6 +49,9 @@
     <script src="<?php echo URL; ?>public/bootstrap/dist/js/sb-admin-2.js"></script>
 
     <!-- DataTables JavaScript -->
+
+
+
     <script src="<?php echo URL; ?>public/bootstrap/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="<?php echo URL; ?>public/bootstrap/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
 
@@ -72,11 +75,15 @@
     <script type="text/javascript" src="<?php echo URL; ?>public/bower_components/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>public/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
-    <link rel="stylesheet" href="<?php echo URL; ?>public/bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="<?php echo URL; ?>public/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
 
     <!-- Autosize -->
     <script type="text/javascript" src="<?php echo URL; ?>public/autosize-master/dist/autosize.js"></script>
+
+        <!-- Full Calendar -->
+    <link rel='stylesheet' href='<?php echo URL; ?>public/bower_components/fullcalendar/dist/fullcalendar.css' />
+    <script src='<?php echo URL; ?>public/bower_components/fullcalendar/dist/fullcalendar.js'></script>
+
 
 
     <?php
