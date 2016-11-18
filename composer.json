@@ -1,0 +1,13 @@
+{
+    "name": "NeuroSis",
+    "description": "Sistema criado como trabalho de conclusão de curso para gerenciamento do atendimento voluntario da neuro-pediatria da faculdade UMC",
+    "authors": [
+        {
+            "name": "Felideo Desittale Paravimnce",
+            "email": "felideo@gmail.com"
+        }
+    ],
+    "require": {
+        "mpdf/mpdf": "^6.1"
+    }
+}

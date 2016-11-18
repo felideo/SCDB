@@ -11,7 +11,7 @@ class Ficha_Clinica_Model extends \Libs\Model {
 	public function load_ficha_clinica_list(){
 		$select = 'SELECT relacao.id as id_relacao, relacao.id_bateria, relacao.id_aluno, relacao.id_paciente, relacao.id_ficha_clinica, relacao.data_agendamento,'
 			. ' bateria.data_inicio as bateria_data_inicio, bateria.data_fim as bateria_data_fim, bateria.qtd_atendimentos_dia,'
-			. ' aluno.nome as aluno_nome,'
+			. ' aluno.nome as aluno_nome, aluno.id_usuario as id_usuario,'
 			. ' paciente.nome as nome_paciente, paciente.pai as nome_pai_paciente, paciente.mae as nome_mae_paciente, paciente.nascimento as nascimento_paciente, paciente.patologia as patologia_paciente'
 			// . ' ficha_clinica.id'
 	    	. ' FROM bateria_relaciona_aluno_paciente relacao'

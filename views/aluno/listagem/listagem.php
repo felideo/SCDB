@@ -52,8 +52,8 @@ $(document).ready(function() {
         responsive: true,
         "order": [[ 0, "desc" ]],
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json"
+            "url": "<?php echo URL; ?>public/bootstrap/bower_components/datatables/languages/Portuguese-Brasil.json"
         }
     });
 });
-</script>,
+</script>

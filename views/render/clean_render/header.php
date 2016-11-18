@@ -56,6 +56,9 @@
     <script src="<?php echo URL; ?>public/js/mascaras.js"></script>
     <script src="<?php echo URL; ?>public/js/validacoes.js"></script>
 
+
+
+
     <?php
     if(isset($this->js)) {
         foreach($this->js as $js) {

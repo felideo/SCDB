@@ -41,6 +41,7 @@ class bootstrap {
 		} else {
 			$controller->index();
 		}
+
 	}
 
 	private function get_url(){
