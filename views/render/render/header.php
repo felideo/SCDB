@@ -83,7 +83,27 @@
         <!-- Full Calendar -->
     <link rel='stylesheet' href='<?php echo URL; ?>public/bower_components/fullcalendar/dist/fullcalendar.css' />
     <script src='<?php echo URL; ?>public/bower_components/fullcalendar/dist/fullcalendar.js'></script>
+    <script src='<?php echo URL; ?>public/bower_components/fullcalendar/dist/locale/pt-br.js'></script>
 
+    <script type="text/javascript">
+        function carregar_loader(tipo){
+            if(tipo == 'show'){
+                swal({
+                    title: "Aguarde",
+                    // text: 'Aguarde enquanto efetuamos a sua transação',
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    showCancelButton: false,
+                    imageUrl: '<?php echo URL; ?>public/images/ajax-loader-2.gif',
+                    animation: false
+                });
+            }
+
+            if(tipo == 'hide'){
+                swal.close();
+            }
+        }
+    </script>
 
 
     <?php

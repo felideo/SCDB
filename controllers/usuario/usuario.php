@@ -118,4 +118,11 @@ class Usuario extends \Libs\Controller {
 
 		header('location: ' . URL . 'usuario');
 	}
+
+	public function verificar_duplicidade_ajax(){
+		$email = carregar_variavel('usuario');
+
+		echo json_encode(empty($this->model->load_user_by_email($email)));
+		exit;
+	}
 }
