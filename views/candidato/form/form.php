@@ -18,7 +18,7 @@
             <div class="row-fluid">
                 <div class="form-group span12">
                     <label>Nome do Pai</label>
-                    <input class="form-control somente_letras" maxlength="128" name="<?php echo $this->modulo['modulo']; ?>[pai]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pai'];} ?>" required>
+                    <input class="form-control somente_letras" maxlength="128" name="<?php echo $this->modulo['modulo']; ?>[pai]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pai'];} ?>">
                 </div>
             </div>
             <div class="row-fluid">

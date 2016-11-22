@@ -405,46 +405,46 @@ CREATE TABLE `endereco` (
 DROP TABLE IF EXISTS `ficha_clinica`;
 
 CREATE TABLE `ficha_clinica` (
-  	`id` int(11) NOT NULL AUTO_INCREMENT,
-  	`classificacao_topografica`         		text,
-  	`classificacao_clinica`             		text,
-  	`classificacao_clinica_nivel`       		text,
-  	`classificacao_clinica_nivel_nivel` 		text,
-  	`molestia_atual_pregressa`          		text,
-  	`patologia_disturbio_associado`     		text,
-  	`medicamento_uso_motivo`            		text,
-  	`exames_complementares`             		text,
-  	`orteses_proteses_adaptacoes`       		text,
-  	`caracteristicas_sindromicas`       		text,
-  	`desenvolvimento_motor_visao`       		text,
-  	`desenvolvimento_motor_audicao`     		text,
-  	`desenvolvimento_motor_linguagem`   		text,
-  	`desenvolvimento_motor_cognitivo`   		text,
-  	`contato`                           		text,
-  	`contato_resposta`                  		text,
-  	`reflexos_primitivos`               		text,
-  	`reflexos_primitivos_presente`      		text,
-  	`controle_cervical`                 		text,
-  	`linha_media`                       		text,
-  	`linha_media_incompleto`            		text,
-  	`simetria`                          		text,
-  	`alinhamento`                       		text,
-  	`movimentacao_ativa`                		text,
-  	`movimentacao_ativa_observacoes`    		text,
-  	`rolar`                             		text,
-  	`rolar_padrao_patologico`           		text,
-  	`controle_tronco`                   		text,
-  	`postura_quadril`                   		text,
-  	`postura_quadril_inclinada`         		text,
-  	`deformidade_coluna`                		text,
-  	`deformidade_coluna_presente`       		text,
-  	`deformidade_quadril`               		text,
-  	`deformidade_quadril_presente`      		text,
-  	`ortostatismo`                      		text,
-  	`ortostatismo_posicionamento_pes`   		text,
-  	`marcha`                            		text,
-  	`marcha_observacoes`                		text,
-  	`trocas_posturais`                  		text,
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`classificacao_topografica`         		text,
+	`classificacao_clinica`             		text,
+	`classificacao_clinica_nivel`       		text,
+	`classificacao_clinica_nivel_nivel` 		text,
+	`molestia_atual_pregressa`          		text,
+	`patologia_disturbio_associado`     		text,
+	`medicamento_uso_motivo`            		text,
+	`exames_complementares`             		text,
+	`orteses_proteses_adaptacoes`       		text,
+	`caracteristicas_sindromicas`       		text,
+	`desenvolvimento_motor_visao`       		text,
+	`desenvolvimento_motor_audicao`     		text,
+	`desenvolvimento_motor_linguagem`   		text,
+	`desenvolvimento_motor_cognitivo`   		text,
+	`contato`                           		text,
+	`contato_resposta`                  		text,
+	`reflexos_primitivos`               		text,
+	`reflexos_primitivos_presente`      		text,
+	`controle_cervical`                 		text,
+	`linha_media`                       		text,
+	`linha_media_incompleto`            		text,
+	`simetria`                          		text,
+	`alinhamento`                       		text,
+	`movimentacao_ativa`                		text,
+	`movimentacao_ativa_observacoes`    		text,
+	`rolar`                             		text,
+	`rolar_padrao_patologico`           		text,
+	`controle_tronco`                   		text,
+	`postura_quadril`                   		text,
+	`postura_quadril_inclinada`         		text,
+	`deformidade_coluna`                		text,
+	`deformidade_coluna_presente`       		text,
+	`deformidade_quadril`               		text,
+	`deformidade_quadril_presente`      		text,
+	`ortostatismo`                      		text,
+	`ortostatismo_posicionamento_pes`   		text,
+	`marcha`                            		text,
+	`marcha_observacoes`                		text,
+	`trocas_posturais`                  		text,
 	`avaliacao_tonus`                        	text,
 	`hipertonia_elastica_grupos_musculares`  	text,
 	`hipertonia_plastica`                    	text,
@@ -463,20 +463,20 @@ CREATE TABLE `ficha_clinica` (
 	`incoordenaco_de_movimentos_dismetría`   	text,
 	`incoordenaco_de_movimentos_hipometria`  	text,
 	`incoordenaco_de_movimentos_hipermetria` 	text,
-  	`encurtamento_musculares_deformidades` 		text,
-  	`alimentacao`                          		text,
-  	`alimentacao_observacoes`              		text,
-  	`higiene`                              		text,
-  	`higiene_observacoes`                  		text,
-  	`vestuario`                            		text,
-  	`vestuario_observacoes`                		text,
-  	`locomocao`                            		text,
-  	`locomocao_observacoes`                		text,
-  	`sistema_respiratorio`                 		text,
-  	`condutas`                             		text,
-  	`evolucao_periodo`                     		text,
-  	`rolar_inicia_porem_incompleto`        		text,
-  	`ativo`                                tinyint(1) NOT NULL DEFAULT '1',
+	`encurtamento_musculares_deformidades` 		text,
+	`alimentacao`                          		text,
+	`alimentacao_observacoes`              		text,
+	`higiene`                              		text,
+	`higiene_observacoes`                  		text,
+	`vestuario`                            		text,
+	`vestuario_observacoes`                		text,
+	`locomocao`                            		text,
+	`locomocao_observacoes`                		text,
+	`sistema_respiratorio`                 		text,
+	`condutas`                             		text,
+	`evolucao_periodo`                     		text,
+	`rolar_inicia_porem_incompleto`        		text,
+	`ativo`                                tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY                                 KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
@@ -594,18 +594,18 @@ INSERT INTO `submenu`
 		(2,'paciente','fa-hospital-o',1,'Pacientes');
 
 INSERT INTO `modulo`
-    VALUES
-        (1,'modulo','Modulos',1,0,'fa-check-square-o',0,1000,1),
-        (2,'usuario','Usuarios',NULL,1,'fa-users',0,1000,1),
-        (3,'configuracao','Configurações',1,0,'fa-arrows-h',0,1200,1),
-        (4,'submenu','Submenus',1,0,'fa-sitemap',0,1100,1),
-        (5,'hierarquia','Hierarquias',NULL,1,'fa-sitemap',0,2000,1),
-        (6,'candidato','Candidatos',2,1,'fa-question-circle',0,1000,1),
-        (7,'paciente','Pacientes',2,1,'fa-check-circle',0,1100,1),
-        (8,'ex_paciente','Ex Pacientes',2,1,'fa-times-circle',0,1200,1),
-        (9,'aluno','Alunos',NULL,1,'fa-book',0,1100,1),
-        (10,'bateria','Baterias',NULL,1,'fa-calendar ',0,1200,1),
-        (11,'ficha_clinica','Fichas Clinicas',NULL,1,'fa-file-text ',0,1300,1);
+	VALUES
+		(1,'modulo','Modulos',1,0,'fa-check-square-o',0,1000,1),
+		(2,'usuario','Usuarios',NULL,1,'fa-users',0,1000,1),
+		(3,'configuracao','Configurações',1,0,'fa-arrows-h',0,1200,1),
+		(4,'submenu','Submenus',1,0,'fa-sitemap',0,1100,1),
+		(5,'hierarquia','Hierarquias',NULL,1,'fa-sitemap',0,2000,1),
+		(6,'candidato','Candidatos',2,1,'fa-question-circle',0,1000,1),
+		(7,'paciente','Pacientes',2,1,'fa-check-circle',0,1100,1),
+		(8,'ex_paciente','Ex Pacientes',2,1,'fa-times-circle',0,1200,1),
+		(9,'aluno','Alunos',NULL,1,'fa-book',0,1100,1),
+		(10,'bateria','Baterias',NULL,1,'fa-calendar ',0,1200,1),
+		(11,'ficha_clinica','Fichas Clinicas',NULL,1,'fa-file-text ',0,1300,1);
 
 INSERT INTO `permissao`
   VALUES
@@ -653,15 +653,15 @@ INSERT INTO `permissao`
 	(42,11,'ficha_clinica_visualizar','e4efbb943a4640d2550304e25a033db1'),
 	(43,11,'ficha_clinica_editar','9a9927e25b300c0567586f16e9052502'),
 	(44,11,'ficha_clinica_deletar','51120561544488a14ecb7e32ca4d87c0'),
-  (45,11,'candidato_transformar_paciente','51120561544488a14ecb7e32ca4d87c0'),
-  (46,11,'candidato_transformas_ex_paciente','51120561544488a14ecb7e32ca4d87c0'),
-  (47,11,'candidato_transformas_candidato','51120561544488a14ecb7e32ca4d87c0'),
-  (48,11,'candidato_transformar_paciente','51120561544488a14ecb7e32ca4d87c0'),
-  (49,11,'candidato_transformas_ex_paciente','51120561544488a14ecb7e32ca4d87c0'),
-  (50,11,'candidato_transformas_candidato','51120561544488a14ecb7e32ca4d87c0'),
-  (51,11,'candidato_transformar_paciente','51120561544488a14ecb7e32ca4d87c0'),
-  (52,11,'candidato_transformas_ex_paciente','51120561544488a14ecb7e32ca4d87c0'),
-  (53,11,'candidato_transformas_candidato','51120561544488a14ecb7e32ca4d87c0');
+  (45,6,'candidato_transformar_paciente','51120561544488a14ecb7e32ca4d87c0'),
+  (46,6,'candidato_transformar_ex_paciente','51120561544488a14ecb7e32ca4d87c0'),
+  (47,6,'candidato_transformar_candidato','51120561544488a14ecb7e32ca4d87c0'),
+  (48,7,'paciente_transformar_paciente','51120561544488a14ecb7e32ca4d87c0'),
+  (49,7,'paciente_transformar_ex_paciente','51120561544488a14ecb7e32ca4d87c0'),
+  (50,7,'paciente_transformar_candidato','51120561544488a14ecb7e32ca4d87c0'),
+  (51,8,'ex_paciente_transformar_paciente','51120561544488a14ecb7e32ca4d87c0'),
+  (52,8,'ex_paciente_transformar_ex_paciente','51120561544488a14ecb7e32ca4d87c0'),
+  (53,8,'ex_paciente_transformar_candidato','51120561544488a14ecb7e32ca4d87c0');
 
 
 INSERT INTO `hierarquia`
@@ -721,3 +721,29 @@ INSERT INTO `usuario`
   VALUES
 	(1,'felideo@gmail.com','12345',NULL,1,1),
 	(2,'admin@admin.com.br','12345',1,0,1);
+
+ALTER TABLE `bateria_relaciona_aluno_paciente`
+	DROP COLUMN `data_agendamento`;
+
+ALTER TABLE `bateria`
+	DROP COLUMN `qtd_atendimentos_dia`;
+
+ALTER TABLE `bateria`
+  ADD COLUMN `atendimentos_simultaneos` tinyint(1) not null;
+
+ALTER TABLE `aluno`
+  DROP COLUMN `rgm`;
+
+ALTER TABLE `aluno`
+  ADD COLUMN `rgm` varchar(16) not null AFTER nome;
+
+
+CREATE TABLE `agendamento` (
+	`id`									INT(11) 	NOT NULL AUTO_INCREMENT,
+  	`data` 									DATE 		NOT NULL,
+  	`hora` 									TIME 		NOT NULL,
+  	`id_bateria_relaciona_aluno_paciente`	INT(11) 	NOT NULL,
+  	`ativo` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`id_bateria_relaciona_aluno_paciente`) REFERENCES `bateria_relaciona_aluno_paciente` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

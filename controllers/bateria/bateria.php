@@ -22,6 +22,7 @@ class Bateria extends \Libs\Controller {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
 		$this->view->bateria_list = $this->model->load_active_list($this->modulo['modulo']);
+		$this->view->datas_indispovineis = json_encode($this->gerar_datas_indisponiveis($this->view->bateria_list));
 
 		$this->view->paciente_list = $this->load_external_model('paciente')->load_pacientes_list(1);
 		$this->view->aluno_list = $this->model->load_active_list('aluno');
@@ -64,7 +65,6 @@ class Bateria extends \Libs\Controller {
 						'id_aluno' 			=> $relacao['relacao']['aluno'],
 						'id_paciente' 		=> $relacao['relacao']['paciente'],
 						'id_ficha_clinica' 	=> $retorno_ficha_clinica[$indice]['id'],
-						'data_agendamento'  => $relacao['relacao']['data_agendamento']
 					];
 
 					$retorno_relacao[$indice] = $this->model->create('bateria_relaciona_aluno_paciente', $insert_relacao);
@@ -109,6 +109,26 @@ class Bateria extends \Libs\Controller {
 		}
 
 		header('location: ' . URL . $this->modulo['modulo']);
+	}
+
+	private function gerar_datas_indisponiveis($baterias){
+
+		$datas_indispovineis = [];
+
+		foreach ($baterias as $indice => $bateria) {
+			$date_data_inicio = \DateTime::createFromFormat('Y-m-d', $bateria['data_inicio']);
+			$date_data_fim    = \DateTime::createFromFormat('Y-m-d', $bateria['data_fim']);
+
+			$data_incremental = $date_data_inicio;
+
+			while($data_incremental <= $date_data_fim){
+
+				$datas_indispovineis[] = $data_incremental->format('Y-m-d');
+				$data_incremental->add( new \DateInterval( 'P1D' ));
+			}
+		}
+
+		return $datas_indispovineis;
 	}
 }
 

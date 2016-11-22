@@ -6,6 +6,26 @@
 
 <div style="display: block; clear: both;"></div>
 <div class="col-lg-12">
+    <div id='calendar'></div>
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+    // page is now ready, initialize the calendar...
+
+    $('#calendar').fullCalendar({
+        events: <?php echo $this->horarios_agendados ?>
+        // put your options and callbacks here
+    })
+
+});
+
+</script>
+
+<div style="display: block; clear: both;"></div>
+<div class="col-lg-12">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">

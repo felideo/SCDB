@@ -42,14 +42,14 @@ class Paciente extends \Libs\Controller {
 
 			$sexo = $linha['sexo'] == 1 ? "Masculino" : "Feminino";
 
-			$botao_paciente = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformar_paciente") ?
+			$botao_paciente = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_transformar_paciente") ?
 				"<a href='#' class='transformar_paciente' data-id-paciente='{$linha['id']}' title='Transformar em Paciente'><i class='fa fa-check-circle fa-fw'></i></a>" :
 				'';
-    		$botao_ex_paciente = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformas_ex_paciente") ?
+    		$botao_ex_paciente = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_transformar_ex_paciente") ?
     			"<a href='#' class='transformar_ex_paciente' data-id-paciente='{$linha['id']}' title='Transformar em EX Paciente'><i class='fa fa-times-circle fa-fw'></i></a>" :
     			'';
 
-    		$botao_candidato = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformas_candidato") ?
+    		$botao_candidato = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_transformar_candidato") ?
     			"<a href='#' class='transformar_candidato' data-id-paciente='{$linha['id']}' title='Transformar em Candidato'><i class='fa fa-question-circle fa-fw'></i></i></a>" :
     			'';
 
@@ -194,9 +194,9 @@ class Paciente extends \Libs\Controller {
 		$retorno = $this->model->update('paciente', $id[0], $update_db);
 
 		if($retorno['status']){
-			$this->view->alert_js('Alteração para paciente efetuada com sucesso!!!', 'sucesso');
+			$this->view->alert_js('Alteração efetuada com sucesso!!!', 'sucesso');
 		} else {
-			$this->view->alert_js('Ocorreu um erro ao transformar em paciente, por favor tente novamente...', 'erro');
+			$this->view->alert_js('Ocorreu um erro ao efetuar a alteração, por favor tente novamente...', 'erro');
 		}
 
 		header('location: ' . URL . $this->modulo['modulo']);
@@ -211,9 +211,9 @@ class Paciente extends \Libs\Controller {
 		$retorno = $this->model->update('paciente', $id[0], $update_db);
 
 		if($retorno['status']){
-			$this->view->alert_js('Alteração ex paciente efetuada com sucesso!!!', 'sucesso');
+			$this->view->alert_js('Alteração efetuada com sucesso!!!', 'sucesso');
 		} else {
-			$this->view->alert_js('Ocorreu um erro ao transformar ex paciente, por favor tente novamente...', 'erro');
+			$this->view->alert_js('Ocorreu um erro ao efetuar a alteração, por favor tente novamente...', 'erro');
 		}
 
 		header('location: ' . URL . $this->modulo['modulo']);
@@ -228,9 +228,9 @@ class Paciente extends \Libs\Controller {
 		$retorno = $this->model->update('paciente', $id[0], $update_db);
 
 		if($retorno['status']){
-			$this->view->alert_js('Alteração para candidato efetuada com sucesso!!!', 'sucesso');
+			$this->view->alert_js('Alteração efetuada com sucesso!!!', 'sucesso');
 		} else {
-			$this->view->alert_js('Ocorreu um erro ao transformar em candidato, por favor tente novamente...', 'erro');
+			$this->view->alert_js('Ocorreu um erro ao efetuar a alteração, por favor tente novamente...', 'erro');
 		}
 
 		header('location: ' . URL . $this->modulo['modulo']);

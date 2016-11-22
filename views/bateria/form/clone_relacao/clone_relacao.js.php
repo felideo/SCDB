@@ -30,9 +30,6 @@
                     echo "$('#clone_relacao').trigger('click');\n\t\t";
                     echo "$('div#relacao_aluno_" . $indice_div . " select').val(" . $relacao['id_aluno'] . ");\n\t\t";
                     echo "$('div#relacao_paciente_" . $indice_div . " select').val(" . $relacao['id_paciente'] . ");\n\t\t";
-                    echo "$('#data_agendamento_' + " . $indice_div . ").data('DateTimePicker').date('" . $relacao['data_agendamento'] . "');\n\n\t\t";
-
-
                 }
             }
         ?>

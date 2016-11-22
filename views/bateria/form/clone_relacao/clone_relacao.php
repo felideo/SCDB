@@ -27,7 +27,7 @@
             </div>
             <div class="panel-body">
                 <div class="row-fluid">
-                    <div class="form-group span4" id="relacao_aluno_$id_clone">
+                    <div class="form-group span6" id="relacao_aluno_$id_clone">
                          <label>Aluno:</label>
                          <br>
                          <select class="form-group span12" name="relacao_aluno_paciente[$id_clone][relacao][aluno]" required disabled >
@@ -39,7 +39,7 @@
                             <?php endforeach ?>
                          </select>
                     </div>
-                    <div class="form-group span4" id="relacao_paciente_$id_clone">
+                    <div class="form-group span6" id="relacao_paciente_$id_clone">
                          <label>Paciente:</label>
                          <br>
                          <select class="form-group span12" name="relacao_aluno_paciente[$id_clone][relacao][paciente]" required disabled >
@@ -51,10 +51,6 @@
                             <?php endforeach ?>
                          </select>
                     </div>
-                    <div class="form-group span4" style="position: relative;">
-                    <label>Data Primeira Consulta:</label>
-                    <input id="data_agendamento_$id_clone" autocomplete="off" class="form-control" name="relacao_aluno_paciente[$id_clone][relacao][data__data_agendamento]" required disabled>
-                </div>
                 </div>
             </div>
             <!-- /.panel-body -->
