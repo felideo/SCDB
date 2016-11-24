@@ -36,4 +36,8 @@
 			$('#data_nascimento').val('');
     });
 
+    $('#uf').change(function(){
+    	$('#uf').val($('#uf').val().toUpperCase());
+    });
+
 </script>

@@ -18,7 +18,7 @@
             <div class="row-fluid">
                 <div class="form-group span3">
                     <label>RGM</label>
-                    <input class="form-control somente_numeros" maxlength="11" name="<?php echo $this->modulo['modulo']; ?>[rgm]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['rgm'];} ?>" required>
+                    <input id="rgm" class="form-control somente_numeros" maxlength="11" name="<?php echo $this->modulo['modulo']; ?>[rgm]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['rgm'];} ?>" required>
                 </div>
                 <div class="form-group span5">
                     <label>Curso</label>
@@ -82,6 +82,37 @@ $(document).ready(function() {
             $('#semestre').val('');
         }
     });
+
+    $('#rgm').change(function(){
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo URL; ?>aluno/verificar_duplicidade_rgm_ajax",
+            data: {
+                rgm: $('#rgm').val()
+            },
+            dataType: 'json',
+            async: false,
+            beforeSend: function(){
+                carregar_loader('show');
+            },
+            success: function(dados) {
+                if(dados == false){
+                    swal({
+                        title: 'Erro',
+                        text: 'RGM ja cadastrado no sistema!',
+                        type: 'error',
+                        tconfirmButtonText: 'OK'
+                    });
+
+                    $('#RGM').val('');
+                } else {
+                    setTimeout("carregar_loader('hide');", 1000);
+                }
+            }
+        });
+    });
+
+
 
     $('.validar_email').change(function(){
         if($('.validar_email').val() == ''){

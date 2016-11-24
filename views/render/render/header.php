@@ -90,7 +90,6 @@
             if(tipo == 'show'){
                 swal({
                     title: "Aguarde",
-                    // text: 'Aguarde enquanto efetuamos a sua transação',
                     allowEscapeKey: false,
                     showConfirmButton: false,
                     showCancelButton: false,

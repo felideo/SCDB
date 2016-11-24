@@ -102,7 +102,7 @@ $(document).ready(function(){
             to_lower = palavras[i].toLowerCase();
             to_lower = to_lower.trim();
 
-            if(to_lower != 'de' && to_lower != 'da' && to_lower != 'do' && to_lower != 'di' && to_lower != 'du' && to_lower != 'e'){
+            if(to_lower.length > 3){
                 first_to_upper = to_lower.slice(0,1).toUpperCase() + to_lower.slice(1);
             }else{
                 first_to_upper = to_lower;

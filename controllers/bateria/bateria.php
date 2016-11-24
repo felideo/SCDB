@@ -22,7 +22,13 @@ class Bateria extends \Libs\Controller {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
 		$this->view->bateria_list = $this->model->load_active_list($this->modulo['modulo']);
-		$this->view->datas_indispovineis = json_encode($this->gerar_datas_indisponiveis($this->view->bateria_list));
+
+		$date_time = $this->gerar_datas_indisponiveis($this->view->bateria_list);
+
+		$this->view->min_date = json_encode($date_time['min_date']);
+		$this->view->max_date = json_encode($date_time['max_date']);
+		$this->view->datas_indispovineis = json_encode($date_time['datas_indispovineis']);
+
 
 		$this->view->paciente_list = $this->load_external_model('paciente')->load_pacientes_list(1);
 		$this->view->aluno_list = $this->model->load_active_list('aluno');
@@ -113,7 +119,12 @@ class Bateria extends \Libs\Controller {
 
 	private function gerar_datas_indisponiveis($baterias){
 
+		$hoje = \DateTime::createFromFormat('Y-m-d', \date('Y-m-d'));
+		$min_date = $hoje->add( new \DateInterval( 'P1Y' ))->format('Y') . '-12-31';
+		$max_date = ($hoje->add( new \DateInterval( 'P1Y' ))->format('Y') - 3) . '-01-01';
+
 		$datas_indispovineis = [];
+
 
 		foreach ($baterias as $indice => $bateria) {
 			$date_data_inicio = \DateTime::createFromFormat('Y-m-d', $bateria['data_inicio']);
@@ -122,13 +133,17 @@ class Bateria extends \Libs\Controller {
 			$data_incremental = $date_data_inicio;
 
 			while($data_incremental <= $date_data_fim){
-
 				$datas_indispovineis[] = $data_incremental->format('Y-m-d');
 				$data_incremental->add( new \DateInterval( 'P1D' ));
 			}
 		}
 
-		return $datas_indispovineis;
+		return [
+			'min_date'            => $max_date,
+			'max_date'            => $min_date,
+			'datas_indispovineis' => $datas_indispovineis
+		];
+
 	}
 }
 
