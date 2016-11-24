@@ -14,6 +14,8 @@
 
         var datas_indispovineis = <?php echo $this->datas_indispovineis; ?>;
         var data_disponivel = datas_indispovineis[datas_indispovineis.length-1];
+        var min_date = <?php echo $this->min_date; ?>;
+        var max_date = <?php echo $this->max_date; ?>;
 
 
         $('#inicio_bateria').datetimepicker({
@@ -23,6 +25,8 @@
             format: 'DD/MM/YYYY',
             disabledDates: datas_indispovineis,
             defaultDate: data_disponivel,
+            maxDate: max_date,
+            minDate: min_date,
             widgetPositioning: {
                 horizontal: 'auto',
                 vertical: 'bottom'
@@ -70,6 +74,19 @@
 
 
         });
+
+        $('#atendimentos_simultaneos').change(function(){
+        if($('#atendimentos_simultaneos').val() == 0){
+            swal({
+                title: 'Erro',
+                text: 'O numero de atendimentos não pode ser 0!',
+                type: 'error',
+                tconfirmButtonText: 'OK'
+            });
+
+            $('#atendimentos_simultaneos').val('');
+        }
+    });
 
     });
 </script>

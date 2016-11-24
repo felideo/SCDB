@@ -12,19 +12,19 @@
             <div class="row-fluid">
                 <div class="form-group span12">
                     <label>Nome do Paciente</label>
-                    <input class="form-control somente_letras" maxlength="128" name="<?php echo $this->modulo['modulo']; ?>[nome]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['nome'];} ?>" required>
+                    <input class="form-control somente_letras remover_caracteres_especiais embelezar_string" maxlength="128" name="<?php echo $this->modulo['modulo']; ?>[nome]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['nome'];} ?>" required>
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="form-group span12">
                     <label>Nome do Pai</label>
-                    <input class="form-control somente_letras" maxlength="128" name="<?php echo $this->modulo['modulo']; ?>[pai]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pai'];} ?>">
+                    <input class="form-control somente_letras remover_caracteres_especiais embelezar_string" maxlength="128" name="<?php echo $this->modulo['modulo']; ?>[pai]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pai'];} ?>">
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="form-group span12">
                     <label>Nome da Mãe</label>
-                    <input class="form-control somente_letras" maxlength="128" name="<?php echo $this->modulo['modulo']; ?>[mae]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['mae'];} ?>" required>
+                    <input class="form-control somente_letras remover_caracteres_especiais embelezar_string" maxlength="128" name="<?php echo $this->modulo['modulo']; ?>[mae]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['mae'];} ?>" required>
                 </div>
             </div>
 
@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-group span7">
                     <label>Hipótese de Patologia</label>
-                    <input class="form-control somente_letras" maxlength="128" name="<?php echo $this->modulo['modulo']; ?>[patologia]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['patologia'];} ?>" required>
+                    <input class="form-control somente_letras remover_caracteres_especiais embelezar_string" maxlength="128" name="<?php echo $this->modulo['modulo']; ?>[patologia]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['patologia'];} ?>" required>
                 </div>
             </div>
 
@@ -89,11 +89,11 @@
             <div class="row-fluid">
                 <div class="form-group span5">
                     <label>Bairro</label>
-                    <input id="bairro" class="form-control somente_letras" maxlength="128" name="endereco[bairro]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['bairro'];} ?>" >
+                    <input id="bairro" class="form-control somente_letras remover_caracteres_especiais embelezar_string" maxlength="128" name="endereco[bairro]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['bairro'];} ?>" >
                 </div>
                 <div class="form-group span5">
                     <label>Cidade</label>
-                    <input id="cidade" class="form-control somente_letras" maxlength="128" name="endereco[cidade]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['cidade'];} ?>" >
+                    <input id="cidade" class="form-control somente_letras remover_caracteres_especiais embelezar_string" maxlength="128" name="endereco[cidade]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['endereco']['cidade'];} ?>" >
                 </div>
                 <div class="form-group span2">
                     <label>UF</label>

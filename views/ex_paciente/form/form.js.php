@@ -1,4 +1,6 @@
 <script type="text/javascript">
+    autosize(document.querySelectorAll('textarea'));
+
 	$('#buscar_cep').keyup(function(){
 		if($('#buscar_cep').val().length != 9){
 			return false;
@@ -18,22 +20,24 @@
 	    });
 	});
 
-	// $('.validar_email').change(function(){
-	// 	if (validar_email($('.validar_email').val())) {
-	// 		alert("E-Mail Valido!");
-	// 	} else {
-	// 		alert("Digite um e-mail valido");
-	// 	}
-	// });
 
-	// function validar_email(email){
-	// 	var str = email;
-	// 	var filtro = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-	// 	if(filtro.test(str)) {
-	// 		return true;
-	// 	} else {
-	// 		return false;
-	// 	}
-	// }
+    $('#data_nascimento').datetimepicker({
+        sideBySide: true,
+        debug: false,
+        format: 'DD/MM/YYYY',
+        widgetPositioning: {
+        	horizontal: 'auto',
+            vertical: 'bottom'
+        }
+    });
+
+    $('#data_nascimento').keydown(function(){
+    	swal("Erro", "Selecione uma data no calendario a baixo!", "error");
+			$('#data_nascimento').val('');
+    });
+
+    $('#uf').change(function(){
+    	$('#uf').val($('#uf').val().toUpperCase());
+    });
 
 </script>

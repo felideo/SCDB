@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-group span4" style="position: relative;">
                     <label>N° de Atendimentos Simultaneos:</label>
-                    <input class="form-control somente_numeros" name="<?php echo $this->modulo['modulo']; ?>[atendimentos_simultaneos]" required>
+                    <input id="atendimentos_simultaneos" class="form-control somente_numeros" maxlength="1" name="<?php echo $this->modulo['modulo']; ?>[atendimentos_simultaneos]" required>
                 </div>
             </div>
 

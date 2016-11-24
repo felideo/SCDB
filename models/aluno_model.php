@@ -38,4 +38,13 @@ class Aluno_Model extends \Libs\Model {
 
 		return $retorno;
 	}
+
+	public function verificar_duplicidade_rgm($rgm){
+		try {
+			$select = "SELECT * FROM aluno WHERE rgm = '{$rgm}'";
+			return $this->db->select($select);
+		}catch(Exception $e){
+            if (ERROS) throw new Exception('<pre>' . $e->getMessage() . '</pre>');
+		}
+	}
 }

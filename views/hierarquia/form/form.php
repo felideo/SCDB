@@ -12,7 +12,7 @@
             <div class="row-fluid">
                 <div class="form-group span6">
                     <label>Nome</label>
-                    <input class="form-control somente_letras" name="<?php echo $this->modulo['modulo']; ?>[nome]" value="<?php if(isset($this->cadastro)){echo array_values($this->cadastro)[0]['nome'];} ?>" required>
+                    <input class="form-control somente_letras remover_caracteres_especiais embelezar_string" name="<?php echo $this->modulo['modulo']; ?>[nome]" value="<?php if(isset($this->cadastro)){echo array_values($this->cadastro)[0]['nome'];} ?>" required>
                 </div>
             </div>
             <div class="row">

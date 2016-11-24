@@ -1,4 +1,6 @@
 <script type="text/javascript">
+    autosize(document.querySelectorAll('textarea'));
+
 	$('#buscar_cep').keyup(function(){
 		if($('#buscar_cep').val().length != 9){
 			return false;
@@ -18,7 +20,8 @@
 	    });
 	});
 
-	$('#data_nascimento').datetimepicker({
+
+    $('#data_nascimento').datetimepicker({
         sideBySide: true,
         debug: false,
         format: 'DD/MM/YYYY',
@@ -31,6 +34,10 @@
     $('#data_nascimento').keydown(function(){
     	swal("Erro", "Selecione uma data no calendario a baixo!", "error");
 			$('#data_nascimento').val('');
+    });
+
+    $('#uf').change(function(){
+    	$('#uf').val($('#uf').val().toUpperCase());
     });
 
 </script>

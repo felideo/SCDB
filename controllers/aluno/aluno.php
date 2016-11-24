@@ -145,4 +145,10 @@ class Aluno extends \Libs\Controller {
 
 		header('location: ' . URL . $this->modulo['modulo']);
 	}
+
+	public function verificar_duplicidade_rgm_ajax(){
+		$rgm = carregar_variavel('rgm');
+		echo json_encode(empty($this->model->verificar_duplicidade_rgm($rgm)));
+		exit;
+	}
 }
