@@ -1,3 +1,5 @@
-$(document).ready(function() {
-	// alert(1);
+$(window).load(function() {
+	$('.voltar').click(function() {
+		history.back()
+	});
 });

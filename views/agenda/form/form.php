@@ -3,7 +3,7 @@
 		 <i class="fa fa-clock-o"> </i> Bateria Atual
 	</h3>
 	<h4 class="page-header">
-		<strong>Periodo:</strong> <?php echo $this->bateria_atual[0]['data_inicio']; ?> à <?php echo $this->bateria_atual[0]['data_fim']; ?>
+		<strong>Periodo:</strong> <?php if(isset($this->bateria_atual[0]['data_inicio'])){echo $this->bateria_atual[0]['data_inicio'];} ?> à <?php if(isset($this->bateria_atual[0]['data_fim'])){echo $this->bateria_atual[0]['data_fim'];} ?>
 	</h4>
 </div>
 
@@ -59,16 +59,7 @@
 				<input type="hidden" name="bateria[data__data_inicio]"        value="<?php echo $this->bateria_atual[0]['data_inicio']; ?>"               required>
 				<input type="hidden" name="bateria[data__data_fim]"           value="<?php echo $this->bateria_atual[0]['data_fim']; ?>"                  required>
 				<input type="hidden" name="bateria[atendimentos_simultaneos]" value="<?php echo $this->bateria_atual[0]['atendimentos_simultaneos']; ?>"  required>
-
-
 			</div>
-
-
-
-
-
-
-
 
 			<div class="row-fluid">
 				<div class="form-group span12">

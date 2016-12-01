@@ -156,7 +156,7 @@ class Agenda extends \Libs\Controller {
 	public function delete($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
 
-		$retorno = $this->model->delete('usuario', $id[0]);
+		$retorno = $this->model->delete('agendamento', $id[0]);
 
 		if($retorno['status']){
 			$this->view->alert_js('Remoção efetuada com sucesso!!!', 'sucesso');
@@ -164,7 +164,7 @@ class Agenda extends \Libs\Controller {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do cadastro, por favor tente novamente...', 'erro');
 		}
 
-		header('location: ' . URL . 'usuario');
+		header('location: ' . URL . $this->modulo['modulo']);
 	}
 
 
@@ -211,33 +211,52 @@ class Agenda extends \Libs\Controller {
 	}
 
 	private function criar_objeto_full_calendar($agendamentos){
+		if(empty($agendamentos)){
+			return false;
+		}
+
 		foreach ($agendamentos as $indice => $horario) {
 			if(empty($horario['id_agendamento']) && empty($horario['data'])){
 				continue;
 			}
 
+
 			$retorno[] = [
-				'id'    => $horario['id_agendamento'],
-				'title' => $horario['paciente_nome'],
-				'start' => $horario['data'],
-				'url'   => URL . 'agenda/horario/' . $horario['id_agendamento']
+				'id'        => $horario['id_agendamento'],
+				'title'     => $horario['paciente_nome'],
+				'start'     => $horario['data'] . ' ' . $horario['hora'],
+				'className' => 'muda_1' . $horario['paciente_nome'] . 'muda_2muda_3' . $horario['aluno_nome']
 			];
 		}
 
-		return $retorno;
+		return isset($retorno) ? $retorno : false;
 	}
 
+	public function fazer_chamada($dados){
+		if($dados[3] != 'undefined'){
+			$update_db = [
+				'presenca_paciente' => $dados[1] == 'falta' ? 0 : 1
+			];
 
-	public function horario($id){
-		echo 'funciona!';
-		exit;
+			$where = "id = {$dados[0]}";
+		}
+
+		if($dados[2] != 'undefined'){
+			$update_db = [
+				'presenca_aluno' => $dados[1] == 'falta' ? 0 : 1
+			];
+
+			$where = "id = {$dados[0]}";
+		}
+
+		$retorno = $this->model->db->update('agendamento', $update_db, $where);
+
+		if($retorno['status']){
+			$this->view->alert_js('Alteração efetuada com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar a alteração do cadastro, por favor tente novamente...', 'erro');
+		}
+
+		header('location: ' . URL . 'painel_controle');
 	}
-
-
-
-
-
-
-
-
 }
