@@ -15,13 +15,13 @@ class Login_Model extends \Libs\Model {
 
 		$this->sign_in();
 
-		if($_SESSION['logado'] == true){
+		if(isset($_SESSION['logado']) && $_SESSION['logado'] == true){
 			$this->load_permissions();
 			$this->load_modulos_and_menus();
 
-			header('location: ../painel_controle');
+			return true;
 		} else {
-			header('location: ../login');
+			return false;
 		}
 	}
 

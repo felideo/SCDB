@@ -22,6 +22,16 @@ class Painel_Controle extends \Libs\Controller {
 	}
 
 	function index() {
+		$chamadas = $this->model->carregar_chamada();
+
+		foreach ($chamadas as $indice => $chamada) {
+			if(empty($chamada['agendamento_data'])){
+				unset($chamadas[$indice]);
+			}
+		}
+
+		$this->view->chamada = !empty($chamadas) ? $chamadas : NULL;
+
 		$this->view->render($this->modulo['modulo'] . '/' . $this->modulo['modulo']);
 	}
 

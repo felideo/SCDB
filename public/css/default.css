@@ -53,3 +53,12 @@
 .marginR10 {
 	margin-right: 10px;
 }
+
+.sweet-alert.swal_btn_cancel button.cancel {
+  background: #D9534F;
+  border-color: #ac2925;
+}
+
+.sweet-alert.swal_btn_cancel button.cancel:hover {
+  background: #c9302c;
+}

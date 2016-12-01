@@ -24,7 +24,6 @@
             defaultDate: data_inicio,
             format: 'DD/MM/YYYY',
             disabledDates: datas_indispovineis,
-            defaultDate: data_disponivel,
             maxDate: max_date,
             minDate: min_date,
             widgetPositioning: {
@@ -39,7 +38,6 @@
             defaultDate: data_fim,
             format: 'DD/MM/YYYY',
             disabledDates: datas_indispovineis,
-            defaultDate: data_disponivel,
             widgetPositioning: {
                 horizontal: 'auto',
                 vertical: 'bottom'

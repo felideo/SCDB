@@ -23,7 +23,14 @@ class Login extends \Libs\Controller {
 	}
 
 	function run() {
-		$this->model->run();
+		$retorno = $this->model->run();
+
+		if($retorno == true){
+			header('location: ../painel_controle');
+		}else{
+			$this->view->alert_js('Usúario ou Senha inválido...', 'erro');
+			header('location: ../login');
+		}
 	}
 
 

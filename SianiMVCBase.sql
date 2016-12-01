@@ -722,8 +722,7 @@ INSERT INTO `usuario`
 	(1,'felideo@gmail.com','12345',NULL,1,1),
 	(2,'admin@admin.com.br','12345',1,0,1);
 
-ALTER TABLE `bateria_relaciona_aluno_paciente`
-	DROP COLUMN `data_agendamento`;
+
 
 ALTER TABLE `bateria`
 	DROP COLUMN `qtd_atendimentos_dia`;
@@ -747,3 +746,18 @@ CREATE TABLE `agendamento` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_bateria_relaciona_aluno_paciente`) REFERENCES `bateria_relaciona_aluno_paciente` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+update agendamento SET ativo = 0;
+update aluno SET ativo = 0;
+update bateria SET ativo = 0;
+update bateria_relaciona_aluno_paciente SET ativo = 0;
+update contato SET ativo = 0;
+update endereco SET ativo = 0;
+update ficha_clinica SET ativo = 0;
+update paciente SET ativo = 0;
+
+update usuario SET ativo = 0 WHERE id > 18;
+
+ALTER TABLE `agendamento`
+  ADD COLUMN `presenca_aluno`      TINYINT(1) NULL AFTER `hora`,
+  ADD COLUMN `presenca_paciente`  TINYINT(1) NULL AFTER `presenca_aluno`;
