@@ -138,7 +138,7 @@ class Paciente extends \Libs\Controller {
 		$update_db = carregar_variavel($this->modulo['modulo']);
 
 		$update_db += [
-			"tipo" => 0
+			"tipo" => 1
 		];
 
 		$retorno_paciente = $this->model->update('paciente', $id[0], $update_db);

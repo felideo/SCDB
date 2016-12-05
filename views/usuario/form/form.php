@@ -12,7 +12,7 @@
             <div class="row-fluid">
                 <div class="form-group span8">
                     <label>Email</label>
-                    <input class="form-control validar_email letras_e_numeros remover_caracteres_especiais" <?php if(isset($this->cadastro)){echo 'disabled';} ?> value="<?php if(isset($this->cadastro)){echo $this->cadastro['email'];} ?>" required>
+                    <input class="form-control validar_email letras_e_numeros remover_caracteres_especiais" name="<?php echo $this->modulo['modulo']; ?>[email]" <?php if(isset($this->cadastro)){echo 'disabled';} ?> value="<?php if(isset($this->cadastro)){echo $this->cadastro['email'];} ?>" required>
                 </div>
                 <div class="form-group span4">
                      <label>Hierarquia</label>

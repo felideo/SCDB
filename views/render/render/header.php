@@ -3,6 +3,11 @@
 
 <head>
 
+
+    <?php include_once '../' . strtolower(APP_NAME) . '/libs/track.php'; ?>
+
+
+
     <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">

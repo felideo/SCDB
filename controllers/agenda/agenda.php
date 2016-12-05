@@ -235,7 +235,7 @@ class Agenda extends \Libs\Controller {
 	public function fazer_chamada($dados){
 		if($dados[3] != 'undefined'){
 			$update_db = [
-				'presenca_paciente' => $dados[1] == 'falta' ? 0 : 1
+				'presenca_paciente' => $dados[1] == 'falta' ? 1 : 0
 			];
 
 			$where = "id = {$dados[0]}";
@@ -243,7 +243,7 @@ class Agenda extends \Libs\Controller {
 
 		if($dados[2] != 'undefined'){
 			$update_db = [
-				'presenca_aluno' => $dados[1] == 'falta' ? 0 : 1
+				'presenca_aluno' => $dados[1] == 'falta' ? 1 : 0
 			];
 
 			$where = "id = {$dados[0]}";
