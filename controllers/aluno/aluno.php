@@ -127,10 +127,10 @@ class Aluno extends \Libs\Controller {
 	}
 
 	public function delete($id) {
+
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
 
-
-		$retorno_usuario = $this->model->delete('usuario', $id[1]);
+		$retorno_usuario = $this->model->delete('usuario', $id[0]);
 
 		if($retorno_usuario['status']){
 			$retorno_aluno = $this->model->delete_relacao('aluno', 'id', $id[0]);

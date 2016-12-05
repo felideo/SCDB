@@ -23,12 +23,14 @@ class Painel_Controle extends \Libs\Controller {
 
 	function index() {
 		$chamadas = $this->model->carregar_chamada();
+		$this->view->faltas = $this->model->carregar_faltas();
 
 		foreach ($chamadas as $indice => $chamada) {
 			if(empty($chamada['agendamento_data'])){
 				unset($chamadas[$indice]);
 			}
 		}
+
 
 		$this->view->chamada = !empty($chamadas) ? $chamadas : NULL;
 
@@ -62,6 +64,16 @@ class Painel_Controle extends \Libs\Controller {
     exit;
 	}
 
+
+	function zzz(){
+		echo \Util\Hash::get_unic_hash() . '<br>';
+		echo \Util\Hash::get_unic_hash() . '<br>';
+		echo \Util\Hash::get_unic_hash() . '<br>';
+		echo \Util\Hash::get_unic_hash() . '<br>';
+		echo \Util\Hash::get_unic_hash() . '<br>';
+		echo \Util\Hash::get_unic_hash() . '<br>';
+		exit;
+	}
 
 
 }

@@ -664,6 +664,21 @@ INSERT INTO `permissao`
   (53,8,'ex_paciente_transformar_candidato','51120561544488a14ecb7e32ca4d87c0');
 
 
+INSERT INTO `permissao`
+  VALUES
+    (12,  'agenda_visualizar',  '4e5b94f90c937156a1901d0274cf1a2d'),
+    (12,  'agenda_criar',  '15ee3fcfded4fefe92e695c470fa0f04'),
+    (12,  'agenda_deletar',  'f01baa84ab7bc782fdf9d49b45cb6ba2'),
+    (12,  'agenda_editar',  '8b29eb6e4d13718ff25bfa4850f34320'),
+    (12,  'agenda_agendar',  '6eda82ee12a3367506780901b083acc0'),
+    (12,  'agenda_cancelar_agendamento',  '25694643fa0a33f400a622f6463e2507');
+
+
+
+
+
+
+
 INSERT INTO `hierarquia`
 	VALUES
 		(1,'Administrador',1),
@@ -747,6 +762,12 @@ CREATE TABLE `agendamento` (
   FOREIGN KEY (`id_bateria_relaciona_aluno_paciente`) REFERENCES `bateria_relaciona_aluno_paciente` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+
+
+ALTER TABLE `agendamento`
+  ADD COLUMN `presenca_aluno`      TINYINT(1) NULL AFTER `hora`,
+  ADD COLUMN `presenca_paciente`  TINYINT(1) NULL AFTER `presenca_aluno`;
+
 update agendamento SET ativo = 0;
 update aluno SET ativo = 0;
 update bateria SET ativo = 0;
@@ -758,6 +779,30 @@ update paciente SET ativo = 0;
 
 update usuario SET ativo = 0 WHERE id > 18;
 
-ALTER TABLE `agendamento`
-  ADD COLUMN `presenca_aluno`      TINYINT(1) NULL AFTER `hora`,
-  ADD COLUMN `presenca_paciente`  TINYINT(1) NULL AFTER `presenca_aluno`;
+DELETE FROM table_name
+WHERE some_column = some_value
+
+DELETE FROM agendamento WHERE ativo = 0;
+DELETE FROM aluno WHERE ativo = 0;
+DELETE FROM bateria WHERE ativo = 0;
+DELETE FROM bateria_relaciona_aluno_paciente WHERE ativo = 0;
+DELETE FROM contato WHERE ativo = 0;
+DELETE FROM endereco WHERE ativo = 0;
+DELETE FROM ficha_clinica WHERE ativo = 0;
+DELETE FROM paciente WHERE ativo = 0;
+
+
+SELECT * FROM agendamento;
+SELECT * FROM aluno;
+SELECT * FROM bateria;
+SELECT * FROM bateria_relaciona_aluno_paciente;
+SELECT * FROM contato;
+SELECT * FROM endereco;
+SELECT * FROM ficha_clinica;
+SELECT * FROM hierarquia;
+SELECT * FROM hierarquia_relaciona_permissao;
+SELECT * FROM modulo;
+SELECT * FROM paciente;
+SELECT * FROM permissao;
+SELECT * FROM submenu;
+SELECT * FROM usuario;

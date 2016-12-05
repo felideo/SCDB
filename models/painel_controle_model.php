@@ -34,4 +34,76 @@ class painel_controle_model extends \Libs\Model{
 
 	    return $this->db->select($select);
 	}
+
+	public function carregar_faltas(){
+
+		$hoje = \DateTime::createFromFormat('Y-m-d', \date('Y-m-d'))->format('Y-m-d');
+
+		$select_pacientes = "SELECT agendamento.id AS id_agendamento, agendamento.presenca_paciente, relacao.id_paciente"
+			. " FROM agendamento agendamento"
+			. " LEFT JOIN bateria_relaciona_aluno_paciente relacao"
+			. " ON relacao.id = agendamento.id_bateria_relaciona_aluno_paciente"
+			. " WHERE agendamento.id IN (SELECT id FROM agendamento WHERE presenca_paciente IS NOT NULL)"
+			. " AND agendamento.ativo = 1";
+
+		$select_alunos = "SELECT agendamento.id AS id_agendamento, agendamento.presenca_aluno, relacao.id_aluno"
+			. " FROM agendamento agendamento"
+			. " LEFT JOIN bateria_relaciona_aluno_paciente relacao"
+			. " ON relacao.id = agendamento.id_bateria_relaciona_aluno_paciente"
+			. " WHERE agendamento.id IN (SELECT id FROM agendamento WHERE presenca_aluno IS NOT NULL)"
+			. " AND agendamento.ativo = 1";
+
+
+
+	    $faltas_paciente = $this->db->select($select_pacientes);
+	    $faltas_aluno = $this->db->select($select_alunos);
+
+	    $retorno = [];
+
+	    if(!empty($faltas_paciente)){
+	    	$retorno_pacientes = [];
+
+	    	foreach ($faltas_paciente as $indice => $paciente) {
+	    		if(!isset($retorno_pacientes[$paciente['id_paciente']])){
+	    			$retorno_pacientes[$paciente['id_paciente']] = 1;
+	    		} else {
+	    			$retorno_pacientes[$paciente['id_paciente']] = $retorno_pacientes[$paciente['id_paciente']] + $paciente['presenca_paciente'];
+	    		}
+	    	}
+
+	    	foreach ($retorno_pacientes as $indice => $paciente) {
+	    		if($paciente >= 2){
+	    			$retorno['pacientes'][] = [
+	    				'id_paciente' => $indice,
+	    				'faltas'      => $paciente,
+	    				'nome'        => $this->db->select("SELECT nome FROM paciente WHERE id = {$indice}")[0]['nome']
+	    			];
+	    		}
+	    	}
+	    }
+
+	    if(!empty($faltas_aluno)){
+	    	$retorno_alunos = [];
+
+	    	foreach ($faltas_aluno as $indice => $aluno) {
+	    		if(!isset($retorno_alunos[$aluno['id_aluno']])){
+	    			$retorno_alunos[$aluno['id_aluno']] = 1;
+	    		} else {
+	    			$retorno_alunos[$aluno['id_aluno']] = $retorno_alunos[$aluno['id_aluno']] + $aluno['presenca_aluno'];
+	    		}
+	    	}
+
+	    	foreach ($retorno_alunos as $indice => $aluno) {
+	    		if($aluno >= 2){
+	    			$retorno['alunos'][] = [
+	    				'id_alunos' => $indice,
+	    				'faltas'      => $aluno,
+	    				'nome'        => $this->db->select("SELECT nome FROM aluno WHERE id = {$indice}")[0]['nome']
+	    			];
+	    		}
+	    	}
+	    }
+
+	    return $retorno;
+	}
 }

@@ -86,6 +86,7 @@
 			format: 'DD/MM/YYYY',
 			minDate: moment(),
 			maxDate: '<?php echo $this->bateria_atual[0]['data_fim']; ?>',
+			daysOfWeekDisabled: [0],
 			widgetPositioning: {
 				horizontal: 'auto',
 				vertical: 'bottom'

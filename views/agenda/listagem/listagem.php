@@ -29,6 +29,8 @@
     </div>
 </div>
 
+
+
 <div style="display: block; clear: both;"></div>
 <div class="col-lg-12">
     <div id='calendar'></div>
@@ -88,11 +90,17 @@ function horario_modal(event){
     $('#titulo_horario_modal').html(moment(event.start).format('dddd[,] d [de] MMMM [de] YYYY HH[:00]'));
     $('#texto_horario_modal').html(texto);
 
+    var hoje = moment().format('YYYY-MM-DD');
+    var agendamento = moment(event.start).format('YYYY-MM-DD');
+
+    if(moment(hoje).diff(agendamento, 'days') >= 0){
+        $('#id_horario_modal').attr('disabled', true).hide();
+    }else{
+        $('#id_horario_modal').attr('disabled', false).show();
+    }
+
     $("#open_horario_modal").trigger("click");
 }
-
-
-
 </script>
 
 <div style="display: block; clear: both;"></div>

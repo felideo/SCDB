@@ -1,4 +1,4 @@
-<div class="row">
+
     <div class="col-lg-6 col-md-6">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -57,7 +57,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 <script type="text/javascript">
 

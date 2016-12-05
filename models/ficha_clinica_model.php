@@ -27,8 +27,8 @@ class Ficha_Clinica_Model extends \Libs\Model {
 
 	public function load_ficha_clinica($id_ficha_clinica){
 
-		$select = 'SELECT relacao.id as id_relacao, relacao.id_bateria, relacao.id_aluno, relacao.id_paciente, relacao.id_ficha_clinica, relacao.data_agendamento,'
-			. ' bateria.data_inicio as bateria_data_inicio, bateria.data_fim as bateria_data_fim, bateria.qtd_atendimentos_dia,'
+		$select = 'SELECT relacao.id as id_relacao, relacao.id_bateria, relacao.id_aluno, relacao.id_paciente, relacao.id_ficha_clinica,'
+			. ' bateria.data_inicio as bateria_data_inicio, bateria.data_fim as bateria_data_fim, bateria.atendimentos_simultaneos,'
 			. ' aluno.nome as aluno_nome,'
 			. ' paciente.nome as nome_paciente, paciente.pai as nome_pai_paciente, paciente.mae as nome_mae_paciente, paciente.nascimento as nascimento_paciente,'
 			. ' paciente.patologia as patologia_paciente, paciente.descricao as paciente_descricao, paciente.sexo,'
@@ -47,7 +47,6 @@ class Ficha_Clinica_Model extends \Libs\Model {
 	    	. ' WHERE relacao.id_ficha_clinica = ' . $id_ficha_clinica;
 
 	    	$ficha_clinica = $this->db->select($select);
-
 
 			$retorno = [
 	            'endereco'		=> [
@@ -85,15 +84,4 @@ class Ficha_Clinica_Model extends \Libs\Model {
 		}
 
 	}
-
-// paciente.*, ficha_clinica.*,
-
-
-
-
-
-
-	    	// . ' FROM paciente paciente'
-	    	// . ' WHERE paciente.id = ' . $id;
-
 
