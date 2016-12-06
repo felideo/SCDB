@@ -1,4 +1,4 @@
-<div class="row-fluid">
+<div class="row-fluid" id="lerolero">
     <div class="span12">
         <form method="post"
             id="lazy_view"
@@ -916,6 +916,10 @@
         // }
     });
 
+    $(window).load(function(){
+
+    });
+
     function createJSON() {
         jsonObj = [];
         $(".autosave").each(function() {
@@ -932,5 +936,12 @@
 
         console.log(jsonObj);
     }
-</script>
 
+    <?php
+        if(isset($this->master_gambi)) {
+            echo $this->master_gambi;
+        }
+    ?>
+
+
+</script>

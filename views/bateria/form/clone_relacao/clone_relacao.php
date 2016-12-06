@@ -28,6 +28,10 @@
             <div class="panel-body">
                 <div class="row-fluid">
                     <div class="form-group span6" id="relacao_aluno_$id_clone">
+                        <?php if(isset($this->relacoes_list)) : ?>
+                            <input type="hidden" id="id_relacao_$id_clone" name="relacao_aluno_paciente[$id_clone][relacao][id]" value="" >
+                        <?php endif; ?>
+                        <div id="id_relacao_$id_clone" style="display: block"></div>
                          <label>Aluno:</label>
                          <br>
                          <select class="form-group span12" name="relacao_aluno_paciente[$id_clone][relacao][aluno]" required disabled >

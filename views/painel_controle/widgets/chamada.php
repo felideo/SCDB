@@ -7,7 +7,7 @@
             <div class="panel-body">
                 <?php if(isset($this->chamada)) : ?>
                     <?php foreach ($this->chamada as $indice => $chamada) : ?>
-                        <?php if(!empty($chamada['agendamento_data'])) : ?>
+                        <?php if(!empty($chamada['agendamento_data']) && !empty($chamada['id_paciente']) || !empty($chamada['id_aluno'])) : ?>
                             <div class="row">
                                  <div class="col-lg-12 col-md-12">
                                     <div class="panel panel-primary">
@@ -16,7 +16,7 @@
                                         </div>
 
                                         <div class="panel-body">
-                                            <?php if(empty($chamada['presenca_paciente'])) : ?>
+                                            <?php if(empty($chamada['presenca_paciente']) && !empty($chamada['id_paciente'])) : ?>
                                                 <div class="row-fluid">
                                                     <div class="form-group span12">
                                                         <label><?php echo "Paciente: " . $chamada['nome_paciente'] ?> </label>
@@ -31,7 +31,7 @@
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
-                                            <?php if(empty($chamada['presenca_aluno'])) : ?>
+                                            <?php if(empty($chamada['presenca_aluno']) && !empty($chamada['id_aluno'])) : ?>
                                                 <div class="row-fluid">
                                                     <div class="form-group span12">
                                                         <label><?php echo "Aluno: " . $chamada['nome_aluno'] ?> </label>

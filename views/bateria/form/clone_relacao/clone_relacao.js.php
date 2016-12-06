@@ -31,6 +31,8 @@
                     echo "$('div#relacao_aluno_" . $indice_div . " select').val(" . $relacao['id_aluno'] . ");\n\t\t";
                     echo "$('div#relacao_paciente_" . $indice_div . " select').val(" . $relacao['id_paciente'] . ");\n\t\t";
 
+                    echo "$('#id_relacao_" . $indice_div . "').val(" . $relacao['id'] . ");\n\t\t";
+
                     if(isset($this->cadastro)){
                         echo "$('div#relacao_aluno_" . $indice_div . " :input').prop('disabled', true);\n\t\t";
                         echo "$('div#relacao_paciente_" . $indice_div . " :input').prop('disabled', true);\n\t\t";
