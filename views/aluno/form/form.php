@@ -18,7 +18,7 @@
             <div class="row-fluid">
                 <div class="form-group span3">
                     <label>RGM</label>
-                    <input id="rgm" class="form-control somente_numeros" maxlength="11" name="<?php echo $this->modulo['modulo']; ?>[rgm]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['rgm'];} ?>" required>
+                    <input id="rgm" class="form-control somente_numeros" maxlength="11" name="<?php echo $this->modulo['modulo']; ?>[rgm]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['rgm'];} ?>" <?php if(isset($this->cadastro)){echo ' disabled ';} ?> required>
                 </div>
                 <div class="form-group span5">
                     <label>Curso</label>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-group span4">
                     <label>Email</label>
-                    <input class="form-control validar_email verificar_email" maxlength="128" name="contato[2]" value="<?php if(isset($this->cadastro['contato'][2])){echo $this->cadastro['contato'][2]['contato'];} ?>" required>
+                    <input class="form-control validar_email verificar_email" maxlength="128" name="contato[2]" value="<?php if(isset($this->cadastro['contato'][2])){echo $this->cadastro['contato'][2]['contato'];} ?>" <?php if(isset($this->cadastro)){echo ' disabled ';} ?> required>
                 </div>
             </div>
             <div class="row-fluid">

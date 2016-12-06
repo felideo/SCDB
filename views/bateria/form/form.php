@@ -29,7 +29,7 @@
 
             <div class="row-fluid">
                 <div class="form-group span12">
-                    <button type="submit" class="btn btn-success" style="float: right;">
+                    <button <?php if(isset($this->cadastro)){ echo ' id="submit" ';}else{ echo ' type="submit" '; } ?> class="btn btn-success" style="float: right;">
                         <?php if(isset($this->cadastro)) : ?>
                             Editar <?php echo $this->modulo['send']; ?>
                         <?php else : ?>
@@ -37,7 +37,7 @@
                         <?php endif?>
                     </button>
 
-                    <button type="button" class="btn btn btn-danger voltar" style="float: right;margin-right: 10px; <?php if(!isset($this->cadastro)){ echo 'display: none;';} ?>">
+                    <button  type="button" class="btn btn btn-danger voltar" style="float: right;margin-right: 10px; <?php if(!isset($this->cadastro)){ echo 'display: none;';} ?>">
                         <?php if(isset($this->cadastro)) : ?>
                             Cancelar
                         <?php else : ?>

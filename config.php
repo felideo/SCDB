@@ -35,3 +35,4 @@ define('IMG_FOLDER', 'imagens/'); // Pasta das imagens sempre com "/" no final
 define('IMG_SIZE', '1000000'); // Tamanho máximo do arquivo em bytes
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+

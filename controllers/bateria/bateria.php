@@ -31,7 +31,17 @@ class Bateria extends \Libs\Controller {
 
 
 		$this->view->paciente_list = $this->load_external_model('paciente')->load_pacientes_list(1);
-		$this->view->aluno_list = $this->model->load_active_list('aluno');
+
+		$alunos = $this->model->load_active_list('aluno');
+
+		foreach ($alunos as $indice => $aluno) {
+			if($aluno['tipo'] != 1){
+				unset($alunos[$indice]);
+			}
+		};
+
+
+		$this->view->aluno_list = $alunos;
 
 		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
 	}
@@ -52,7 +62,17 @@ class Bateria extends \Libs\Controller {
 		$this->view->relacoes_list = $this->model->full_load_by_column('bateria_relaciona_aluno_paciente', 'id_bateria', $id[0]);
 
 		$this->view->paciente_list = $this->load_external_model('paciente')->load_pacientes_list(1);
-		$this->view->aluno_list = $this->model->load_active_list('aluno');
+
+		$alunos = $this->model->load_active_list('aluno');
+
+		foreach ($alunos as $indice => $aluno) {
+			if($aluno['tipo'] != 1){
+				unset($alunos[$indice]);
+			}
+		};
+
+
+		$this->view->aluno_list = $alunos;
 
 		$this->view->render($this->modulo['modulo'] . '/editar/editar');
 	}
@@ -103,9 +123,9 @@ class Bateria extends \Libs\Controller {
 		$relacoes = carregar_variavel('relacao_aluno_paciente');
 
 		debug2($relacao_bateria);
-		debug2($update_db);
 		debug2($relacoes);
 
+		debug2($update_db);
 				debug2($update_db);
 		exit;
 

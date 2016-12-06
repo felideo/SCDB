@@ -1,27 +1,26 @@
-
     <div class="col-lg-6 col-md-6">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 Faltas
             </div>
             <div class="panel-body">
-                    <?php foreach ($this->faltas as $indice => $falta) : ?>
+                    <?php foreach ($this->faltas as $indice_01 => $falta) : ?>
                             <div class="row">
                                  <div class="col-lg-12 col-md-12">
                                     <div class="panel panel-primary">
                                         <div class="panel-heading">
-                                            <?php echo ucfirst($indice); ?>
+                                            <?php echo ucfirst($indice_01); ?>
                                         </div>
 
                                         <div class="panel-body">
-                                            <?php foreach($falta as $indice => $aluno_paciente) : ?>
-                                                <div class="row-fluid">
-                                                    <div class="form-group span12">
-                                                       <label><?php echo $aluno_paciente['nome'] ?> - <?php echo $aluno_paciente['faltas'] ?> Faltas </label>
-                                                       <a href="#" class="btn btn-success marginL10" style="float: right;">Remover</a>
-                                                       <a href="#" class="btn btn-warning" style="float: right;">Justificar</a>
-                                                    </div>
-                                                </div>
+                                            <?php foreach($falta as $indice_02 => $aluno_paciente) : ?>
+                                                  <div class="row-fluid">
+                                                      <div class="form-group span12">
+                                                         <label><?php echo $aluno_paciente['nome'] ?> - <?php echo $aluno_paciente['faltas'] ?> Faltas </label>
+                                                         <a href="<?php echo URL . 'painel_controle/faltou_de_mais/' . $aluno_paciente['id_relacao'] . '/' . $aluno_paciente['id'] . '/' . $indice_01; ?>" class="btn btn-success marginL10" style="float: right;">Remover</a>
+                                                         <!-- <a href="#" class="btn btn-warning" style="float: right;">Justificar</a> -->
+                                                      </div>
+                                                  </div>
                                             <?php endforeach; ?>
                                         </div>
 

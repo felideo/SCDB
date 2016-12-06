@@ -43,13 +43,23 @@ class Ficha_Clinica extends \Libs\Controller {
 
 			$date_hoje = new \DateTime();
 
-			if($date_data_inicio > $date_hoje || $date_data_fim < $date_hoje){
+			if($date_data_inicio > $date_hoje || $date_data_fim < $date_hoje && $_SESSION['usuario']['hierarquia'] == 3){
 				continue;
 			}
 
 			if($_SESSION['usuario']['super_admin'] != 1 && $_SESSION['usuario']['hierarquia'] == 3 && $_SESSION['usuario']['id'] != $linha['id_usuario']){
+
 				continue;
 			}
+
+			// debug2($linha);
+			// exit;
+
+			$url = URL;
+
+			$botao_imprimir = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "imprimir") ?
+				"<a href='{$url}{$this->modulo['modulo']}/imprimir/" . $linha['id_ficha_clinica'] . "' target='_blank' title='Imprimir'><i class='fa fa-print fa-fw'></i></a>" :
+				'';
 
 			$retorno_linhas[] = [
 				"<td class='sorting_1'>{$linha['id_ficha_clinica']}</td>",
@@ -58,7 +68,7 @@ class Ficha_Clinica extends \Libs\Controller {
 				"<td>{$linha['bateria_data_inicio']} a {$linha['bateria_data_fim']}</td>",
 				"<td>{$linha['patologia_paciente']}</td>",
 				"<td>{$linha['aluno_nome']}</td>",
-	        	"<td>" . $this->view->default_buttons_listagem($linha['id_ficha_clinica']) . "</td>"
+	        	"<td>" . $this->view->default_buttons_listagem($linha['id_ficha_clinica']) . $botao_imprimir . "</td>"
 			];
 		}
 
@@ -82,6 +92,29 @@ class Ficha_Clinica extends \Libs\Controller {
 
 		$this->view->lazy_view();
 	}
+
+	public function imprimir($id){
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "imprimir");
+
+		$this->view->cadastro = $this->model->load_ficha_clinica($id[0]);
+
+		$this->view->master_gambi = "$(window).load(function(){\n\t\t"
+			. "$('.navbar.navbar-default.navbar-static-top').hide();\n\t\t"
+			. "$('#page-wrapper').css('width', '100%');\n\t\t"
+			. "$('#page-wrapper').css('margin', '0px');\n\t\t"
+			. "$('button').hide();\n\t\t"
+			. "window.print();\n\t\t"
+			. "window.onafterprint = function(){\n\t\t"
+			. "window.top.close();\n\t\t"
+			. "}\n\t\t"
+			. "});\n";
+
+		$this->view->render($this->modulo['modulo'] . '/editar/editar');
+		$this->view->lazy_view();
+	}
+
+
+
 
 	public function update($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
@@ -113,19 +146,7 @@ class Ficha_Clinica extends \Libs\Controller {
 		header('location: ' . URL . $this->modulo['modulo']);
 	}
 
-	function cu(){
 
-
-
-
-$mpdf = new \mPDF();
-$mpdf->WriteHTML('<h1>Hello world!</h1>');
-$mpdf->Output();
-
-
-
-var_dump($mpdf);exit;
-	}
 }
 
 

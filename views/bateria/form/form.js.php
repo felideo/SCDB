@@ -84,6 +84,11 @@
 
             $('#atendimentos_simultaneos').val('');
         }
+
+        $('#submit').on('click', function(){
+            console.log('lerolero');
+            $('input').attr('disabled', false);
+        });
     });
 
     });
