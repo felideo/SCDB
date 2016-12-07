@@ -93,6 +93,10 @@
     <!-- Autosize -->
     <script type="text/javascript" src="<?php echo URL; ?>public/autosize-master/dist/autosize.js"></script>
 
+    <script src="<?php echo URL; ?>public/bower_components/jquery.countdown/dist/jquery.countdown.js"></script>
+
+
+
         <!-- Full Calendar -->
     <link rel='stylesheet' href='<?php echo URL; ?>public/bower_components/fullcalendar/dist/fullcalendar.css' />
     <script src='<?php echo URL; ?>public/bower_components/fullcalendar/dist/fullcalendar.js'></script>
