@@ -1,10 +1,3 @@
-
-<?php
-    if(\Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . '_criar')){
-        include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/form/form.php';
-    }
-?>
-
 <div class="row">
     <?php
         if(!empty($this->chamada)

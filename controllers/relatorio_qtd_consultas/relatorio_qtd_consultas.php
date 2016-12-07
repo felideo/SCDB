@@ -24,6 +24,7 @@ class Relatorio_Qtd_Consultas extends \Libs\Controller {
 	}
 
 	public function gerar_relatorio_qtd_consultas(){
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 		$periodo = carregar_variavel('relatorio_qtd_consultas');
 
 		$dados_relatorios = $this->model->gerar_relatorio_qtd_consultas($periodo);
