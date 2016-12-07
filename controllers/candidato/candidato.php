@@ -69,9 +69,11 @@ class Candidato extends \Libs\Controller {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
 
-		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
-			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
-		};
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
 
 		$this->view->cadastro = $this->load_external_model('paciente')->load_paciente($id[0]);
 		$this->view->render($this->modulo['modulo'] . '/editar/editar');
@@ -80,10 +82,11 @@ class Candidato extends \Libs\Controller {
 	public function visualizar($id){
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
-		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
-			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
-		};
-
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
 		$this->view->cadastro = $this->load_external_model('paciente')->load_paciente($id[0]);
 		$this->view->render($this->modulo['modulo'] . '/editar/editar');
 
@@ -142,9 +145,11 @@ class Candidato extends \Libs\Controller {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
 
-		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
-			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
-		};
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
 
 		$update_db = carregar_variavel($this->modulo['modulo']);
 
@@ -180,9 +185,11 @@ class Candidato extends \Libs\Controller {
 	public function delete($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
 
-		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
-			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
-		};
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
 
 		$retorno_paciente = $this->model->delete('paciente', $id[0]);
 
@@ -204,9 +211,11 @@ class Candidato extends \Libs\Controller {
 
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformar_paciente");
 
-		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
-			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
-		};
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
 
 		$update_db = [
 			"tipo" => 1
@@ -227,9 +236,11 @@ class Candidato extends \Libs\Controller {
 
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformar_ex_paciente");
 
-		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
-			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
-		};
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
 
 		$update_db = [
 			"tipo" => 2
@@ -251,9 +262,11 @@ class Candidato extends \Libs\Controller {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformar_candidato");
 
 
-		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
-			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
-		};
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
 
 		$update_db = [
 			"tipo" => 0

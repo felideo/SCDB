@@ -34,6 +34,9 @@ class Bateria extends \Libs\Controller {
 
 		$alunos = $this->model->load_active_list('aluno');
 
+		$this->view->set_colunas_datatable(['ID', 'Data de Inicio', 'Data do Fim', 'Ações']);
+		$this->listagem($this->model->load_active_list($this->modulo['modulo']));
+
 		foreach ($alunos as $indice => $aluno) {
 			if($aluno['tipo'] != 1){
 				unset($alunos[$indice]);
@@ -46,12 +49,39 @@ class Bateria extends \Libs\Controller {
 		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
 	}
 
+	public function listagem($dados_linha){
+		if(empty($dados_linha)){
+			return false;
+		}
+
+		foreach ($dados_linha as $indice => $linha) {
+
+			$data_inicio = date_format(\DateTime::createFromFormat('Y-m-d', $linha['data_inicio']), 'd/m/Y');
+			$data_fim = date_format(\DateTime::createFromFormat('Y-m-d',$linha['data_fim']), 'd/m/Y');
+
+			$retorno_linhas[] = [
+				"<td class='sorting_1'>{$linha['id']}</td>",
+	       		"<td>{$data_inicio}</td>",
+	       		"<td>{$data_fim}</td>",
+	       		"<td>" . $this->view->default_buttons_listagem($linha['id'], false, true, true) . "</td>"
+			];
+		}
+
+		if(!isset($retorno_linhas)){
+			return false;
+		}
+
+		$this->view->linhas_datatable = $retorno_linhas;
+	}
+
 	public function editar($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
-		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
-			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
-		};
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
 
 		$this->view->bateria_list = $this->model->load_active_list($this->modulo['modulo']);
 		$this->view->cadastro = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
@@ -122,9 +152,11 @@ class Bateria extends \Libs\Controller {
 	public function update($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
-		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
-			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
-		};
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
 
 		$relacao_bateria = $this->model->full_load_by_column('bateria_relaciona_aluno_paciente', 'id_bateria', $id[0]);
 		$update_db = carregar_variavel($this->modulo['modulo']);
@@ -179,9 +211,11 @@ class Bateria extends \Libs\Controller {
 	public function delete($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
 
-		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
-			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
-		};
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
 
 		$retorno = $this->model->delete($this->modulo['modulo'], $id[0]);
 
