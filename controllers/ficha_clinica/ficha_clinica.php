@@ -52,20 +52,23 @@ class Ficha_Clinica extends \Libs\Controller {
 				continue;
 			}
 
-			// debug2($linha);
-			// exit;
-
 			$url = URL;
 
 			$botao_imprimir = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "imprimir") ?
 				"<a href='{$url}{$this->modulo['modulo']}/imprimir/" . $linha['id_ficha_clinica'] . "' target='_blank' title='Imprimir'><i class='fa fa-print fa-fw'></i></a>" :
 				'';
 
+
+				$nascimento = date_format(\DateTime::createFromFormat('Y-m-d', $linha['nascimento_paciente']), 'd/m/Y');
+				$inicio = date_format(\DateTime::createFromFormat('Y-m-d', $linha['bateria_data_inicio']), 'd/m/Y');
+				$fim = date_format(\DateTime::createFromFormat('Y-m-d', $linha['bateria_data_fim']), 'd/m/Y');
+
+
 			$retorno_linhas[] = [
 				"<td class='sorting_1'>{$linha['id_ficha_clinica']}</td>",
 				"<td>{$linha['nome_paciente']}</td>",
-				"<td>{$linha['nascimento_paciente']}</td>",
-				"<td>{$linha['bateria_data_inicio']} a {$linha['bateria_data_fim']}</td>",
+				"<td>{$nascimento}</td>",
+				"<td>{$inicio} a {$fim}</td>",
 				"<td>{$linha['patologia_paciente']}</td>",
 				"<td>{$linha['aluno_nome']}</td>",
 	        	"<td>" . $this->view->default_buttons_listagem($linha['id_ficha_clinica'], true, true, false) . $botao_imprimir . "</td>"
