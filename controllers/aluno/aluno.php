@@ -50,12 +50,24 @@ class Aluno extends \Libs\Controller {
 	public function editar($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
+
 		$this->view->cadastro = $this->model->load_aluno($id[0]);
 		$this->view->render($this->modulo['modulo'] . '/editar/editar');
 	}
 
 	public function visualizar($id){
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
 
 		$this->view->cadastro = $this->model->load_aluno($id[0]);
 
@@ -66,7 +78,6 @@ class Aluno extends \Libs\Controller {
 
 	public function create() {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar");
-
 
 		$insert_db = carregar_variavel($this->modulo['modulo']);
 		$insert_contato = carregar_variavel('contato');
@@ -114,6 +125,12 @@ class Aluno extends \Libs\Controller {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
 
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
+
 		$update_db = carregar_variavel($this->modulo['modulo']);
 		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
 
@@ -130,14 +147,26 @@ class Aluno extends \Libs\Controller {
 
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
 
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
+
 		$retorno_usuario = $this->model->delete('usuario', $id[0]);
+
+
 
 		if($retorno_usuario['status']){
 			$retorno_aluno = $this->model->delete_relacao('aluno', 'id', $id[0]);
 			$retorno_contato = $this->model->delete_relacao('contato', 'id_aluno', $id[0]);
+
+			$id_usuario = $this->model->db->select("SELECT id_usuario FROM aluno WHERE id = {$id[0]}");
+
+			$retorno_usuario = $this->model->delete_relacao('usuario', 'id', $id_usuario[0]['id_usuario']);
 		}
 
-		if($retorno_usuario['status'] && $retorno_aluno['status'] && $retorno_contato['status'] ){
+		if($retorno_usuario['status'] && $retorno_aluno['status'] && $retorno_contato['status'] && $id_usuario['status']){
 			$this->view->alert_js('Remoção efetuada com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do cadastro, por favor tente novamente...', 'erro');
@@ -152,3 +181,4 @@ class Aluno extends \Libs\Controller {
 		exit;
 	}
 }
+

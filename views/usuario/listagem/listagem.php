@@ -24,12 +24,14 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                        foreach($this->linhas_datatable as $indice => $linhas){
-                                            echo '<tr role="row" class="gradeA odd">';
-                                                foreach ($linhas as $indice => $coluna_linha) {
-                                                    echo $coluna_linha;
-                                                }
-                                            echo '</tr>';
+                                        if(!empty($this->linhas_datatable)){
+                                            foreach($this->linhas_datatable as $indice => $linhas){
+                                                echo '<tr role="row" class="gradeA odd">';
+                                                    foreach ($linhas as $indice => $coluna_linha) {
+                                                        echo $coluna_linha;
+                                                    }
+                                                echo '</tr>';
+                                            }
                                         }
                                     ?>
                                 </tbody>
