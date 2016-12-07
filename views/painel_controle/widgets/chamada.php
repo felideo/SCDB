@@ -12,8 +12,9 @@
                             <?php if($indice_01 == 'paciente' && \Util\Permission::check_user_permission('paciente', 'paciente_efetuar_chamada')) : ?>
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
-                                        Dia: <?php echo \DateTime::createFromFormat('Y-m-d', $chamada['agendamento_data'])->format('Y-m-d'); ?>
+                                        Dia: <?php echo date_format(\DateTime::createFromFormat('Y-m-d', $chamada['agendamento_data']), 'd/m/Y'); ?>
                                     </div>
+
                                     <div class="panel-body">
 
                                         <?php if($indice_01 == 'aluno') : ?>
@@ -55,7 +56,7 @@
                             <?php if($indice_01 == 'aluno' && \Util\Permission::check_user_permission('aluno', 'aluno_efetuar_chamada')) : ?>
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
-                                        Dia: <?php echo \DateTime::createFromFormat('Y-m-d', $chamada['agendamento_data'])->format('Y-m-d'); ?>
+                                        Dia: <?php echo date_format(\DateTime::createFromFormat('Y-m-d', $chamada['agendamento_data']), 'd/m/Y'); ?>
                                     </div>
                                     <div class="panel-body">
 

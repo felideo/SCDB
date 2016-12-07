@@ -23,8 +23,6 @@ class Painel_Controle extends \Libs\Controller {
 
 		$this->view->bateria_atual = $this->model->carregar_bateria();
 
-		debug2($this->model->carregar_bateria());
-
 		$retorno_chamada = [];
 
 		foreach ($chamadas as $indice => $chamada) {
