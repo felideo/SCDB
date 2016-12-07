@@ -27,7 +27,7 @@ class painel_controle_model extends \Libs\Model{
 			. " ON id_bateria_relaciona_aluno_paciente = relacao.id AND agendamento.ativo = 1"
 			. " AND agendamento.data <= '{$hoje}' AND (agendamento.presenca_aluno IS NULL OR agendamento.presenca_paciente IS NULL)"
 			. " LEFT JOIN aluno aluno"
-			. " ON aluno.id = relacao.id_aluno AND aluno.tipo = 0"
+			. " ON aluno.id = relacao.id_aluno AND aluno.tipo = 1"
 			. " LEFT JOIN paciente paciente"
 			. " ON paciente.id = relacao.id_paciente AND paciente.tipo = 1"
 			. " WHERE bateria.data_inicio <= '{$hoje}' AND bateria.data_fim >= '{$hoje}' AND bateria.ativo = 1";

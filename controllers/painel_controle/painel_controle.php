@@ -21,30 +21,34 @@ class Painel_Controle extends \Libs\Controller {
 	public function index() {
 		$chamadas = $this->model->carregar_chamada();
 
+		$retorno_chamada = [];
+
 		foreach ($chamadas as $indice => $chamada) {
-			if(empty($chamada['id_paciente']) && empty($chamada['id_aluno'])){
-				unset($chamadas[$indice]);
+			if(!empty($chamada['id_paciente']) && empty($chamada['id_aluno'])){
+				$retorno_chamada['paciente'][] = $chamada;
+			}
+
+			if(!empty($chamada['id_aluno']) && empty($chamada['id_paciente'])){
+				$retorno_chamada['aluno'][] = $chamada;
+			}
+
+			if(!empty($chamada['id_aluno']) && !empty($chamada['id_paciente'])){
+				$retorno_chamada['aluno'][] = $chamada;
+				$retorno_chamada['paciente'][] = $chamada;
 			}
 		}
 
 		$this->view->faltas = $this->model->carregar_faltas();
 
-		foreach ($chamadas as $indice => $chamada) {
-			if(empty($chamada['agendamento_data'])){
-				unset($chamadas[$indice]);
-			}
-		}
-
-
-		$this->view->chamada = !empty($chamadas) ? $chamadas : NULL;
+		$this->view->chamada = !empty($retorno_chamada) ? $retorno_chamada : NULL;
 
 		$this->view->render($this->modulo['modulo'] . '/' . $this->modulo['modulo']);
 	}
 
 	public function faltou_de_mais($dados){
-		// \Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
 		if($dados[2] == 'pacientes'){
+			\Util\Permission::check_user_permission('paciente', 'paciente_remover_por_excesso_de_faltas');
 
 			$update_db = [
 				'tipo' => 2
@@ -59,6 +63,7 @@ class Painel_Controle extends \Libs\Controller {
 			}
 
 		}elseif($dados[2] == 'alunos'){
+			\Util\Permission::check_user_permission('aluno', 'aluno_remover_por_excesso_de_faltas');
 			$update_db = [
 				'tipo' => 0
 			];
