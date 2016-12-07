@@ -670,6 +670,8 @@ INSERT INTO `permissao`
     (59, 12,  'agenda_cancelar_agendamento',  '25694643fa0a33f400a622f6463e2507'),
     (60, 7,  'paciente_remover_por_excesso_de_faltas',  'e32ca4d87c0367506780901b083acc0'),
     (61, 9,  'aluno_remover_por_excesso_de_faltas',  '6eda82ee12a330a622f6463e2507');
+    (62, 11,  'ficha_clinica_imprimir',  '6edac953b3e12a330a622f6463e2507');
+
 
 
 

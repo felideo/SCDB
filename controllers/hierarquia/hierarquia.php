@@ -30,7 +30,6 @@ class Hierarquia extends \Libs\Controller {
 
 	public function listagem($dados_linha){
 		foreach ($dados_linha as $indice => $linha) {
-
 			$url = URL;
 
 			$botao_visualizar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar") ?
@@ -40,11 +39,15 @@ class Hierarquia extends \Libs\Controller {
 			$botao_editar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar") ?
 				"<a href='{$url}{$this->modulo['modulo']}/editar/{$linha['id']}' title='Editar'><i class='fa fa-pencil fa-fw'></i></a>" :
 				 '';
-			$botao_excluir = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar")  && $linha['id'] > 3 ?
-				"<a href='{$url}{$this->modulo['modulo']}/delete/{$linha['id']}' title='Deletar'><i class='fa fa-trash-o fa-fw'></i></a>" :
-				'';
 
-
+			if(\Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar")
+				&& $linha['id'] > 3
+				&& $this->model->db->select("SELECT COUNT(id) AS n_usuarios FROM usuario WHERE hierarquia =  {$linha['id']}")[0]['n_usuarios'] <= 0)
+			{
+					$botao_excluir = "<a href='{$url}{$this->modulo['modulo']}/delete/{$linha['id']}' title='Deletar'><i class='fa fa-trash-o fa-fw'></i></a>";
+			}else{
+				$botao_excluir = '';
+			}
 
 			$retorno_linhas[] = [
 				"<td class='sorting_1'>{$linha['id']}</td>",
