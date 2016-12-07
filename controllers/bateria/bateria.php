@@ -49,6 +49,10 @@ class Bateria extends \Libs\Controller {
 	public function editar($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
+		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
+			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
+		};
+
 		$this->view->bateria_list = $this->model->load_active_list($this->modulo['modulo']);
 		$this->view->cadastro = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
 
@@ -118,6 +122,10 @@ class Bateria extends \Libs\Controller {
 	public function update($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
+		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
+			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
+		};
+
 		$relacao_bateria = $this->model->full_load_by_column('bateria_relaciona_aluno_paciente', 'id_bateria', $id[0]);
 		$update_db = carregar_variavel($this->modulo['modulo']);
 		$relacoes = carregar_variavel('relacao_aluno_paciente');
@@ -170,6 +178,10 @@ class Bateria extends \Libs\Controller {
 
 	public function delete($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
+
+		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
+			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
+		};
 
 		$retorno = $this->model->delete($this->modulo['modulo'], $id[0]);
 

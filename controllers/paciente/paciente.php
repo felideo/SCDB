@@ -59,7 +59,7 @@ class Paciente extends \Libs\Controller {
 				"<td>{$idade}</td>",
 				"<td>{$sexo}</td>",
 				"<td>{$linha['patologia']}</td>",
-	        	"<td>" . $this->view->default_buttons_listagem($linha['id']) . $botao_candidato . $botao_ex_paciente . "</td>"
+	        	"<td>" . $this->view->default_buttons_listagem($linha['id'], true, true, false) . $botao_candidato . $botao_ex_paciente . "</td>"
 			];
 		}
 
@@ -70,12 +70,21 @@ class Paciente extends \Libs\Controller {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
 
+		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
+			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
+		};
+
 		$this->view->cadastro = $this->model->load_paciente($id[0]);
 		$this->view->render($this->modulo['modulo'] . '/editar/editar');
 	}
 
 	public function visualizar($id){
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+
+		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
+			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
+		};
+
 
 		$this->view->cadastro = $this->model->load_paciente($id[0]);
 		$this->view->render($this->modulo['modulo'] . '/editar/editar');
@@ -86,6 +95,10 @@ class Paciente extends \Libs\Controller {
 	public function create() {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar");
 
+
+		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
+			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
+		};
 
 		$insert_db = carregar_variavel($this->modulo['modulo']);
 
@@ -134,6 +147,10 @@ class Paciente extends \Libs\Controller {
 	public function update($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
+		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
+			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
+		};
+
 
 		$update_db = carregar_variavel($this->modulo['modulo']);
 
@@ -169,6 +186,11 @@ class Paciente extends \Libs\Controller {
 	public function delete($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
 
+
+		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
+			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
+		};
+
 		$retorno_paciente = $this->model->delete('paciente', $id[0]);
 
 		if($retorno_paciente['status']){
@@ -187,6 +209,12 @@ class Paciente extends \Libs\Controller {
 
 	public function transformar_paciente($id){
 
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformar_paciente");
+
+		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
+			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
+		};
+
 		$update_db = [
 			"tipo" => 1
 		];
@@ -204,6 +232,12 @@ class Paciente extends \Libs\Controller {
 
 	public function transformar_ex_paciente($id){
 
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformar_ex_paciente");
+
+		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
+			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
+		};
+
 		$update_db = [
 			"tipo" => 2
 		];
@@ -220,6 +254,13 @@ class Paciente extends \Libs\Controller {
 	}
 
 	public function transformar_candidato($id){
+
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformar_candidato");
+
+
+		foreach ($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
+			$hierarquias[$hierarquia['id']] = $hierarquia['nome'];
+		};
 
 		$update_db = [
 			"tipo" => 0
