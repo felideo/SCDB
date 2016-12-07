@@ -25,6 +25,7 @@ class Relatorio_Pacientes extends \Libs\Controller {
 	}
 
 	public function gerar_relatorio_pacientes(){
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 		$bateria = carregar_variavel('id_bateria');
 		$dados_relatorios = $this->model->gerar_relatorio_pacientes($bateria);
 
