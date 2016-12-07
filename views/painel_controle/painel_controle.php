@@ -16,5 +16,11 @@
             include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/widgets/faltas.php';
         }
     ?>
+
+    <?php
+        if(!empty($this->bateria_atual)){
+            include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/widgets/contador.php';
+        }
+    ?>
 </div>
 

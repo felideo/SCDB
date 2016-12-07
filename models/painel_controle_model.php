@@ -11,6 +11,17 @@ class painel_controle_model extends \Libs\Model{
 		parent::__construct();
 	}
 
+	public function carregar_bateria(){
+
+		$hoje = \DateTime::createFromFormat('Y-m-d', \date('Y-m-d'))->format('Y-m-d');
+
+		$select = "SELECT *"
+			. " FROM bateria"
+			. " WHERE bateria.data_inicio <= '{$hoje}' AND bateria.data_fim >= '{$hoje}' AND bateria.ativo = 1";
+
+	    return $this->db->select($select);
+	}
+
 	public function carregar_chamada(){
 
 		$hoje = \DateTime::createFromFormat('Y-m-d', \date('Y-m-d'))->format('Y-m-d');
