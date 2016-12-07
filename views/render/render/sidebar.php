@@ -28,7 +28,7 @@
 				</li> -->
 				<!-- <li class="divider"></li> -->
 				<li>
-					<a href="<?php echo URL; ?>master/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+					<a href="<?php echo URL; ?>master/logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
 				</li>
 			</ul>
 			<!-- /.dropdown-user -->
