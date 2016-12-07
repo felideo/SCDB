@@ -1,59 +1,105 @@
-
     <div class="col-lg-6 col-md-6">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 Comparecimento
             </div>
             <div class="panel-body">
-                <?php if(isset($this->chamada)) : ?>
-                    <?php foreach ($this->chamada as $indice => $chamada) : ?>
-                        <?php if(!empty($chamada['agendamento_data']) && !empty($chamada['id_paciente']) || !empty($chamada['id_aluno'])) : ?>
-                            <div class="row">
-                                 <div class="col-lg-12 col-md-12">
-                                    <div class="panel panel-primary">
-                                        <div class="panel-heading">
-                                            Dia: <?php echo \DateTime::createFromFormat('Y-m-d', $chamada['agendamento_data'])->format('Y-m-d'); ?>
-                                        </div>
+                <?php foreach ($this->chamada as $indice_01 => $tipo) : ?>
+                    <?php foreach ($tipo as $indice_02 => $chamada) : ?>
+                        <?php if(!empty($chamada['agendamento_data'])) : ?>
 
-                                        <div class="panel-body">
-                                            <?php if(empty($chamada['presenca_paciente']) && !empty($chamada['id_paciente'])) : ?>
-                                                <div class="row-fluid">
-                                                    <div class="form-group span12">
-                                                        <label><?php echo "Paciente: " . $chamada['nome_paciente'] ?> </label>
-                                                        <div class="form-group">
-                                                            <label class="radio-inline">
-                                                                <input name="input_chamada_<?php echo $chamada['id_agendamento']; ?>" class="input_chamada" data-id_agendamento="<?php echo $chamada['id_agendamento']; ?>" data-id_paciente="<?php echo $chamada['id_paciente']; ?>"  data-tipo="presença" type="radio"> Compareceu
-                                                            </label>
-                                                            <label class="radio-inline">
-                                                                <input name="input_chamada_<?php echo $chamada['id_agendamento']; ?>" class="input_chamada" data-id_agendamento="<?php echo $chamada['id_agendamento']; ?>" data-id_paciente="<?php echo $chamada['id_paciente']; ?>"  data-tipo="falta" type="radio"> Não Compareceu
-                                                            </label>
-                                                        </div>
+
+                            <?php if($indice_01 == 'paciente' && \Util\Permission::check_user_permission('paciente', 'paciente_efetuar_chamada')) : ?>
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        Dia: <?php echo \DateTime::createFromFormat('Y-m-d', $chamada['agendamento_data'])->format('Y-m-d'); ?>
+                                    </div>
+                                    <div class="panel-body">
+
+                                        <?php if($indice_01 == 'aluno') : ?>
+                                            <div class="row-fluid">
+                                                <div class="form-group span12">
+                                                    <label><?php echo "Aluno: " . $chamada['nome_aluno'] ?> </label>
+                                                    <div class="form-group">
+                                                        <label class="radio-inline">
+                                                            <input name="input_chamada_<?php echo $chamada['id_agendamento']; ?>" class="input_chamada" data-id_agendamento="<?php echo $chamada['id_agendamento']; ?>" data-id_aluno="<?php echo $chamada['id_aluno']; ?>"  data-tipo="presença" type="radio"> Compareceu
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input name="input_chamada_<?php echo $chamada['id_agendamento']; ?>" class="input_chamada" data-id_agendamento="<?php echo $chamada['id_agendamento']; ?>" data-id_aluno="<?php echo $chamada['id_aluno']; ?>"  data-tipo="falta" type="radio"> Não Compareceu
+                                                        </label>
                                                     </div>
                                                 </div>
-                                            <?php endif; ?>
-                                            <?php if(empty($chamada['presenca_aluno']) && !empty($chamada['id_aluno'])) : ?>
-                                                <div class="row-fluid">
-                                                    <div class="form-group span12">
-                                                        <label><?php echo "Aluno: " . $chamada['nome_aluno'] ?> </label>
-                                                        <div class="form-group">
-                                                            <label class="radio-inline">
-                                                                <input name="input_chamada_<?php echo $chamada['id_agendamento']; ?>" class="input_chamada" data-id_agendamento="<?php echo $chamada['id_agendamento']; ?>" data-id_aluno="<?php echo $chamada['id_aluno']; ?>"  data-tipo="presença" type="radio"> Compareceu
-                                                            </label>
-                                                            <label class="radio-inline">
-                                                                <input name="input_chamada_<?php echo $chamada['id_agendamento']; ?>" class="input_chamada" data-id_agendamento="<?php echo $chamada['id_agendamento']; ?>" data-id_aluno="<?php echo $chamada['id_aluno']; ?>"  data-tipo="falta" type="radio"> Não Compareceu
-                                                            </label>
-                                                        </div>
+                                            </div>
+                                        <?php endif; ?>
+
+
+                                        <?php if($indice_01 == 'paciente') : ?>
+                                            <div class="row-fluid">
+                                                <div class="form-group span12">
+                                                    <label><?php echo "Paciente: " . $chamada['nome_paciente'] ?> </label>
+                                                    <div class="form-group">
+                                                        <label class="radio-inline">
+                                                            <input name="input_chamada_<?php echo $chamada['id_agendamento']; ?>" class="input_chamada" data-id_agendamento="<?php echo $chamada['id_agendamento']; ?>" data-id_paciente="<?php echo $chamada['id_paciente']; ?>"  data-tipo="presença" type="radio"> Compareceu
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input name="input_chamada_<?php echo $chamada['id_agendamento']; ?>" class="input_chamada" data-id_agendamento="<?php echo $chamada['id_agendamento']; ?>" data-id_paciente="<?php echo $chamada['id_paciente']; ?>"  data-tipo="falta" type="radio"> Não Compareceu
+                                                        </label>
                                                     </div>
                                                 </div>
-                                            <?php endif; ?>
-                                        </div>
-
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
-                            </div>
+                            <?php endif; ?>
+
+                            <?php if($indice_01 == 'aluno' && \Util\Permission::check_user_permission('aluno', 'aluno_efetuar_chamada')) : ?>
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        Dia: <?php echo \DateTime::createFromFormat('Y-m-d', $chamada['agendamento_data'])->format('Y-m-d'); ?>
+                                    </div>
+                                    <div class="panel-body">
+
+                                        <?php if($indice_01 == 'aluno') : ?>
+                                            <div class="row-fluid">
+                                                <div class="form-group span12">
+                                                    <label><?php echo "Aluno: " . $chamada['nome_aluno'] ?> </label>
+                                                    <div class="form-group">
+                                                        <label class="radio-inline">
+                                                            <input name="input_chamada_<?php echo $chamada['id_agendamento']; ?>" class="input_chamada" data-id_agendamento="<?php echo $chamada['id_agendamento']; ?>" data-id_aluno="<?php echo $chamada['id_aluno']; ?>"  data-tipo="presença" type="radio"> Compareceu
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input name="input_chamada_<?php echo $chamada['id_agendamento']; ?>" class="input_chamada" data-id_agendamento="<?php echo $chamada['id_agendamento']; ?>" data-id_aluno="<?php echo $chamada['id_aluno']; ?>"  data-tipo="falta" type="radio"> Não Compareceu
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+
+
+                                        <?php if($indice_01 == 'paciente') : ?>
+                                            <div class="row-fluid">
+                                                <div class="form-group span12">
+                                                    <label><?php echo "Paciente: " . $chamada['nome_paciente'] ?> </label>
+                                                    <div class="form-group">
+                                                        <label class="radio-inline">
+                                                            <input name="input_chamada_<?php echo $chamada['id_agendamento']; ?>" class="input_chamada" data-id_agendamento="<?php echo $chamada['id_agendamento']; ?>" data-id_paciente="<?php echo $chamada['id_paciente']; ?>"  data-tipo="presença" type="radio"> Compareceu
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input name="input_chamada_<?php echo $chamada['id_agendamento']; ?>" class="input_chamada" data-id_agendamento="<?php echo $chamada['id_agendamento']; ?>" data-id_paciente="<?php echo $chamada['id_paciente']; ?>"  data-tipo="falta" type="radio"> Não Compareceu
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+
+
+
                         <?php endif; ?>
                     <?php endforeach; ?>
-                <?php endif; ?>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>

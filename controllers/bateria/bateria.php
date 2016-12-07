@@ -158,46 +158,73 @@ class Bateria extends \Libs\Controller {
 			exit;
 		}
 
-		$relacao_bateria = $this->model->full_load_by_column('bateria_relaciona_aluno_paciente', 'id_bateria', $id[0]);
-		$update_db = carregar_variavel($this->modulo['modulo']);
-		$relacoes = carregar_variavel('relacao_aluno_paciente');
-
-		debug2($relacao_bateria);
-		debug2($relacoes);
-
-		debug2($update_db);
-				debug2($update_db);
-		exit;
-
-		if($retorno['status']){
-			$relacoes = carregar_variavel('relacao_aluno_paciente');
-
-			foreach ($relacoes as $indice => $relacao) {
-				$insert_ficha_clinica = [
-					'ativo' => 1
-				];
-
-				$retorno_ficha_clinica[$indice] = $this->model->create('ficha_clinica', $insert_ficha_clinica);
-
-				if($retorno_ficha_clinica[$indice]['status']){
-					$insert_relacao = [
-						'id_bateria' 		=> $retorno['id'] ,
-						'id_aluno' 			=> $relacao['relacao']['aluno'],
-						'id_paciente' 		=> $relacao['relacao']['paciente'],
-						'id_ficha_clinica' 	=> $retorno_ficha_clinica[$indice]['id'],
-					];
-
-					$retorno_relacao[$indice] = $this->model->create('bateria_relaciona_aluno_paciente', $insert_relacao);
-				}
-			}
-		}
-
-
 
 		$update_db = carregar_variavel($this->modulo['modulo']);
 		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
 
+		if($retorno['status']){
 
+			$relacao_bateria = $this->model->full_load_by_column('bateria_relaciona_aluno_paciente', 'id_bateria', $id[0]);
+			$relacoes = carregar_variavel('relacao_aluno_paciente');
+			unset($relacoes['$id_clone']);
+
+			debug2($relacoes);
+
+			$unset_baterias_existentes = [];
+
+			foreach ($relacao_bateria as $indice => $bateria) {
+				$unset_baterias_existentes[$bateria['id']] = $bateria['id'];
+			}
+
+			$insert_relacao = [];
+
+			foreach ($relacoes as $indice => $relacao) {
+
+				if(empty($relacao['relacao']['id'])){
+					$insert_relacao[] = $relacoes[$indice];
+					unset($relacoes[$indice]);
+				}
+
+				if(isset($relacao['relacao']['id']) && isset($unset_baterias_existentes[$relacao['relacao']['id']]) && $unset_baterias_existentes[$relacao['relacao']['id']] == $relacao['relacao']['id']){
+					unset($relacoes[$indice]);
+					unset($unset_baterias_existentes[$relacao['relacao']['id']]);
+				}
+			}
+
+			if(!empty($insert_relacao)){
+				foreach ($insert_relacao as $indice => $relacao) {
+
+					$insert_ficha_clinica = [
+						'ativo' => 1
+					];
+
+					$retorno_ficha_clinica[$indice] = $this->model->create('ficha_clinica', $insert_ficha_clinica);
+
+					if($retorno_ficha_clinica[$indice]['status']){
+						$insert = [
+							'id_bateria' 		=> $id[0],
+							'id_aluno' 			=> $relacao['relacao']['aluno'],
+							'id_paciente' 		=> $relacao['relacao']['paciente'],
+							'id_ficha_clinica' 	=> $retorno_ficha_clinica[$indice]['id'],
+						];
+
+						$retorno_relacao[$indice] = $this->model->create('bateria_relaciona_aluno_paciente', $insert);
+					}
+				}
+			}
+
+			if(!empty($unset_baterias_existentes)){
+				foreach ($unset_baterias_existentes as $indice => $deletar) {
+
+
+					$update = [
+						'ativo' => 0,
+					];
+
+					$this->model->update('bateria_relaciona_aluno_paciente', $deletar, $update);
+				}
+			}
+		}
 
 		if($retorno['status']){
 			$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');

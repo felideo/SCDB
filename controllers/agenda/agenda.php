@@ -168,11 +168,6 @@ class Agenda extends \Libs\Controller {
 	}
 
 
-
-
-
-
-
 	public function verificar_horarios_disponiveis_ajax(){
 		$data_escolhida = \DateTime::createFromFormat('d/m/Y', carregar_variavel('data_consulta'));
 		$data = $data_escolhida->format('Y-m-d');

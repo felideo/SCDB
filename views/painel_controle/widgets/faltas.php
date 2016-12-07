@@ -5,8 +5,9 @@
             </div>
             <div class="panel-body">
                     <?php foreach ($this->faltas as $indice_01 => $falta) : ?>
+                        <?php if($indice_01 == 'pacientes' && \Util\Permission::check_user_permission('paciente', 'paciente_remover_por_excesso_de_faltas')) : ?>
                             <div class="row">
-                                 <div class="col-lg-12 col-md-12">
+                                <div class="col-lg-12 col-md-12">
                                     <div class="panel panel-primary">
                                         <div class="panel-heading">
                                             <?php echo ucfirst($indice_01); ?>
@@ -27,11 +28,36 @@
                                     </div>
                                 </div>
                             </div>
+                        <?php endif; ?>
+
+                        <?php if($indice_01 == 'alunos' && \Util\Permission::check_user_permission('aluno', 'aluno_remover_por_excesso_de_faltas')) : ?>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <?php echo ucfirst($indice_01); ?>
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <?php foreach($falta as $indice_02 => $aluno_paciente) : ?>
+                                                  <div class="row-fluid">
+                                                      <div class="form-group span12">
+                                                         <label><?php echo $aluno_paciente['nome'] ?> - <?php echo $aluno_paciente['faltas'] ?> Faltas </label>
+                                                         <a href="<?php echo URL . 'painel_controle/faltou_de_mais/' . $aluno_paciente['id_relacao'] . '/' . $aluno_paciente['id'] . '/' . $indice_01; ?>" class="btn btn-success marginL10" style="float: right;">Remover</a>
+                                                         <!-- <a href="#" class="btn btn-warning" style="float: right;">Justificar</a> -->
+                                                      </div>
+                                                  </div>
+                                            <?php endforeach; ?>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                     <?php endforeach; ?>
             </div>
         </div>
     </div>
-
 
 <script type="text/javascript">
 

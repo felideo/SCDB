@@ -36,6 +36,11 @@
                     if(isset($this->cadastro)){
                         echo "$('div#relacao_aluno_" . $indice_div . " :input').prop('disabled', true);\n\t\t";
                         echo "$('div#relacao_paciente_" . $indice_div . " :input').prop('disabled', true);\n\t\t";
+                        echo "$('#id_relacao_" . $indice_div . "').attr('disabled', false);\n\t\t";
+
+
+
+
                     }
                 }
             }
