@@ -1,4 +1,8 @@
-<?php include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/form/form.php'; ?>
+<?php
+    if(\Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . '_criar')){
+        include_once '../' . strtolower(APP_NAME) . '/views/' . $this->modulo['modulo'] . '/form/form.php';
+    }
+?>
 
 <div style="display: block; clear: both;"></div>
 <div class="col-lg-12">
@@ -11,24 +15,25 @@
                             <table aria-describedby="dataTables-example_info" role="grid" class="display table table-striped table-bordered table-hover dataTable no-footer" cellspacing="0" width="100%" id="data_table">
                                 <thead>
                                     <tr role="row">
-                                        <th aria-sort="ascending" style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting_asc">ID</th>
-                                        <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Data de Inicio</th>
-                                        <th style="width: 200px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Data do Fim</th>
-                                        <th style="width: 30px;" colspan="1" rowspan="1" tabindex="0" class="sorting">Ações</th>
+                                        <?php
+                                            foreach ($this->colunas_datatable as $indice => $coluna) {
+                                                echo $coluna;
+                                            }
+                                        ?>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($this->bateria_list as $indice => $bateria) : ?>
-                                        <tr role="row" class="gradeA odd">
-                                            <td class="sorting_1"><?php echo $bateria['id']; ?></td>
-                                            <td><?php echo $bateria['data_inicio']; ?></td>
-                                            <td><?php echo $bateria['data_fim']; ?></td>
-                                            <td>
-                                                <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/editar/' . $bateria['id'] . '" title="Editar"><i class="fa fa-pencil fa-fw"></i></a>'; ?>
-                                                <?php echo '<a href="' . URL . $this->modulo['modulo'] . '/delete/' . $bateria['id'] . '"><i class="fa fa-trash-o fa-fw"></i></a></td>'; ?>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach ?>
+                                    <?php
+                                        if(!empty($this->linhas_datatable)){
+                                            foreach($this->linhas_datatable as $indice => $linhas){
+                                                echo '<tr role="row" class="gradeA odd">';
+                                                    foreach ($linhas as $indice => $coluna_linha) {
+                                                        echo $coluna_linha;
+                                                    }
+                                                echo '</tr>';
+                                            }
+                                        }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -51,6 +56,4 @@ $(document).ready(function() {
         }
     });
 });
-</script>
-
-
+</script>,
