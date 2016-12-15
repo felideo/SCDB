@@ -12,15 +12,15 @@ class Ficha_Clinica_Model extends \Libs\Model {
 		$select = 'SELECT relacao.id as id_relacao, relacao.id_bateria, relacao.id_aluno, relacao.id_paciente, relacao.id_ficha_clinica,'
 			. ' bateria.data_inicio as bateria_data_inicio, bateria.data_fim as bateria_data_fim,'
 			. ' aluno.nome as aluno_nome, aluno.id_usuario as id_usuario,'
-			. ' paciente.nome as nome_paciente, paciente.pai as nome_pai_paciente, paciente.mae as nome_mae_paciente, paciente.nascimento as nascimento_paciente, paciente.patologia as patologia_paciente'
-			// . ' ficha_clinica.id'
+			. ' paciente.nome as nome_paciente, paciente.pai as nome_pai_paciente, paciente.mae as nome_mae_paciente, paciente.nascimento as nascimento_paciente, paciente.patologia as patologia_paciente,'
+			. ' ficha_clinica.id, ficha_clinica.ativo AS ativo_ficha'
 	    	. ' FROM bateria_relaciona_aluno_paciente relacao'
     		. ' LEFT JOIN bateria bateria ON bateria.id = relacao.id_bateria AND bateria.ativo = 1'
     		. ' LEFT JOIN aluno aluno ON aluno.id = relacao.id_aluno AND aluno.ativo = 1'
-    		. ' LEFT JOIN paciente paciente ON paciente.id = relacao.id_paciente AND aluno.ativo = 1 AND paciente.tipo = 1'
-    		// . ' LEFT JOIN ficha_clinica ficha_clinica ON ficha_clinica.id = relacao.id_ficha_clinica AND ficha_clinica.ativo = 1'
+    		. ' LEFT JOIN paciente paciente ON paciente.id = relacao.id_paciente AND aluno.ativo = 1'
+    		. ' LEFT JOIN ficha_clinica ficha_clinica ON ficha_clinica.id = relacao.id_ficha_clinica'
 
-	    	. ' WHERE relacao.ativo = 1';
+	    	. ' WHERE relacao.ativo = 1 AND ficha_clinica.ativo = 1';
 
 	    return $this->db->select($select);
 	}
@@ -38,7 +38,7 @@ class Ficha_Clinica_Model extends \Libs\Model {
 	    	. ' FROM bateria_relaciona_aluno_paciente relacao'
     		. ' LEFT JOIN bateria bateria ON bateria.id = relacao.id_bateria AND bateria.ativo = 1'
     		. ' LEFT JOIN aluno aluno ON aluno.id = relacao.id_aluno AND aluno.ativo = 1'
-    		. ' LEFT JOIN paciente paciente ON paciente.id = relacao.id_paciente AND aluno.ativo = 1 AND paciente.tipo = 1'
+    		. ' LEFT JOIN paciente paciente ON paciente.id = relacao.id_paciente AND aluno.ativo = 1'
     		. ' LEFT JOIN endereco endereco ON endereco.id_paciente = relacao.id_paciente AND endereco.ativo = 1'
     		. ' LEFT JOIN contato contato ON contato.id_paciente = paciente.id AND contato.ativo = 1'
     		. ' LEFT JOIN ficha_clinica ficha_clinica ON ficha_clinica.id = relacao.id_ficha_clinica AND ficha_clinica.ativo = 1'

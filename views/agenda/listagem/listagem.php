@@ -96,7 +96,7 @@ function horario_modal(event){
 
     <?php
         if(\Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . '_cancelar_agendamento')){
-            echo "var permissao = paserInt(1);";
+            echo "var permissao = parseInt(1);";
         } else {
             echo "var permissao = parseInt(0);";
         }

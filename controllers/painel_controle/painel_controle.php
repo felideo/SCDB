@@ -26,21 +26,29 @@ class Painel_Controle extends \Libs\Controller {
 		$retorno_chamada = [];
 
 		foreach ($chamadas as $indice => $chamada) {
-			if(!empty($chamada['id_paciente']) && empty($chamada['id_aluno'])){
-				$retorno_chamada['paciente'][] = $chamada;
-			}
-
-			if(!empty($chamada['id_aluno']) && empty($chamada['id_paciente'])){
-				$retorno_chamada['aluno'][] = $chamada;
-			}
-
 			if(!empty($chamada['id_aluno']) && !empty($chamada['id_paciente'])){
-				$retorno_chamada['aluno'][] = $chamada;
-				$retorno_chamada['paciente'][] = $chamada;
+				if(empty($chamada['presenca_aluno'])){
+					$retorno_chamada['aluno'][] = $chamada;
+				}
+
+				if(empty($chamada['presenca_paciente'])){
+					$retorno_chamada['paciente'][] = $chamada;
+				}
+			}elseif(!empty($chamada['id_paciente']) && empty($chamada['id_aluno'])){
+				if(empty($chamada['presenca_paciente'])){
+					$retorno_chamada['paciente'][] = $chamada;
+				}
+			}elseif(!empty($chamada['id_aluno']) && empty($chamada['id_paciente'])){
+				if(empty($chamada['presenca_aluno'])){
+					$retorno_chamada['aluno'][] = $chamada;
+				}
 			}
+
 		}
 
 		$this->view->faltas = $this->model->carregar_faltas();
+		$this->view->justificativas = json_encode($this->model->carregar_faltas());
+
 
 		$this->view->chamada = !empty($retorno_chamada) ? $retorno_chamada : NULL;
 
@@ -79,6 +87,47 @@ class Painel_Controle extends \Libs\Controller {
 			}
 		}
 
+
+		header('location: ' . URL . 'painel_controle');
+	}
+
+	public function justificar_falta($dados){
+		if($dados[2] == 'pacientes'){
+			$faltas = $this->model->carregar_faltas_paciente($dados[1]);
+			$this->view->tipo = "paciente";
+		}elseif($dados[2] == 'alunos'){
+			$faltas = $this->model->carregar_faltas_aluno($dados[1]);
+			$this->view->tipo = "aluno";
+		}
+
+		$this->view->faltas = $faltas;
+		$this->view->clean_render('/justificar/justificar');
+
+	}
+
+	public function justificar(){
+		$tipo = carregar_variavel('tipo');
+		$justificar = carregar_variavel('justificar');
+
+		if($tipo == 'paciente'){
+			$retorno = $this->model->update('agendamento', $justificar['id'], ['justificativa_paciente' => $justificar['justificativa_paciente']]);
+
+			if($retorno['status']){
+				$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');
+			} else {
+				$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');
+			}
+
+		}elseif($tipo == 'aluno'){
+			$retorno = $this->model->update('agendamento', $justificar['id'], ['justificativa_aluno' => $justificar['justificativa_aluno']]);
+
+			if($retorno['status']){
+				$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');
+			} else {
+				$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');
+			}
+
+		}
 
 		header('location: ' . URL . 'painel_controle');
 	}

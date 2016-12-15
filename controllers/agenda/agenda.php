@@ -234,13 +234,7 @@ class Agenda extends \Libs\Controller {
 			];
 
 			$where = "id = {$dados[0]}";
-		}else{
-			$this->view->alert_js('Você não possui permissão para realizar essa ação!!!', 'erro');
-			header('location: ' . URL . 'painel_controle');
-			exit;
-		}
-
-		if($dados[2] != 'undefined' && \Util\Permission::check_user_permission('aluno', 'aluno_efetuar_chamada')){
+		}elseif($dados[2] != 'undefined' && \Util\Permission::check_user_permission('aluno', 'aluno_efetuar_chamada')){
 			$update_db = [
 				'presenca_aluno' => $dados[1] == 'falta' ? 1 : 0
 			];
