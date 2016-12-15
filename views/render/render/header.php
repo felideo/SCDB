@@ -86,7 +86,7 @@
     <!-- Date Time Picker -->
     <script type="text/javascript" src="<?php echo URL; ?>public/bower_components/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>public/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="<?php echo URL; ?>public/bower_components/moment/locale/pt-br.js"></script>
+    <!-- <script src="<?php echo URL; ?>public/bower_components/moment/locale/pt-br.js"></script> -->
 
     <link rel="stylesheet" href="<?php echo URL; ?>public/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" />
 

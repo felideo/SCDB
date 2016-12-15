@@ -124,10 +124,33 @@
 		});
 
 
+
 		$('#completo').on('change', function(){
 			if($('#data_consulta').val() != ''){
-				var dia = moment($('#data_consulta').val(), "YYYY-MM-DD HH:mm:ss");
-				var dia_semana = dia.format('dddd');
+				var dia = moment($('#data_consulta').val(), "YYYY-MM-DD");
+
+
+				if(dia.day() == 0){
+					var dia_semana = "Quinta";
+				}else if(dia.day() == 1){
+					var dia_semana = "Sabado";
+
+				}else if(dia.day() == 2){
+					var dia_semana = "Sexta";
+
+				}else if(dia.day() == 3){
+					var dia_semana = "Domingo";
+
+				}else if(dia.day() == 4){
+					var dia_semana = "Segunda";
+
+				}else if(dia.day() == 5){
+					var dia_semana = "Terça";
+
+				}else if(dia.day() == 6){
+					var dia_semana = "Quarta";
+				}
+
 			} else {
 				swal("Atenção!", "Selecione uma data para a consulta.", "info");
 				$(this).prop("checked", false);

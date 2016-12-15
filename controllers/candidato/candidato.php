@@ -69,7 +69,7 @@ class Candidato extends \Libs\Controller {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
 
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+		if(empty($this->model->db->select("SELECT id FROM paciente WHERE id = {$id[0]} AND ativo = 1"))){
 			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
 			header('location: ' . URL . $this->modulo['modulo']);
 			exit;
@@ -82,7 +82,7 @@ class Candidato extends \Libs\Controller {
 	public function visualizar($id){
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+		if(empty($this->model->db->select("SELECT id FROM paciente WHERE id = {$id[0]} AND ativo = 1"))){
 			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
 			header('location: ' . URL . $this->modulo['modulo']);
 			exit;
@@ -145,7 +145,7 @@ class Candidato extends \Libs\Controller {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
 
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+		if(empty($this->model->db->select("SELECT id FROM paciente WHERE id = {$id[0]} AND ativo = 1"))){
 			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
 			header('location: ' . URL . $this->modulo['modulo']);
 			exit;
@@ -185,7 +185,7 @@ class Candidato extends \Libs\Controller {
 	public function delete($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
 
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+		if(empty($this->model->db->select("SELECT id FROM paciente WHERE id = {$id[0]} AND ativo = 1"))){
 			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
 			header('location: ' . URL . $this->modulo['modulo']);
 			exit;
@@ -211,7 +211,7 @@ class Candidato extends \Libs\Controller {
 
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformar_paciente");
 
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+		if(empty($this->model->db->select("SELECT id FROM paciente WHERE id = {$id[0]} AND ativo = 1"))){
 			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
 			header('location: ' . URL . $this->modulo['modulo']);
 			exit;
@@ -236,7 +236,7 @@ class Candidato extends \Libs\Controller {
 
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformar_ex_paciente");
 
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+		if(empty($this->model->db->select("SELECT id FROM paciente WHERE id = {$id[0]} AND ativo = 1"))){
 			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
 			header('location: ' . URL . $this->modulo['modulo']);
 			exit;
@@ -262,7 +262,7 @@ class Candidato extends \Libs\Controller {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "transformar_candidato");
 
 
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+		if(empty($this->model->db->select("SELECT id FROM paciente WHERE id = {$id[0]} AND ativo = 1"))){
 			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
 			header('location: ' . URL . $this->modulo['modulo']);
 			exit;

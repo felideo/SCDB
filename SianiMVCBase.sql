@@ -814,3 +814,7 @@ ALTER TABLE `aluno`
   ADD COLUMN `tipo` tinyint(1) not null DEFAULT 1 AFTER turma;
 
   ALTER TABLE NeuroSis.aluno MODIFY COLUMN tipo tinyint(1) DEFAULT 1 NOT NULL;
+
+ALTER TABLE agendamento
+  ADD COLUMN justificativa_aluno      VARCHAR(512) NULL AFTER presenca_aluno,
+  ADD COLUMN justificativa_paciente     VARCHAR(512) NULL AFTER justificativa_aluno;

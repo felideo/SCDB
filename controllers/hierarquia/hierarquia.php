@@ -125,6 +125,32 @@ class Hierarquia extends \Libs\Controller {
 
 		if($retorno['status']){
 			$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');
+
+			unset($_SESSION['permissoes']);
+
+				$select = 'SELECT hierarquia.id as id_hierarquia, hierarquia.nome,'
+					. ' relacao.id as id_relacao,'
+					. ' permissao.id as id_permissao, permissao.permissao, permissao.id_modulo,'
+					. ' modulo.modulo'
+					. ' FROM hierarquia hierarquia'
+					. ' LEFT JOIN hierarquia_relaciona_permissao relacao'
+					. ' ON relacao.id_hierarquia = hierarquia.id AND relacao.ativo = 1'
+					. ' LEFT JOIN permissao permissao'
+					. ' ON permissao.id = relacao.id_permissao'
+					. ' LEFT JOIN modulo modulo'
+					. ' ON modulo.id = permissao.id_modulo'
+					. ' WHERE hierarquia.id = ' . $_SESSION['usuario']['hierarquia'];
+
+				$permissoes = $this->model->db->select($select);
+
+				foreach($permissoes as $indice => $permissao){
+					$retorno_permissoes[$permissao['modulo']][$permissao['permissao']] = $permissao;
+				}
+
+
+
+			\Libs\Session::set('permissoes', $retorno_permissoes);
+
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');
 		}
