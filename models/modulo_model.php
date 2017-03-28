@@ -22,22 +22,18 @@ class Modulo_Model extends \Libs\Model {
 			'criar' => [
 				'id_modulo' => $id_modulo,
 				'permissao' => $modulo . '_criar',
-				'hash' => \Util\Hash::get_unic_hash()
 			],
 			'visualizar' => [
 				'id_modulo' => $id_modulo,
 				'permissao' => $modulo . '_visualizar',
-				'hash' => \Util\Hash::get_unic_hash()
 			],
 			'editar' => [
 				'id_modulo' => $id_modulo,
 				'permissao' => $modulo . '_editar',
-				'hash' => \Util\Hash::get_unic_hash()
 			],
 			'deletar' => [
 				'id_modulo' => $id_modulo,
 				'permissao' => $modulo . '_deletar',
-				'hash' => \Util\Hash::get_unic_hash()
 			]
 		];
 

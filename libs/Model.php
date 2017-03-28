@@ -62,13 +62,13 @@ abstract class Model {
 	}
 
 	public function load_active_list($table) {
-		$select = 'SELECT * FROM ' . $table . ' WHERE ativo = 1';
-		return $this->db->select($select);
+		return $this->db->select('SELECT * FROM ' . $table . ' WHERE ativo = 1');
 	}
 
 	public function full_load_by_id($table, $id){
 		$query = 'SELECT * FROM ' . $table
-			. ' WHERE ID = ' . $id;
+			. ' WHERE ID = ' . $id
+			. ' AND ativo = 1';
 		return $this->db->select($query);
 	}
 

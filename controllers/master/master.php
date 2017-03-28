@@ -15,7 +15,7 @@ class Master extends \Libs\Controller {
 
 	function logout() {
 		\Libs\Session::destroy();
-		header('location: '. URL .'login');
+		header('location: /index');
 		exit;
 	}
 

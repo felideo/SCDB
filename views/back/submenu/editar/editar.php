@@ -1,0 +1,1 @@
+<?php require 'views/back/' . $this->modulo['modulo'] . '/form/form.php'; ?>

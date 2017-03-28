@@ -1,25 +1,15 @@
 <?php
-	ini_set('display_errors', 0);
-	error_reporting(0);
+require 'util/functions.php';
+require 'config.php';
+require 'util/auth.php';
 
-	require 'util/functions.php';
-	require 'config.php';
-	require 'util/auth.php';
-	include __DIR__ . '/vendor/autoload.php';
-
-	session_start();
-	// debug2($_SESSION);
+session_start();
 
 // spl_autoload_register
 function autoload($class_name) {
 	$class_name = ltrim($class_name, '\\');
 	$file_name  = '';
 	$namespace = '';
-
-	// debug2($class_name);
-	// debug2($file_name);
-	// debug2($namespace);
-	// debug2($lastNsPos);
 
 	if ($lastNsPos = strrpos($class_name, '\\')) {
 		$namespace = substr($class_name, 0, $lastNsPos);

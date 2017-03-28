@@ -25,7 +25,7 @@ class Hierarquia extends \Libs\Controller {
 		$this->listagem($this->model->load_active_list($this->modulo['modulo']));
 
 		$this->view->permissoes_list = $this->load_external_model('permissao')->load_permissions_list();
-		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
 	}
 
 	public function listagem($dados_linha){
@@ -33,18 +33,18 @@ class Hierarquia extends \Libs\Controller {
 			$url = URL;
 
 			$botao_visualizar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar") ?
-				"<a href='{$url}{$this->modulo['modulo']}/visualizar/{$linha['id']}' title='Visualizar'><i class='fa fa-eye fa-fw'></i></a>" :
+				"<a href='/{$this->modulo['modulo']}/visualizar/{$linha['id']}' title='Visualizar'><i class='fa fa-eye fa-fw'></i></a>" :
 				'';
 
 			$botao_editar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar") ?
-				"<a href='{$url}{$this->modulo['modulo']}/editar/{$linha['id']}' title='Editar'><i class='fa fa-pencil fa-fw'></i></a>" :
+				"<a href='/{$this->modulo['modulo']}/editar/{$linha['id']}' title='Editar'><i class='fa fa-pencil fa-fw'></i></a>" :
 				 '';
 
 			if(\Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar")
 				&& $linha['id'] > 3
 				&& $this->model->db->select("SELECT COUNT(id) AS n_usuarios FROM usuario WHERE hierarquia =  {$linha['id']}")[0]['n_usuarios'] <= 0)
 			{
-					$botao_excluir = "<a href='{$url}{$this->modulo['modulo']}/delete/{$linha['id']}' title='Deletar'><i class='fa fa-trash-o fa-fw'></i></a>";
+					$botao_excluir = "<a href='/{$this->modulo['modulo']}/delete/{$linha['id']}' title='Deletar'><i class='fa fa-trash-o fa-fw'></i></a>";
 			}else{
 				$botao_excluir = '';
 			}
@@ -64,7 +64,7 @@ class Hierarquia extends \Libs\Controller {
 
 		$this->view->cadastro = $this->model->load_hierarquia($id[0]);
 		$this->view->permissoes_list = $this->load_external_model('permissao')->load_permissions_list();
-		$this->view->render($this->modulo['modulo'] . '/editar/editar');
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/editar/editar');
 	}
 
 	public function visualizar($id){
@@ -72,7 +72,7 @@ class Hierarquia extends \Libs\Controller {
 
 		$this->view->cadastro = $this->model->load_hierarquia($id[0]);
 		$this->view->permissoes_list = $this->load_external_model('permissao')->load_permissions_list();
-		$this->view->render($this->modulo['modulo'] . '/editar/editar');
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/editar/editar');
 		$this->view->lazy_view();
 	}
 
@@ -101,7 +101,7 @@ class Hierarquia extends \Libs\Controller {
 			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro, por favor tente novamente...', 'erro');
 		}
 
-		header('location: ' . URL . $this->modulo['modulo']);
+		header('location: /' . $this->modulo['modulo']);
 	}
 
 	public function update($id) {
@@ -155,7 +155,7 @@ class Hierarquia extends \Libs\Controller {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');
 		}
 
-		header('location: ' . URL . $this->modulo['modulo']);
+		header('location: /' . $this->modulo['modulo']);
 	}
 
 	public function delete($id) {
@@ -172,6 +172,6 @@ class Hierarquia extends \Libs\Controller {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do cadastro, por favor tente novamente...', 'erro');
 		}
 
-		header('location: ' . URL . $this->modulo['modulo']);
+		header('location: /' . $this->modulo['modulo']);
 	}
 }

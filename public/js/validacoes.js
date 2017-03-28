@@ -1,4 +1,54 @@
 $(document).ready(function(){
+
+
+    $('.validar_senha').change(function(){
+        var senha = [];
+
+        $(".validar_senha").each(function(index, item) {
+            senha[index] = $(this).val();
+        });
+
+        if (typeof senha[0] !== 'undefined' && typeof senha[1] !== 'undefined' && [0] != '' && senha[1] != '') {
+            if(senha[0] != senha[1]){
+                 swal("Erro", "As senhas não coincidem!", "error");
+            }
+        }
+    });
+
+    $('.email_unico').change(function(){
+
+        if($('.email_unico').val() == ''){
+            return false;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: "/usuario/verificar_duplicidade_ajax",
+            data: {
+                usuario: $('.email_unico').val()
+            },
+            dataType: 'json',
+            async: false,
+            beforeSend: function(){
+                carregar_loader('show');
+            },
+            success: function(dados) {
+                if(dados == false){
+                    swal({
+                        title: 'Erro',
+                        text: 'Email ja cadastrado no sistema!',
+                        type: 'error',
+                        tconfirmButtonText: 'OK'
+                    });
+
+                    $('.email_unico').val('');
+                } else {
+                    setTimeout("carregar_loader('hide');", 1000);
+                }
+            }
+        });
+    });
+
 	$('.validar_email').change(function(){
 		if($('.validar_email').val() == ''){
 			return false;
@@ -103,6 +153,8 @@ $(document).ready(function(){
             to_lower = to_lower.trim();
 
             if(to_lower.length > 3){
+                first_to_upper = to_lower.slice(0,1).toUpperCase() + to_lower.slice(1);
+            }else if(to_lower == 'ana'){
                 first_to_upper = to_lower.slice(0,1).toUpperCase() + to_lower.slice(1);
             }else{
                 first_to_upper = to_lower;

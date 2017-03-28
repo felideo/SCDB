@@ -84,6 +84,10 @@ function carregar_variavel($nome, $padrao = '') {
     return $padrao;
 }
 
+function remover_acentos($string){
+    return preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"),$string);
+}
+
 function transformar_array($variavel) {
 
     if (!is_array($variavel)) {
@@ -112,22 +116,3 @@ function transformar_array($variavel) {
     return $variavel;
 }
 
-function gravar_banco_dados($post = array(), $tabela) {
-    $db = new Libs\Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
-    $db->insert($tabela, $post);
-}
-
-function modulos(){
-    $path = 'views/';
-    $results = scandir($path);
-
-    foreach ($results as $indice => $result) {
-        if ($result === '.' or $result === '..') continue;
-
-        if (is_dir($path . '/' . $result)) {
-            $retorno[$indice] = $result;
-        }
-    }
-
-    return array_values($retorno);
-}
