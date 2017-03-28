@@ -25,13 +25,11 @@ class Modulo extends \Libs\Controller {
 		$this->listagem($this->model->load_modulo_list($this->modulo['modulo']));
 
 		$this->view->submenu_list = $this->model->load_active_list('submenu');
-		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
+
 	}
 
 	public function listagem($dados_linha){
-		// debug2($dados_linha);
-
-
 		// ordem
 		foreach ($dados_linha as $indice => $linha) {
 			$retorno_linhas[] = [
@@ -55,7 +53,8 @@ class Modulo extends \Libs\Controller {
 
 		$this->view->cadastro = $this->model->full_load_by_id('modulo', $id[0])[0];
 		$this->view->submenu_list = $this->model->load_active_list('submenu');
-		$this->view->render($this->modulo['modulo'] . '/editar/editar');
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
+
 	}
 
 	public function visualizar($id){
@@ -64,7 +63,7 @@ class Modulo extends \Libs\Controller {
 		$this->view->cadastro = $this->model->full_load_by_id('modulo', $id[0])[0];
 		$this->view->submenu_list = $this->model->load_active_list('submenu');
 
-		$this->view->render($this->modulo['modulo'] . '/editar/editar');
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
 		$this->view->lazy_view();
 	}
 
@@ -88,7 +87,7 @@ class Modulo extends \Libs\Controller {
 			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro, por favor tente novamente...', 'erro');
 		}
 
-		header('location: ' . URL . $this->modulo['modulo']);
+		header('location: /' . $this->modulo['modulo']);
 	}
 
 	public function update($id) {
@@ -107,7 +106,7 @@ class Modulo extends \Libs\Controller {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');
 		}
 
-		header('location: ' . URL . $this->modulo['modulo']);
+		header('location: /' . $this->modulo['modulo']);
 	}
 
 	public function delete($id) {
@@ -121,7 +120,7 @@ class Modulo extends \Libs\Controller {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do cadastro, por favor tente novamente...', 'erro');
 		}
 
-		header('location: ' . URL . $this->modulo['modulo']);
+		header('location: /' . $this->modulo['modulo']);
 	}
 }
 

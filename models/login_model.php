@@ -25,6 +25,22 @@ class Login_Model extends \Libs\Model {
 		}
 	}
 
+	public function run_back() {
+
+		\Libs\Session::init();
+
+		$this->sign_in();
+
+		if(isset($_SESSION['logado']) && $_SESSION['logado'] == true){
+			$this->load_permissions();
+			$this->load_modulos_and_menus();
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	private function sign_in(){
 		$sth = $this->db->prepare("SELECT * FROM usuario WHERE
 			email = :email AND senha = :senha");

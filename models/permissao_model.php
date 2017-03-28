@@ -38,8 +38,7 @@ class Permissao_Model extends \Libs\Model {
 			$retorno[$permissao['modulo_modulo']]['permissoes'][$permissao['permissao']] = [
 				'id' => $permissao['id'],
 	            'permissao' => $permissao['permissao'],
-	            'nome'	=> str_replace('_', ' ', str_replace($permissao['modulo_modulo'] . '_', '', $permissao['permissao'])),
-	            'hash' => $permissao['hash']
+	            'nome'	=> str_replace('_', ' ', str_replace($permissao['modulo_modulo'] . '_', '', $permissao['permissao']))
 			];
 		}
 

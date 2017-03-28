@@ -11,18 +11,22 @@ class Login extends \Libs\Controller {
 		'send'		=> 'Login'
 	];
 
-	function __construct() {
+	public function __construct() {
 		// \Util\Auth::handLeLoggin();
 		parent::__construct();
 
 		$this->view->modulo = $this->modulo;
 	}
 
-	function index() {
-		$this->view->clean_render('/login/login');
+	public function index() {
+		$this->view->render('front/cabecalho_rodape', 'front/acesso/login/login');
 	}
 
-	function run() {
+	public function admin() {
+		$this->view->render('back/cabecalho_rodape', 'back/login/login');
+	}
+
+	public function run() {
 		$retorno = $this->model->run();
 
 		if($retorno == true){

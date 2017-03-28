@@ -32,5 +32,10 @@ abstract class Controller {
 		}
 	}
 
-	abstract public function index();
+	public function check_if_exists($id){
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id} AND ativo = 1"))){
+			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' não existe...', 'erro');
+			header('location: /' . $this->modulo['modulo']);
+		}
+	}
 }

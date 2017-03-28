@@ -8,20 +8,54 @@ class View {
 	function __construct(){
 	}
 
-	public function render($name, $noInclude = false) {
-		if($noInclude == true){
-			require 'views/' . $name . '.php';
-		} else {
-			require 'views/render/render/header.php';
-			require 'views/' . $name . '.php';
-			require 'views/render/render/footer.php';
+
+	public function render($header_footer, $body) {
+		if(!file_exists('views/' . $header_footer . '/header.php')){
+			$e = new \Exception('Cabeçalho: views/' . $header_footer . '/header.php não existe!');
+			debug2($e->getMessage());
+            debug2($e->getTrace());
+            exit;
 		}
+
+		if(!file_exists('views/' . $header_footer . '/footer.php')){
+			$e = new \Exception('Rodape: views/render/' . $header_footer . '/footer.php não existe!');
+			debug2($e->getMessage());
+            debug2($e->getTrace());
+            exit;
+		}
+
+		if(!file_exists('views/' . $body . '.php')){
+			$e = new \Exception('View não existe!');
+			debug2($e->getMessage());
+            debug2($e->getTrace());
+            exit;
+		}
+
+		require 'views/' . $header_footer . '/header.php';
+		require 'views/' . $body . '.php';
+		require 'views/' . $header_footer . '/footer.php';
 	}
+
+	// public function render($name, $noInclude = false) {
+	// 	if($noInclude == true){
+	// 		require 'views/' . $name . '.php';
+	// 	} else {
+	// 		require 'views/render/render/header.php';
+	// 		require 'views/' . $name . '.php';
+	// 		require 'views/render/render/footer.php';
+	// 	}
+	// }
 
 	public function clean_render($name) {
 		require 'views/render/clean_render/header.php';
 		require 'views/' . $name . '.php';
 		require 'views/render/clean_render/footer.php';
+	}
+
+	public function front_render($name) {
+		require 'views/render/front_render/header.php';
+		require 'views/' . $name . '.php';
+		require 'views/render/front_render/footer.php';
 	}
 
 	public function sub_render($name, $name_2 = null) {
@@ -83,7 +117,7 @@ class View {
 			. " 	\tfunction(){\n"
 			. "			console.log('lerolero');\n"
 			. " 		\t$.ajax({\n"
-			. "			\turl: 'master/limpar_alertas_ajax',\n"
+			. "			\turl: '/master/limpar_alertas_ajax',\n"
 			. " 		\tsuccess: function(retorno){\n"
 			. "				\tconsole.log(retorno);\n"
 			. "   		\t}\n"
@@ -99,13 +133,6 @@ class View {
 		. "\n            $(this).prop('disabled', true);"
 		. "\n        });"
 		. "\n"
-		. "\n        $('.voltar').each(function(){"
-		. "\n            $('.btn-success').hide();"
-		. "\n            $(this).prop('disabled', false);"
-		. "\n            $(this).show();"
-		. "\n            $(this).html('Voltar');"
-		. "\n        });"
-		. "\n"
 		. "\n        $('#modulo').removeAttr('action');"
 		. "\n"
 		. "\n        $('.btn.btn-primary').remove();"
@@ -115,19 +142,28 @@ class View {
 		echo $visualizar;
 	}
 
-	public function default_buttons_listagem($id, $view = true, $edit = true, $delete = true ){
-		$url = URL;
+	public function default_buttons_listagem($id, $visualizar = true, $editar = true, $excluir = true){
+		$botao_visualizar = '';
+		$botao_editar     = '';
+		$botao_excluir    = '';
 
-		$botao_visualizar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar") && $view == true ?
-			"<a href='{$url}{$this->modulo['modulo']}/visualizar/{$id}' title='Visualizar'><i class='fa fa-eye fa-fw'></i></a>" :
-			'';
+		if($visualizar){
+			$botao_visualizar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar") ?
+				"<a href='/{$this->modulo['modulo']}/visualizar/{$id}' title='Visualizar'><i class='fa fa-eye fa-fw'></i></a>" :
+				'';
+			}
 
-		$botao_editar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar") && $edit == true ?
-			"<a href='{$url}{$this->modulo['modulo']}/editar/{$id}' title='Editar'><i class='fa fa-pencil fa-fw'></i></a>" :
-			 '';
-		$botao_excluir = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar") && $delete == true ?
-			"<a href='{$url}{$this->modulo['modulo']}/delete/{$id}' title='Deletar'><i class='fa fa-trash-o fa-fw'></i></a>" :
-			'';
+		if($editar){
+			$botao_editar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar") ?
+				"<a href='/{$this->modulo['modulo']}/editar/{$id}' title='Editar'><i class='fa fa-pencil fa-fw'></i></a>" :
+				 '';
+		}
+
+		if($excluir){
+			$botao_excluir = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar") ?
+				"<a href='/{$this->modulo['modulo']}/delete/{$id}' title='Deletar'><i class='fa fa-trash-o fa-fw'></i></a>" :
+				'';
+		}
 
 		return $botao_visualizar . $botao_editar . $botao_excluir;
 	}

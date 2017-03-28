@@ -26,7 +26,8 @@ class Submenu extends \Libs\Controller {
 		$this->view->set_colunas_datatable(['ID', 'Submenu', 'Exibiçao', 'Icone', 'Ações']);
 		$this->listagem($this->model->load_active_list('submenu'));
 
-		$this->view->render($this->modulo['modulo'] . '/listagem/listagem');
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
+
 	}
 
 
@@ -48,14 +49,15 @@ class Submenu extends \Libs\Controller {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
 		$this->view->cadastro = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
-		$this->view->render($this->modulo['modulo'] . '/editar/editar');
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
+
 	}
 
 	public function visualizar($id){
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
 		$this->view->cadastro = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
-		$this->view->render($this->modulo['modulo'] . '/editar/editar');
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
 
 		$this->view->lazy_view();
 	}
@@ -72,7 +74,7 @@ class Submenu extends \Libs\Controller {
 			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro, por favor tente novamente...', 'erro');
 		}
 
-		header('location: ' . URL . $this->modulo['modulo']);
+		header('location: /' . $this->modulo['modulo']);
 	}
 
 	public function update($id) {
@@ -87,7 +89,7 @@ class Submenu extends \Libs\Controller {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');
 		}
 
-		header('location: ' . URL . $this->modulo['modulo']);
+		header('location: /' . $this->modulo['modulo']);
 	}
 
 	public function delete($id) {
@@ -101,6 +103,6 @@ class Submenu extends \Libs\Controller {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do cadastro, por favor tente novamente...', 'erro');
 		}
 
-		header('location: ' . URL . $this->modulo['modulo']);
+		header('location: /' . $this->modulo['modulo']);
 	}
 }
