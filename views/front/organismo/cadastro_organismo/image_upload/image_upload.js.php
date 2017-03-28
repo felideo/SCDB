@@ -18,7 +18,7 @@
 		uploadSuccess: {
 	        endpoint: '/s3/success'
 	    },
-		autoUpload: false,
+		autoUpload: true,
 		debug: false,
 		callbacks: {
 			onSubmit: function (id, fileName) {
@@ -34,11 +34,9 @@
 
 				var id = typeof $(".carousel-indicators li").last().data('slide-to') !== 'undefined' ? $(".carousel-indicators li").last().data('slide-to') + 1 : 0;
 
-				// console.log(retorno['endereco']);
-
 				$('#myCarousel').show();
-				$('#ser_vivo_imagens').prepend('<div class="item" data-id="' + retorno['id'] + '"><img src="/' + retorno['endereco'] + '"  alt="" /></div>');
-				$('#ser_vivo_imagens_indicadores').prepend('<li data-target="#myCarousel" data-slide-to="' + retorno['id'] + '"></li>');
+				$('#ser_vivo_imagens').prepend('<div class="item"><img src="<?php echo URL; ?>' + retorno['endereco'] + '"  alt="" /></div>');
+				$('#ser_vivo_imagens_indicadores').prepend('<li data-target="#myCarousel" data-slide-to="' + (id) + '"></li>');
 
 				input = '<div>\n\t\t'
 					+ '<input type="hidden" value="' + retorno['id'] + '" name="imagens[' + $("#image_inputs > div").length + ']" />\n\t\t'
@@ -46,22 +44,11 @@
 
 
 
+
+
 				$('#image_inputs').append(input);
-
-				$('#ser_vivo_imagens div').each(function(){
-		 			$(this).removeClass('active');
-				});
-
-				$('#ser_vivo_imagens_indicadores li').each(function(){
-		 			$(this).removeClass('active');
-				});
-
-				$('#ser_vivo_imagens div:first').addClass('active');
-				$('#ser_vivo_imagens_indicadores li:first').addClass('active');
-
-
-				$("#myCarousel").carousel("pause").removeData();
-				$("#myCarousel").carousel(retorno['id']);
+				// $('#ser_vivo_imagens li:first').addClass('active');
+				// $('#ser_vivo_imagens_indicadores li:first').addClass('active');
 
 				// setTimeout(function(){
 				//   	$('#1_remove').remove();

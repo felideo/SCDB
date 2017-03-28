@@ -1,7 +1,7 @@
 <?php
-    // if(\Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . '_criar')){
-    //     require 'views/back/' . $this->modulo['modulo'] . '/form/form.php';
-    // }
+    if(\Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . '_criar')){
+        require 'views/back/' . $this->modulo['modulo'] . '/form/form.php';
+    }
 ?>
 
 <div style="display: block; clear: both;"></div>

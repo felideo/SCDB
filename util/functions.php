@@ -87,7 +87,7 @@ function carregar_variavel($nome, $padrao = '') {
 function transformar_array($variavel) {
 
     if (!is_array($variavel)) {
-        return trim($variavel);
+        return $variavel;
     }
 
     foreach ($variavel as $chave => $cada) {
@@ -97,13 +97,13 @@ function transformar_array($variavel) {
         } else {
 
             if (substr($chave, 0, 8) == 'numero__') {
-                $variavel[substr($chave, 8)] = transformar_numero(trim($cada));
+                $variavel[substr($chave, 8)] = transformar_numero($cada);
                 unset($variavel[$chave]);
             } else if (substr($chave, 0, 6) == 'data__') {
-                $variavel[substr($chave, 6)] = transformar_data(trim($cada));
+                $variavel[substr($chave, 6)] = transformar_data($cada);
                 unset($variavel[$chave]);
             } else if (substr($chave, 0, 7) == 'senha__') {
-                $variavel[substr($chave, 7)] = transformar_senha(trim($cada));
+                $variavel[substr($chave, 7)] = transformar_senha($cada);
                 unset($variavel[$chave]);
             }
         }
@@ -130,25 +130,6 @@ function transformar_data($data) {
         if (isset($dataHora[1])) {
             $var .= ' ' . $dataHora[1];
         }
-    }
-
-    return $var;
-}
-
-function transformar_numero($numero, $forcar_verificacao = false) {
-    if (is_numeric($numero) && !$forcar_verificacao) {
-        return $numero;
-    }
-
-    if ($numero != '') {
-        $var = $numero;
-        $var = str_replace('R', '', $var);
-        $var = str_replace('$', '', $var);
-        $var = str_replace(' ', '', $var);
-        $var = str_replace('.', '', $var);
-        $var = str_replace(',', '.', $var);
-    } else {
-        return 0;
     }
 
     return $var;

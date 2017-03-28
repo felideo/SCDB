@@ -66,9 +66,6 @@ class Mail {
 
  		$retorno = mail($this->to, $this->assunto, nl2br($this->mensagem), $headers);
 
- 		debug2($retorno);
- 		exit;
-
  		return $retorno;
 	}
 }

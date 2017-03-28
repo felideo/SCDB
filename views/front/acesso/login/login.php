@@ -1,11 +1,11 @@
 <!-- ******LOGIN****** -->
-<section id="contact" class="contact leaf section has-pattern" style="min-height: 84vh;">
+<section id="contact" class="contact section has-pattern" style="min-height: 84vh;">
     <div class="container">
         <div class="row text-center">
             <h2 class="title">Login</h2>
-<!--             <div class="intro col-md-6 col-sm-12 col-xs-12 col-md-offset-3">
+            <div class="intro col-md-6 col-sm-12 col-xs-12 col-md-offset-3">
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis nunc velit, mattis ultrices nisi dignissim vitae. Aenean convallis urna convallis accumsan accumsan.</p>
-            </div> -->
+            </div>
         </div><!--//row-->
         <div class="row text-center">
             <div class="contact-form col-md-6 col-sm-12 col-xs-12 col-md-offset-3">
