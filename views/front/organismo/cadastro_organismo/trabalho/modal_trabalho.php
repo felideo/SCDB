@@ -18,20 +18,18 @@
 
 	                            <div class="form-group">
 	                                <label>Lattes/Site</label>
-	                                <p id="link_autor_div" style="display: none;"></p>
-	                                <input id="link_autor_input" type="text" class="form-control" name="site">
+	                                <input type="text" class="form-control" name="site">
 	                            </div>
 
 	                            <div class="form-group">
 	                                <label>Email</label>
-	                                <p id="email_autor_div" style="display: none;"></p>
-	                                <input class="somente_letras embelezar_string" id="email_autor_input" type="email" class="form-control" name="email">
+	                                <input type="email" class="form-control" name="email">
 	                            </div>
 
 	                            <div id="upload_trabalho" class="row" style="display: none;">
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 										<div id="upload_trabalho_trigger"></div>
-		                                <input type="text" class="form-control" id="id_arquivo" name="id_arquivo">
+		                                <input type="text" class="form-control" id="id_arquivo">
 									</div>
 								</div>
 

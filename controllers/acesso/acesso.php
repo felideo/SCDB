@@ -57,8 +57,7 @@ class acesso extends \Libs\Controller {
 
 		$insert_db = [
 			'email'      => $usuario['email'],
-			'senha'      => $usuario['senha'],
-			'hierarquia' => 2
+			'senha'      => $usuario['senha']
 		];
 
 		$retorno_usuario = $this->model->create('usuario', $insert_db);
@@ -71,10 +70,7 @@ class acesso extends \Libs\Controller {
 				'pronome'     => $usuario['pronome'],
 				'nome'        => $usuario['nome'],
 				'sobrenome'   => $usuario['sobrenome'],
-				'instituicao' => $usuario['instituicao'],
-				'atuacao'     => $usuario['atuacao'],
-    			'lattes' 	  => $usuario['lattes'],
-    			'grau'   	  => $usuario['grau'],
+				'instituicao' => $usuario['instituicao']
 			];
 
 			$retorno_pessoa = $this->model->create('pessoa', $insert_db);

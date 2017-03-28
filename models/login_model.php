@@ -31,9 +31,6 @@ class Login_Model extends \Libs\Model {
 
 		$this->sign_in();
 
-
-
-
 		if(isset($_SESSION['logado']) && $_SESSION['logado'] == true){
 			$this->load_permissions();
 			$this->load_modulos_and_menus();

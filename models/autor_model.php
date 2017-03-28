@@ -65,4 +65,8 @@ class Autor_Model extends \Libs\Model {
 
 		return $this->db->select($select);
 	}
+
+
+
+
 }

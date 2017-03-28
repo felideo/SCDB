@@ -5,11 +5,6 @@
 	            echo $_SESSION['alertas'];
 	        }
 	    ?>
-
-	    $(window).load(function(){
-	    	limpar_alertas_ajax();
-	    });
-
 	</script>
 </body>
 

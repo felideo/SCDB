@@ -23,11 +23,11 @@
 				<li>
 					<a href="#">
 						<i class="fa fa-user fa-fw"></i>
-						Perfil do Usuario
+						User Profile
 					</a>
 				</li>
 				<li class="divider"></li>
-				<li><a href="/master/logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+				<li><a href="/master/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 				</li>
 			</ul>
 			<!-- /.dropdown-user -->

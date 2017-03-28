@@ -25,7 +25,7 @@
 
     <!-- Plugins CSS -->
     <link href="/public/front_end/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <!-- <link href="<?php //echo URL; ?>public/bootstrap/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- <link href="<?php echo URL; ?>public/bootstrap/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
     <link rel="stylesheet" href="/public/front_end/plugins/flexslider/flexslider.css">
     <link rel="stylesheet" href="/public/front_end/plugins/animate-css/animate.min.css">
 
@@ -68,7 +68,7 @@
         <script type="text/javascript"  src="/public/js/jquery.mask.js"></script>
         <script type="text/javascript"  src="/public/js/mascaras.js"></script>
         <script type="text/javascript"  src="/public/js/validacoes.js"></script>
-        <!-- <script type="text/javascript"  src="/public/js/custom.js"></script> -->
+        <script type="text/javascript"  src="/public/js/custom.js"></script>
 
         <!-- Date Time Picker -->
         <script type="text/javascript" src="/public/bower_components/moment/min/moment.min.js"></script>
@@ -79,7 +79,7 @@
         <!-- Select2 3.  -->
         <link rel="stylesheet" type="text/css" href="/public/select2_gj/select2.css">
         <script src="/public/select2_gj/select2.js"></script>
-        <!-- <link rel="stylesheet" type="text/css" href="<?php //echo URL; ?>public/css/style.css"> -->
+        <!-- <link rel="stylesheet" type="text/css" href="<?php echo URL; ?>public/css/style.css"> -->
 
         <?php
             if(isset($this->js)) {
@@ -102,7 +102,7 @@
         <header id="top" class="header navbar-static-top">
             <div class="container">
                 <h1 class="logo pull-left">
-                <a href="/">
+                <a class="scrollto" href="#promo">
                 <i class="fa fa-leaf" style="color: #56bc94;"></i>
                     <span class="logo-title">Leaf Live DB</span>
                 </a>
@@ -119,31 +119,15 @@
                         <!--//nav-toggle-->
                     </div>
 
-                    <style type="text/css">
-                        .header .main-nav .nav .nav-item a{
-                            padding: 15px 15px;
-                        }
-                    </style>
-
                     <!--//navbar-header-->
                     <div class="navbar-collapse collapse" id="navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li class="active nav-item sr-only"><a class="scrollto" href="#promo">Home</a></li>
 
-                            <li class="nav-item">
-                                <a href="/busca/buscar">Buscar Ser Vivo</a>
-                            </li>
                             <?php if(\Libs\Session::get('logado')) : ?>
-                                <?php if(\Util\Permission::check_user_permission('organismo', 'organismo' . "_" . "criar")) : ?>
-                                    <li class="nav-item">
-                                        <a href="/organismo/cadastro">Cadastrar Ser Vivo</a>
-                                    </li>
-                                <?php endif ?>
-                                <?php if($_SESSION['usuario']['hierarquia'] == 1 || $_SESSION['usuario']['super_admin'] == 1 ) : ?>
-                                    <li class="nav-item">
-                                        <a href="/painel_controle">Painel de Administrativo</a>
-                                    </li>
-                                <?php endif ?>
+                                <li class="nav-item">
+                                    <a href="/organismo/cadastro">Cadastrar Ser Vivo</a>
+                                </li>
                                 <li class="nav-item">
                                     <a href="/usuario/perfil">Perfil</a>
                                 </li>

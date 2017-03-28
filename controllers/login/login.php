@@ -29,9 +29,6 @@ class Login extends \Libs\Controller {
 	public function run() {
 		$retorno = $this->model->run();
 
-		debug2($retorno);
-		exit;
-
 		if($retorno == true){
 			header('location: ../painel_controle');
 		}else{

@@ -72,7 +72,8 @@ class Hierarquia extends \Libs\Controller {
 
 		$this->view->cadastro = $this->model->load_hierarquia($id[0]);
 		$this->view->permissoes_list = $this->load_external_model('permissao')->load_permissions_list();
-		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/editar/editar', true);
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/editar/editar');
+		$this->view->lazy_view();
 	}
 
 	public function create() {
@@ -82,19 +83,15 @@ class Hierarquia extends \Libs\Controller {
 		$retorno = $this->model->create($this->modulo['modulo'], $insert_db);
 
 		if($retorno['status']){
-			$hierarquia_relaciona_permissao = carregar_variavel('hierarquia_relaciona_permissao');
+			foreach (carregar_variavel('hierarquia_relaciona_permissao') as $indice => $permissao) {
+					$insert_permissao = [
+						'id_hierarquia' => $retorno['id'],
+						'id_permissao' => $permissao
+					];
 
-			if(isset($hierarquia_relaciona_permissao) && !empty(carregar_variavel('hierarquia_relaciona_permissao'))){
-				foreach (carregar_variavel('hierarquia_relaciona_permissao') as $indice => $permissao) {
-						$insert_permissao = [
-							'id_hierarquia' => $retorno['id'],
-							'id_permissao' => $permissao
-						];
+				$retorno_permissoes[] = $this->model->create('hierarquia_relaciona_permissao', $insert_permissao);
+				unset($insert_permissao);
 
-					$retorno_permissoes[] = $this->model->create('hierarquia_relaciona_permissao', $insert_permissao);
-					unset($insert_permissao);
-
-				}
 			}
 		}
 
@@ -131,8 +128,6 @@ class Hierarquia extends \Libs\Controller {
 
 			unset($_SESSION['permissoes']);
 
-				$hierarquia = empty($_SESSION['usuario']['hierarquia']) ? 'NULL' : $_SESSION['usuario']['hierarquia'];
-
 				$select = 'SELECT hierarquia.id as id_hierarquia, hierarquia.nome,'
 					. ' relacao.id as id_relacao,'
 					. ' permissao.id as id_permissao, permissao.permissao, permissao.id_modulo,'
@@ -144,17 +139,17 @@ class Hierarquia extends \Libs\Controller {
 					. ' ON permissao.id = relacao.id_permissao'
 					. ' LEFT JOIN modulo modulo'
 					. ' ON modulo.id = permissao.id_modulo'
-					. ' WHERE hierarquia.id = ' . $hierarquia;
+					. ' WHERE hierarquia.id = ' . $_SESSION['usuario']['hierarquia'];
 
 				$permissoes = $this->model->db->select($select);
 
-				if(!empty($permissoes)){
-					foreach($permissoes as $indice => $permissao){
-						$retorno_permissoes[$permissao['modulo']][$permissao['permissao']] = $permissao;
-					}
-
-					\Libs\Session::set('permissoes', $retorno_permissoes);
+				foreach($permissoes as $indice => $permissao){
+					$retorno_permissoes[$permissao['modulo']][$permissao['permissao']] = $permissao;
 				}
+
+
+
+			\Libs\Session::set('permissoes', $retorno_permissoes);
 
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');
