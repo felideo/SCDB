@@ -1,17 +1,29 @@
 <!-- ******CLASSIFICACAO****** -->
-<?php require 'views/front/busca/filtros_busca/filtros_busca.php'; ?>
-
+<?php include_once '../' . strtolower(APP_NAME) . '/views/front/' . $this->modulo['modulo'] . '/classificacao/classificacao.php'; ?>
 <!--//classificacao-->
 
 <!-- ******IMAGE UPLOAD****** -->
-<?php require 'views/front/busca/resultado_busca/resultado_busca.php'; ?>
+<?php include_once '../' . strtolower(APP_NAME) . '/views/front/' . $this->modulo['modulo'] . '/resultado/resultado.php'; ?>
 <!--//image upload-->
 
 
 <script type="text/javascript">
-    // $(window).scroll(function(){
-    //         if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-    //             alert('fim');
-    //         }
-    // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $(window).scroll(function(){
+            if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+                  alert('fim');
+            }
+    });
 </script>

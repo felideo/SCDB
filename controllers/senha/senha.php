@@ -31,6 +31,7 @@ class Senha extends \Libs\Controller {
 		if(isset($retorno_hash['status']) && $retorno_hash['status'] == 1){
 			$send_email = new \Libs\Mail();
 
+
 			$mensagem = "Link para recuperação de senha:\n"
 				. "<br><br><br>\n"
 				. "<a href='" . URL . "senha/redefinir_senha/" . $hash . "'>\n"
@@ -39,17 +40,12 @@ class Senha extends \Libs\Controller {
 
 			$send_email->set_from('felideo@gmail.com')
 				->set_to($usuario[0]['email'])
-				->set_assunto('LeafLiveDB - Recuperação de Senha')
+				->set_assunto('NeuroSis - Recuperação de Senha')
 				->set_cco('felideo@gmail.com')
 				->set_mensagem($mensagem);
 
 			$retorno_email = $send_email->send_mail();
 		}
-
-
-
-		debug2($retorno_email);
-		exit;
 
 		if($retorno_email){
 			$this->view->alert_js('Email de enviado com sucesso!!!', 'sucesso');

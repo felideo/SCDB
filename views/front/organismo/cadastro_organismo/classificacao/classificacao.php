@@ -11,36 +11,17 @@
 
 			<!-- ******IMAGES CAROUSEL****** -->
 			<div class="overview col-xs-12 col-sm-12 col-md-4 col-lg-4">
-				<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="2000" style="display: block;">
+				<div id="myCarousel" class="carousel slide" data-ride="carousel" style="display: none;">
 				  	<!-- Indicators -->
 				  	<ol id="ser_vivo_imagens_indicadores" class="carousel-indicators">
-				  		    <?php
-						        if(isset($this->organismo['organismo_relaciona_imagem'])){
-						            foreach ($this->organismo['organismo_relaciona_imagem'] as $indice => $imagem) {
-					            		$active = $indice == 0 ? ' active ' : '';
-
-				    					$echo_imagem = "<li id='{$indice}_remove' data-target='#myCarousel' data-slide-to='{$indice}'";
-				    					$echo_imagem .= " class='{$active}'></li>";
-				    					echo $echo_imagem;
-				    				}
-						        }
-						    ?>
+				    	<li id='1_remove' data-target="#myCarousel" data-slide-to="0" class="active"></li>
 				  	</ol>
 
 				  	<!-- Wrapper for slides -->
 				  	<div id="ser_vivo_imagens" class="carousel-inner" role="listbox">
-				  		<?php
-					        if(isset($this->organismo['organismo_relaciona_imagem'])){
-					            foreach ($this->organismo['organismo_relaciona_imagem'] as $indice => $imagem) {
-					            	$active = $indice == 0 ? ' active ' : '';
-			    					$echo_imagem = "<div id='{$indice}_remove' class='item {$active}'>";
-			    					$echo_imagem .= "<img class='img-responsive center-block' src='/{$imagem['arquivo'][0]['endereco']}'  alt='' />";
-			    					$echo_imagem .= '</div>';
-
-			    					echo $echo_imagem;
-			    				}
-					        }
-					    ?>
+				  		<div id='2_remove' class="item active">
+				      		<img class="img-responsive center-block" src="/public/front_end/images/iphone/iphone-slide-1.png"  alt="" />
+				    	</div>
 				  	</div>
 
 				  	<!-- Left and right controls -->

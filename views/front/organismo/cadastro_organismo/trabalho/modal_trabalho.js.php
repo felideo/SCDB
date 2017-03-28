@@ -88,7 +88,14 @@
             			$('#id_trabalho_' + id + " .short_description").html(($(this).val()).substring(0,256));
 		 			}
 
+
+
+		 			console.log($(this).val() == 'link' && $(this).is(':checked') != 0);
+
 		 			if($(this).attr('name') == 'tipo_trabalho'){
+
+		 				console.log('#icone_tipo_trabalho_' + id);
+
 		 				if($(this).val() == 'link' && $(this).is(':checked') != 0){
             				$('#icone_tipo_trabalho_' + id).addClass('fa-link');
 			 			}else if($(this).val() == 'upload' && $(this).is(':checked') != 0){
@@ -96,26 +103,13 @@
 			 			}
 		 			}
 
+		 			var input = '<input id="' + $(this).attr('name') + '_' + id + '" name="trabalho[' + id + '][' + $(this).attr('name') + ']" value="' + $(this).val() + '">'
+		 			$('#id_trabalho_' + id + ' .content').append(input);
 
-		 			if($(this).attr('name') != 'tipo_trabalho'){
-			 			var input = '<input id="' + $(this).attr('name') + '_' + id + '" name="trabalho[' + id + '][' + $(this).attr('name') + ']" value="' + $(this).val() + '">'
-			 			$('#id_trabalho_' + id + ' .content').append(input);
-			 		}
-
-		 			if($(this).attr('name') != 'tipo_trabalho'){
-		 				$(this).val('');
-		 			}
-
+		 			$(this).val('');
 		 			$(this).select2('val', '');
-
 				}
 			});
-
-			$('#link_autor_div').html('');
-			$('#email_autor_div').html('');
-
-			$('#link_autor_div').hide();
-			$('#email_autor_div').hide();
 
  			$('.modal').modal('toggle');
 
@@ -155,31 +149,6 @@
 			return object.nome
 		},
 		formatSelection: function(object) {
-			console.log(object);
-			if($.isNumeric(object['id'])){
-				$('#link_autor_div').html(object['link']);
-				$('#email_autor_div').html(object['email']);
-
-				$('#link_autor_div').show();
-				$('#email_autor_div').show();
-
-				$('#link_autor_input').attr('disabled', true);
-				$('#email_autor_input').attr('disabled', true);
-				$('#link_autor_input').hide();
-				$('#email_autor_input').hide();
-			}else{
-				$('#link_autor_div').html('');
-				$('#email_autor_div').html('');
-
-				$('#link_autor_div').hide();
-				$('#email_autor_div').hide();
-
-				$('#link_autor_input').attr('disabled', false);
-				$('#email_autor_input').attr('disabled', false);
-				$('#link_autor_input').show();
-				$('#email_autor_input').show();
-			}
-
 			return object.nome.replace_all('Cadastrar ', '')
 		}
 	});
@@ -208,10 +177,10 @@
 			}
 		},
 		formatResult: function(object) {
-			return object.idioma
+			return object.nome
 		},
 		formatSelection: function(object) {
-			return object.idioma.replace_all('Cadastrar ', '')
+			return object.nome.replace_all('Cadastrar ', '')
 		}
 	});
 
@@ -239,14 +208,16 @@
 			}
 		},
 		formatResult: function(object) {
-			return object.palavra
+			return object.nome
 		},
 		formatSelection: function(object) {
-			return object.palavra.replace_all('Cadastrar ', '')
+			return object.nome.replace_all('Cadastrar ', '')
 		}
 	});
 
 
 	// 	document.getElementById("trigger-upload")).attach("click", function() {
 	// });
+</script>
+
 </script>

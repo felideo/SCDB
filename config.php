@@ -18,9 +18,9 @@ define('DB_PASS', 'lilith');
 
 // define('DB_TYPE', 'mysql');
 // define('DB_HOST', 'mysql.hostinger.com.br');
-// define('DB_NAME', 'u142129811_lldb');
-// define('DB_USER', 'u142129811_lldb');
-// define('DB_PASS', 'jsimone1546');
+// define('DB_NAME', 'u595159613_leaf');
+// define('DB_USER', 'u595159613_leaf');
+// define('DB_PASS', '20lilith88');
 
 define('APP_NAME', 'LeafLiveDB');
 

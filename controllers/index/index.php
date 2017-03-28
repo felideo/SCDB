@@ -17,17 +17,12 @@ class Index extends \Libs\Controller {
 	}
 
 	public function index() {
-		$this->view->imagens = $this->model->carregar_imagens_aleatorias();
+		// $this->view->clean_render('/index/index');
 		$this->view->render('front/cabecalho_rodape', 'front/index/index');
 	}
 
 	public function admin() {
 		header('location: login/admin');
-	}
-
-	public function print_sessao(){
-		debug2($_SESSION);
-		exit;
 	}
 
 }

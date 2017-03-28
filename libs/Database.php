@@ -23,24 +23,11 @@ class Database extends \PDO {
 	 */
 	public function select($sql, $array = array(), $fetchMode = \PDO::FETCH_ASSOC) {
 		$sth = $this->prepare($sql);
-		if(isset($array) && !empty($array)){
-			foreach($array as $key => $value) {
-				$sth->bindValue("$key", $value);
-			}
+		foreach($array as $key => $value) {
+			$sth->bindValue("$key", $value);
 		}
 
-		$retorno = [
-			$sth->execute(),
-			$sth->errorCode(),
-			$sth->errorInfo()
-		];
-
-		if(isset($retorno[2][2]) && !empty($retorno[2][2])){
-			return [
-				'error' => $retorno[2],
-				'backtrace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
-			];
-		}
+		$sth->execute();
 
 		return $sth->fetchAll($fetchMode);
 	}

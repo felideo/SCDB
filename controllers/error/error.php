@@ -15,7 +15,7 @@ class Error extends \Libs\Controller {
 	}
 
 	public function index() {
-		// $this->view->alert_js('A pagina que você tentou acessar não existe!!!', 'erro');
-		header('location: /');
+		$this->view->msg = 'Esta página não existe';
+		$this->view->render($this->modulo['modulo'] . '/' . $this->modulo['modulo']);
 	}
 }

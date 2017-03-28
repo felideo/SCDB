@@ -39,11 +39,11 @@ class idioma_model extends \Libs\Model{
 	public function buscar_idioma($busca){
 		$select = "SELECT"
 			. " 	idioma.id,"
-			. " 	idioma.idioma"
+			. " 	idioma.nome,"
 			. " FROM"
 			. " 	idioma idioma"
 			. " WHERE"
-			. " 	idioma.idioma LIKE '%{$busca['nome']}%'"
+			. " 	idioma.nome LIKE '%{$busca['nome']}%'"
 			. " AND idioma.ativo = 1";
 
 		if(isset($busca['page_limit'])){

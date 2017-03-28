@@ -1,0 +1,20 @@
+<?php
+/* template head */
+/* end template head */ ob_start(); /* template body */ ?><!-- concertar o caralho do nome da coluna da entidade campus!!!!!!!
+
+
+<div class="module-content collapse in" id="content-0">
+	<div class="module-content-inner no-padding-bottom">
+		<p class="intro margin-bottom-md">Notify.js is a jQuery plugin to provide simple yet fully customisable notifications. <a href="https://notifyjs.com/" target="_blank">Learn more</a></p>
+		<h4 class="has-divider">Global Styles</h4>
+		<ul class="list list-inline">
+			<li><button type="button" class="btn btn-primary" id="notify-default-trigger">Base</button></li>
+			<li><button type="button" class="btn btn-success" id="notify-success-trigger">Success</button></li>
+			<li><button type="button" class="btn btn-info" id="notify-info-trigger">Info</button></li>
+			<li><button type="button" class="btn btn-warning" id="notify-warn-trigger">Warn</button></li>
+			<li><button type="button" class="btn btn-danger" id="notify-error-trigger">Error</button></li>
+		</ul>
+	</div>
+</div> --><?php  /* end template body */
+return $this->buffer . ob_get_clean();
+?>

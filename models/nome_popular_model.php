@@ -12,7 +12,7 @@ class Nome_Popular_model extends \Libs\Model{
 		$select = "SELECT"
 			. " 	popular.id,"
 			. " 	popular.nome,"
-			. " 	relacao.id AS id_relacao,"
+			. " 	relacao.id,"
 			. " 	organismo.nome AS nome_organismo"
 			. " FROM"
 			. " 	nome_popular popular"
@@ -39,10 +39,11 @@ class Nome_Popular_model extends \Libs\Model{
 			}
 		}
 
-
 		if(isset($busca['start']) && isset($busca['length'])){
 			$select .= " LIMIT {$busca['start']}, {$busca['length']}";
 		}
+
+		debug2($select);
 
 		return $this->db->select($select);
 	}

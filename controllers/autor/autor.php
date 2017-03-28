@@ -32,9 +32,7 @@ class Autor extends \Libs\ControllerCrud {
 		foreach ($query as $indice => $item) {
 			$retorno[] = [
 				$item['id'],
-				$item['nome'],
-				$item['email'],
-				$item['link'],
+				$item['idioma'],
 				$this->view->default_buttons_listagem($item['id'], true, true, false)
 			];
 		}
