@@ -6,6 +6,10 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit4fd02fae0f9d271bbbb521796d279d31
 {
+    public static $files = array (
+        '2371fe58591751a9b725c6706865644e' => __DIR__ . '/..' . '/lichtner/fluentpdo/FluentPDO/FluentPDO.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {

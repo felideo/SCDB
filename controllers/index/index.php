@@ -17,7 +17,6 @@ class Index extends \Libs\Controller {
 	}
 
 	public function index() {
-		// $this->view->clean_render('/index/index');
 		$this->view->render('front/cabecalho_rodape', 'front/index/index');
 	}
 

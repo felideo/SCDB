@@ -1,13 +1,19 @@
 <?php
 namespace Libs;
-
+// include "../vendor/lichtner/fluentpdo/FluentPDO/FluentPDO.php";
 /**
 * classe Model
 */
 
 abstract class Model {
+	private $fpdo;
+
 	function __construct() {
 		$this->db = new Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
+	}
+
+	public function fpdo(){
+		return $this->fpdo;
 	}
 
 	public function create($table, $data){
