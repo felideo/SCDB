@@ -1,3 +1,4 @@
+
 <script type="text/javascript">
 	jQuery(function($) {
 	    // Asynchronously Load the map API
@@ -6,11 +7,25 @@
 	    document.body.appendChild(script);
 	});
 
-	  // Multiple Markers
     var markers = [
-        ['', -23.406,-46.762],
-        ['', -23.447,-46.706]
+        ['', -23.550,-46.630]
     ];
+
+    <?php
+        if(isset($this->organismo['organismo']['posicao_geografica']) && !empty($this->organismo['organismo']['posicao_geografica'])){
+            $markers = [];
+
+            foreach ($this->organismo['organismo']['posicao_geografica'] as $indice => $posicao) {
+                $markers[] = [
+                    '',
+                    $posicao['latitude'],
+                    $posicao['longitude'],
+                ];
+            }
+
+            echo 'markers = ' . json_encode($markers);
+        }
+    ?>
 
     function initialize(new_marks) {
     	if (typeof new_marks !== 'undefined') {
@@ -24,15 +39,13 @@
         var bounds = new google.maps.LatLngBounds();
         var mapOptions = {
             mapTypeId: 'roadmap',
-            zoom: 5
+            zoom: 15
 
         };
 
         // Display a map on the page
         map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
         map.setTilt(45);
-
-
 
         // Display multiple markers on a map
         var infoWindow = new google.maps.InfoWindow(), marker, i;

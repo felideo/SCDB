@@ -68,7 +68,7 @@
         <script type="text/javascript"  src="/public/js/jquery.mask.js"></script>
         <script type="text/javascript"  src="/public/js/mascaras.js"></script>
         <script type="text/javascript"  src="/public/js/validacoes.js"></script>
-        <script type="text/javascript"  src="/public/js/custom.js"></script>
+        <!-- <script type="text/javascript"  src="/public/js/custom.js"></script> -->
 
         <!-- Date Time Picker -->
         <script type="text/javascript" src="/public/bower_components/moment/min/moment.min.js"></script>
