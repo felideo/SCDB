@@ -23,8 +23,10 @@ class Database extends \PDO {
 	 */
 	public function select($sql, $array = array(), $fetchMode = \PDO::FETCH_ASSOC) {
 		$sth = $this->prepare($sql);
-		foreach($array as $key => $value) {
-			$sth->bindValue("$key", $value);
+		if(isset($array) && !empty($array)){
+			foreach($array as $key => $value) {
+				$sth->bindValue("$key", $value);
+			}
 		}
 
 		$sth->execute();

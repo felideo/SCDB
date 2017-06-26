@@ -105,3 +105,11 @@
 	background-size: 100%;
 	background-blend-mode: luminosity;order:"
 }
+.item-inner{
+	padding: 10px;
+	min-height: 171px;
+}
+
+.item-inner img{
+	width: 100%;
+}

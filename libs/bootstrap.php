@@ -95,8 +95,8 @@ class bootstrap {
 	 * método Error
 	 * É chamado quando um controlador ou seu método ñ existir
 	 */
-	public function error() {
-		header('location: ' . URL . 'error');
+	private function error() {
+		header('location: /error');
 	}
 
 }

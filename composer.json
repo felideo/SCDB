@@ -8,5 +8,6 @@
         }
     ],
     "require": {
+        "lichtner/fluentpdo": "^1.1"
     }
 }

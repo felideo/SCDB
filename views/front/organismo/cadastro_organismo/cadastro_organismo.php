@@ -1,12 +1,16 @@
-<form id="form_submit" method="post" action="/<?php echo $this->modulo['modulo'] . $this->action; ?>">
+<?php if(isset($this->action)) : ?> <form id="form_submit" method="post" action="/<?php echo $this->modulo['modulo'] . $this->action; ?>"> <?php endif ?>
 
 	<!-- ******CLASSIFICACAO****** -->
 	<?php require 'views/front/organismo/cadastro_organismo/classificacao/classificacao.php'; ?>
 	<!--//classificacao-->
 
-	<!-- ******IMAGE UPLOAD****** -->
-	<?php require 'views/front/organismo/cadastro_organismo/image_upload/image_upload.php'; ?>
-	<!--//image upload-->
+	<?php
+		if(!isset($this->organismo)){
+			echo '<!-- ******IMAGE UPLOAD****** -->';
+			require 'views/front/organismo/cadastro_organismo/image_upload/image_upload.php';
+			echo '<!--//image upload-->';
+		}
+	?>
 
 	<!-- ******DETALHES****** -->
 	<?php require 'views/front/organismo/cadastro_organismo/detalhes/detalhes.php'; ?>
@@ -30,4 +34,4 @@
 	    </div>
 	</section>
 	<!--//enviar-->
-</form>
+<?php if(isset($this->action)) : ?> </form> <?php endif ?>

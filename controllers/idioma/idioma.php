@@ -55,7 +55,7 @@ class Idioma extends \Libs\ControllerCrud {
 		if(isset($busca['cadastrar_busca']) && !empty($busca['cadastrar_busca']) && $busca['cadastrar_busca'] == 'true' && $busca['nome'] != '%%'){
 			$add_cadastro[0] = [
 				'id'               => $busca['nome'],
-				'nome'             => "<strong>Cadastrar Novo Idioma: </strong>" . $busca['nome'],
+				'idioma'             => "<strong>Cadastrar Novo Idioma: </strong>" . $busca['nome'],
 			];
 
 			$retorno = array_merge($add_cadastro, $retorno);

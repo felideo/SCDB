@@ -193,6 +193,12 @@ INSERT INTO `permissao`
 	(19,5,'hierarquia_editar'),
 	(20,5,'hierarquia_deletar');
 
+
+
+ALTER TABLE organismo
+ADD COLUMN `localizador` TEXT NOT NULL AFTER `id_last_taxon`;
+
+
 ALTER TABLE organismo
 ADD COLUMN aprovado TINYINT(1) NOT NULL DEFAULT 0 AFTER `localizador`;
 
@@ -212,13 +218,32 @@ CREATE TABLE `idioma` (
 	PRIMARY  KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
+
+
+CREATE TABLE `trabalho` (
+	`id`            INT(11) 		NOT NULL AUTO_INCREMENT,
+	`titulo`        TEXT 			NOT NULL,
+	`ano`           INT(4) 			NOT NULL,
+	`resumo`        TEXT 			NOT NULL,
+	`link_trabalho` TEXT 			NULL,
+	`id_arquivo`    INT(11) 		NULL,
+	`id_idioma`     INT(11) 		NOT NULL,
+	`id_autor`      INT(11) 		NOT NULL,
+	`ativo`        	TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY        KEY (`id`),
+	FOREIGN        KEY (`id_arquivo`) 	REFERENCES `arquivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN        KEY (`id_idioma`) 	REFERENCES `idioma` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN        KEY (`id_autor`) 	REFERENCES `autor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+
 CREATE TABLE `palavra_chave` (
-	`id`          INT(11) 			NOT NULL AUTO_INCREMENT,
-	`palavra`     VARCHAR(128) 		NOT NULL,
-	`id_trabalho` INT(11) 			NOT NULL,
-	`ativo`       TINYINT(1) 		NOT NULL DEFAULT '1',
-	PRIMARY       KEY (`id`),
-	FOREIGN       KEY (`id_trabalho`) REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+	`id`            INT(11) 			NOT NULL AUTO_INCREMENT,
+	`palavra_chave` VARCHAR(128) 		NOT NULL,
+	`id_trabalho`   INT(11) 			NOT NULL,
+	`ativo`         TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY         KEY (`id`),
+	FOREIGN         KEY (`id_trabalho`) REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
 CREATE TABLE `organismo_relaciona_trabalho` (
@@ -233,22 +258,23 @@ CREATE TABLE `organismo_relaciona_trabalho` (
 
 
 ALTER TABLE organismo
+ADD COLUMN numero_petalas VARCHAR(128) NOT NULL DEFAULT 0 AFTER `nome`;
+
+
+ALTER TABLE organismo
+ADD COLUMN numero_estames VARCHAR(128) NOT NULL DEFAULT 0 AFTER `numero_petalas`;
+
+
+ALTER TABLE organismo
+ADD COLUMN posicao_ovario VARCHAR(128) NOT NULL DEFAULT 0 AFTER `numero_estames`;
+
+ALTER TABLE organismo
 ADD COLUMN forma_folha VARCHAR(128) NOT NULL DEFAULT 0 AFTER `posicao_ovario`;
 
 
 
 
-CREATE TABLE `trabalho` (
-	`id`            INT(11) 		NOT NULL AUTO_INCREMENT,
-	`titulo`        TEXT 			NOT NULL,
-	`ano`           INT(4) 			NOT NULL,
-	`resumo`        TEXT 			NOT NULL,
-	`link_trabalho` TEXT 			NOT NULL,
-	`id_arquivo`    INT(11) 		NOT NULL,
-	`ativo`        TINYINT(1) 		NOT NULL DEFAULT '1',
-	PRIMARY        KEY (`id`),
-	FOREIGN        KEY (`id_arquivo`) 	REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
 
 CREATE TABLE `organismo_relaciona_nome_popular` (
 	`id`           INT(11) 			NOT NULL AUTO_INCREMENT,
@@ -270,8 +296,7 @@ CREATE TABLE `trabalho_relaciona_palavra_chave` (
 	FOREIGN            KEY (`id_palavra_chave`) REFERENCES `palavra_chave` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
-ALTER TABLE nome_popular DROP COLUMN id_organismo;
-ALTER TABLE palavra_chave DROP COLUMN id_trabalho;
+
 
 CREATE TABLE `organismo_trabalho_autor` (
 	`id`           INT(11) 			NOT NULL AUTO_INCREMENT,
@@ -292,3 +317,26 @@ ALTER TABLE palavra_chave DROP FOREIGN KEY `palavra_chave_ibfk_1`;
 ALTER TABLE palavra_chave DROP COLUMN id_trabalho;
 set foreign_key_checks = 1;
 
+ALTER TABLE `trabalho`
+    ADD COLUMN `id_autor` INT (11) NOT NULL AFTER resumo,
+    ADD FOREIGN KEY (id_autor) REFERENCES autor(id);
+
+
+ALTER TABLE posicao_geografica
+    CHANGE COLUMN `latitude` `latitude`  DECIMAL(12,4)	 	NOT NULL,
+    CHANGE COLUMN `longitude` `longitude`  DECIMAL(12,4)	 	NOT NULL;
+
+
+
+CREATE TABLE `posicao_geografica` (
+	`id`           INT(11) 			NOT NULL AUTO_INCREMENT,
+	`latitude`     DECIMAL(12,4)	NOT NULL,
+	`longitude`    DECIMAL(12,4)	NOT NULL,
+	`id_organismo` INT(11) 			NOT NULL,
+	`ativo`        TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY        KEY (`id`),
+	FOREIGN        KEY (`id_organismo`) REFERENCES `organismo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8
+
+ALTER TABLE organismo
+ADD COLUMN `descricao` TEXT NOT NULL AFTER `posicao_ovario`;

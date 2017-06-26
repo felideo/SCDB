@@ -27,6 +27,12 @@ class Nome_Popular extends \Libs\ControllerCrud {
 
 		$query = $this->model->carregar_listagem($busca);
 
+		foreach ($query as $indice => $retorno) {
+			if(empty($retorno['id'])){
+				unset($query[$indice]);
+			}
+		}
+
 		$retorno = [];
 
 		foreach ($query as $indice => $item) {
