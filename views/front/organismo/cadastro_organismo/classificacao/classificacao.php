@@ -14,7 +14,15 @@
 				<div id="myCarousel" class="carousel slide" data-ride="carousel" style="display: none;">
 				  	<!-- Indicators -->
 				  	<ol id="ser_vivo_imagens_indicadores" class="carousel-indicators">
-				    	<li id='1_remove' data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				  		    <?php
+						        if(isset($this->organismo[0]['imagem']) && !empty($this->organismo[0]['imagem'])){
+						            $markers = [];
+
+						            foreach ($this->organismo[0]['imagem'] as $indice => $imagem) {
+				    				// echo '<li id='1_remove' data-target="#myCarousel" data-slide-to="0"' . $indice == 0 ? . 'class="active"': '></li>';
+				    				}
+						        }
+						    ?>
 				  	</ol>
 
 				  	<!-- Wrapper for slides -->

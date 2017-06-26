@@ -182,12 +182,12 @@ class Palavra_chave extends \Libs\Controller {
 	public function buscar_palavra_chave_select2(){
 		$busca = carregar_variavel('busca');
 
-		$retorno = $this->model->buscar_autor($busca);
+		$retorno = $this->model->buscar_palavra_chave($busca);
 
 		if(isset($busca['cadastrar_busca']) && !empty($busca['cadastrar_busca']) && $busca['cadastrar_busca'] == 'true' && $busca['nome'] != '%%'){
 			$add_cadastro[0] = [
 				'id'               => $busca['nome'],
-				'nome'             => "<strong>Cadastrar Nova Palavra Chave: </strong>" . $busca['nome']
+				'palavra'             => "<strong>Cadastrar Nova Palavra Chave: </strong>" . $busca['nome']
 			];
 
 			$retorno = array_merge($add_cadastro, $retorno);

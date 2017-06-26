@@ -10,10 +10,10 @@ class Palavra_Chave_Model extends \Libs\Model {
 		parent::__construct();
 	}
 
-	public function buscar_autor($busca){
+	public function buscar_palavra_chave($busca){
 		$select = "SELECT"
 			. " 	palavra.id,"
-			. " 	palavra.palavra,"
+			. " 	palavra.palavra"
 			. " FROM"
 			. " 	palavra_chave palavra"
 			. " WHERE"
