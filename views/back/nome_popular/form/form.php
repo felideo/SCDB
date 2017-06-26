@@ -11,7 +11,11 @@
 
             <div class="row-fluid">
                 <div class="form-group span12">
-                    <label>Idioma</label>
+                    <label>Nome Popular</label>
+                    <input class="form-control somente_letras remover_caracteres_especiais" name="<?php echo $this->modulo['modulo']; ?>[nome]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['nome'];} ?>" required>
+                </div>
+                <div class="form-group span12">
+                    <label>Organismo</label>
                     <input class="form-control somente_letras remover_caracteres_especiais" name="<?php echo $this->modulo['modulo']; ?>[idioma]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['idioma'];} ?>" required>
                 </div>
             </div>

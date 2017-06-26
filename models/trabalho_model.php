@@ -2,7 +2,6 @@
 namespace Models;
 
 use Libs;
-use \Libs\QueryBuilder\QueryBuilder;
 
 class trabalho_model extends \Libs\Model{
 	public function __construct() {
@@ -15,7 +14,7 @@ class trabalho_model extends \Libs\Model{
 			. " 	trabalho.titulo,"
 			. " 	autor.nome,"
 			. " 	relacao.id_palavra_chave,"
-			. " 	palavra.palavra_chave"
+			. " 	palavra.palavra"
 			. " FROM"
 			. " 	trabalho trabalho"
 			. " LEFT JOIN autor autor"
@@ -52,34 +51,5 @@ class trabalho_model extends \Libs\Model{
 		}
 
 		return $this->db->select($select);
-	}
-
-	public function carregar_trabalho($id){
-		$query = new QueryBuilder($this->db);
-
-		$query->select('autor.*, trabalho.*, rel_palavra.*, palavra.*, arquivo.*, idioma.*, rel_trabalho.*')
-			->from('trabalho trabalho')
-			->leftJoin('autor autor'
-				. ' ON autor.id = trabalho.id_autor'
-			)
-			->leftJoin('trabalho_relaciona_palavra_chave rel_palavra'
-				. ' ON rel_palavra.id_trabalho = trabalho.id'
-			)
-			->leftJoin('palavra_chave palavra'
-				. 	' ON palavra.id = rel_palavra.id_palavra_chave'
-			)
-			->leftJoin('arquivo arquivo'
-				. ' ON arquivo.id = trabalho.id_arquivo'
-			)
-			->leftJoin('idioma idioma'
-				. ' ON idioma.id = trabalho.id_idioma'
-			)
-			->leftJoin('organismo_relaciona_trabalho rel_trabalho'
-				. ' ON rel_trabalho.id_trabalho = trabalho.id'
-			)
-			->where("trabalho.id = {$id}");
-
-
-		return $query->fetchArray()[0];
 	}
 }

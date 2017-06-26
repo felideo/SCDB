@@ -17,7 +17,21 @@ class organismo extends \Libs\Controller {
 	}
 
 	public function index() {
+		// debug2($id);
 		$this->view->render('front/cabecalho_rodape' ,'front/organismo/cadastro_organismo/cadastro_organismo');
+	}
+
+	public function visualizacao($id){
+		// debug2($id);
+
+		$organismo = $this->model->carregar_organismo($id[0]);
+		debug2($organismo);
+		exit;
+		$this->view->organismo = $organismo;
+		$this->view->render('front/cabecalho_rodape' ,'front/organismo/visualizacao_organismo/visualizacao_organismo');
+
+
+
 	}
 
 	public function cadastro(){
@@ -26,9 +40,6 @@ class organismo extends \Libs\Controller {
 	}
 
 	public function create(){
-		// debug2($_POST);
-
-
 		$taxonomia            = carregar_variavel('taxonomia');
 		$detalhes             = carregar_variavel('detalhes');
 		$nomes_populares      = carregar_variavel('nomes_populares');
@@ -41,8 +52,17 @@ class organismo extends \Libs\Controller {
 		$this->create_nome_popular($nomes_populares, $retorno_organismo);
 		$this->create_imagem_relacao($imagens, $retorno_organismo);
 		$this->create_posicao_geografica($posicoes_geograficas, $retorno_organismo);
-		$this->create_trabalho($trabalhos, $retorno_organismo);
+		$retorno_trabalho_autor = $this->create_trabalho($trabalhos, $retorno_organismo);
 
+		$this->create_relacao_organismo_trabalho_autor($retorno_trabalho_autor, $retorno_organismo);
+
+
+		// debug2($retorno_trabalho_autor);
+		// debug2($retorno_organismo);
+		// debug2('lerolero');
+		// exit;
+
+		// ZZZ: insert relação organismo, trabalho, autor;
 
 		if($retorno_organismo['status']){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' cadastrado com sucesso!!!', 'sucesso');
@@ -53,12 +73,26 @@ class organismo extends \Libs\Controller {
 		header('location: /' . $this->modulo['modulo']);
 	}
 
+
+	private function create_relacao_organismo_trabalho_autor($retorno_trabalho_autor){
+		foreach ($retorno_trabalho_autor as $indice => $trabalho) {
+			unset($trabalho['id_autor']);
+			$retorno_relacao = $this->model->get_insert('organismo_relaciona_trabalho', $trabalho);
+		}
+	}
+
+
 	private function create_trabalho($trabalhos, $retorno_organismo){
-		foreach ($trabalhos as $indice => $trabalho) {
+		$retorno_organismo_trabalho_autor = [];
+		foreach ($trabalhos as $indice_01 => $trabalho) {
+
+			$retorno_organismo_trabalho_autor[$indice_01]['id_organismo'] = $retorno_organismo['id'];
+
+
 			if(!is_numeric($trabalho['autor'])){
 				$insert_db_autor = [
-					'autor' => $trabalho['autor'],
-					'site'  => $trabalho['site'],
+					'nome' => $trabalho['autor'],
+					'link'  => $trabalho['site'],
 					'email' => $trabalho['email']
 				];
 
@@ -66,6 +100,11 @@ class organismo extends \Libs\Controller {
 			}else{
 				$retorno_autor['id'] = $trabalho['autor'];
 			}
+
+
+
+			$retorno_organismo_trabalho_autor[$indice_01]['id_autor'] = $retorno_autor['id'];
+
 
 			if(!is_numeric($trabalho['idioma'])){
 				$insert_db_idioma = [
@@ -77,18 +116,49 @@ class organismo extends \Libs\Controller {
 				$retorno_idioma['id'] = $trabalho['idioma'];
 			}
 
-			$insert_db_trabalho = [
-				'link_trabalho' => $trabalho['link_trabalho'],
-				'titulo'        => $trabalho['titulo'],
-				'ano'           => $trabalho['ano'],
-				'resumo'        => $trabalho['resumo']
-			];
+			if(isset($trabalho['link_trabalho']) && !empty($trabalho['link_trabalho'])){
+				$insert_db_trabalho = [
+					'ano'           => $trabalho['ano'],
+					'id_autor'      => $retorno_autor['id'],
+					'link_trabalho' => $trabalho['link_trabalho'],
+					'titulo'        => $trabalho['titulo'],
+					'resumo'        => $trabalho['resumo'],
+					'id_idioma'        => $retorno_idioma['id'],
+				];
 
-			$retorno_trabalho = $this->model->get_insert('trabalho', $insert_db_trabalho);
+				$retorno_trabalho = $this->model->get_insert('trabalho', $insert_db_trabalho);
+			}elseif(isset($trabalho['id_arquivo']) && !empty($trabalho['id_arquivo'])){
+				$insert_db_trabalho = [
+					'ano'        => $trabalho['ano'],
+					'id_autor'   => $retorno_autor['id'],
+					'id_arquivo' => $trabalho['id_arquivo'],
+					'titulo'     => $trabalho['titulo'],
+					'resumo'     => $trabalho['resumo'],
+					'id_idioma'     => $retorno_idioma['id'],
+				];
+
+				$retorno_trabalho = $this->model->get_insert('trabalho', $insert_db_trabalho);
+			}else{
+				$insert_db_trabalho = [
+					'ano'        => $trabalho['ano'],
+					'id_autor'   => $retorno_autor['id'],
+					'titulo'     => $trabalho['titulo'],
+					'resumo'     => $trabalho['resumo'],
+					'id_idioma'     => $retorno_idioma['id'],
+				];
+
+				$retorno_trabalho = $this->model->get_insert('trabalho', $insert_db_trabalho);
+
+			}
+
+			$retorno_organismo_trabalho_autor[$indice_01]['id_trabalho'] = $retorno_trabalho['id'];
 
 			$palavras_chave = explode(',', $trabalho['palavras_chave']);
 
-			foreach ($palavras_chave as $indice => $palavra_chave) {
+
+
+
+			foreach ($palavras_chave as $indice_02 => $palavra_chave) {
 
 				if(is_numeric($palavra_chave)){
 					$insert_db_relacao_palavra_chave = [
@@ -115,12 +185,9 @@ class organismo extends \Libs\Controller {
 				$this->model->get_insert('trabalho_relaciona_palavra_chave', $insert_db_relacao_palavra_chave);
 			}
 
-			$retorno_ralacao_organismo_trabalho_autor = [
-				`id_organismo` => $retorno_organismo['id'],
-				`id_trabalho`  => $retorno_trabalho['id'],
-				`id_autor`     => $retorno_autor['id'],
-			];
 		}
+
+		return $retorno_organismo_trabalho_autor;
 	}
 
 	private function create_imagem_relacao($imagens, $retorno_organismo){
@@ -140,14 +207,16 @@ class organismo extends \Libs\Controller {
 	}
 
 	private function create_posicao_geografica($posicoes_geograficas, $retorno_organismo){
+		if(!isset($posicoes_geograficas) || empty($posicoes_geograficas)){
+			return false;
+		}
+
 		foreach ($posicoes_geograficas as $indice => $posicao_geografica) {
 			$insert_db = [
-				'latitude'     => $posicao_geografica['latitude'],
-				'longitude'    => $posicao_geografica['longitude'],
+				'latitude'     => (float) $posicao_geografica['latitude'],
+				'longitude'    => (float) $posicao_geografica['longitude'],
 				'id_organismo' => $retorno_organismo['id']
 			];
-
-			$this->model->get_insert('posicao_geografica', $insert_db);
 		}
 	}
 
@@ -159,6 +228,15 @@ class organismo extends \Libs\Controller {
 			if(is_numeric($taxon) || empty($taxon)){
 				$organismo .= $taxon . '-';
 			}elseif(is_string($taxon)){
+
+				$verificar_duplicidade = $this->model->db->select("SELECT id, nome FROM taxon WHERE nome = '{$taxon}'");
+				if(!empty($verificar_duplicidade)){
+					$organismo .= $verificar_duplicidade[0]['id'] . '-';
+					$classificacao_taxonomica[$indice] = $verificar_duplicidade[0]['id'];
+					unset($verificar_duplicidade);
+					continue;
+				}
+
 				$insert_db = [
 					'nome'             => $taxon,
 					'id_classificacao' => $indice,
@@ -166,6 +244,7 @@ class organismo extends \Libs\Controller {
 				];
 
 				$retorno_insert_taxon = $this->model->get_insert('taxon', $insert_db);
+
 
 				if($retorno_insert_taxon['status'] == 1){
 					$organismo .= $retorno_insert_taxon['id'] . '-';
@@ -298,4 +377,6 @@ class organismo extends \Libs\Controller {
 		echo json_encode($retorno);
 		exit;
 	}
+
+
 }

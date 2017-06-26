@@ -17,6 +17,8 @@
 				};
 			},
 			results: function(data) {
+			console.log(data);
+
 				return {
 					results: data
 				};
@@ -29,4 +31,5 @@
 			return object.nome.replace_all('Cadastrar ', '')
 		}
 	});
+
 </script>

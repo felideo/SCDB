@@ -101,4 +101,26 @@
     	$('#nome_binominal').html(nome_binominal);
     }
 
+    <?php if(isset($this->organismo)) : ?>
+    	<?php if(count(explode('-', $this->organismo['organismo'][0]['localizador'])) == 7) : ?>
+            $('#especie').select2(
+                'data', {
+                    id: <?php echo $this->organismo['organismo']['taxon'][0]['id']; ?>,
+                    nome: '<?php echo $this->organismo['organismo']['taxon'][0]['nome']; ?>'
+                }
+            );
+
+            $('#especie').trigger("change");
+        <?php else : ?>
+    		$('#subespecie').select2(
+                'data', {
+                    id: <?php echo $this->organismo['organismo']['taxon'][0]['id']; ?>,
+                    nome: '<?php echo $this->organismo['organismo']['taxon'][0]['nome']; ?>'
+                }
+            );
+            $('#subespecie').trigger("change");
+
+	    <?php endif; ?>
+    <?php endif; ?>
+
 </script>

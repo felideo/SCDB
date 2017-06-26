@@ -18,7 +18,7 @@
 		uploadSuccess: {
 	        endpoint: '/s3/success'
 	    },
-		autoUpload: true,
+		autoUpload: false,
 		debug: false,
 		callbacks: {
 			onSubmit: function (id, fileName) {
