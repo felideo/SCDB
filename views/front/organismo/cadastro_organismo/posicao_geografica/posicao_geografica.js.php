@@ -12,10 +12,10 @@
     ];
 
     <?php
-        if(isset($this->organismo['organismo']['posicao_geografica']) && !empty($this->organismo['organismo']['posicao_geografica'])){
+        if(isset($this->organismo['posicao_geografica']) && !empty($this->organismo['posicao_geografica'])){
             $markers = [];
 
-            foreach ($this->organismo['organismo']['posicao_geografica'] as $indice => $posicao) {
+            foreach ($this->organismo['posicao_geografica'] as $indice => $posicao) {
                 $markers[] = [
                     '',
                     $posicao['latitude'],

@@ -340,3 +340,8 @@ CREATE TABLE `posicao_geografica` (
 
 ALTER TABLE organismo
 ADD COLUMN `descricao` TEXT NOT NULL AFTER `posicao_ovario`;
+
+ALTER TABLE pessoa
+ADD COLUMN `atuacao` TEXT NOT NULL AFTER `instituicao`,
+ADD COLUMN `lattes` TEXT NOT NULL AFTER `atuacao`,
+ADD COLUMN `grau` TEXT NOT NULL AFTER `lattes`;

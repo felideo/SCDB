@@ -20,6 +20,8 @@ function autoload($class_name) {
 
 	// $file_name = strtolower($file_name);
 	$file_name = str_replace('Libs', 'libs', $file_name);
+	$file_name = str_replace('Util', 'util', $file_name);
+
 
 	// $file_name .= str_replace('_', DIRECTORY_SEPARATOR, $class_name) . '.php';
 	$file_name .= $class_name . '.php';
