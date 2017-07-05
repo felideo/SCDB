@@ -11,15 +11,15 @@
 
 			<!-- ******IMAGES CAROUSEL****** -->
 			<div class="overview col-xs-12 col-sm-12 col-md-4 col-lg-4">
-				<div id="myCarousel" class="carousel slide" data-ride="carousel" style="display: none;">
+				<div id="myCarousel" class="carousel slide" data-ride="carousel" style="display: block;">
 				  	<!-- Indicators -->
 				  	<ol id="ser_vivo_imagens_indicadores" class="carousel-indicators">
 				  		    <?php
-						        if(isset($this->organismo[0]['imagem']) && !empty($this->organismo[0]['imagem'])){
-						            $markers = [];
-
-						            foreach ($this->organismo[0]['imagem'] as $indice => $imagem) {
-				    				// echo '<li id='1_remove' data-target="#myCarousel" data-slide-to="0"' . $indice == 0 ? . 'class="active"': '></li>';
+						        if(isset($this->organismo['organismo_relaciona_imagem'])){
+						            foreach ($this->organismo['organismo_relaciona_imagem'] as $indice => $imagem) {
+				    					$echo_imagem = "<li id='{$indice}_remove' data-target='#myCarousel' data-slide-to='{$indice}'";
+				    					$echo_imagem .= $indice == 0 ? " class='active'" : "></li>";
+				    					echo $echo_imagem;
 				    				}
 						        }
 						    ?>

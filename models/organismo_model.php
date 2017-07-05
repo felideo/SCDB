@@ -114,8 +114,7 @@ class Organismo_Model extends \Libs\Model {
 		->where("organismo.id = {$id}"
 			. " AND organismo.ativo = 1");
 
-		debug2($query->get_query());
 
-		return $query->fetchArray();
+		return $query->fetchArray('first');
 	}
 }

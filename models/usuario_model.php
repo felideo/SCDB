@@ -26,7 +26,7 @@ class usuario_model extends \Libs\Model
 
 	public function load_user_by_email($email){
 		try {
-			$select = "SELECT * FROM usuario WHERE email = '{$email} AND ativo = 1'";
+			$select = "SELECT * FROM usuario WHERE email = '{$email}' AND ativo = 1";
 
 			return $this->db->select($select);
 		}catch(Exception $e){

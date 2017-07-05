@@ -13,9 +13,8 @@ class QueryBuilder {
 	private $tables_x_alias = [];
 	private $join_on        = [];
 
-	public function =^-^=construct(){
+	public function __construct(){
 		$this->db = new \Libs\Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
-		set_time_limit (36000);
 	}
 
 	public function select($select){
@@ -34,12 +33,12 @@ class QueryBuilder {
 				continue;
 			}
 
-			$select[] = $item[0] . '.' . $item[1] . ' AS ' . $item[0] . '=^-^=' . $item[1];
+			$select[] = $item[0] . '.' . $item[1] . ' AS ' . $item[0] . '__' . $item[1];
 			$tables[$item[0]] = $item[0];
 		}
 
 		foreach ($tables as $indice => $item) {
-			$select[] = $item . '.id AS ' . $item . '=^-^=' . 'id';
+			$select[] = $item . '.id AS ' . $item . '__' . 'id';
 		}
 
 		$this->select = implode(', ', $select);
@@ -142,36 +141,36 @@ class QueryBuilder {
 		$alias = [];
 
 		foreach ($query[0] as $indice => $item) {
-			$selected_alias = explode('=^-^=', $indice)[0];
+			$selected_alias = explode('__', $indice)[0];
 			$alias[$selected_alias] = $selected_alias;
 		}
 
 		$ordenado_por_tabela = [];
 
 		foreach($query as $tabela) {
-			$primary_from = $this->from[1] . '=^-^=' . $this->join_on[$this->from[1]]['primary'];
+			$primary_from = $this->from[1] . '__' . $this->join_on[$this->from[1]]['primary'];
 
 			foreach ($tabela as $indice => $coluna) {
-				$tabela_x_coluna = explode('=^-^=', $indice);
+				$tabela_x_coluna = explode('__', $indice);
 
-				$primary = $tabela_x_coluna[0] . '=^-^=' . $this->join_on[$tabela_x_coluna[0]]['primary'];
+				$primary = $tabela_x_coluna[0] . '__' . $this->join_on[$tabela_x_coluna[0]]['primary'];
 
 				if(!empty($this->join_on[$tabela_x_coluna[0]]['from_table'])){
-					$foreign = $this->join_on[$this->join_on[$tabela_x_coluna[0]]['from_table']]['table'] . '=^-^=' . $this->join_on[$this->join_on[$tabela_x_coluna[0]]['from_table']]['primary'];
+					$foreign = $this->join_on[$this->join_on[$tabela_x_coluna[0]]['from_table']]['table'] . '__' . $this->join_on[$this->join_on[$tabela_x_coluna[0]]['from_table']]['primary'];
 				}
 
-				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '=^-^=' . $tabela[$primary]][$tabela_x_coluna[1]]  = $coluna;
-				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '=^-^=' . $tabela[$primary]]['join_on']            = $this->join_on[$tabela_x_coluna[0]];
-				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '=^-^=' . $tabela[$primary]]['join_on']['primary'] = $tabela[$primary];
- 				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '=^-^=' . $tabela[$primary]]['join_on']['foreign']      = isset($foreign) ? $tabela[$foreign] : null;
- 				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '=^-^=' . $tabela[$primary]]['join_on']['primary_from'] = $tabela[$primary_from];
+				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '__' . $tabela[$primary]][$tabela_x_coluna[1]]  = $coluna;
+				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '__' . $tabela[$primary]]['join_on']            = $this->join_on[$tabela_x_coluna[0]];
+				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '__' . $tabela[$primary]]['join_on']['primary'] = $tabela[$primary];
+ 				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '__' . $tabela[$primary]]['join_on']['foreign']      = isset($foreign) ? $tabela[$foreign] : null;
+ 				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '__' . $tabela[$primary]]['join_on']['primary_from'] = $tabela[$primary_from];
 			}
 		}
 
 		foreach($this->join_on as $level) {
 			foreach ($ordenado_por_tabela[$level['table']] as $resultado){
 
-				$index = $resultado['join_on']['primary_from'] . '=^-^=' . $resultado['join_on']['foreign'];
+				$index = $resultado['join_on']['primary_from'] . '__' . $resultado['join_on']['foreign'];
 
 				$tabela_join = $resultado['join_on']['table'];
 				unset($resultado['join_on']);
@@ -281,7 +280,7 @@ class QueryBuilder {
 		$retorno = [];
 
 		foreach ($selects as $select) {
-			$retorno[] = $table . '.' . $select . ' AS ' . $table . '=^-^=' . $select;
+			$retorno[] = $table . '.' . $select . ' AS ' . $table . '__' . $select;
 		}
 
 		return $retorno;

@@ -22,11 +22,12 @@ class organismo extends \Libs\Controller {
 	}
 
 	public function visualizacao($id){
-		// debug2($id);
-
 		$organismo = $this->model->carregar_organismo($id[0]);
+
+
 		debug2($organismo);
 		exit;
+
 		$this->view->organismo = $organismo;
 		$this->view->render('front/cabecalho_rodape' ,'front/organismo/visualizacao_organismo/visualizacao_organismo');
 

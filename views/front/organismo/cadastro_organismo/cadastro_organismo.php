@@ -1,5 +1,5 @@
 <?php if(isset($this->action)) : ?> <form id="form_submit" method="post" action="/<?php echo $this->modulo['modulo'] . $this->action; ?>"> <?php endif ?>
-
+<?php debug2($this->organismo['organismo_relaciona_imagem']); ?>
 	<!-- ******CLASSIFICACAO****** -->
 	<?php require 'views/front/organismo/cadastro_organismo/classificacao/classificacao.php'; ?>
 	<!--//classificacao-->

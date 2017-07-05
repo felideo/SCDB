@@ -76,6 +76,10 @@ class acesso extends \Libs\Controller {
 			$retorno_pessoa = $this->model->create('pessoa', $insert_db);
 		}
 
+		debug2($retorno_usuario);
+		debug2($retorno_pessoa);
+		exit;
+
 		if($retorno_usuario['status'] == 1 && $retorno_pessoa['status'] == 1 && !empty($retorno_usuario) && !empty($retorno_pessoa)){
 			$acesso = [
 				'email' => $usuario['email'],

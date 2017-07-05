@@ -102,23 +102,27 @@
     }
 
     <?php if(isset($this->organismo)) : ?>
-    	<?php if(count(explode('-', $this->organismo['organismo'][0]['localizador'])) == 7) : ?>
+    	<?php if(count(explode('-', $this->organismo['localizador'])) == 7) : ?>
             $('#especie').select2(
                 'data', {
-                    id: <?php echo $this->organismo['organismo']['taxon'][0]['id']; ?>,
-                    nome: '<?php echo $this->organismo['organismo']['taxon'][0]['nome']; ?>'
+                    id: <?php echo $this->organismo['taxon'][0]['id']; ?>,
+                    nome: '<?php echo $this->organismo['taxon'][0]['nome']; ?>'
                 }
             );
 
-            $('#especie').trigger("change");
+            setTimeout(function(){
+	            $('#especie').trigger("change");
+  			}, 1000);
         <?php else : ?>
     		$('#subespecie').select2(
                 'data', {
-                    id: <?php echo $this->organismo['organismo']['taxon'][0]['id']; ?>,
-                    nome: '<?php echo $this->organismo['organismo']['taxon'][0]['nome']; ?>'
+                    id: <?php echo $this->organismo['taxon'][0]['id']; ?>,
+                    nome: '<?php echo $this->organismo['taxon'][0]['nome']; ?>'
                 }
             );
-            $('#subespecie').trigger("change");
+            setTimeout(function(){
+	            $('#subespecie').trigger("change");
+  			}, 1000);
 
 	    <?php endif; ?>
     <?php endif; ?>

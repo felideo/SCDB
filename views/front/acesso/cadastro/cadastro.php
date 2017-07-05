@@ -5,7 +5,7 @@
         <div class="row text-center">
             <h2 class="title">Cadastro</h2>
             <div class="intro col-md-6 col-sm-12 col-xs-12 col-md-offset-3">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis nunc velit, mattis ultrices nisi dignissim vitae. Aenean convallis urna convallis accumsan accumsan.</p>
+                <p>Para que seja possivel efetuar a inserção de novos organismos ou trablhos, seu cadastro precisará ser aprovado por um administrador.</p>
             </div>
         </div><!--//row-->
 
@@ -33,6 +33,36 @@
                             <label>Instituição/Afiliação</label>
                             <input class="form-control" name="usuario[instituicao]" type="text" required >
                         </div>
+
+                        <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <label>Area de Atuação</label>
+                            <input class="form-control" name="usuario[atuacao]" type="text" required >
+                        </div>
+
+                        <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <label>Link Currículo Lattes</label>
+                            <input class="form-control" name="usuario[lattes]" type="text" required >
+                        </div>
+
+                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label>Grau </label>
+                            <label class="radio-inline">
+                                <input name="usuario[grau]" value="1" type="radio" required> Aluno de Graduação
+                            </label>
+                            <label class="radio-inline">
+                                <input name="usuario[grau]" value="2" type="radio" required> Aluno Pós greduação
+                            </label>
+                            <label class="radio-inline">
+                                <input name="usuario[grau]" value="3" type="radio" required> Professor
+                            </label>
+                            <label class="radio-inline">
+                                <input name="usuario[grau]" value="4" type="radio" required> Pesquisador
+                            </label>
+                            <label class="radio-inline">
+                                <input name="usuario[grau]" value="4" type="radio" required> Outros
+                            </label>
+                        </div>
+
 
                         <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
                             <label>Email</label>
