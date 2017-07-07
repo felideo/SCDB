@@ -12,40 +12,45 @@ class QueryBuilder {
 	private $innerJoin      = [];
 	private $tables_x_alias = [];
 	private $join_on        = [];
+	private $select_array = [];
 
-	public function __construct(){
-		$this->db = new \Libs\Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
+	public function __construct($db){
+		// $this->db = new \Libs\Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
+		// $this->db = new \Libs\Database('mysql', 'gestaoja2-aurora-outros.cpmpaudst387.us-east-1.rds.amazonaws.com', 'gestaoja2_basico2', 'diego.felideo', '64UOfkL3M9ZMK87sjY1T8b40Af993s');
+		$this->db = $db;
 	}
 
 	public function select($select){
-		$select = explode(',', str_replace(' ', '', str_replace("\t", '', str_replace("\n", '', $select))));
+		$select = trim(str_replace(' ', '', str_replace("\t", '', str_replace("\n", '', preg_replace('!\s+!', ' ', $select)))));
 
-		foreach ($select as $indice => $item) {
-			$item = explode('.', $item);
+		if(substr($select, -1) == ','){
+			$select = substr($select, 0, -1);
+		}
 
-			if(!isset($item[1]) || $item[1] == '*'){
-				$selects = $this->try_get_select_columns($item[0]);
+		$select = explode(',', $select);
 
-				if(!empty($selects)){
-					$select = $this->process_select_all($item[0], $selects);
-				}
 
+
+		foreach ($select as &$item) {
+			$table_column = explode('.', $item);
+
+			if(!isset($table_column[1])){
+				$item = $table_column[0];
+				$this->tables_get_primary[$table_column[0]] = 'from';
 				continue;
 			}
 
-			$select[] = $item[0] . '.' . $item[1] . ' AS ' . $item[0] . '__' . $item[1];
-			$tables[$item[0]] = $item[0];
+			if($table_column[1] == '*'){
+				$item = $table_column[0] . '.' . $table_column[1];
+				$this->tables_get_primary[$table_column[0]] = $table_column[0];
+				continue;
+			}
+
+			$item = $table_column[0] . '.' . $table_column[1] . ' AS ' . $table_column[0] . '__' . $table_column[1];
+			$this->tables_get_primary[$table_column[0]] = $table_column[0];
 		}
 
-		foreach ($tables as $indice => $item) {
-			$select[] = $item . '.id AS ' . $item . '__' . 'id';
-		}
-
-		$this->select = implode(', ', $select);
-
-		if(substr($this->select, -2) == ', '){
-			$this->select = substr($this->select, 0, -2);
-		}
+		$this->select_array = $select;
 
 		return $this;
 	}
@@ -54,10 +59,10 @@ class QueryBuilder {
 		$this->find_tables_name($from);
 		$this->from = explode(' ', $from);
 
-		$this->join_on[$this->from[0]] = [
+		$this->join_on[$this->from[1]] = [
 			'from_table' => 0,
-			'table'      => explode(' ', $from)[0],
-			'primary'    => $this->db->select("SHOW KEYS FROM {$this->tables_x_alias[$this->from[0]]} WHERE Key_name = 'PRIMARY'")[0]['Column_name']
+			'table'      => explode(' ', $from)[1],
+			'primary'    => $this->db->select("SHOW KEYS FROM {$this->from[0]} WHERE Key_name = 'PRIMARY'")[0]['Column_name']
 		];
 
 		return $this;
@@ -90,13 +95,17 @@ class QueryBuilder {
 	}
 
 	public function fetchArray($first = null){
+		debug2($this->get_query());
+
+		debug2($this->tables_x_alias);
+
 		$retorno =  $this->db->select($this->get_query());
 
 		if($first == 'first'){
 			return $this->convert_to_tree($retorno)[0];
 		}
 
-		return $this->convert_to_tree($retorno);;
+		return $this->convert_to_tree($retorno);
 	}
 
 	public function get_query(){
@@ -105,6 +114,36 @@ class QueryBuilder {
 	}
 
 	private function build_query(){
+		foreach ($this->join_on as $table) {
+			$this->select_array[] = $table['table'] . '.' . $table['primary'] . ' AS ' . $table['table'] . '__' . $table['primary'];
+		}
+
+		$merge = [];
+
+		foreach ($this->select_array as $indice => $select){
+			if(!stristr($select, '*')){
+				continue;
+			}
+
+			$select_porra_toda = $this->try_get_select_columns($this->tables_x_alias[explode('.', $select)[0]]);
+
+			if(!empty($select_porra_toda)){
+				$this->process_select_all(explode('.', $select)[0], $select_porra_toda);
+				unset($this->select_array[$indice]);
+			}
+
+			$merge = array_merge($merge, $select_porra_toda);
+		}
+
+		$this->select_array = array_merge($this->select_array, $merge);
+		$this->select_array = array_unique($this->select_array);
+
+		$this->select = trim(str_replace("\t", '', str_replace("\n", '', preg_replace('!\s+!', ' ', implode(', ', $this->select_array)))));
+
+		if(substr($this->select, -1) == ','){
+			$this->select = substr($this->select, 0, -1);
+		}
+
 		if(!empty($this->select)){
 			$this->query = 'SELECT ' . $this->select;
 		}
@@ -135,6 +174,7 @@ class QueryBuilder {
 			return ['Nenhum resultado ou erro na query'];
 		}
 
+
 		$this->get_height_nodes();
 		$this->order_by_node_height($this->join_on, 'level', 'desc');
 
@@ -148,12 +188,17 @@ class QueryBuilder {
 		$ordenado_por_tabela = [];
 
 		foreach($query as $tabela) {
+			// debug2($tabela);
+
 			$primary_from = $this->from[1] . '__' . $this->join_on[$this->from[1]]['primary'];
 
 			foreach ($tabela as $indice => $coluna) {
 				$tabela_x_coluna = explode('__', $indice);
 
 				$primary = $tabela_x_coluna[0] . '__' . $this->join_on[$tabela_x_coluna[0]]['primary'];
+// debug2($indice);
+// debug2($tabela_x_coluna[0]);
+// exit;
 
 				if(!empty($this->join_on[$tabela_x_coluna[0]]['from_table'])){
 					$foreign = $this->join_on[$this->join_on[$tabela_x_coluna[0]]['from_table']]['table'] . '__' . $this->join_on[$this->join_on[$tabela_x_coluna[0]]['from_table']]['primary'];
@@ -258,6 +303,8 @@ class QueryBuilder {
 	}
 
 	private function try_get_select_columns($table){
+		// debug2($table);
+
 		$columns = $this->get_columns_name($table);
 		if (!empty($columns)) {
 			$retorno = [];
@@ -276,14 +323,10 @@ class QueryBuilder {
 		return $this->db->select("SELECT column_name FROM information_schema.columns WHERE table_name = '{$table}'");
 	}
 
-	private function process_select_all($table, array $selects){
-		$retorno = [];
-
-		foreach ($selects as $select) {
-			$retorno[] = $table . '.' . $select . ' AS ' . $table . '__' . $select;
+	private function process_select_all($table, &$selects){
+		foreach ($selects as &$select) {
+			$select = $table . '.' . $select . ' AS ' . $table . '__' . $select;
 		}
-
-		return $retorno;
 	}
 
 	private function find_tables_name($join){

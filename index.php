@@ -33,4 +33,3 @@ function autoload($class_name) {
 
 spl_autoload_register('autoload');
 $lib = new libs\bootstrap();
-
