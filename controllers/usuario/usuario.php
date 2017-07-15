@@ -87,7 +87,7 @@ class Usuario extends \Libs\Controller {
 			exit;
 		}
 
-		$this->view->cadastro = $this->model->full_load_by_id('usuario', $id[0])[0];
+		$this->view->cadastro        = $this->model->load_cadastro($id[0]);
 		$this->view->hierarquia_list = $this->model->load_active_list('hierarquia');
 		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form');
 
@@ -167,6 +167,44 @@ class Usuario extends \Libs\Controller {
 	}
 
 	public function perfil(){
+		$cadastro = $this->model->carregar_usuario_por_id($_SESSION['usuario']['id']);
+		$this->view->cadastro = $cadastro;
 		$this->view->render('front/cabecalho_rodape', 'front/usuario/perfil');
+	}
+
+	public function update_perfil($id){
+		$usuario = carregar_variavel('usuario');
+		debug2($usuario);
+
+		if(isset($usuario['senha']) && !empty($usuario['senha'])){
+			$update_db = [
+				'senha' => $usuario['senha']
+			];
+
+			$retorno_usuario = $this->model->update('usuario', $id[0], $update_db);
+		}
+
+		unset($update_db);
+
+		$update_db = [
+			'pronome' 	  => $usuario['pronome'],
+    		'nome'        => $usuario['nome'],
+    		'sobrenome'   => $usuario['sobrenome'],
+    		'instituicao' => $usuario['instituicao'],
+    		'atuacao'     => $usuario['atuacao'],
+    		'lattes'      => $usuario['lattes'],
+    		'grau'        => $usuario['grau'],
+		];
+
+		$retorno_pessoa = $this->model->update('pessoa', $id[0], $update_db);
+
+		if($retorno_usuario['status'] == 1 || $retorno_pessoa['status'] == 1){
+			$this->view->alert_js('Edição efetuada com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro, por favor tente novamente...', 'erro');
+		}
+
+		header('location: /index');
+
 	}
 }

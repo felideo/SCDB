@@ -1,6 +1,9 @@
 <?php
 namespace Libs;
 // include "../vendor/lichtner/fluentpdo/FluentPDO/FluentPDO.php";
+// include "../vendor/felideotrine/query-builder/FelideoTrine/QueryBuilder.php";
+// include "../vendor/felideotrine/query-builder/FelideoTrine/QueryBuilder.php";
+
 /**
 * classe Model
 */

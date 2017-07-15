@@ -17,8 +17,10 @@
 				  		    <?php
 						        if(isset($this->organismo['organismo_relaciona_imagem'])){
 						            foreach ($this->organismo['organismo_relaciona_imagem'] as $indice => $imagem) {
+					            		$active = $indice == 0 ? ' active ' : '';
+
 				    					$echo_imagem = "<li id='{$indice}_remove' data-target='#myCarousel' data-slide-to='{$indice}'";
-				    					$echo_imagem .= $indice == 0 ? " class='active'" : "></li>";
+				    					$echo_imagem .= " class='{$active}'></li>";
 				    					echo $echo_imagem;
 				    				}
 						        }
@@ -27,9 +29,21 @@
 
 				  	<!-- Wrapper for slides -->
 				  	<div id="ser_vivo_imagens" class="carousel-inner" role="listbox">
-				  		<div id='2_remove' class="item active">
+				  		<?php
+					        if(isset($this->organismo['organismo_relaciona_imagem'])){
+					            foreach ($this->organismo['organismo_relaciona_imagem'] as $indice => $imagem) {
+					            	$active = $indice == 0 ? ' active ' : '';
+			    					$echo_imagem = "<div id='{$indice}_remove' class='item {$active}'>";
+			    					$echo_imagem .= "<img class='img-responsive center-block' src='/{$imagem['arquivo'][0]['endereco']}'  alt='' />";
+			    					$echo_imagem .= '</div>';
+
+			    					echo $echo_imagem;
+			    				}
+					        }
+					    ?>
+				  		<!-- <div id='2_remove' class="item active">
 				      		<img class="img-responsive center-block" src="/public/front_end/images/iphone/iphone-slide-1.png"  alt="" />
-				    	</div>
+				    	</div> -->
 				  	</div>
 
 				  	<!-- Left and right controls -->

@@ -14,7 +14,7 @@
             "reference": "fa0df68d098a1ebb1b0461e4750ef2749869219c",
             "shasum": ""
         },
-        "time": "2016-07-08T13:40:45+00:00",
+        "time": "2016-07-08 13:40:45",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -40,5 +40,40 @@
             "dbal",
             "pdo"
         ]
+    },
+    {
+        "name": "felideotrine/query-builder",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/felideo/FelideoTrine.git",
+            "reference": "abd72e7223319df516d851b4a14bec0825738f68"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/felideo/FelideoTrine/zipball/abd72e7223319df516d851b4a14bec0825738f68",
+            "reference": "abd72e7223319df516d851b4a14bec0825738f68",
+            "shasum": ""
+        },
+        "time": "2017-07-15 10:19:32",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Felideo\\FelideoTrine": "FelideoTrine/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Felideo Desittale Paravimnce",
+                "email": "felideo@gmail.com"
+            }
+        ],
+        "description": "Inicio de query builder que retorna o resultado em uma arvore"
     }
 ]

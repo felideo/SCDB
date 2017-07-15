@@ -1,8 +1,8 @@
-
     <!-- ******PROMO****** -->
     <!-- <section id="promo" class="promo leaf section offset-header has-pattern"> -->
     <section id="promo" class="promo section offset-header has-pattern">
 
+<?php debug2($this->imagens) ?>
         <div class="container">
             <div class="row">
                 <div class="overview col-md-8 col-sm-12 col-xs-12">
@@ -32,15 +32,13 @@
                         <div class="iphone-holder-inner">
                             <div class="slider flexslider">
                                 <ul class="slides">
-                                    <li>
-                                        <img src="assets/images/iphone/iphone-slide-1.png"  alt="" />
-                                    </li>
-                                    <li>
-                                        <img src="assets/images/iphone/iphone-slide-2.png"  alt="" />
-                                    </li>
-                                    <li>
-                                        <img src="assets/images/iphone/iphone-slide-3.png"  alt="" />
-                                    </li>
+                                    <?php
+                                        if(isset($this->imagens[0]) && !empty($this->imagens[0])){
+                                            foreach ($this->imagens as $indice => $imagem){
+                                                echo "<li><img src='/{$imagem['arquivo'][0]['endereco']}'  alt='' /></li>";
+                                            }
+                                        }
+                                    ?>
                                 </ul><!--//slides-->
                             </div><!--//flexslider-->
                         </div><!--//iphone-holder-inner-->

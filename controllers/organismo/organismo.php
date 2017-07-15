@@ -3,6 +3,8 @@ namespace Controllers;
 
 use Libs;
 
+
+
 class organismo extends \Libs\Controller {
 
 	private $modulo = [
@@ -22,17 +24,29 @@ class organismo extends \Libs\Controller {
 	}
 
 	public function visualizacao($id){
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: /index');
+			exit;
+		}
+
 		$organismo = $this->model->carregar_organismo($id[0]);
-
-
-		debug2($organismo);
-		exit;
 
 		$this->view->organismo = $organismo;
 		$this->view->render('front/cabecalho_rodape' ,'front/organismo/visualizacao_organismo/visualizacao_organismo');
+	}
+
+	public function visualizar($id){
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: /index');
+			exit;
+		}
 
 
-
+		if(!(\Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar"))){
+			header('location: /' . $this->modulo['modulo'] . '/visualizacao/' . $id[0]);
+		}
 	}
 
 	public function cadastro(){

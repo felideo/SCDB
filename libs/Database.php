@@ -29,7 +29,18 @@ class Database extends \PDO {
 			}
 		}
 
-		$sth->execute();
+		$retorno = [
+			$sth->execute(),
+			$sth->errorCode(),
+			$sth->errorInfo()
+		];
+
+		if(isset($retorno[2][2]) && !empty($retorno[2][2])){
+			return [
+				'error' => $retorno[2],
+				'backtrace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
+			];
+		}
 
 		return $sth->fetchAll($fetchMode);
 	}

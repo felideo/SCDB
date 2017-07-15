@@ -1,5 +1,5 @@
 <?php
-namespace Libs\QueryBuilder;
+namespace  Libs\QueryBuilder;
 
 class QueryBuilder {
 	private $db;
@@ -13,6 +13,8 @@ class QueryBuilder {
 	private $tables_x_alias = [];
 	private $join_on        = [];
 	private $select_array = [];
+	private $order_by;
+	private $limit;
 
 	public function __construct($db){
 		// $this->db = new \Libs\Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
@@ -52,6 +54,16 @@ class QueryBuilder {
 
 		$this->select_array = $select;
 
+		return $this;
+	}
+
+	public function orderBy($order_by){
+		$this->order_by = $order_by;
+		return $this;
+	}
+
+	public function limit($limit){
+		$this->limit = $limit;
 		return $this;
 	}
 
@@ -95,13 +107,9 @@ class QueryBuilder {
 	}
 
 	public function fetchArray($first = null){
-		debug2($this->get_query());
-
-		debug2($this->tables_x_alias);
-
 		$retorno =  $this->db->select($this->get_query());
 
-		if($first == 'first'){
+		if($first == 'first' && !isset($retorno['error'])){
 			return $this->convert_to_tree($retorno)[0];
 		}
 
@@ -167,11 +175,24 @@ class QueryBuilder {
 		if(!empty($this->where)){
 			$this->query .= " \nWHERE " . implode(' AND ', $this->where);
 		}
+
+		if(!empty($this->order_by)){
+			$this->query .= " \n ORDER BY " . $this->order_by;
+		}
+
+		if(!empty($this->limit)){
+			$this->query .= " \n LIMIT " . $this->limit;
+		}
+
 	}
 
 	private function convert_to_tree($query){
+		if(isset($query['error']) && !empty($query['error'])){
+			return $query;
+		}
+
 		if(empty($query)){
-			return ['Nenhum resultado ou erro na query'];
+			return ['Nenhum resultado ou algum erro não mapeado na query'];
 		}
 
 
