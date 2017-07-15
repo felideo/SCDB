@@ -343,5 +343,12 @@ ADD COLUMN `descricao` TEXT NOT NULL AFTER `posicao_ovario`;
 
 ALTER TABLE pessoa
 ADD COLUMN `atuacao` TEXT NOT NULL AFTER `instituicao`,
-ADD COLUMN `lattes` TEXT NOT NULL AFTER `atuacao`,
+ADD COLUMN `lattes` TEXT NULL AFTER `atuacao`,
 ADD COLUMN `grau` TEXT NOT NULL AFTER `lattes`;
+
+
+ALTER TABLE pessoa
+    CHANGE COLUMN `lattes` `lattes`  TEXT NULL;
+
+ALTER TABLE `usuario`
+    ADD FOREIGN KEY (hierarquia) REFERENCES hierarquia(id);

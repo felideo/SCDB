@@ -1,6 +1,6 @@
 <?php include_once '../' . strtolower(APP_NAME) . '/public/fineuploader/templates/template.html'; ?>
 
-
+<?php if(!isset($this->organismo)) : ?>
 <section id="faq" class="faq section">
 	<div class="container">
 		<div class="row">
@@ -20,6 +20,6 @@
 	</div>
 </section>
 
-
-
 <?php require 'views/front/organismo/cadastro_organismo/image_upload/image_upload.js.php'; ?>
+
+<?php endif ?>

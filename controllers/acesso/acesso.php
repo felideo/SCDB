@@ -57,10 +57,13 @@ class acesso extends \Libs\Controller {
 
 		$insert_db = [
 			'email'      => $usuario['email'],
-			'senha'      => $usuario['senha']
+			'senha'      => $usuario['senha'],
+			'hierarquia' => 2
 		];
 
 		$retorno_usuario = $this->model->create('usuario', $insert_db);
+
+
 
 		if($retorno_usuario['status'] == 1 && !empty($retorno_usuario['id'])){
 			unset($insert_db);
@@ -70,15 +73,14 @@ class acesso extends \Libs\Controller {
 				'pronome'     => $usuario['pronome'],
 				'nome'        => $usuario['nome'],
 				'sobrenome'   => $usuario['sobrenome'],
-				'instituicao' => $usuario['instituicao']
+				'instituicao' => $usuario['instituicao'],
+				'atuacao'     => $usuario['atuacao'],
+    			'lattes' 	  => $usuario['lattes'],
+    			'grau'   	  => $usuario['grau'],
 			];
 
 			$retorno_pessoa = $this->model->create('pessoa', $insert_db);
 		}
-
-		debug2($retorno_usuario);
-		debug2($retorno_pessoa);
-		exit;
 
 		if($retorno_usuario['status'] == 1 && $retorno_pessoa['status'] == 1 && !empty($retorno_usuario) && !empty($retorno_pessoa)){
 			$acesso = [

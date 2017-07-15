@@ -58,7 +58,7 @@ class Palavra_chave extends \Libs\Controller {
 		};
 
 		foreach ($dados_linha as $indice => $linha) {
-			if($linha['super_admin'] != 1){
+			if(isset($linha['super_admin']) && !empty($linha['super_admin']) && $linha['super_admin'] != 1){
 
 				$hierarquia_exibicao = isset($hierarquias[$linha['hierarquia']]) ? $hierarquias[$linha['hierarquia']] : 'Usuario Site' ;
 

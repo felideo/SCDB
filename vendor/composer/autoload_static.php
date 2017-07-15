@@ -10,9 +10,25 @@ class ComposerStaticInit4fd02fae0f9d271bbbb521796d279d31
         '2371fe58591751a9b725c6706865644e' => __DIR__ . '/..' . '/lichtner/fluentpdo/FluentPDO/FluentPDO.php',
     );
 
+    public static $prefixesPsr0 = array (
+        'F' => 
+        array (
+            'Felideo\\FelideoTrine' => 
+            array (
+                0 => __DIR__ . '/..' . '/felideotrine/query-builder/FelideoTrine',
+            ),
+        ),
+    );
+
+    public static $classMap = array (
+        'Felideo\\FelideoTrine\\QueryBuilder' => __DIR__ . '/..' . '/felideotrine/query-builder/FelideoTrine/QueryBuilder.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixesPsr0 = ComposerStaticInit4fd02fae0f9d271bbbb521796d279d31::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit4fd02fae0f9d271bbbb521796d279d31::$classMap;
 
         }, null, ClassLoader::class);
     }

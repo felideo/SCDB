@@ -17,6 +17,7 @@ class Index extends \Libs\Controller {
 	}
 
 	public function index() {
+		$this->view->imagens = $this->model->carregar_imagens_aleatorias();
 		$this->view->render('front/cabecalho_rodape', 'front/index/index');
 	}
 

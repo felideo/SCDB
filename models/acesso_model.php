@@ -96,6 +96,9 @@ class Acesso_Model extends \Libs\Model {
 
 	private function load_permissions(){
 		try {
+
+			$hierarquia = empty($_SESSION['usuario']['hierarquia']) ? 'NULL' : $_SESSION['usuario']['hierarquia'];
+
 			$select = 'SELECT hierarquia.id as id_hierarquia, hierarquia.nome,'
 				. ' relacao.id as id_relacao,'
 				. ' permissao.id as id_permissao, permissao.permissao, permissao.id_modulo,'
@@ -107,9 +110,14 @@ class Acesso_Model extends \Libs\Model {
 				. ' ON permissao.id = relacao.id_permissao'
 				. ' LEFT JOIN modulo modulo'
 				. ' ON modulo.id = permissao.id_modulo'
-				. ' WHERE hierarquia.id = ' . $_SESSION['usuario']['hierarquia'];
+				. ' WHERE hierarquia.id = ' . $hierarquia;
 
 			$permissoes = $this->db->select($select);
+
+			if(empty($permissoes)){
+				\Libs\Session::set('permissoes', null);
+				return;
+			}
 
 			foreach($permissoes as $indice => $permissao){
 				$retorno_permissoes[$permissao['modulo']][$permissao['permissao']] = $permissao;
