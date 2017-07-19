@@ -4,6 +4,12 @@ require 'config.php';
 require 'util/auth.php';
 require 'vendor/autoload.php';
 
+// $autoloader->loadClass("\Libs\Bootstrap");
+// print_r('<pre>');
+// print_r($autoloader);
+// exit(2);
+
+
 session_start();
 
 // spl_autoload_register

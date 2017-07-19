@@ -136,6 +136,8 @@ class View {
 		. "\n        $('#modulo').removeAttr('action');"
 		. "\n"
 		. "\n        $('.btn.btn-primary').remove();"
+		. "\n        console.log('lazy_view');"
+
 		. "\n    });"
 		. "\n</script>";
 

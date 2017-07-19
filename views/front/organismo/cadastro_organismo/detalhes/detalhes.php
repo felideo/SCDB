@@ -26,7 +26,7 @@
 			<div class="row-fluid">
                 <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <label>Numero de Estames</label>
-                    <input class="form-control somente_numeros" maxlength="1" name="detalhes[numero_estames]" value="<?php if(isset($this->organismo)){echo $this->organismo['numero_estames'];} ?>" required>
+                    <input class="form-control somente_numeros" maxlength="2" name="detalhes[numero_estames]" value="<?php if(isset($this->organismo)){echo $this->organismo['numero_estames'];} ?>" required>
                 </div>
             </div>
 			<div class="row-fluid">

@@ -17,22 +17,28 @@
 
 
                 <?php if(isset($this->organismo['organismo_relaciona_trabalho'][0]) && !empty($this->organismo['organismo_relaciona_trabalho'][0])) : ?>
-                    <?php foreach($this->organismo['organismo_relaciona_trabalho'][0]['trabalho'] as $indice => $trabalho) : ?>
+                    <?php foreach($this->organismo['organismo_relaciona_trabalho'] as $indice => $trabalho) : ?>
 
                         <?php
-                            if(isset($trabalho['link_trabalho']) && !empty($trabalho['link_trabalho'])) {
+                            if(isset($trabalho['trabalho'][0]['link_trabalho']) && !empty($trabalho['trabalho'][0]['link_trabalho'])) {
                                 $icone = 'fa-link';
+                            }elseif(isset($trabalho['trabalho'][0]['id_arquivo']) && !empty($trabalho['trabalho'][0]['id_arquivo'])){
+                                $icone = 'fa-file-pdf-o';
+                            }else{
+                                $icone = 'a-file-o';
                             }
                         ?>
-                        <div id="id_trabalho_0" class="item col-xs-12 col-sm-6 col-md-4 col-lg-4 text-center" data-id_trabalho="<?php echo $trabalho['id']; ?>">
+                        <div id="id_trabalho_0" class="item col-xs-12 col-sm-6 col-md-4 col-lg-4 text-center" data-id_trabalho="<?php echo $trabalho['trabalho'][0]['id']; ?>">
                             <div class="icon">
-                                <i id="icone_tipo_trabalho_<?php echo $trabalho['id']; ?>" class="fa <?php echo $icone; ?>"></i>
+                                <i id="icone_tipo_trabalho_<?php echo $trabalho['trabalho'][0]['id']; ?>" class="fa <?php echo $icone; ?>"></i>
                             </div>
                             <div class="content">
-                                <h3 class="title"><?php echo $trabalho['titulo']; ?></h3>
-                                <p class="short_description"><?php echo substr($trabalho['resumo'], 0, 256); ?></p>
-                                <p class="short_description"><strong>Autor: </strong><?php echo $trabalho['autor'][0]['nome']; ?></p>
+                                <h3 class="title"><?php echo $trabalho['trabalho'][0]['titulo']; ?></h3>
+                                <p class="short_description"><?php echo substr($trabalho['trabalho'][0]['resumo'], 0, 256); ?></p>
+                                <p class="short_description"><strong>Autor: </strong><?php echo $trabalho['trabalho'][0]['autor'][0]['nome']; ?></p>
                             </div>
+                            <button type="button" class="btn btn-link" data-id_trabalho="<?php echo $trabalho['trabalho'][0]['id']; ?>"><i class="fa fa-close"></i> Visualizar</button>
+
                         </div>
 
                     <?php endforeach ?>

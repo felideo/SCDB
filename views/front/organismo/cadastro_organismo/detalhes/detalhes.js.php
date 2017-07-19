@@ -48,6 +48,7 @@
 		}
 	?>
 
+	console.log(nomes_populares);
 
 	<?php if(isset($this->organismo['organismo_relaciona_nome_popular']) && !empty($this->organismo['organismo_relaciona_nome_popular'])) : ?>
 		$('#nomes_populares').select2(

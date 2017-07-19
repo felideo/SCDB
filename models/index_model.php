@@ -2,7 +2,6 @@
 namespace Models;
 
 use Libs;
-use \Libs\QueryBuilder\QueryBuilder;
 
 /**
 * Classe Index_Model
@@ -13,7 +12,7 @@ class Index_Model extends \Libs\Model {
 	}
 
 	public function carregar_imagens_aleatorias(){
-		$query = new QueryBuilder($this->db);
+		$query = new \Felideo\FelideoTrine\QueryBuilder($this->db);
 
 		return $query->select('
 			relacao.*,

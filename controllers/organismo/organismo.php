@@ -34,6 +34,7 @@ class organismo extends \Libs\Controller {
 
 		$this->view->organismo = $organismo;
 		$this->view->render('front/cabecalho_rodape' ,'front/organismo/visualizacao_organismo/visualizacao_organismo');
+		$this->view->lazy_view();
 	}
 
 	public function visualizar($id){
@@ -68,14 +69,13 @@ class organismo extends \Libs\Controller {
 		$this->create_imagem_relacao($imagens, $retorno_organismo);
 		$this->create_posicao_geografica($posicoes_geograficas, $retorno_organismo);
 		$retorno_trabalho_autor = $this->create_trabalho($trabalhos, $retorno_organismo);
-
 		$this->create_relacao_organismo_trabalho_autor($retorno_trabalho_autor, $retorno_organismo);
 
-
-		// debug2($retorno_trabalho_autor);
-		// debug2($retorno_organismo);
-		// debug2('lerolero');
-		// exit;
+		debug2($retorno_trabalho_autor);
+		debug2($retorno_organismo);
+		debug2($retorno_taxonomia);
+		debug2(get_defined_vars());
+		exit;
 
 		// ZZZ: insert relação organismo, trabalho, autor;
 
@@ -222,6 +222,7 @@ class organismo extends \Libs\Controller {
 	}
 
 	private function create_posicao_geografica($posicoes_geograficas, $retorno_organismo){
+
 		if(!isset($posicoes_geograficas) || empty($posicoes_geograficas)){
 			return false;
 		}
@@ -232,6 +233,8 @@ class organismo extends \Libs\Controller {
 				'longitude'    => (float) $posicao_geografica['longitude'],
 				'id_organismo' => $retorno_organismo['id']
 			];
+
+			$this->model->get_insert('posicao_geografica', $insert_db);
 		}
 	}
 
@@ -275,6 +278,8 @@ class organismo extends \Libs\Controller {
 		}else{
 			$organismo = substr($organismo, 0, -1);
 		}
+
+		$organismo = '-' . $organismo . '-';
 
 		$retorno = [
 			'id_last_taxon' => !empty($classificacao_taxonomica[8]) ? $classificacao_taxonomica[8] : $classificacao_taxonomica[7],
@@ -349,6 +354,19 @@ class organismo extends \Libs\Controller {
 				$insert_db = [
 					'id_organismo'    => $retorno_organismo['id'],
 					'id_nome_popular' => $nome_popular
+				];
+
+				$this->model->get_insert('organismo_relaciona_nome_popular', $insert_db);
+
+				continue;
+			}
+
+			$verificar_duplicidade = $this->model->db->select("SELECT id, nome FROM nome_popular WHERE nome = '{$nome_popular}'");
+
+			if(!empty($verificar_duplicidade)){
+				$insert_db = [
+					'id_organismo'    => $retorno_organismo['id'],
+					'id_nome_popular' => $verificar_duplicidade[0]['id']
 				];
 
 				$this->model->get_insert('organismo_relaciona_nome_popular', $insert_db);

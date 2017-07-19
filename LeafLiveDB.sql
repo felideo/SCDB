@@ -352,3 +352,16 @@ ALTER TABLE pessoa
 
 ALTER TABLE `usuario`
     ADD FOREIGN KEY (hierarquia) REFERENCES hierarquia(id);
+
+CREATE TABLE `blame_cadastro_organismo` (
+	`id`                   INT(11) 			NOT NULL AUTO_INCREMENT,
+	`id_usuario_cadastro`  INT(11) 			NULL,
+	`id_usuario_aprovacao` INT(11) 			NULL,
+	`data_cadastro`        DATETIME			NOT NULL,
+	`data_aprovacao`       DATETIME			NULL,
+	`operacao`             VARCHAR(128)		NOT NULl,
+	`ativo`                TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY                KEY (`id`),
+	FOREIGN                KEY (`id_usuario_cadastro`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN                KEY (`id_usuario_aprovacao`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;

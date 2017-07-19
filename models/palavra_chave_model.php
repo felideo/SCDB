@@ -11,19 +11,19 @@ class Palavra_Chave_Model extends \Libs\Model {
 	}
 
 	public function buscar_palavra_chave($busca){
-		$select = "SELECT"
-			. " 	palavra.id,"
-			. " 	palavra.palavra"
-			. " FROM"
-			. " 	palavra_chave palavra"
-			. " WHERE"
-			. " 	palavra.palavra LIKE '%{$busca['nome']}%'"
-			. " AND palavra.ativo = 1";
+		$query = new \Felideo\FelideoTrine\QueryBuilder($this->db);
 
-			if(isset($busca['page_limit'])){
-				$select .= " LIMIT {$busca['page_limit']}";
-			}
+		$query->select('
+			palavra.id,
+			palavra.palavra_chave
+		')
+			->from('palavra_chave palavra')
+			->where("palavra.palavra_chave LIKE '%{$busca['nome']}%' AND palavra.ativo = 1");
 
-		return $this->db->select($select);
+		if(isset($busca['page_limit'])){
+			$query->limit($busca['page_limit']);
+		}
+
+		return $query->fetchArray();
 	}
 }
