@@ -170,43 +170,29 @@ class Palavra_chave extends \Libs\Controller {
 		$this->view->render('front/cabecalho_rodape', 'front/usuario/perfil');
 	}
 
-
-
-
-
-
-
-
-
-
 	public function buscar_palavra_chave_select2(){
 		$busca = carregar_variavel('busca');
 
 		$retorno = $this->model->buscar_palavra_chave($busca);
 
 		if(isset($busca['cadastrar_busca']) && !empty($busca['cadastrar_busca']) && $busca['cadastrar_busca'] == 'true' && $busca['nome'] != '%%'){
-			$add_cadastro[0] = [
-				'id'               => $busca['nome'],
-				'palavra'             => "<strong>Cadastrar Nova Palavra Chave: </strong>" . $busca['nome']
-			];
 
-			$retorno = array_merge($add_cadastro, $retorno);
+			if(isset($retorno) && !empty($retorno) && $retorno != null){
+				$add_cadastro[0] = [
+					'id'               => $busca['nome'],
+					'palavra'          => "<strong>Cadastrar Nova Palavra Chave: </strong>" . $busca['nome']
+				];
+
+				$retorno = array_merge($add_cadastro, $retorno);
+			}else{
+				$retorno[0] = [
+					'id'               => $busca['nome'],
+					'palavra'          => "<strong>Cadastrar Nova Palavra Chave: </strong>" . $busca['nome']
+				];
+			}
 		}
 
 		echo json_encode($retorno);
 		exit;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

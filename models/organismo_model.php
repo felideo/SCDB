@@ -26,10 +26,26 @@ class Organismo_Model extends \Libs\Model {
 			}
 
 		return $this->db->select($select);
+	}
 
-		$query = $fpdo->from('article')
-              ->leftJoin('user ON user.id = article.user_id')
-              ->select('user.name');
+	public function get_min_max_n_petalas_e_estames(){
+
+		$select_min_n_petalas = "SELECT MIN(numero_petalas) as min_n_petalas FROM organismo";
+		$select_max_n_petalas = "SELECT MAX(numero_petalas) as max_n_petalas FROM organismo";
+		$select_min_n_estames = "SELECT MIN(numero_estames) as min_n_estames FROM organismo";
+		$select_max_n_estames = "SELECT MAX(numero_estames) as max_n_estames FROM organismo";
+
+		$retorno = [
+			'min_n_petalas' => $this->db->select($select_min_n_petalas)[0]['min_n_petalas'],
+			'max_n_petalas' => $this->db->select($select_max_n_petalas)[0]['max_n_petalas'],
+			'min_n_estames' => $this->db->select($select_min_n_estames)[0]['min_n_estames'],
+			'max_n_estames' => $this->db->select($select_max_n_estames)[0]['max_n_estames'],
+		];
+
+		return $retorno;
+	}
+	public function get_min_max_n_estames(){
+
 	}
 
 	public function carregar_organismo($id){
@@ -110,6 +126,6 @@ class Organismo_Model extends \Libs\Model {
 		->where("hhh.id = {$id}"
 			. " AND hhh.ativo = 1");
 
-		return $query->fetchArray('first');
+		return $query->fetchArray()[0];
 	}
 }

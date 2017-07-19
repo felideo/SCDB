@@ -1,5 +1,8 @@
-<?php if(isset($this->action)) : ?> <form id="form_submit" method="post" action="/<?php echo $this->modulo['modulo'] . $this->action; ?>"> <?php endif ?>
+<form id="form_submit lazy_view" method="post"
+	<?php if(isset($this->action)){ echo 'action="/' . $this->modulo['modulo'] . $this->action . '"'; } ?>
+>
 
+<!-- <form id="form_submit" method="post" action="/<?php echo $this->modulo['modulo'] . $this->action; ?>"> -->
 	<!-- ******CLASSIFICACAO****** -->
 	<?php require 'views/front/organismo/cadastro_organismo/classificacao/classificacao.php'; ?>
 	<!--//classificacao-->
@@ -32,4 +35,4 @@
 	    </div>
 	</section>
 	<!--//enviar-->
-<?php if(isset($this->action)) : ?> </form> <?php endif ?>
+</form>

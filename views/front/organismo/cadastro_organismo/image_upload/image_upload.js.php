@@ -44,9 +44,7 @@
 
 
 
-
-
-				$('#image_inputs').append(input);
+				// $('#image_inputs').append(input);
 				// $('#ser_vivo_imagens li:first').addClass('active');
 				// $('#ser_vivo_imagens_indicadores li:first').addClass('active');
 

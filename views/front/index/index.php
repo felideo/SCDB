@@ -1,8 +1,6 @@
     <!-- ******PROMO****** -->
     <!-- <section id="promo" class="promo leaf section offset-header has-pattern"> -->
     <section id="promo" class="promo section offset-header has-pattern">
-
-<?php debug2($this->imagens) ?>
         <div class="container">
             <div class="row">
                 <div class="overview col-md-8 col-sm-12 col-xs-12">

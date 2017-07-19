@@ -1,9 +1,6 @@
 <!-- ******LOGIN****** -->
 <section id="contact" class="contact section has-pattern" style="min-height: 84vh;">
     <div class="container">
-
-<?php debug2($this->cadastro) ?>
-
         <div class="row text-center">
             <h2 class="title">Cadastro</h2>
             <div class="intro col-md-6 col-sm-12 col-xs-12 col-md-offset-3">
@@ -12,7 +9,6 @@
                 <?php endif ?>
             </div>
         </div><!--//row-->
-value="<?php if(isset($this->cadastro['pessoa'])){ echo $this->cadastro['pessoa']['']; } ?>"
         <div class="row ">
             <?php if(!isset($this->cadastro['pessoa'])) : ?>
                 <form class="form" method="post" action="usuario_create">

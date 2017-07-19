@@ -124,6 +124,9 @@
                         <ul class="nav navbar-nav">
                             <li class="active nav-item sr-only"><a class="scrollto" href="#promo">Home</a></li>
 
+                            <li class="nav-item">
+                                <a href="/busca/buscar">Buscar Ser Vivo</a>
+                            </li>
                             <?php if(\Libs\Session::get('logado')) : ?>
                                 <li class="nav-item">
                                     <a href="/organismo/cadastro">Cadastrar Ser Vivo</a>
