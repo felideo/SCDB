@@ -1,9 +1,9 @@
     <!-- ******PROMO****** -->
     <!-- <section id="promo" class="promo leaf section offset-header has-pattern"> -->
-    <section id="promo" class="promo section offset-header has-pattern">
+    <section id="promo" class="promo leaf section offset-header has-pattern">
         <div class="container">
             <div class="row">
-                <div class="overview col-md-8 col-sm-12 col-xs-12">
+                <div class="overview col-md-8 col-sm-12 col-xs-12" style="background-color: rgba(0, 0, 0, 0.5); border-radius: 15px;">
                     <h2 class="title">Banco de Dados Taxonomico</h2>
                     <ul class="summary">
                         <li>Cadastres Plantas</li>
@@ -25,7 +25,7 @@
                 </div><!--//overview-->
 
                 <!--// iPhone starts -->
-                <div class="phone iphone iphone-black col-md-4 col-sm-12 col-xs-12 ">
+                <div class="phone iphone iphone-black col-md-4 col-sm-12 col-xs-12 " style="height: 305px;">
                     <div class="iphone-holder phone-holder">
                         <div class="iphone-holder-inner">
                             <div class="slider flexslider">

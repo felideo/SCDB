@@ -44,7 +44,8 @@ class idioma_model extends \Libs\Model{
 			. " 	idioma idioma"
 			. " WHERE"
 			. " 	idioma.idioma LIKE '%{$busca['nome']}%'"
-			. " AND idioma.ativo = 1";
+			. " AND idioma.ativo = 1"
+			. " GROUP BY idioma.idioma";
 
 		if(isset($busca['page_limit'])){
 			$select .= " LIMIT {$busca['page_limit']}";

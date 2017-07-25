@@ -1,5 +1,5 @@
 <!-- ******LOGIN****** -->
-<section id="contact" class="contact section has-pattern" style="min-height: 84vh;">
+<section id="contact" class="contact leaf section has-pattern" style="min-height: 84vh;">
     <div class="container">
         <div class="row text-center">
             <h2 class="title">Login</h2>
