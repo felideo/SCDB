@@ -116,6 +116,41 @@
 						</div>
 					</div>
 
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 marginT10">
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<label class="folha_text_shadow">Autor</label>
+						</div>
+						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							<input id="autor_search" data-placeholder="Autor" style="width: 100%;">
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 marginT10">
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<label class="folha_text_shadow">Ano</label>
+						</div>
+						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							<input id="ano_search" data-placeholder="Ano" style="width: 100%;">
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 marginT10">
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<label class="folha_text_shadow">Idioma</label>
+						</div>
+						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							<input id="idioma_search" data-placeholder="Idioma" style="width: 100%;">
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 marginT10">
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<label class="folha_text_shadow">Palavra Chave</label>
+						</div>
+						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							<input id="palavra_chave_search" data-placeholder="Palavra Chave" style="width: 100%;">
+						</div>
+					</div>
 
 
 

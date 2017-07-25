@@ -102,7 +102,7 @@
         <header id="top" class="header navbar-static-top">
             <div class="container">
                 <h1 class="logo pull-left">
-                <a class="scrollto" href="#promo">
+                <a href="/">
                 <i class="fa fa-leaf" style="color: #56bc94;"></i>
                     <span class="logo-title">Leaf Live DB</span>
                 </a>

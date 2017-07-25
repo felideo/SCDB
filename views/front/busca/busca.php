@@ -9,9 +9,9 @@
 
 
 <script type="text/javascript">
-    $(window).scroll(function(){
-            if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-                alert('fim');
-            }
-    });
+    // $(window).scroll(function(){
+    //         if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+    //             alert('fim');
+    //         }
+    // });
 </script>

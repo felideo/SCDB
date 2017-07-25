@@ -71,6 +71,7 @@ class organismo extends \Libs\Controller {
 		$retorno_trabalho_autor = $this->create_trabalho($trabalhos, $retorno_organismo);
 		$this->create_relacao_organismo_trabalho_autor($retorno_trabalho_autor, $retorno_organismo);
 
+
 		debug2($retorno_trabalho_autor);
 		debug2($retorno_organismo);
 		debug2($retorno_taxonomia);
@@ -103,30 +104,41 @@ class organismo extends \Libs\Controller {
 
 			$retorno_organismo_trabalho_autor[$indice_01]['id_organismo'] = $retorno_organismo['id'];
 
-
 			if(!is_numeric($trabalho['autor'])){
-				$insert_db_autor = [
-					'nome' => $trabalho['autor'],
-					'link'  => $trabalho['site'],
-					'email' => $trabalho['email']
-				];
+				$verificar_duplicidade = $this->model->db->select("SELECT id, nome FROM autor WHERE nome = '{$trabalho['autor']}' AND ativo = 1");
 
-				$retorno_autor = $this->model->get_insert('autor', $insert_db_autor);
+				if(!empty($verificar_duplicidade)){
+					$retorno_autor['id'] = $verificar_duplicidade[0]['id'];
+					unset($verificar_duplicidade);
+				}else{
+					$insert_db_autor = [
+						'nome' => $trabalho['autor'],
+						'link'  => $trabalho['site'],
+						'email' => $trabalho['email']
+					];
+
+					$retorno_autor = $this->model->get_insert('autor', $insert_db_autor);
+				}
+
 			}else{
 				$retorno_autor['id'] = $trabalho['autor'];
 			}
 
-
-
 			$retorno_organismo_trabalho_autor[$indice_01]['id_autor'] = $retorno_autor['id'];
 
-
 			if(!is_numeric($trabalho['idioma'])){
-				$insert_db_idioma = [
-					'idioma' => $trabalho['idioma']
-				];
+				$verificar_duplicidade = $this->model->db->select("SELECT id, idioma FROM idioma WHERE idioma = '{$trabalho['idioma']}' AND ativo = 1");
 
-				$retorno_idioma = $this->model->get_insert('idioma', $insert_db_idioma);
+				if(!empty($verificar_duplicidade)){
+					$retorno_idioma['id'] = $verificar_duplicidade[0]['id'];
+					unset($verificar_duplicidade);
+				}else{
+					$insert_db_idioma = [
+						'idioma' => $trabalho['idioma']
+					];
+
+					$retorno_idioma = $this->model->get_insert('idioma', $insert_db_idioma);
+				}
 			}else{
 				$retorno_idioma['id'] = $trabalho['idioma'];
 			}
@@ -155,11 +167,11 @@ class organismo extends \Libs\Controller {
 				$retorno_trabalho = $this->model->get_insert('trabalho', $insert_db_trabalho);
 			}else{
 				$insert_db_trabalho = [
-					'ano'        => $trabalho['ano'],
-					'id_autor'   => $retorno_autor['id'],
-					'titulo'     => $trabalho['titulo'],
-					'resumo'     => $trabalho['resumo'],
-					'id_idioma'     => $retorno_idioma['id'],
+					'ano'       => $trabalho['ano'],
+					'id_autor'  => $retorno_autor['id'],
+					'titulo'    => $trabalho['titulo'],
+					'resumo'    => $trabalho['resumo'],
+					'id_idioma' => $retorno_idioma['id'],
 				];
 
 				$retorno_trabalho = $this->model->get_insert('trabalho', $insert_db_trabalho);
@@ -170,9 +182,6 @@ class organismo extends \Libs\Controller {
 
 			$palavras_chave = explode(',', $trabalho['palavras_chave']);
 
-
-
-
 			foreach ($palavras_chave as $indice_02 => $palavra_chave) {
 
 				if(is_numeric($palavra_chave)){
@@ -182,15 +191,21 @@ class organismo extends \Libs\Controller {
 					];
 
 					$this->model->get_insert('trabalho_relaciona_palavra_chave', $insert_db_relacao_palavra_chave);
-
 					continue;
+				}else{
+					$verificar_duplicidade = $this->model->db->select("SELECT id, palavra_chave FROM palavra_chave WHERE palavra_chave = '{$palavra_chave}' AND ativo = 1");
+
+					if(!empty($verificar_duplicidade)){
+						$retorno_palavra_chave['id'] = $verificar_duplicidade[0]['id'];
+						unset($verificar_duplicidade);
+					}else{
+						$insert_db_palavra_chave = [
+							'palavra_chave' => $palavra_chave,
+						];
+
+						$retorno_palavra_chave = $this->model->get_insert('palavra_chave', $insert_db_palavra_chave);
+					}
 				}
-
-				$insert_db_palavra_chave = [
-					'palavra_chave' => $palavra_chave,
-				];
-
-				$retorno_palavra_chave = $this->model->get_insert('palavra_chave', $insert_db_palavra_chave);
 
 				$insert_db_relacao_palavra_chave = [
 					'id_trabalho'      => $retorno_trabalho['id'],
@@ -247,7 +262,7 @@ class organismo extends \Libs\Controller {
 				$organismo .= $taxon . '-';
 			}elseif(is_string($taxon)){
 
-				$verificar_duplicidade = $this->model->db->select("SELECT id, nome FROM taxon WHERE nome = '{$taxon}'");
+				$verificar_duplicidade = $this->model->db->select("SELECT id, nome FROM taxon WHERE nome = '{$taxon}' AND ativo = 1");
 				if(!empty($verificar_duplicidade)){
 					$organismo .= $verificar_duplicidade[0]['id'] . '-';
 					$classificacao_taxonomica[$indice] = $verificar_duplicidade[0]['id'];
@@ -334,6 +349,18 @@ class organismo extends \Libs\Controller {
 	}
 
 	private function create_organismo($retorno_taxonomia, $detalhes){
+
+		$verificar_duplicidade = $this->model->db->select("SELECT id, nome FROM organismo WHERE localizador = '{$retorno_taxonomia['localizador']}' AND ativo = 1");
+
+		if(!empty($verificar_duplicidade)){
+			return [
+				'status'     => 1,
+				'id'         => $verificar_duplicidade[0]['id'],
+				'error_code' => null,
+				'erros_info' => null,
+			];
+		}
+
 		$insert_db = [
 			'nome'          => $retorno_taxonomia['nome'],
 			'localizador'   => $retorno_taxonomia['localizador'],
@@ -361,7 +388,7 @@ class organismo extends \Libs\Controller {
 				continue;
 			}
 
-			$verificar_duplicidade = $this->model->db->select("SELECT id, nome FROM nome_popular WHERE nome = '{$nome_popular}'");
+			$verificar_duplicidade = $this->model->db->select("SELECT id, nome FROM nome_popular WHERE nome = '{$nome_popular}' AND ativo = 1");
 
 			if(!empty($verificar_duplicidade)){
 				$insert_db = [

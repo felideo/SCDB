@@ -57,7 +57,8 @@ class Autor_Model extends \Libs\Model {
 			. " 	autor autor"
 			. " WHERE"
 			. " 	autor.nome LIKE '%{$busca['nome']}%'"
-			. " AND autor.ativo = 1";
+			. " AND autor.ativo = 1"
+			. " GROUP BY nome";
 
 			if(isset($busca['page_limit'])){
 				$select .= " LIMIT {$busca['page_limit']}";

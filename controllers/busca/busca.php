@@ -47,6 +47,18 @@ class busca extends \Libs\Controller {
 		exit;
 	}
 
+	public function buscar_ano_select2(){
+		$busca = carregar_variavel('busca');
+		$retorno = $this->model->db->select("SELECT id, ano FROM trabalho WHERE ano LIKE '%{$busca['nome']}%' AND ativo = 1 GROUP BY ano");
+
+		foreach ($retorno as &$item) {
+			$item['id'] = $item['ano'];
+		}
+		echo json_encode($retorno);
+		exit;
+
+	}
+
 	public function buscar_hierarquia_ajax(){
 		$busca = carregar_variavel('id_clado');
 
@@ -56,6 +68,7 @@ class busca extends \Libs\Controller {
 
 	public function efetuar_busca(){
 		$busca = carregar_variavel('busca');
+
 		$retorno = $this->model->efetuar_busca($busca);
 
 		echo json_encode($retorno);

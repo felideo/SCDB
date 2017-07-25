@@ -11,7 +11,7 @@
 
 			<!-- ******IMAGES CAROUSEL****** -->
 			<div class="overview col-xs-12 col-sm-12 col-md-4 col-lg-4">
-				<div id="myCarousel" class="carousel slide" data-ride="carousel" style="display: block;">
+				<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="2000" style="display: block;">
 				  	<!-- Indicators -->
 				  	<ol id="ser_vivo_imagens_indicadores" class="carousel-indicators">
 				  		    <?php
@@ -41,9 +41,6 @@
 			    				}
 					        }
 					    ?>
-				  		<!-- <div id='2_remove' class="item active">
-				      		<img class="img-responsive center-block" src="/public/front_end/images/iphone/iphone-slide-1.png"  alt="" />
-				    	</div> -->
 				  	</div>
 
 				  	<!-- Left and right controls -->

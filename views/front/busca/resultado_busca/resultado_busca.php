@@ -6,17 +6,18 @@
 	        </div>
 	    </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 marginT10">
-            <div id="resultado_conteiner" class="container">
-                <div class="item col-md-3 col-sm-6 col-xs-12 text-center">
+            <div id="nenhum_resultado" class="container">
+                <div class="item col-md-12 col-sm-12 col-xs-12 text-center">
                     <div class="icon">
-                        <i class="fa  fa-leaf"></i>
+                        <i class="fa  fa-frown-o"></i>
                     </div>
                     <div class="content">
-                        <h3 class="title">Trabalho Exemplo Upload</h3>
-                        <p>Primeiros 144 caracteres do Resumo do trabalho</p>
-                        <button class="modal-trigger btn btn-link"><i class="fa fa-close"></i> Remover</button>
+                        <h3 class="title">Nenhum Resultado</h3>
+                        <p>Insira ou Modifique os Criterios de Busca</p>
                     </div>
                 </div>
+            </div>
+            <div id="resultado_conteiner" class="container">
             </div>
         </div>
     </div>
