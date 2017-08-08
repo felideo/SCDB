@@ -29,6 +29,8 @@ class Nome_Popular_model extends \Libs\Model{
 			$select .= " OR organismo.nome LIKE '%{$busca['search']['value']}%'";
 		}
 
+		$select .= ' GROUP BY popular.id';
+
 		if(isset($busca['order'][0])){
 			if($busca['order'][0]['column'] == 0){
 				$select .= " ORDER BY popular.id {$busca['order'][0]['dir']}";
@@ -38,6 +40,7 @@ class Nome_Popular_model extends \Libs\Model{
 				$select .= " ORDER BY organismo.nome {$busca['order'][0]['dir']}";
 			}
 		}
+
 
 		if(isset($busca['start']) && isset($busca['length'])){
 			$select .= " LIMIT {$busca['start']}, {$busca['length']}";
