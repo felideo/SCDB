@@ -48,15 +48,15 @@
         "source": {
             "type": "git",
             "url": "https://github.com/felideo/FelideoTrine.git",
-            "reference": "3ac9c96b716e39f2083541085a1a6a9298c56ff1"
+            "reference": "ff7869c74dd31540bdfe6fb3e45afce164601e9f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/felideo/FelideoTrine/zipball/3ac9c96b716e39f2083541085a1a6a9298c56ff1",
-            "reference": "3ac9c96b716e39f2083541085a1a6a9298c56ff1",
+            "url": "https://api.github.com/repos/felideo/FelideoTrine/zipball/ff7869c74dd31540bdfe6fb3e45afce164601e9f",
+            "reference": "ff7869c74dd31540bdfe6fb3e45afce164601e9f",
             "shasum": ""
         },
-        "time": "2017-07-27 02:01:07",
+        "time": "2017-08-08 01:35:58",
         "type": "library",
         "installation-source": "source",
         "autoload": {
