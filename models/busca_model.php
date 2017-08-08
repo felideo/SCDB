@@ -29,6 +29,7 @@ class Busca_Model extends \Libs\Model {
 		$query = new \Felideo\FelideoTrine\QueryBuilder($this->db);
 
 		$query->select('
+			organismo.id,
 			organismo.nome,
 			organismo.descricao,
 			popular.nome,
