@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/felideo/FelideoTrine.git",
-                "reference": "f92974f5ab581c16a776648e1515d6e22a149425"
+                "reference": "57ebf304687f8da594334248d9d2d64f2af3ffe7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/felideo/FelideoTrine/zipball/f92974f5ab581c16a776648e1515d6e22a149425",
-                "reference": "f92974f5ab581c16a776648e1515d6e22a149425",
+                "url": "https://api.github.com/repos/felideo/FelideoTrine/zipball/57ebf304687f8da594334248d9d2d64f2af3ffe7",
+                "reference": "57ebf304687f8da594334248d9d2d64f2af3ffe7",
                 "shasum": ""
             },
             "type": "library",
@@ -37,8 +37,8 @@
                     "email": "felideo@gmail.com"
                 }
             ],
-            "description": "Inicio de query builder que retorna o resultado em uma arvore",
-            "time": "2017-07-19 02:33:57"
+            "description": "Query builder that return query result in a hierarchical tree",
+            "time": "2017-07-26 16:17:53"
         },
         {
             "name": "lichtner/fluentpdo",

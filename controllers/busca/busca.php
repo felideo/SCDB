@@ -71,6 +71,8 @@ class busca extends \Libs\Controller {
 
 		$retorno = $this->model->efetuar_busca($busca);
 
+		ob_clean();
+
 		echo json_encode($retorno);
 		exit;
 	}
