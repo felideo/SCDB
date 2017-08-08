@@ -9,7 +9,6 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "lichtner/fluentpdo": "^1.1",
         "felideotrine/query-builder": "dev-master"
     }
 }
