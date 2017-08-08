@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b842f34a5d92433e3727e7d102c27ad1",
-    "content-hash": "a4f8020f3a33a956af2e6c3f1df6a861",
+    "hash": "e0e5702deb54e2d88fade39709480dea",
+    "content-hash": "6278c8f851fa978897d5317dc0a04bdc",
     "packages": [
         {
             "name": "felideotrine/query-builder",
@@ -39,46 +39,6 @@
             ],
             "description": "Query builder that return query result in a hierarchical tree",
             "time": "2017-08-08 01:35:58"
-        },
-        {
-            "name": "lichtner/fluentpdo",
-            "version": "v1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fpdo/fluentpdo.git",
-                "reference": "fa0df68d098a1ebb1b0461e4750ef2749869219c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fpdo/fluentpdo/zipball/fa0df68d098a1ebb1b0461e4750ef2749869219c",
-                "reference": "fa0df68d098a1ebb1b0461e4750ef2749869219c",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "FluentPDO/FluentPDO.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0",
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Marek Lichtner",
-                    "homepage": "http://licht.sk/"
-                }
-            ],
-            "description": "FluentPDO is small PHP library for rapid query building. Killer feature is smart join builder which generates joins automatically.",
-            "homepage": "https://github.com/fpdo/fluentpdo",
-            "keywords": [
-                "database",
-                "dbal",
-                "pdo"
-            ],
-            "time": "2016-07-08 13:40:45"
         }
     ],
     "packages-dev": [],
