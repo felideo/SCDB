@@ -12,7 +12,9 @@
             }
         ?>
 
-        limpar_alertas_ajax();
+        $(window).load(function(){
+            limpar_alertas_ajax();
+        });
     </script>
 </body>
 
