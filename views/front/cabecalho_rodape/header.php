@@ -25,7 +25,7 @@
 
     <!-- Plugins CSS -->
     <link href="/public/front_end/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <!-- <link href="<?php echo //URL; ?>public/bootstrap/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- <link href="<?php //echo URL; ?>public/bootstrap/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
     <link rel="stylesheet" href="/public/front_end/plugins/flexslider/flexslider.css">
     <link rel="stylesheet" href="/public/front_end/plugins/animate-css/animate.min.css">
 
