@@ -25,4 +25,9 @@ class Index extends \Libs\Controller {
 		header('location: login/admin');
 	}
 
+	public function print_sessao(){
+		debug2($_SESSION);
+		exit;
+	}
+
 }
