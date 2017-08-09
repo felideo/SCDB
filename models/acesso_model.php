@@ -75,6 +75,9 @@ class Acesso_Model extends \Libs\Model {
 		$submenus = $this->db->select('SELECT * FROM submenu WHERE ATIVO = 1');
 
 		foreach ($modulos as $indice_01 => $modulo) {
+			if($modulo['hierarquia'] == 0 && empty($_SESSION['usuario']['super_admin'])){
+				continue;
+			}
 
 			$retorno_modulos[$modulo['modulo']] = $modulo;
 
