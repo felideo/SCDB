@@ -2,6 +2,7 @@
 namespace Models;
 
 use Libs;
+use \Libs\QueryBuilder\QueryBuilder;
 // use \Libs\QueryBuilder\QueryBuilder;
 // include "vendor/felideotrine/query-builder/FelideoTrine/QueryBuilder.php";
 // use \Felideo\FelideoTrine;
@@ -26,7 +27,7 @@ class Busca_Model extends \Libs\Model {
 			return null;
 		}
 
-		$query = new \Felideo\FelideoTrine\QueryBuilder($this->db);
+		$query = new QueryBuilder($this->db);
 
 		$query->select('
 			organismo.id,

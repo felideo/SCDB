@@ -11,8 +11,8 @@
 
             <div class="row-fluid">
                 <div class="form-group span12">
-                    <label>Idioma</label>
-                    <input class="form-control somente_letras remover_caracteres_especiais" name="<?php echo $this->modulo['modulo']; ?>[idioma]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['idioma'];} ?>" required>
+                    <label>Palavra Chave</label>
+                    <input class="form-control somente_letras remover_caracteres_especiais" name="<?php echo $this->modulo['modulo']; ?>[palavra_chave]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['palavra_chave'];} ?>" required>
                 </div>
             </div>
             <div class="row-fluid">

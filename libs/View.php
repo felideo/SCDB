@@ -131,11 +131,21 @@ class View {
 		. "\n    $(window).load(function(){"
 		. "\n        $('#lazy_view :input').each(function(){"
 		. "\n            $(this).prop('disabled', true);"
+		. "\n            $(this).select2('disable');"
+		. "\n        });"
+		. "\n        $('.lazy_view :input').each(function(){"
+		. "\n            $(this).prop('disabled', true);"
+		. "\n            $(this).select2('disable');;"
 		. "\n        });"
 		. "\n"
 		. "\n        $('#modulo').removeAttr('action');"
 		. "\n"
-		. "\n        $('.btn.btn-primary').remove();"
+		. "\n        $('.btn .btn-primary').remove();"
+
+		. "\n        $('.lazy_view_remove').each(function(){"
+		. "\n            $(this).remove();"
+		. "\n        });"
+
 		. "\n        console.log('lazy_view');"
 
 		. "\n    });"

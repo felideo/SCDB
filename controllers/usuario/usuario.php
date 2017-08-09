@@ -62,11 +62,22 @@ class Usuario extends \Libs\Controller {
 
 				$hierarquia_exibicao = isset($hierarquias[$linha['hierarquia']]) ? $hierarquias[$linha['hierarquia']] : 'Usuario Site' ;
 
+			$botao_permitir_cadastro = $linha['hierarquia'] == 2 ?
+				"<a href='/{$this->modulo['modulo']}/permitir_cadastro/{$linha['id']}' title='Permitir Cadastro'><i class='fa fa-thumbs-up fa-fw'></i></a>" :
+				'';
+
+
+			$botao_proibir_cadastro = $linha['hierarquia'] == 4 ?
+				"<a href='/{$this->modulo['modulo']}/proibir_cadastro/{$linha['id']}' title='Proibir Cadastro'><i class='fa fa-thumbs-down fa-fw'></i></a>" :
+				'';
+
+
+
 				$retorno_linhas[] = [
 					"<td class='sorting_1'>{$linha['id']}</td>",
 	        		"<td>{$linha['email']}</td>",
 	        		"<td>{$hierarquia_exibicao}</td>",
-	        		"<td>" . $this->view->default_buttons_listagem($linha['id']) . "</td>"
+	        		"<td>" . $this->view->default_buttons_listagem($linha['id']) . $botao_permitir_cadastro . $botao_proibir_cadastro . "</td>"
 				];
 			}
 		}
@@ -87,7 +98,7 @@ class Usuario extends \Libs\Controller {
 			exit;
 		}
 
-		$this->view->cadastro        = $this->model->load_cadastro($id[0]);
+		$this->view->cadastro        = $this->model->load_cadastro($id[0])[0];
 		$this->view->hierarquia_list = $this->model->load_active_list('hierarquia');
 		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form');
 
@@ -103,7 +114,7 @@ class Usuario extends \Libs\Controller {
 			exit;
 		}
 
-		$this->view->cadastro = $this->model->full_load_by_id('usuario', $id[0])[0];
+		$this->view->cadastro = $this->model->load_cadastro($id[0])[0];
 		$this->view->render('back/cabecalho_rodape_sidebar', 'back/usuario/editar/editar');
 		$this->view->lazy_view();
 	}
@@ -205,6 +216,51 @@ class Usuario extends \Libs\Controller {
 		}
 
 		header('location: /index');
+
+	}
+
+	public function permitir_cadastro($id){
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo']);
+			exit;
+		}
+
+		$update_db = [
+			"hierarquia" => 4
+		];
+
+		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
+
+		if($retorno['status']){
+			$this->view->alert_js('Alteração efetuada com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar a alteração, por favor tente novamente...', 'erro');
+		}
+
+		header('location: /' . $this->modulo['modulo']);
+
+	}
+	public function proibir_cadastro($id){
+		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
+			header('location: ' . URL . $this->modulo['modulo'] . '/');
+			exit;
+		}
+
+		$update_db = [
+			"hierarquia" => 2
+		];
+
+		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
+
+		if($retorno['status']){
+			$this->view->alert_js('Alteração efetuada com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar a alteração, por favor tente novamente...', 'erro');
+		}
+
+		header('location: /' . $this->modulo['modulo']);
 
 	}
 }
