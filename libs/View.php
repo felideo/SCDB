@@ -122,10 +122,6 @@ class View {
 			. "				\tconsole.log(retorno);\n"
 			. "   		\t}\n"
 			. "		\t})\n"
-			. " limpar_alertas_ajax();"
-
-
-
 			. "		});";
 	}
 
