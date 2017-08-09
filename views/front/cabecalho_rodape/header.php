@@ -127,7 +127,7 @@
                             <li class="nav-item">
                                 <a href="/busca/buscar">Buscar Ser Vivo</a>
                             </li>
-                            <?php if(\Libs\Session::get('logado') && \Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar")) : ?>
+                            <?php if(\Libs\Session::get('logado') && \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar")) : ?>
                                 <li class="nav-item">
                                     <a href="/organismo/cadastro">Cadastrar Ser Vivo</a>
                                 </li>
