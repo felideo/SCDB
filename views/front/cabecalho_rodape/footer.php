@@ -14,6 +14,8 @@
                 echo $_SESSION['alertas'];
             }
         ?>
+
+        limpar_alertas_ajax();
     </script>
 </body>
 </html>
