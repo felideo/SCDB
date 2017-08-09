@@ -31,50 +31,50 @@
                     <div class="row-fluid">
                         <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
                             <label>Pronome de Tratamento</label>
-                            <input class="form-control" name="usuario[pronome]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pessoa'][0]['pronome'];} ?>" type="text" >
+                            <input class="form-control" name="pessoa[pronome]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pessoa'][0]['pronome'];} ?>" type="text" >
                         </div>
 
                         <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
                             <label>Nome</label>
-                            <input class="form-control embelezar_string" name="usuario[nome]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pessoa'][0]['nome'];} ?>" type="text" required >
+                            <input class="form-control embelezar_string" name="pessoa[nome]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pessoa'][0]['nome'];} ?>" type="text" required >
                         </div>
 
                         <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <label>Sobrenome</label>
-                            <input class="form-control embelezar_string" name="usuario[sobrenome]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pessoa'][0]['sobrenome'];} ?>" type="text" required >
+                            <input class="form-control embelezar_string" name="pessoa[sobrenome]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pessoa'][0]['sobrenome'];} ?>" type="text" required >
                         </div>
 
                         <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <label>Instituição/Afiliação</label>
-                            <input class="form-control" name="usuario[instituicao]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pessoa'][0]['instituicao'];} ?>" type="text" required >
+                            <input class="form-control" name="pessoa[instituicao]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pessoa'][0]['instituicao'];} ?>" type="text" required >
                         </div>
 
                         <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <label>Area de Atuação</label>
-                            <input class="form-control" name="usuario[atuacao]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pessoa'][0]['atuacao'];} ?>" type="text" required >
+                            <input class="form-control" name="pessoa[atuacao]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pessoa'][0]['atuacao'];} ?>" type="text" required >
                         </div>
 
                         <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <label>Link Currículo Lattes</label>
-                            <input class="form-control" name="usuario[lattes]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pessoa'][0]['lattes'];} ?>" type="text" required >
+                            <input class="form-control" name="pessoa[lattes]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['pessoa'][0]['lattes'];} ?>" type="text" required >
                         </div>
 
                         <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <label>Grau </label>
                             <label class="radio-inline">
-                                <input name="usuario[grau]" value="1" value="<?php if(isset($this->cadastro['pessoa'][0]['grau']) && $this->cadastro['pessoa'][0]['grau'] == 1){echo ' checked ';} ?>" type="radio" required> Aluno de Graduação
+                                <input name="pessoa[grau]" value="1" value="<?php if(isset($this->cadastro['pessoa'][0]['grau']) && $this->cadastro['pessoa'][0]['grau'] == 1){echo ' checked ';} ?>" type="radio" required> Aluno de Graduação
                             </label>
                             <label class="radio-inline">
-                                <input name="usuario[grau]" value="2" value="<?php if(isset($this->cadastro['pessoa'][0]['grau']) && $this->cadastro['pessoa'][0]['grau'] == 2){echo ' checked ';} ?>" type="radio" required> Aluno Pós greduação
+                                <input name="pessoa[grau]" value="2" value="<?php if(isset($this->cadastro['pessoa'][0]['grau']) && $this->cadastro['pessoa'][0]['grau'] == 2){echo ' checked ';} ?>" type="radio" required> Aluno Pós graduação
                             </label>
                             <label class="radio-inline">
-                                <input name="usuario[grau]" value="3" value="<?php if(isset($this->cadastro['pessoa'][0]['grau']) && $this->cadastro['pessoa'][0]['grau'] == 3){echo ' checked ';} ?>" type="radio" required> Professor
+                                <input name="pessoa[grau]" value="3" value="<?php if(isset($this->cadastro['pessoa'][0]['grau']) && $this->cadastro['pessoa'][0]['grau'] == 3){echo ' checked ';} ?>" type="radio" required> Professor
                             </label>
                             <label class="radio-inline">
-                                <input name="usuario[grau]" value="4" value="<?php if(isset($this->cadastro['pessoa'][0]['grau']) && $this->cadastro['pessoa'][0]['grau'] == 4){echo ' checked ';} ?>" type="radio" required> Pesquisador
+                                <input name="pessoa[grau]" value="4" value="<?php if(isset($this->cadastro['pessoa'][0]['grau']) && $this->cadastro['pessoa'][0]['grau'] == 4){echo ' checked ';} ?>" type="radio" required> Pesquisador
                             </label>
                             <label class="radio-inline">
-                                <input name="usuario[grau]" value="4" value="<?php if(isset($this->cadastro['pessoa'][0]['grau']) && $this->cadastro['pessoa'][0]['grau'] == 4){echo ' checked ';} ?>" type="radio" required> Outros
+                                <input name="pessoa[grau]" value="4" value="<?php if(isset($this->cadastro['pessoa'][0]['grau']) && $this->cadastro['pessoa'][0]['grau'] == 4){echo ' checked ';} ?>" type="radio" required> Outros
                             </label>
                         </div>
                     </div>

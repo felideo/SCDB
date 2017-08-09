@@ -131,6 +131,8 @@ class Usuario extends \Libs\Controller {
 
 		$update_db = carregar_variavel('usuario');
 
+		debug2($update_db);
+
 		if(empty($update_db['senha'])){
 			unset($update_db['senha']);
 		}
@@ -138,6 +140,13 @@ class Usuario extends \Libs\Controller {
 		$retorno = $this->model->update('usuario', $id[0], $update_db);
 
 		if($retorno['status']){
+			$update_db = carregar_variavel('pessoa');
+			$retorno_pessoa = $this->model->update('pessoa', $id[0], $update_db);
+
+
+		}
+
+		if($retorno['status'] && $retorno_pessoa['status']){
 			$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');
