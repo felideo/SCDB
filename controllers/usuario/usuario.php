@@ -188,7 +188,7 @@ class Usuario extends \Libs\Controller {
 
 	public function perfil(){
 		$cadastro = $this->model->carregar_usuario_por_id($_SESSION['usuario']['id']);
-		$this->view->cadastro = $cadastro;
+		$this->view->cadastro = $cadastro[0];
 		$this->view->render('front/cabecalho_rodape', 'front/usuario/perfil');
 	}
 
