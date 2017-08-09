@@ -53,7 +53,7 @@
                                 <input name="usuario[grau]" value="1" type="radio" <?php if(isset($this->cadastro['pessoa']) && $this->cadastro['pessoa'][0]['grau'] == 1){ echo 'checked'; } ?> required> Aluno de Graduação
                             </label>
                             <label class="radio-inline">
-                                <input name="usuario[grau]" value="2" type="radio" <?php if(isset($this->cadastro['pessoa']) && $this->cadastro['pessoa'][0]['grau'] == 2){ echo 'checked'; } ?> required> Aluno Pós greduação
+                                <input name="usuario[grau]" value="2" type="radio" <?php if(isset($this->cadastro['pessoa']) && $this->cadastro['pessoa'][0]['grau'] == 2){ echo 'checked'; } ?> required> Aluno Pós graduação
                             </label>
                             <label class="radio-inline">
                                 <input name="usuario[grau]" value="3" type="radio" <?php if(isset($this->cadastro['pessoa']) && $this->cadastro['pessoa'][0]['grau'] == 3){ echo 'checked'; } ?> required> Professor
