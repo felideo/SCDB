@@ -53,7 +53,7 @@ class usuario_model extends \Libs\Model{
 	}
 
 	public function carregar_usuario_por_id($id){
-		$query = new \Felideo\FelideoTrine\QueryBuilder($this->db);
+		$query = new QueryBuilder($this->db);
 		$retorno = $query->select('
 			usuario.email,
 			usuario.hierarquia,

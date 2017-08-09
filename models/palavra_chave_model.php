@@ -1,6 +1,7 @@
 <?php
 namespace Models;
 use Libs;
+use \Libs\QueryBuilder\QueryBuilder;
 
 /**
 * Classe Index_Model
@@ -11,7 +12,7 @@ class Palavra_Chave_Model extends \Libs\Model {
 	}
 
 	public function carregar_listagem($busca){
-		$query = new \Felideo\FelideoTrine\QueryBuilder($this->db);
+		$query = new QueryBuilder($this->db);
 
 		$query->select('
 			palavra.id,
@@ -42,7 +43,7 @@ class Palavra_Chave_Model extends \Libs\Model {
 	}
 
 	public function buscar_palavra_chave($busca){
-		$query = new \Felideo\FelideoTrine\QueryBuilder($this->db);
+		$query = new QueryBuilder($this->db);
 
 		$query->select('
 			palavra.id,

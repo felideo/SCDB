@@ -250,5 +250,3 @@
 	// 	document.getElementById("trigger-upload")).attach("click", function() {
 	// });
 </script>
-
-</script>

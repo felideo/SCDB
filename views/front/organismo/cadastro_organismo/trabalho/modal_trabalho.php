@@ -25,7 +25,7 @@
 	                            <div class="form-group">
 	                                <label>Email</label>
 	                                <p id="email_autor_div" style="display: none;"></p>
-	                                <input id="email_autor_input" type="email" class="form-control" name="email">
+	                                <input class="somente_letras embelezar_string" id="email_autor_input" type="email" class="form-control" name="email">
 	                            </div>
 
 	                            <div id="upload_trabalho" class="row" style="display: none;">

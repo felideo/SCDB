@@ -2,7 +2,7 @@
 namespace Models;
 
 use Libs;
-// use \Libs\QueryBuilder\QueryBuilder;
+use \Libs\QueryBuilder\QueryBuilder;
 // include "vendor/felideotrine/query-builder/FelideoTrine/QueryBuilder.php";
 // use \Felideo\FelideoTrine;
 /**
@@ -50,7 +50,7 @@ class Organismo_Model extends \Libs\Model {
 
 	public function carregar_organismo($id){
 
-		$query = new \Felideo\FelideoTrine\QueryBuilder($this->db);
+		$query = new QueryBuilder($this->db);
 
 		$query->select('
 			hhh.*,
@@ -125,9 +125,6 @@ class Organismo_Model extends \Libs\Model {
 				. ' ON classificacao.id = taxon.id_classificacao')
 		->where("hhh.id = {$id}"
 			. " AND hhh.ativo = 1");
-
-		debug2($query->getQuery());
-		exit;
 
 		return $query->fetchArray()[0];
 	}
