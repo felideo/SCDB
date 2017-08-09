@@ -4,6 +4,7 @@ use Libs;
 
 class Permission {
 	public static function check($modulo, $permissao) {
+		debug2($modulo);
 		if($_SESSION['usuario']['super_admin'] != 1){
 			if(empty($_SESSION['permissoes'][$modulo]) || empty($_SESSION['permissoes'][$modulo][$permissao])){
 				$view = new Libs\View();
