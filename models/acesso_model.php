@@ -15,6 +15,10 @@ class Acesso_Model extends \Libs\Model {
 
 		$this->sign_in($acesso);
 
+		$this->load_permissions();
+		$this->load_modulos_and_menus();
+
+
 		if(isset($_SESSION['logado']) && $_SESSION['logado'] == true){
 			return true;
 		} else {

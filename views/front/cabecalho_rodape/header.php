@@ -119,6 +119,12 @@
                         <!--//nav-toggle-->
                     </div>
 
+                    <style type="text/css">
+                        .header .main-nav .nav .nav-item a{
+                            padding: 15px 15px;
+                        }
+                    </style>
+
                     <!--//navbar-header-->
                     <div class="navbar-collapse collapse" id="navbar-collapse">
                         <ul class="nav navbar-nav">
@@ -127,10 +133,17 @@
                             <li class="nav-item">
                                 <a href="/busca/buscar">Buscar Ser Vivo</a>
                             </li>
-                            <?php if(\Libs\Session::get('logado') && \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar")) : ?>
-                                <li class="nav-item">
-                                    <a href="/organismo/cadastro">Cadastrar Ser Vivo</a>
-                                </li>
+                            <?php if(\Libs\Session::get('logado')) : ?>
+                                <?php if(\Util\Permission::check_user_permission('organismo', 'organismo' . "_" . "criar")) : ?>
+                                    <li class="nav-item">
+                                        <a href="/organismo/cadastro">Cadastrar Ser Vivo</a>
+                                    </li>
+                                <?php endif ?>
+                                <?php if($_SESSION['usuario']['hierarquia'] == 1 || $_SESSION['usuario']['super_admin'] == 1 ) : ?>
+                                    <li class="nav-item">
+                                        <a href="/painel_controle">Painel de Administrativo</a>
+                                    </li>
+                                <?php endif ?>
                                 <li class="nav-item">
                                     <a href="/usuario/perfil">Perfil</a>
                                 </li>
