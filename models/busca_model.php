@@ -85,8 +85,7 @@ class Busca_Model extends \Libs\Model {
 			$query->whereIn("palavra.id IN ({$busca['palavra_chave']})");
 		}
 
-		$query->where("organismo.ativo = 1")
-			->groupBy("organismo.id");
+		$query->where("organismo.ativo = 1");
 
 		return $query->fetchArray();
 	}

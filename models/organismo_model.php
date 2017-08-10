@@ -91,8 +91,6 @@ class Organismo_Model extends \Libs\Model {
 			palavra.palavra_chave,
 			taxon.nome,
 			classificacao.nome
-
-
 		')
 		->from('organismo hhh')
 		->leftJoin('organismo_relaciona_nome_popular rel_pop_name'
@@ -125,6 +123,11 @@ class Organismo_Model extends \Libs\Model {
 				. ' ON classificacao.id = taxon.id_classificacao')
 		->where("hhh.id = {$id}"
 			. " AND hhh.ativo = 1");
+
+		// debug2($query->getQuery());
+		// debug2($query->fetchArray());
+		// exit;
+
 
 		return $query->fetchArray()[0];
 	}

@@ -51,7 +51,6 @@ class Palavra_Chave_Model extends \Libs\Model {
 		')
 			->from('palavra_chave palavra')
 			->where("palavra.palavra_chave LIKE '%{$busca['nome']}%' AND palavra.ativo = 1")
-			->groupBy('palavra.palavra_chave');
 
 		if(isset($busca['page_limit'])){
 			$query->limit($busca['page_limit']);
