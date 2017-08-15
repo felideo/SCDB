@@ -46,4 +46,13 @@ class Palavra_chave extends \Libs\ControllerCrud {
 
 		exit;
 	}
+
+	public function buscar_palavra_chave_select2(){
+		$busca = carregar_variavel('busca');
+		$retorno = $this->model->buscar_palavra_chave($busca);
+
+		echo json_encode($retorno);
+		exit;
+
+	}
 }

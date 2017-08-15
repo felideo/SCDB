@@ -63,8 +63,6 @@ class acesso extends \Libs\Controller {
 
 		$retorno_usuario = $this->model->create('usuario', $insert_db);
 
-
-
 		if($retorno_usuario['status'] == 1 && !empty($retorno_usuario['id'])){
 			unset($insert_db);
 
