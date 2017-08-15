@@ -1,24 +1,17 @@
 <?php
 namespace  Libs\QueryBuilder;
 
+// colocar comentado no sql em qual local do php esta sendo rodada a query!!!
+
 class QueryBuilder{
 
 	private $db;
 	private $select;
-	private $from;
 	private $query;
 	private $where          = [];
-	private $leftJoin       = [];
-	private $rightJoin      = [];
-	private $innerJoin      = [];
 	private $tables_x_alias = [];
 	private $join_on        = [];
-	private $order_by;
-	private $limit;
 	private $first;
-	private $offset;
-	private $group_by;
-	private $where_in = [];
 	private $parametros = [];
 
 
@@ -62,17 +55,17 @@ class QueryBuilder{
 	}
 
 	public function orderBy($order_by){
-		$this->order_by = $order_by;
+		$this->parametros['order_by'] = $order_by;
 		return $this;
 	}
 
 	public function whereIn($where_in){
-		$this->where_in[] = $where_in;
+		$this->parametros['where_in'][] = $where_in;
 		return $this;
 	}
 
 	public function limit($limit){
-		$this->limit = $limit;
+		$this->parametros['limit'] = $limit;
 		return $this;
 	}
 
@@ -90,7 +83,7 @@ class QueryBuilder{
 	}
 
 	public function groupBy($group_by){
-		$this->group_by = $group_by;
+		$this->parametros['group_by'] = $group_by;
 		return $this;
 	}
 
@@ -99,7 +92,7 @@ class QueryBuilder{
 			$and_or = 'AND';
 		}
 
-		$this->where[] = [
+		$this->parametros['where'][] = [
 			$where,
 			strtoupper($and_or)
 		];
@@ -129,7 +122,7 @@ class QueryBuilder{
 	}
 
 	public function offset($offset){
-		$this->offset = $offset;
+		$this->parametros['offset'] = $offset;
 		return $this;
 	}
 
@@ -222,11 +215,11 @@ class QueryBuilder{
 			$this->query .= " \nINNER JOIN " . implode(" \nINNER JOIN ", $this->parametros['inner_join']);
 		}
 
-		if(!empty($this->where)){
+		if(!empty($this->parametros['where'])){
 
-			$this->query .= " \nWHERE " . $this->where[0][0];
+			$this->query .= " \nWHERE " . $this->parametros['where'][0][0];
 
-			foreach ($this->where as $indice => $where) {
+			foreach ($this->parametros['where'] as $indice => $where) {
 				if($indice == 0){
 					continue;
 				}
@@ -235,28 +228,28 @@ class QueryBuilder{
 			}
 		}
 
-		if(!empty($this->where_in) && !empty($this->where)){
-			$this->query .= " \nAND " . implode(' AND ', $this->where_in);
-		}elseif(!empty($this->where_in) && empty($this->where)){
-			$this->query .= " \nWHERE " . implode(' AND ', $this->where_in);
+		if(!empty($this->parametros['where_in']) && !empty($this->parametros['where'])){
+			$this->query .= " \nAND " . implode(' AND ', $this->parametros['where_in']);
+		}elseif(!empty($this->parametros['where_in']) && empty($this->parametros['where'])){
+			$this->query .= " \nWHERE " . implode(' AND ', $this->parametros['where_in']);
 		}
 
-		if(!empty($this->order_by)){
-			$this->query .= " \nORDER BY " . $this->order_by;
+		if(!empty($this->parametros['order_by'])){
+			$this->query .= " \nORDER BY " . $this->parametros['order_by'];
 		}
 
-		if(!empty($this->group_by)){
-			$this->query .= " \nGROUP BY " . $this->group_by;
+		if(!empty($this->parametros['group_by'])){
+			$this->query .= " \nGROUP BY " . $this->parametros['group_by'];
 		}
 
 		if(!empty($this->first)){
 			$this->query .= " \nLIMIT 1";
-		}elseif(!empty($this->limit)){
-			$this->query .= " \nLIMIT " . $this->limit;
+		}elseif(!empty($this->parametros['limit'])){
+			$this->query .= " \nLIMIT " . $this->parametros['limit'];
 		}
 
-		if(!empty($this->offset) && empty($this->first)){
-			$this->query .= " \nOFFSET " . $this->offset;
+		if(!empty($this->parametros['offset']) && empty($this->first)){
+			$this->query .= " \nOFFSET " . $this->parametros['offset'];
 		}
 
 	}
