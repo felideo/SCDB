@@ -48,6 +48,10 @@ class Organismo_Model extends \Libs\Model {
 
 	}
 
+	public function carregar_listagem(){
+
+	}
+
 	public function carregar_organismo($id){
 
 		$query = new QueryBuilder($this->db);

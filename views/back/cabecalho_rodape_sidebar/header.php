@@ -51,6 +51,10 @@
     <!-- DataTables JavaScript -->
 
 
+    <!-- Fine Uploader  -->
+    <link href="/public/fineuploader/fine-uploader-new.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/public/fineuploader/fine-uploader.js"></script>
+
 
     <script src="/public/bootstrap/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="/public/bootstrap/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
