@@ -33,7 +33,7 @@ class Trabalho extends \Libs\ControllerCrud {
 			if(!isset($retorno_tratado[$retorno['id']])){
 				$retorno_tratado[$retorno['id']] = $retorno;
 			}else{
-				$retorno_tratado[$retorno['id']]['palavra'] .= ', ' . $retorno['palavra'];
+				$retorno_tratado[$retorno['id']]['palavra_chave'] .= ', ' . $retorno['palavra_chave'];
 			}
 		}
 
@@ -45,10 +45,10 @@ class Trabalho extends \Libs\ControllerCrud {
 				$item['id'],
 				$item['titulo'],
 				$item['nome'],
-				$item['palavra'],
+				$item['palavra_chave'],
 
 
-				$this->view->default_buttons_listagem($item['id'], true, true, false)
+				$this->view->default_buttons_listagem($item['id'], true, true, true)
 			];
 		}
 

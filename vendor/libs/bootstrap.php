@@ -1,10 +1,10 @@
 <?php
-namespace Libs\Bootstrap;
+namespace Libs;
 
 /**
 * classe Bootstrap
 */
-class Bootstrap {
+class bootstrap {
 	function __construct() {
 		$url = $this->get_url();
 

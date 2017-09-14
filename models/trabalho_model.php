@@ -14,7 +14,7 @@ class trabalho_model extends \Libs\Model{
 			. " 	trabalho.titulo,"
 			. " 	autor.nome,"
 			. " 	relacao.id_palavra_chave,"
-			. " 	palavra.palavra"
+			. " 	palavra.palavra_chave"
 			. " FROM"
 			. " 	trabalho trabalho"
 			. " LEFT JOIN autor autor"

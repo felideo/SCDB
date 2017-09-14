@@ -2,6 +2,8 @@
 namespace Controllers;
 
 use Libs;
+use \Libs\QueryBuilder\QueryBuilder;
+
 
 class Nome_Popular extends \Libs\ControllerCrud {
 
@@ -24,6 +26,8 @@ class Nome_Popular extends \Libs\ControllerCrud {
 			'start'  => carregar_variavel('start'),
 			'length' => carregar_variavel('length'),
 		];
+
+
 
 		$query = $this->model->carregar_listagem($busca);
 
@@ -52,5 +56,8 @@ class Nome_Popular extends \Libs\ControllerCrud {
         ]);
 
 		exit;
+
+
+
 	}
 }
