@@ -63,8 +63,7 @@ class Modulo extends \Libs\Controller {
 		$this->view->cadastro = $this->model->full_load_by_id('modulo', $id[0])[0];
 		$this->view->submenu_list = $this->model->load_active_list('submenu');
 
-		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
-		$this->view->lazy_view();
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem', true);
 	}
 
 	public function create() {

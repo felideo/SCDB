@@ -1,10 +1,10 @@
 <?php include_once '../' . strtolower(APP_NAME) . '/public/fineuploader/templates/template.html'; ?>
 
-<?php debug2($this->cadastro); ?>
-
 <div class="row">
     <form method="post"
         id="lazy_view"
+        class="lazy_view"
+
         <?php if(isset($this->cadastro)) : ?>
             action="/<?php echo $this->modulo['modulo']; ?>/update/<?php echo $this->cadastro['id']; ?>"
         <?php else : ?>
@@ -12,6 +12,9 @@
         <?php endif ?>
     >
         <div class="content col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+
+                <input type="hidden" class="form-control" name="<?php echo $this->modulo['modulo']; ?>[id_organismo]" value="<?php if(isset($this->cadastro['organismo_relaciona_trabalho'][0]['id_organismo'])){echo $this->cadastro['organismo_relaciona_trabalho'][0]['id_organismo'];} ?>">
+
 
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="form-group">
@@ -100,7 +103,7 @@
                         <textarea class="form-control" rows="3" name="<?php echo $this->modulo['modulo']; ?>[resumo]"><?php if(isset($this->cadastro)){echo $this->cadastro['resumo'];} ?></textarea>
                     </div>
 
-                    <fieldset class="form-group">
+                    <!-- <fieldset class="form-group">
                         <legend>Tipo de Trabalho</legend>
                         <div class="form-check">
                             <label class="form-check-label">
@@ -112,18 +115,18 @@
                                 <input type="radio" class="form-check-input" name="<?php echo $this->modulo['modulo']; ?>[tipo_trabalho]" id="link" value="link" <?php if(isset($this->cadastro['id_trabalho'])){echo ' checked ' ;} ?>> Link
                             </label>
                         </div>
-                    </fieldset>
+                    </fieldset> -->
                 </div>
 
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+               <!--  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <button id="add_trabalho" type="button" class="btn btn-primary green_buttom">
                         <i class="fa fa-check-circle"></i> Enviar
                     </button>
-                </div>
+                </div> -->
 
 
         </div>
-        <button type="submit" class="btn btn-success" style="float: right;">
+        <button type="submit" class="btn btn-success" style="float: right;margin-bottom: 15px;">
             <?php if(isset($this->cadastro)) : ?>
                 Editar <?php echo $this->modulo['send']; ?>
             <?php else : ?>
@@ -260,15 +263,15 @@
         }
     });
 
-    $('input[type=radio][name=<?php echo $this->modulo['modulo']; ?>\\[tipo_trabalho\\]]').change(function() {
-        if($('input[type=radio][name=<?php echo $this->modulo['modulo']; ?>\\[tipo_trabalho\\]]:checked').val() == 'upload'){
-            $('#upload_trabalho').show();
-            $('#link_trabalho').hide();
-        }else{
-            $('#upload_trabalho').hide();
-            $('#link_trabalho').show();
-        }
-    });
+    // $('input[type=radio][name=<?php echo $this->modulo['modulo']; ?>\\[tipo_trabalho\\]]').change(function() {
+    //     if($('input[type=radio][name=<?php echo $this->modulo['modulo']; ?>\\[tipo_trabalho\\]]:checked').val() == 'upload'){
+    //         $('#upload_trabalho').show();
+    //         $('#link_trabalho').hide();
+    //     }else{
+    //         $('#upload_trabalho').hide();
+    //         $('#link_trabalho').show();
+    //     }
+    // });
 
      var trabalho_manualUploader = new qq.FineUploader({
         element: document.getElementById('upload_trabalho_trigger'),
@@ -389,9 +392,6 @@
         $.fn.modal.Constructor.prototype.enforceFocus = function() {};
 
     });
-
-
-
 
 
     <?php if(isset($this->cadastro)) : ?>

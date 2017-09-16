@@ -129,9 +129,7 @@ class ControllerCrud extends \Libs\Controller {
 
 		$this->check_if_exists($id[0]);
 
-		$this->view->cadastro = $this->model->carregar_trabalho($id[0]);
-		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form');
-
-		$this->view->lazy_view();
+		$this->view->cadastro = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form', true);
 	}
 }

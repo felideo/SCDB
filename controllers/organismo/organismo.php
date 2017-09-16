@@ -27,6 +27,8 @@ class organismo extends \Libs\ControllerCrud {
 		$this->view->set_colunas_datatable($this->colunas);
 
 		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
+
+
 	}
 
 	public function carregar_listagem_ajax(){
@@ -90,8 +92,7 @@ class organismo extends \Libs\ControllerCrud {
 		$organismo = $this->model->carregar_organismo($id[0]);
 
 		$this->view->organismo = $organismo;
-		$this->view->render('front/cabecalho_rodape' ,'front/organismo/visualizacao_organismo/visualizacao_organismo');
-		$this->view->lazy_view();
+		$this->view->render('front/cabecalho_rodape' ,'front/organismo/visualizacao_organismo/visualizacao_organismo', true);
 	}
 
 	public function visualizar($id){
@@ -101,9 +102,8 @@ class organismo extends \Libs\ControllerCrud {
 
 		$this->view->organismo = $this->model->carregar_organismo($id[0]);
 
-		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form');
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form', true);
 
-		$this->view->lazy_view();
 	}
 
 	public function cadastro(){

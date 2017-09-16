@@ -88,9 +88,8 @@ class taxon extends \Libs\ControllerCrud {
 		$this->view->cadastro = $this->model->carregar_taxon($id[0])[0];
 		$this->view->classificacoes = $this->model->load_active_list('classificacao');
 		$this->view->visualizar = true;
-		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form');
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form', true);
 
-		$this->view->lazy_view();
 	}
 
 	public function buscar_taxon_select2(){
