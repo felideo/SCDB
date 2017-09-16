@@ -511,6 +511,4 @@
 		</div>
 </section>
 
-
-
 <?php require 'views/back/organismo/form/detalhes/detalhes.js.php'; ?>

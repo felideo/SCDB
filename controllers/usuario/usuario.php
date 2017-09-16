@@ -115,8 +115,7 @@ class Usuario extends \Libs\Controller {
 		}
 
 		$this->view->cadastro = $this->model->load_cadastro($id[0])[0];
-		$this->view->render('back/cabecalho_rodape_sidebar', 'back/usuario/editar/editar');
-		$this->view->lazy_view();
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/usuario/editar/editar', true);
 	}
 
 	public function update($id) {

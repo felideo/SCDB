@@ -57,7 +57,7 @@ class trabalho_model extends \Libs\Model{
 	public function carregar_trabalho($id){
 		$query = new QueryBuilder($this->db);
 
-		$query->select('autor.*, trabalho.*, rel_palavra.*, palavra.*, arquivo.*, idioma.*')
+		$query->select('autor.*, trabalho.*, rel_palavra.*, palavra.*, arquivo.*, idioma.*, rel_trabalho.*')
 			->from('trabalho trabalho')
 			->leftJoin('autor autor'
 				. ' ON autor.id = trabalho.id_autor'
@@ -74,7 +74,11 @@ class trabalho_model extends \Libs\Model{
 			->leftJoin('idioma idioma'
 				. ' ON idioma.id = trabalho.id_idioma'
 			)
+			->leftJoin('organismo_relaciona_trabalho rel_trabalho'
+				. ' ON rel_trabalho.id_trabalho = trabalho.id'
+			)
 			->where("trabalho.id = {$id}");
+
 
 		return $query->fetchArray()[0];
 	}

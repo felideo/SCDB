@@ -9,7 +9,7 @@ class View {
 	}
 
 
-	public function render($header_footer, $body) {
+	public function render($header_footer, $body, $lazy_view = false) {
 		if(!file_exists('views/' . $header_footer . '/header.php')){
 			$e = new \Exception('Cabeçalho: views/' . $header_footer . '/header.php não existe!');
 			debug2($e->getMessage());
@@ -33,6 +33,11 @@ class View {
 
 		require 'views/' . $header_footer . '/header.php';
 		require 'views/' . $body . '.php';
+
+		if($lazy_view){
+			$this->lazy_view();
+		}
+
 		require 'views/' . $header_footer . '/footer.php';
 	}
 

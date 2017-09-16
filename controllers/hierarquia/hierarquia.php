@@ -72,8 +72,7 @@ class Hierarquia extends \Libs\Controller {
 
 		$this->view->cadastro = $this->model->load_hierarquia($id[0]);
 		$this->view->permissoes_list = $this->load_external_model('permissao')->load_permissions_list();
-		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/editar/editar');
-		$this->view->lazy_view();
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/editar/editar', true);
 	}
 
 	public function create() {
