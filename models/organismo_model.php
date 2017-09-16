@@ -13,6 +13,54 @@ class Organismo_Model extends \Libs\Model {
 		parent::__construct();
 	}
 
+	public function carregar_listagem($busca){
+		$query = new QueryBuilder($this->db);
+
+		$query->select('
+			organismo.id,
+			organismo.nome,
+			organismo.localizador,
+			rel_pop.id,
+			popular.nome,
+			last_taxon.nome,
+			penultimo_taxon.nome,
+		')
+		->from('organismo organismo')
+		->leftJoin('organismo_relaciona_nome_popular rel_pop'
+			. ' ON rel_pop.id_organismo = organismo.id'
+		)
+		->leftJoin('nome_popular popular'
+			. ' ON popular.id = rel_pop.id_nome_popular'
+		)
+		->leftJoin('taxon last_taxon'
+			. ' ON last_taxon.id = organismo.id_last_taxon'
+		)
+		->leftJoin(' taxon penultimo_taxon'
+			. ' ON penultimo_taxon.id = last_taxon.id_taxon'
+
+		)
+		->where("organismo.ativo = 1");
+
+		// if(isset($busca['search']['value']) && !empty($busca['search']['value'])){
+		// 	$query->where("organismo.id LIKE '%{$busca['search']['value']}%'", 'and')
+		// 		->where("palavra.palavra_chave LIKE '%{$busca['search']['value']}%'", 'or');
+		// }
+
+		// if(isset($busca['order'][0])){
+		// 	if($busca['order'][0]['column'] == 0){
+		// 		$query->orderBy("organismo.id {$busca['order'][0]['dir']}");
+		// 	}elseif($busca['order'][0]['column'] == 1){
+		// 		$query->orderBy("organimso.palavra_chave {$busca['order'][0]['dir']}");
+		// 	}
+		// }
+
+		// if(isset($busca['start']) && isset($busca['length'])){
+		// 	$query->limit("{$busca['start']}, {$busca['length']}");
+		// }
+
+		return $query->fetchArray();
+	}
+
 	public function buscar_nome_popular($busca){
 		$select = "SELECT nome, id"
 			. " FROM"
@@ -48,9 +96,7 @@ class Organismo_Model extends \Libs\Model {
 
 	}
 
-	public function carregar_listagem(){
 
-	}
 
 	public function carregar_organismo($id){
 

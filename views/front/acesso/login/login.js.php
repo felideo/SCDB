@@ -25,16 +25,18 @@ $(document).ready(function(){
 				return false
 			}
 
+
+
 			$.ajax({
                 type: 'POST',
-                url: "<?php echo URL; ?>senha/recuperar_senha",
+                url: "/senha/recuperar_senha",
                 data: {
                     email: inputValue
                 },
                 dataType: 'json',
                 async: false,
                 success: function(dados) {
-                	window.location = "<?php echo URL . 'login'; ?>";
+                	window.location = "/login";
                 }
             });
 		});

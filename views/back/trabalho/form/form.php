@@ -1,96 +1,144 @@
 <?php include_once '../' . strtolower(APP_NAME) . '/public/fineuploader/templates/template.html'; ?>
 
+<?php debug2($this->cadastro); ?>
+
 <div class="row">
-    <div class="content col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+    <form method="post"
+        id="lazy_view"
+        <?php if(isset($this->cadastro)) : ?>
+            action="/<?php echo $this->modulo['modulo']; ?>/update/<?php echo $this->cadastro['id']; ?>"
+        <?php else : ?>
+            action="/<?php echo $this->modulo['modulo']; ?>/create"
+        <?php endif ?>
+    >
+        <div class="content col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
 
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="form-group">
-                    <label>Autor</label>
-                    <br>
-                    <input id="autor" name="autor" style="width: 100%">
-                </div>
-
-                <div class="form-group">
-                    <label>Lattes/Site</label>
-                    <p id="link_autor_div" style="display: none;"></p>
-                    <input id="link_autor_input" type="text" class="form-control" name="site">
-                </div>
-
-                <div class="form-group">
-                    <label>Email</label>
-                    <p id="email_autor_div" style="display: none;"></p>
-                    <input class="somente_letras embelezar_string validar_email" id="email_autor_input" type="email" class="form-control" name="email" style="width: 100%">
-                </div>
-
-
-
-                <div id="upload_trabalho" class="row" style="display: none;">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div id="upload_trabalho_trigger"></div>
-                        <input type="text" class="form-control" id="id_arquivo" name="id_arquivo">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label>Autor</label>
+                        <br>
+                        <input id="autor" name="<?php echo $this->modulo['modulo']; ?>[autor]" style="width: 100%" >
                     </div>
-                </div>
 
-                <div id="link_trabalho" class="row" style="display: none;">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="form-group">
-                            <label>Link do Trabalho</label>
-                            <input type="text" class="form-control" name="link_trabalho">
+                    <div class="form-group">
+                        <label>Lattes/Site</label>
+                        <p id="link_autor_div" style="display: none;"><?php if(isset($this->cadastro)){echo $this->cadastro['autor'][0]['link'];} ?></p>
+                        <input id="link_autor_input" type="text" class="form-control" name="<?php echo $this->modulo['modulo']; ?>[site]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['autor'][0]['link'];} ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <p id="email_autor_div" style="display: none;"><?php if(isset($this->cadastro)){echo $this->cadastro['autor'][0]['email'];} ?></p>
+                        <input class="somente_letras embelezar_string validar_email" id="email_autor_input" type="email" class="form-control" name="<?php echo $this->modulo['modulo']; ?>[email]" style="width: 100%" value="<?php if(isset($this->cadastro)){echo $this->cadastro['autor'][0]['email'];} ?>">
+                    </div>
+
+
+
+                    <div id="" class="row" style="display: none;" >
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div id="upload_trabalho_trigger"></div>
+                            <input type="text" class="form-control" id="id_arquivo" name="<?php echo $this->modulo['modulo']; ?>[id_arquivo]" value="<?php if(isset($this->cadastro['id_arquivo'])){echo $this->cadastro['id_arquivo'];} ?>">
+                        </div>
+                    </div>
+
+                    <?php
+                        if(isset($this->cadastro['arquivo'][0]['extensao']) && !empty($this->cadastro['arquivo'][0]['extensao'])) {
+                            if($this->cadastro['arquivo'][0]['extensao'] == '.pdf'){
+                                $icone = 'fa-file-pdf-o';
+                            }else{
+                                $icone = 'a-file-o';
+                            }
+                        }
+                    ?>
+
+                    <?php if(isset($this->cadastro['arquivo'][0]['extensao']) && !empty($this->cadastro['arquivo'][0]['extensao'])) : ?>
+                        <div id="upload_trabalho" class="row">
+                            <div class="icon">
+                                <i class="fa <?php echo $icone; ?>"> <?php echo $this->cadastro['arquivo'][0]['nome']; ?>.<?php echo $this->cadastro['arquivo'][0]['extensao']; ?></i>
+                            </div>
+                            <div class="content">
+                                <button type="button" class="btn btn-link" data-id_trabalho="<?php echo $trabalho['trabalho'][0]['id']; ?>"><i class="fa fa-close"></i> Visualizar</button>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <div id="link_trabalho" class="row" <?php if(!isset($this->cadastro['id_trabalho'])){echo ' style="display: none;" ' ;} ?> >
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label>Link do Trabalho</label>
+                                <input type="text" class="form-control" name="<?php echo $this->modulo['modulo']; ?>[link_trabalho]" value="<?php if(isset($this->cadastro['link_trabalho'])){echo $this->cadastro['link_trabalho'];} ?>">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="form-group">
-                    <label>Titulo</label>
-                    <input type="text" class="form-control" name="titulo">
-                </div>
-
-                <div class="form-group">
-                    <label>Idioma</label>
-                    <br>
-                    <input id="idioma" name="idioma" style="width: 100%">
-                </div>
-
-                <div class="form-group">
-                    <label>Ano</label>
-                    <input type="text" class="form-control" name="ano">
-                </div>
-
-                <div class="form-group">
-                    <label>Palavras Chave</label>
-                    <br>
-                    <input id="palavra_chave" name="palavras_chave" style="width: 100%">
-                </div>
-
-                <div class="form-group">
-                    <label>Resumo</label>
-                    <textarea class="form-control" rows="3" name="resumo"></textarea>
-                </div>
-
-                <fieldset class="form-group">
-                    <legend>Tipo de Trabalho</legend>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="tipo_trabalho" id="upload" value="upload"> Upload de Arquivo
-                        </label>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label>Titulo</label>
+                        <input type="text" class="form-control" name="<?php echo $this->modulo['modulo']; ?>[titulo]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['titulo'];} ?>">
                     </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="tipo_trabalho" id="link" value="link"> Link
-                        </label>
+
+                    <div class="form-group">
+                        <label>Idioma</label>
+                        <br>
+                        <input id="idioma" name="<?php echo $this->modulo['modulo']; ?>[idioma]" style="width: 100%">
                     </div>
-                </fieldset>
-            </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <button id="add_trabalho" type="button" class="btn btn-primary green_buttom">
-                    <i class="fa fa-check-circle"></i> Enviar
-                </button>
-            </div>
+                    <div class="form-group">
+                        <label>Ano</label>
+                        <input type="text" class="form-control" name="<?php echo $this->modulo['modulo']; ?>[ano]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['ano'];} ?>">
+                    </div>
 
-    </div>
+                    <div class="form-group">
+                        <label>Palavras Chave</label>
+                        <br>
+                        <input id="palavra_chave" name="<?php echo $this->modulo['modulo']; ?>[palavras_chave]" style="width: 100%">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Resumo</label>
+                        <textarea class="form-control" rows="3" name="<?php echo $this->modulo['modulo']; ?>[resumo]"><?php if(isset($this->cadastro)){echo $this->cadastro['resumo'];} ?></textarea>
+                    </div>
+
+                    <fieldset class="form-group">
+                        <legend>Tipo de Trabalho</legend>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="<?php echo $this->modulo['modulo']; ?>[tipo_trabalho]" id="upload" value="upload" <?php if(!isset($this->cadastro['id_trabalho'])){echo ' checked ' ;} ?>> Upload de Arquivo
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="<?php echo $this->modulo['modulo']; ?>[tipo_trabalho]" id="link" value="link" <?php if(isset($this->cadastro['id_trabalho'])){echo ' checked ' ;} ?>> Link
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <button id="add_trabalho" type="button" class="btn btn-primary green_buttom">
+                        <i class="fa fa-check-circle"></i> Enviar
+                    </button>
+                </div>
+
+
+        </div>
+        <button type="submit" class="btn btn-success" style="float: right;">
+            <?php if(isset($this->cadastro)) : ?>
+                Editar <?php echo $this->modulo['send']; ?>
+            <?php else : ?>
+                Cadastrar Novo <?php echo $this->modulo['send']; ?>
+            <?php endif?>
+        </button>
+
+        <button type="button" class="btn btn btn-danger voltar" style="float: right;margin-right: 10px; <?php if(!isset($this->cadastro)){ echo 'display: none;';} ?>">
+            <?php if(isset($this->cadastro)) : ?>
+                Cancelar
+            <?php else : ?>
+                Voltar
+            <?php endif?>
+        </button>
+    </form>
 </div>
 
 <script type="text/javascript">
@@ -149,9 +197,71 @@
         }
     });
 
+    $('#idioma').select2({
+        placeholder: $(this).data('placeholder'),
+        multiple: false,
+        minimumInputLength: 2,
+        ajax: {
+            type: 'POST',
+            url: "/idioma/buscar_idioma_select2",
+            dataType: 'json',
+            data: function(term) {
+                return {
+                    busca: {
+                        nome: term,
+                        page_limit: 10,
+                        cadastrar_busca: true
+                    }
+                };
+            },
+            results: function(data) {
+                return {
+                    results: data
+                };
+            }
+        },
+        formatResult: function(object) {
+            return object.idioma
+        },
+        formatSelection: function(object) {
+            return object.idioma.replace_all('Cadastrar ', '')
+        }
+    });
 
-    $('input[type=radio][name=tipo_trabalho]').change(function() {
-        if($('input[type=radio][name=tipo_trabalho]:checked').val() == 'upload'){
+
+    $('#palavra_chave').select2({
+        placeholder: $(this).data('placeholder'),
+        multiple: true,
+        minimumInputLength: 2,
+        ajax: {
+            type: 'POST',
+            url: "/palavra_chave/buscar_palavra_chave_select2",
+            dataType: 'json',
+            data: function(term) {
+                return {
+                    busca: {
+                        nome: term,
+                        page_limit: 10,
+                        cadastrar_busca: true
+                    }
+                };
+            },
+            results: function(data) {
+                return {
+                    results: data
+                };
+            }
+        },
+        formatResult: function(object) {
+            return object.palavra
+        },
+        formatSelection: function(object) {
+            return object.palavra.replace_all('Cadastrar ', '')
+        }
+    });
+
+    $('input[type=radio][name=<?php echo $this->modulo['modulo']; ?>\\[tipo_trabalho\\]]').change(function() {
+        if($('input[type=radio][name=<?php echo $this->modulo['modulo']; ?>\\[tipo_trabalho\\]]:checked').val() == 'upload'){
             $('#upload_trabalho').show();
             $('#link_trabalho').hide();
         }else{
@@ -249,7 +359,7 @@
 
 
                     if($(this).attr('name') != 'tipo_trabalho'){
-                        var input = '<input id="' + $(this).attr('name') + '_' + id + '" name="trabalho[' + id + '][' + $(this).attr('name') + ']" value="' + $(this).val() + '">'
+                        var input = '<input id="' + $(this).attr('name') + '_' + id + '" name="[trabalho][' + id + '][' + $(this).attr('name') + ']" value="' + $(this).val() + '"> '
                         $('#id_trabalho_' + id + ' .content').append(input);
                     }
 
@@ -282,111 +392,48 @@
 
 
 
-    $('#idioma').select2({
-        placeholder: $(this).data('placeholder'),
-        multiple: false,
-        minimumInputLength: 2,
-        ajax: {
-            type: 'POST',
-            url: "/idioma/buscar_idioma_select2",
-            dataType: 'json',
-            data: function(term) {
-                return {
-                    busca: {
-                        nome: term,
-                        page_limit: 10,
-                        cadastrar_busca: true
-                    }
-                };
-            },
-            results: function(data) {
-                return {
-                    results: data
-                };
-            }
-        },
-        formatResult: function(object) {
-            return object.idioma
-        },
-        formatSelection: function(object) {
-            return object.idioma.replace_all('Cadastrar ', '')
-        }
-    });
 
-    $('#palavra_chave').select2({
-        placeholder: $(this).data('placeholder'),
-        multiple: true,
-        minimumInputLength: 2,
-        ajax: {
-            type: 'POST',
-            url: "/palavra_chave/buscar_palavra_chave_select2",
-            dataType: 'json',
-            data: function(term) {
-                return {
-                    busca: {
-                        nome: term,
-                        page_limit: 10,
-                        cadastrar_busca: true
-                    }
-                };
-            },
-            results: function(data) {
-                return {
-                    results: data
-                };
-            }
-        },
-        formatResult: function(object) {
-            return object.palavra
-        },
-        formatSelection: function(object) {
-            return object.palavra.replace_all('Cadastrar ', '')
+
+    <?php if(isset($this->cadastro)) : ?>
+            $('#idioma').select2(
+                'data', {
+                    id: "<?php echo $this->cadastro['idioma'][0]['id']; ?>",
+                    idioma: "<?php echo $this->cadastro['idioma'][0]['idioma']; ?>"
+                }
+            );
+
+            $('#autor').select2(
+                'data', {
+                    id: "<?php echo $this->cadastro['autor'][0]['id']; ?>",
+                    nome: "<?php echo $this->cadastro['autor'][0]['nome']; ?>"
+                }
+            );
+
+    <?php
+        $palavras_chave = [];
+
+        foreach($this->cadastro['trabalho_relaciona_palavra_chave'] as $indice => $palavra){
+
+            $palavras_chave[] = [
+                'id'        => $palavra['palavra_chave'][0]['id'],
+                'palavra'   => $palavra['palavra_chave'][0]['palavra_chave']
+            ];
         }
-    });
+
+        echo 'var palavras_chave = ' . json_encode($palavras_chave);
+    ?>
+
+    $('#palavra_chave').select2(
+        'data', palavras_chave
+    );
+
+        console.log(palavras_chave);
+
+    <?php endif; ?>
+
 
 
     //  document.getElementById("trigger-upload")).attach("click", function() {
     // });
 </script>
 
-
-<div class="row-fluid">
-    <div class="span12">
-        <form method="post"
-            id="lazy_view"
-            <?php if(isset($this->cadastro)) : ?>
-                action="/<?php echo $this->modulo['modulo']; ?>/update/<?php echo $this->cadastro['id']; ?>"
-            <?php else : ?>
-                action="/<?php echo $this->modulo['modulo']; ?>/create"
-            <?php endif ?>
-        >
-
-            <div class="row-fluid">
-                <div class="form-group span12">
-                    <label>Idioma</label>
-                    <input class="form-control somente_letras remover_caracteres_especiais" name="<?php echo $this->modulo['modulo']; ?>[idioma]" value="<?php if(isset($this->cadastro)){echo $this->cadastro['idioma'];} ?>" required>
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="form-group span12">
-
-                    <button type="submit" class="btn btn-success" style="float: right;">
-                        <?php if(isset($this->cadastro)) : ?>
-                            Editar <?php echo $this->modulo['send']; ?>
-                        <?php else : ?>
-                            Cadastrar Novo <?php echo $this->modulo['send']; ?>
-                        <?php endif?>
-                    </button>
-
-                    <button type="button" class="btn btn btn-danger voltar" style="float: right;margin-right: 10px; <?php if(!isset($this->cadastro)){ echo 'display: none;';} ?>">
-                        <?php if(isset($this->cadastro)) : ?>
-                            Cancelar
-                        <?php else : ?>
-                            Voltar
-                        <?php endif?>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
