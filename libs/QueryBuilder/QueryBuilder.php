@@ -54,6 +54,10 @@ class QueryBuilder{
 		return $this;
 	}
 
+	public function getParametros(){
+		return $this->parametros;
+	}
+
 	public function orderBy($order_by){
 		$this->parametros['order_by'] = $order_by;
 		return $this;
@@ -176,6 +180,10 @@ class QueryBuilder{
 				continue;
 			}
 
+			if(!isset($this->tables_x_alias[explode('.', $select)[0]])){
+				debug2('não existe a tabala ' . explode('.', $select)[0]);
+			}
+
 			$select_porra_toda = $this->try_get_select_columns($this->tables_x_alias[explode('.', $select)[0]]);
 
 			if(!empty($select_porra_toda)){
@@ -183,8 +191,10 @@ class QueryBuilder{
 				unset($this->parametros['select'][$indice]);
 			}
 
+
 			$merge = array_merge($merge, $select_porra_toda);
 		}
+
 
 		$this->parametros['select'] = array_merge($this->parametros['select'], $merge);
 		$this->parametros['select'] = array_unique($this->parametros['select']);

@@ -20,6 +20,15 @@ class organismo extends \Libs\ControllerCrud {
 		$this->view->modulo = $this->modulo;
 	}
 
+	public function index(){
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+
+		$this->view->set_colunas_datatable($this->colunas);
+
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
+	}
+
 	public function carregar_listagem_ajax(){
 		$busca = [
 			'order'  => carregar_variavel('order'),
@@ -32,27 +41,28 @@ class organismo extends \Libs\ControllerCrud {
 
 		$retorno_tratado = [];
 
-		foreach ($query as $indice => $retorno) {
-			if(!isset($retorno_tratado[$retorno['id']])){
-				$retorno_tratado[$retorno['id']] = $retorno;
-			}else{
-				$retorno_tratado[$retorno['id']]['palavra_chave'] .= ', ' . $retorno['palavra_chave'];
-			}
-		}
-
 		$retorno = [];
 
-		foreach ($retorno_tratado as $indice => $item) {
+		foreach ($query as $indice => $item) {
+
+			$nomes_populares = [];
+
+			foreach ($item['organismo_relaciona_nome_popular'] as $indice => $nome_popular) {
+
+
+				if(isset($nome_popular['nome_popular'][0]['nome'])){
+					$nomes_populares[] = $nome_popular['nome_popular'][0]['nome'];
+				}
+			}
 
 			$retorno[] = [
 				$item['id'],
-				$item['titulo'],
-				$item['nome'],
-				$item['palavra_chave'],
-
-
+				$item['nome'] . ' ' . $item['taxon'][0]['taxon'][0]['nome'],
+				!empty($nomes_populares) ? implode(', ', $nomes_populares) : '',
 				$this->view->default_buttons_listagem($item['id'], true, true, true)
 			];
+
+			unset($nomes_populares);
 		}
 
 		echo json_encode([
@@ -85,16 +95,15 @@ class organismo extends \Libs\ControllerCrud {
 	}
 
 	public function visualizar($id){
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
-			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
-			header('location: /index');
-			exit;
-		}
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+		$this->check_if_exists($id[0]);
 
+		$this->view->organismo = $this->model->carregar_organismo($id[0]);
 
-		if(!(\Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar"))){
-			header('location: /' . $this->modulo['modulo'] . '/visualizacao/' . $id[0]);
-		}
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form');
+
+		$this->view->lazy_view();
 	}
 
 	public function cadastro(){
@@ -118,12 +127,6 @@ class organismo extends \Libs\ControllerCrud {
 		$retorno_trabalho_autor = $this->create_trabalho($trabalhos, $retorno_organismo);
 		$this->create_relacao_organismo_trabalho_autor($retorno_trabalho_autor, $retorno_organismo);
 
-
-		debug2($retorno_trabalho_autor);
-		debug2($retorno_organismo);
-		debug2($retorno_taxonomia);
-		debug2(get_defined_vars());
-		exit;
 
 		// ZZZ: insert relação organismo, trabalho, autor;
 

@@ -61,4 +61,18 @@ class Trabalho extends \Libs\ControllerCrud {
 
 		exit;
 	}
+
+
+	public function visualizar($id){
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+		$this->check_if_exists($id[0]);
+
+		$this->view->cadastro = $this->model->carregar_trabalho($id[0]);
+
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form');
+
+		$this->view->lazy_view();
+	}
+
 }
