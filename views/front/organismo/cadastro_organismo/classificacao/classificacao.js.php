@@ -102,7 +102,7 @@
     }
 
     <?php if(isset($this->organismo)) : ?>
-    	<?php if(count(explode('-', $this->organismo['localizador'])) == 7) : ?>
+    	<?php if(count(explode('-', $this->organismo['localizador'])) == 9) : ?>
             $('#especie').select2(
                 'data', {
                     id: <?php echo $this->organismo['taxon'][0]['id']; ?>,

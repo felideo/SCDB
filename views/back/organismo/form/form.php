@@ -4,6 +4,9 @@
     <?php endif ?>
 >
 
+	<input name="redirect" type="hidden" value="/organismo/index">
+
+
 	<!-- ******CLASSIFICACAO****** -->
 	<?php require 'views/back/organismo/form/classificacao/classificacao.php'; ?>
 	<!--//classificacao-->
@@ -26,12 +29,23 @@
 
 	<!-- ******ENVIAR****** -->
 	<section id="features" class="features section">
-	    <div class="container">
 	        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 marginB10">
-	        	<button type="buttom" style="margin-top: 13px; float: right;" class="lazy_view_remove btn btn-lg btn-theme marginL10" onClick="$('#form_submit').submit();">Salvar</button>
-	        	<button type="buttom" style="margin-top: 13px; float: right;" class="lazy_view_remove btn btn-lg btn-theme-cancel marginR10">Cancelar</button>
+    	        <button type="submit" class="btn btn-success" style="float: right;margin-bottom: 15px;">
+		            <?php if(isset($this->organismo)) : ?>
+		                Editar <?php echo $this->modulo['send']; ?>
+		            <?php else : ?>
+		                Cadastrar Novo <?php echo $this->modulo['send']; ?>
+		            <?php endif?>
+		        </button>
+
+		        <button type="button" class="btn btn btn-danger voltar" style="float: right;margin-right: 10px; <?php if(!isset($this->organismo)){ echo 'display: none;';} ?>">
+		            <?php if(isset($this->organismo)) : ?>
+		                Cancelar
+		            <?php else : ?>
+		                Voltar
+		            <?php endif?>
+		        </button>
 		    </div>
-	    </div>
 	</section>
 	<!--//enviar-->
 </form>

@@ -106,6 +106,55 @@ class organismo extends \Libs\ControllerCrud {
 
 	}
 
+	public function editar($id){
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+		$this->check_if_exists($id[0]);
+
+		$this->view->action = '/update/' . $id[0];
+
+		$this->view->organismo = $this->model->carregar_organismo($id[0]);
+
+		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form');
+
+	}
+
+	public function update($id){
+
+		$taxonomia            = carregar_variavel('taxonomia');
+		$detalhes             = carregar_variavel('detalhes');
+		$nomes_populares      = carregar_variavel('nomes_populares');
+		$posicoes_geograficas = carregar_variavel('posicao_geografica');
+		$imagens              = carregar_variavel('imagens');
+		$trabalhos            = carregar_variavel('trabalho');
+
+		$retorno_taxonomia    = $this->create_taxon($taxonomia);
+		$retorno_organismo    = $this->update_organismo($retorno_taxonomia, $detalhes, $id[0]);
+
+
+
+
+
+		$this->model->update_relacao('organismo_relaciona_nome_popular', 'id_organismo', $id[0], ['ativo' => 0]);
+		$this->create_nome_popular($nomes_populares, $retorno_organismo);
+
+		// $this->create_imagem_relacao($imagens, $retorno_organismo);
+		// $this->create_posicao_geografica($posicoes_geograficas, $retorno_organismo);
+		// $retorno_trabalho_autor = $this->create_trabalho($trabalhos, $retorno_organismo);
+		// $this->create_relacao_organismo_trabalho_autor($retorno_trabalho_autor, $retorno_organismo);
+
+
+		// ZZZ: insert relação organismo, trabalho, autor;
+
+		if($retorno_organismo['status']){
+			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' cadastrado com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+		}
+
+		header('location: ' . carregar_variavel('redirect'));
+	}
+
 	public function cadastro(){
 		$this->view->action = '/create';
 		$this->view->render('front/cabecalho_rodape' ,'front/organismo/cadastro_organismo/cadastro_organismo');
@@ -124,8 +173,11 @@ class organismo extends \Libs\ControllerCrud {
 		$this->create_nome_popular($nomes_populares, $retorno_organismo);
 		$this->create_imagem_relacao($imagens, $retorno_organismo);
 		$this->create_posicao_geografica($posicoes_geograficas, $retorno_organismo);
-		$retorno_trabalho_autor = $this->create_trabalho($trabalhos, $retorno_organismo);
-		$this->create_relacao_organismo_trabalho_autor($retorno_trabalho_autor, $retorno_organismo);
+
+		if(!empty($trabalhos)){
+			$retorno_trabalho_autor = $this->create_trabalho($trabalhos, $retorno_organismo);
+			$this->create_relacao_organismo_trabalho_autor($retorno_trabalho_autor, $retorno_organismo);
+		}
 
 
 		// ZZZ: insert relação organismo, trabalho, autor;
@@ -136,7 +188,7 @@ class organismo extends \Libs\ControllerCrud {
 			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
 		}
 
-		header('location: /' . $this->modulo['modulo']);
+		header('location: ' . carregar_variavel('redirect'));
 	}
 
 
@@ -150,6 +202,7 @@ class organismo extends \Libs\ControllerCrud {
 
 	private function create_trabalho($trabalhos, $retorno_organismo){
 		$retorno_organismo_trabalho_autor = [];
+
 		foreach ($trabalhos as $indice_01 => $trabalho) {
 
 			$retorno_organismo_trabalho_autor[$indice_01]['id_organismo'] = $retorno_organismo['id'];
@@ -398,9 +451,40 @@ class organismo extends \Libs\ControllerCrud {
 		}
 	}
 
+	private function update_organismo($retorno_taxonomia, $detalhes, $id){
+
+		// $verificar_duplicidade = $this->model->db->select("SELECT id, nome FROM organismo WHERE localizador = '{$retorno_taxonomia['localizador']}' AND ativo = 1");
+
+		// if(!empty($verificar_duplicidade)){
+		// 	return [
+		// 		'status'     => 1,
+		// 		'id'         => $verificar_duplicidade[0]['id'],
+		// 		'error_code' => null,
+		// 		'erros_info' => null,
+		// 	];
+		// }
+
+		$insert_dbupdate_db = [
+			'nome'          => $retorno_taxonomia['nome'],
+			'localizador'   => $retorno_taxonomia['localizador'],
+			'id_last_taxon' => $retorno_taxonomia['id_last_taxon']
+		];
+
+		if(!isset($update_db['organismo'])){
+			$update_db['organismo'] = '';
+		}
+
+		$update_db = array_merge($update_db, $detalhes);
+
+		return $this->model->update('organismo', $id, $update_db);
+	}
+
 	private function create_organismo($retorno_taxonomia, $detalhes){
 
 		$verificar_duplicidade = $this->model->db->select("SELECT id, nome FROM organismo WHERE localizador = '{$retorno_taxonomia['localizador']}' AND ativo = 1");
+
+
+		debug2($verificar_duplicidade);
 
 		if(!empty($verificar_duplicidade)){
 			return [
@@ -416,6 +500,10 @@ class organismo extends \Libs\ControllerCrud {
 			'localizador'   => $retorno_taxonomia['localizador'],
 			'id_last_taxon' => $retorno_taxonomia['id_last_taxon']
 		];
+
+		if(!isset($insert_db['organismo'])){
+			$insert_db['organismo'] = '';
+		}
 
 		$insert_db = array_merge($insert_db, $detalhes);
 
