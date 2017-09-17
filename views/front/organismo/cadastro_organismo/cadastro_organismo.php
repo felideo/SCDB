@@ -3,6 +3,8 @@
         action="/<?php echo $this->modulo['modulo'] . $this->action; ?>"
     <?php endif ?>
 >
+	<input name="redirect" type="hidden" value="/index">
+
 
 	<!-- ******CLASSIFICACAO****** -->
 	<?php require 'views/front/organismo/cadastro_organismo/classificacao/classificacao.php'; ?>

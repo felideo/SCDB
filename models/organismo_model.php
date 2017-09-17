@@ -28,9 +28,11 @@ class Organismo_Model extends \Libs\Model {
 		->from('organismo organismo')
 		->leftJoin('organismo_relaciona_nome_popular rel_pop'
 			. ' ON rel_pop.id_organismo = organismo.id'
+			. ' AND rel_pop.ativo = 1'
 		)
 		->leftJoin('nome_popular popular'
 			. ' ON popular.id = rel_pop.id_nome_popular'
+			. ' AND popular.ativo = 1'
 		)
 		->leftJoin('taxon last_taxon'
 			. ' ON last_taxon.id = organismo.id_last_taxon'
