@@ -2,6 +2,11 @@ $(document).ready(function() {
 	$('.voltar').on('click', function(){
         history.back();
     });
+
+    $('#main-nave-mouseover, #main-nav').hover(function(){
+        console.log('ok')
+        $('#main-nav-toggle').trigger('click');
+    });
 });
 
 String.prototype.replace_all = function(search, replacement){
@@ -25,3 +30,7 @@ function carregar_loader(tipo) {
         swal.close();
     }
 }
+
+
+
+
