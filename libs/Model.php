@@ -1,22 +1,17 @@
 <?php
 namespace Libs;
-// include "../vendor/lichtner/fluentpdo/FluentPDO/FluentPDO.php";
-// include "../vendor/felideotrine/query-builder/FelideoTrine/QueryBuilder.php";
-// include "../vendor/felideotrine/query-builder/FelideoTrine/QueryBuilder.php";
-
-/**
-* classe Model
-*/
+use \Libs\QueryBuilder\QueryBuilder;
 
 abstract class Model {
-	private $fpdo;
+	protected $query;
 
 	function __construct() {
-		$this->db = new Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
+		$this->db    = new Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
+		$this->query = new QueryBuilder($this->db);
 	}
 
-	public function fpdo(){
-		return $this->fpdo;
+	public function get_query(){
+		return $this->query;
 	}
 
 	public function create($table, $data){

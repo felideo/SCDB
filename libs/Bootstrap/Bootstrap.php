@@ -1,5 +1,5 @@
 <?php
-namespace Libs;
+namespace Libs\Bootstrap;
 
 /**
 * classe Bootstrap
@@ -9,14 +9,14 @@ class Bootstrap {
 		$url = $this->get_url();
 
 		if(empty($url[0])) {
-			require 'controllers/index/index.php';
-			$controller = new \Controllers\Index();
+			require 'modulos/index/controller/index.php';
+			$controller = new \Controller\Index();
 			$controller->loadModel('index');
 			$controller->index();
 			return false;
 		}
 
-		$amp = $this->identificar_arquivo_metoro_parametro($url);
+		$amp = $this->identificar_arquivo_metodo_parametro($url);
 
 		if(file_exists($amp['arquivo'])) {
 			require $amp['arquivo'];
@@ -25,7 +25,9 @@ class Bootstrap {
 			exit();
 		}
 
-		$instancia_controller = '\\controllers\\' . $amp['classe'];
+		$instancia_controller = '\\Controller\\' . ucfirst($amp['classe']);
+		$_SESSION['modulo_ativo'] = strtolower($amp['classe']);
+
 		$controller = new $instancia_controller;
 
 		if(!empty($amp['classe'])){
@@ -33,15 +35,10 @@ class Bootstrap {
 		}
 
 		if(method_exists($controller, $amp['metodo'])) {
-			if(!empty($amp['parametros'])){
-				$controller->{$amp['metodo']}($amp['parametros']);
-			} else {
-				$controller->{$amp['metodo']}();
-			}
-		} else {
-			$controller->index();
+			$controller->{$amp['metodo']}(!empty($amp['parametros']) ? $amp['parametros'] : null);
 		}
 
+		$controller->index();
 	}
 
 	private function get_url(){
@@ -53,28 +50,16 @@ class Bootstrap {
 		return $url;
 	}
 
-	private function identificar_arquivo_metoro_parametro($url){
-		$file = 'controllers/';
+	private function identificar_arquivo_metodo_parametro($url){
+		$file = 'modulos';
 
-		foreach ($url as $indice => $value) {
-
-
-			$file .= $value . '/';
-
-			// if($indice == (count($url) - 1)) {
-			// 	$file .= $url[$indice] . ".php";
-			// 	$arquivo = $file;
-			// 	$class = $url[$indice];
-			// } else {
-				if(file_exists($file . $url[$indice] . '.php')){
-					$arquivo = $file . $url[$indice] . '.php';
-					$class = $url[$indice];
-				}
-
-				if(!file_exists($file . $url[$indice] . '.php')){
-					$method[] = $url[$indice];
-				}
-			// }
+		foreach($url as $indice => $value) {
+			if(file_exists("{$file}/{$value}/controller/{$value}.php")){
+				$arquivo = "{$file}/{$value}/controller/{$value}.php";
+				$class = $value;
+			}else{
+				$method[] = $url[$indice];
+			}
 		}
 
 		if(isset($method)){
@@ -84,17 +69,13 @@ class Bootstrap {
 
 		return [
 			'arquivo' 		=> $arquivo,
-			'classe' 		=> $class,
+			'classe' 		=> implode('_', array_map('ucfirst', explode('_', $class))),
 			'metodo' 		=> isset($metodo) ? $metodo : null,
 			'parametros' 	=> isset($method) ? array_values($method) : null
 
 		];
 	}
 
-	/**
-	 * método Error
-	 * É chamado quando um controlador ou seu método ñ existir
-	 */
 	private function error() {
 		header('location: /error');
 	}

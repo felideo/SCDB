@@ -134,7 +134,21 @@ class QueryBuilder{
 			return $this->convert_to_tree($retorno);
 		}
 
-		return $this->convert_to_tree($retorno);
+		$return = $this->convert_to_tree($retorno);
+
+		$this->clean_class();
+
+		return $return;
+	}
+
+	private function clean_class(){
+		unset($this->select);
+		unset($this->query);
+		unset($this->where);
+		unset($this->tables_x_alias);
+		unset($this->join_on);
+		unset($this->first);
+		unset($this->parametros);
 	}
 
 	private function execute_sql_query($sql) {

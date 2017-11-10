@@ -1,39 +1,160 @@
 <?php
 namespace Libs;
 
-/**
-*	classe View
-*/
 class View {
+	private $dwoo;
+	private $assign;
+
 	function __construct(){
+		$this->dwoo   = new \Dwoo\Core();
+		$this->assign = new \Dwoo\Data();
+
+		$this->assign('app_name', APP_NAME);
+		$this->assign('_SESSION', $_SESSION);
+	}
+
+	public function assign($index, $data){
+		$this->assign->assign($index, $data);
+	}
+
+	public function getAssign($data){
+		return $this->assign->get($data);
 	}
 
 
+
 	public function render($header_footer, $body) {
-		if(!file_exists('views/' . $header_footer . '/header.php')){
-			$e = new \Exception('Cabeçalho: views/' . $header_footer . '/header.php não existe!');
-			debug2($e->getMessage());
-            debug2($e->getTrace());
-            exit;
+		$template = new \Dwoo\Template\File('modulos/' . $body . '.html');
+
+		if(strpos($header_footer, 'sidebar')){
+			$this->mount_sidebar();
 		}
 
-		if(!file_exists('views/' . $header_footer . '/footer.php')){
-			$e = new \Exception('Rodape: views/render/' . $header_footer . '/footer.php não existe!');
-			debug2($e->getMessage());
-            debug2($e->getTrace());
-            exit;
+		$header = new \Dwoo\Template\File('views/' 		. $header_footer 	. '/header.html');
+		$body   = new \Dwoo\Template\File('modulos/' 	. $body 			. '.html');
+		$footer = new \Dwoo\Template\File('views/' 		. $header_footer 	. '/footer.html');
+
+		echo $this->dwoo->get($header, $this->assign);
+		echo $this->dwoo->get($body, $this->assign);
+		echo $this->dwoo->get($footer, $this->assign);
+
+		exit;
+
+		// // debug2(get_defined_vars());
+		// // exit;
+		// // if(!file_exists('views/' . $header_footer . '/header.php')){
+		// // 	$e = new \Exception('Cabeçalho: views/' . $header_footer . '/header.php não existe!');
+		// // 	debug2($e->getMessage());
+  // //           debug2($e->getTrace());
+  // //           exit;
+		// // }
+
+		// // if(!file_exists('views/' . $header_footer . '/footer.php')){
+		// // 	$e = new \Exception('Rodape: views/render/' . $header_footer . '/footer.php não existe!');
+		// // 	debug2($e->getMessage());
+  // //           debug2($e->getTrace());
+  // //           exit;
+		// // }
+
+		// // if(!file_exists('modulos/' . $body . '.php')){
+		// // 	$e = new \Exception('View não existe!');
+		// // 	debug2($e->getMessage());
+  // //           debug2($e->getTrace());
+  // //           exit;
+		// // }
+
+
+
+
+		// // $this->extra_js = end(explode('/', $body));
+
+		// require 'views/' . $header_footer . '/header.php';
+		// require 'modulos/' . $body . '.php';
+		// require 'views/' . $header_footer . '/footer.php';
+	}
+
+	private function mount_sidebar(){
+		$array_menu = [];
+		$submenus_com_permissao = [];
+
+		$active = ($_SESSION['modulo_ativo'] == 'painel_controle') ? "active" : " ";
+
+		$array_menu[] = "<li class='{$active}'>\n\t"
+			. "<a href='/painel_controle'>\n\t\t"
+			. "<span aria-hidden='true' class='fa fa-dashboard fa-fw'></span>\n\t\t"
+            . "<span class='nav-label'>Painel de Controle</span>\n\t"
+			. "</a>\n"
+			. "</li>\n";
+
+		foreach ($_SESSION['menus'] as $indice_01 => $menu){
+			if(count($menu) == 1){
+				if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$menu[0]['modulo']])){
+
+						$active = $menu[0]['modulo'] == $_SESSION['modulo_ativo'] ? "active" : " ";
+
+						$string_menu = "<li class=' {$active} '>\n\t"
+							. " <a href='/{$menu[0]['modulo']}'>\n\t\t"
+							. 		"<span aria-hidden='true' class='icon fa {$menu[0]['icone']} fa-fw'></span>\n\t\t";
+
+							$menu_submenu_nome = isset($menu[0]['submenu']) && !empty($menu[0]['submenu']) ? $menu[0]['submenu'] : $menu[0]['nome'];
+
+                         	$string_menu .= "<span class='nav-label'>{$menu_submenu_nome}</span>\n\t"
+	            			. "</a>\n"
+	            			. "</li>\n";
+	            }
+           	}elseif(count($menu) > 1){
+				foreach ($menu['modulos'] as $indice_02 => $submenu){
+					if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$submenu['modulo']])){
+						$submenus_com_permissao[] = $indice_01;
+
+					}
+				}
+			}
+
+			if(isset($string_menu)){
+				$array_menu[] = $string_menu;
+			}
+
+			if(isset($string_menu)){
+				unset($string_menu);
+			}
 		}
 
-		if(!file_exists('views/' . $body . '.php')){
-			$e = new \Exception('View não existe!');
-			debug2($e->getMessage());
-            debug2($e->getTrace());
-            exit;
+		if(!empty($submenus_com_permissao)){
+			$submenus_com_permissao = array_unique($submenus_com_permissao);
+
+			foreach ($submenus_com_permissao as $indice_03 => $submenus){
+				$active = $menu[0]['modulo'] == $_SESSION['modulo_ativo'] ? "active" : " ";
+				$menu_submenu = "<li  class=' {$active} '>\n\t"
+         			. " <a href='#'>\n\t\t"
+					. 		"<span aria-hidden='true' class='icon fa glyphicon {$_SESSION['menus'][$submenus]['icone']} fa-fw'></span>\n\t\t"
+                    . 		"<span class='nav-label'>{$_SESSION['menus'][$submenus]['nome_exibicao']}</span>\n\t\t"
+                    .		"<span class='fa arrow'></span>\n\t"
+         			. " </a>\n\t"
+     				. " <ul class='nav nav-second-level'>\n\t\t";
+
+					foreach($_SESSION['menus'][$submenus]['modulos'] as $indice_04 => $submenu){
+						if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$submenu['modulo']])){
+ 	                        $menu_submenu .= "<li class=' {$active} '>\n\t\t\t"
+                         		. 	" <a href='/{$submenu['modulo']}'>\n\t\t\t\t"
+								. 		"<span aria-hidden='true' class='icon fa glyphicon {$submenu['icone']} fa-fw'></span>\n\t\t\t\t"
+ 	                            . 		"<span class='nav-label'>{$submenu['nome']}</span>\n\t\t\t"
+ 	                            . 	" </a>\n\t\t"
+ 	                        	. "</li>\n\t";
+						}
+					}
+
+                 	$menu_submenu .= "</ul>\n"
+         				. "</li>";
+
+        		$array_menu[] = $menu_submenu;
+        		unset($menu_submenu);
+			}
 		}
 
-		require 'views/' . $header_footer . '/header.php';
-		require 'views/' . $body . '.php';
-		require 'views/' . $header_footer . '/footer.php';
+		$array_menu = implode(' ', $array_menu);
+
+		$this->assign('sidebar_painel_administrativo', $array_menu);
 	}
 
 	// public function render($name, $noInclude = false) {
@@ -81,7 +202,7 @@ class View {
 			}
 		}
 
-		$this->colunas_datatable = $retorno_coluna;
+		$this->assign('colunas_datatable', $retorno_coluna);
 	}
 
 	public function alert_js($mensagem, $status){
