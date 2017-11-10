@@ -6,6 +6,7 @@ require 'vendor/autoload.php';
 
 session_start();
 
+<<<<<<< HEAD
 // spl_autoload_register
 function autoload($class_name) {
 	$class_name = ltrim($class_name, '\\');
@@ -32,3 +33,6 @@ function autoload($class_name) {
 spl_autoload_register('autoload');
 $lib = new libs\bootstrap();
 
+=======
+$lib = new Libs\Bootstrap\Bootstrap();
+>>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
