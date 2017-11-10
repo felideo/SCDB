@@ -21,8 +21,6 @@ class View {
 		return $this->assign->get($data);
 	}
 
-
-
 	public function render($header_footer, $body) {
 		$template = new \Dwoo\Template\File('modulos/' . $body . '.html');
 
@@ -256,7 +254,7 @@ class View {
 		. "\n        });"
 		. "\n        $('.lazy_view :input').each(function(){"
 		. "\n            $(this).prop('disabled', true);"
-		. "\n            $(this).select2('disable');;"
+		. "\n            $(this).select2('disable');"
 		. "\n        });"
 		. "\n"
 		. "\n        $('#modulo').removeAttr('action');"
@@ -274,6 +272,8 @@ class View {
 
 		echo $visualizar;
 	}
+
+
 
 	public function default_buttons_listagem($id, $visualizar = true, $editar = true, $excluir = true){
 		$botao_visualizar = '';

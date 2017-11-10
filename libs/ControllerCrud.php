@@ -13,7 +13,9 @@ class ControllerCrud extends \Libs\Controller {
 
 	public function index() {
 		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+
+		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
 
 		$this->view->set_colunas_datatable($this->colunas);
 
@@ -42,7 +44,7 @@ class ControllerCrud extends \Libs\Controller {
 
 	public function create(){
 		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar");
+		\Util\Permission::check($this->modulo['modulo'], "criar");
 
 		$retorno = $this->model->create($this->modulo['modulo'], carregar_variavel($this->modulo['modulo']));
 
@@ -57,17 +59,17 @@ class ControllerCrud extends \Libs\Controller {
 
 	public function editar($id) {
 		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+		\Util\Permission::check($this->modulo['modulo'], "editar");
 
 		$this->check_if_exists($id[0]);
 
-		$this->view->cadastro = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
+		$this->view->assign('cadastro', $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0]);
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 
 	public function update($id) {
 		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+		\Util\Permission::check($this->modulo['modulo'], "editar");
 
 		$this->check_if_exists($id[0]);
 
@@ -84,7 +86,7 @@ class ControllerCrud extends \Libs\Controller {
 
 	public function delete($id) {
 		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
+		\Util\Permission::check($this->modulo['modulo'], "deletar");
 
 		$this->check_if_exists($id[0]);
 
@@ -101,11 +103,11 @@ class ControllerCrud extends \Libs\Controller {
 
 	public function visualizar($id){
 		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+		\Util\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->check_if_exists($id[0]);
 
-		$this->view->cadastro = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
+		$this->view->assign('cadastro', $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0]);
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 
 		$this->view->lazy_view();

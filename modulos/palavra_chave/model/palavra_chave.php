@@ -1,12 +1,10 @@
 <?php
-namespace Models;
+namespace Model;
 use Libs;
 use \Libs\QueryBuilder\QueryBuilder;
 
-/**
-* Classe Index_Model
-*/
-class Palavra_Chave_Model extends \Libs\Model {
+
+class Palavra_Chave extends \Libs\Model {
 	public function __construct() {
 		parent::__construct();
 	}

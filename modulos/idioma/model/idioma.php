@@ -1,9 +1,9 @@
 <?php
-namespace Models;
+namespace Model;
 
 use Libs;
 
-class idioma_model extends \Libs\Model{
+class Idioma extends \Libs\Model{
 	public function __construct() {
 		parent::__construct();
 	}

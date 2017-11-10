@@ -3,7 +3,7 @@
 date_default_timezone_set('America/Sao_Paulo');
 
 // Sempre use barra (/) no final das URLs
-define('URL', 'http://teste.localhost/felideo_mvc_novo/');
+define('URL', 'http://felideomvc.localhost');
 // define('URL', 'http://leaflivedb.felideo.com.br/');
 
 
@@ -24,7 +24,8 @@ define('DEVELOPER', true);
 // define('DB_USER', 'u142129811_lldb');
 // define('DB_PASS', 'jsimone1546');
 
-define('APP_NAME', 'LeafLiveDB');
+define('APP_NAME', 'Scientific Work DB');
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
