@@ -1,0 +1,5 @@
+{if \Util\Permission::check_user_permission($this->modulo['modulo'], 'cu')}
+    {include file="modulos/$modulo.modulo/view/form/form.html"}
+{/if}
+
+{include file='../../../../views/back/listagem_padrao/listagem_padrao.html'}

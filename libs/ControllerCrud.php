@@ -8,6 +8,7 @@ class ControllerCrud extends \Libs\Controller {
 	function __construct() {
 		parent::__construct();
 		$this->view->modulo = $this->modulo;
+		$this->view->assign('modulo', $this->modulo);
 	}
 
 	public function index() {
@@ -16,7 +17,27 @@ class ControllerCrud extends \Libs\Controller {
 
 		$this->view->set_colunas_datatable($this->colunas);
 
-		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
+	}
+
+	public function carregar_listagem_ajax(){
+		$busca = [
+			'order'  => carregar_variavel('order'),
+			'search' => carregar_variavel('search'),
+			'start'  => carregar_variavel('start'),
+			'length' => carregar_variavel('length'),
+		];
+
+		$retorno = $this->carregar_dados_listagem_ajax($busca);
+
+		echo json_encode([
+            "draw"            => intval(carregar_variavel('draw')),
+            "recordsTotal"    => intval(count($retorno)),
+            "recordsFiltered" => intval($this->model->db->select("SELECT count(id) AS total FROM {$this->modulo['modulo']} WHERE ativo = 1")[0]['total']),
+            "data"            => $retorno
+        ]);
+
+		exit;
 	}
 
 	public function create(){
@@ -41,7 +62,7 @@ class ControllerCrud extends \Libs\Controller {
 		$this->check_if_exists($id[0]);
 
 		$this->view->cadastro = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
-		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form');
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 
 	public function update($id) {
@@ -85,7 +106,7 @@ class ControllerCrud extends \Libs\Controller {
 		$this->check_if_exists($id[0]);
 
 		$this->view->cadastro = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
-		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form');
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 
 		$this->view->lazy_view();
 	}
