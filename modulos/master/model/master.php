@@ -1,9 +1,9 @@
 <?php
-namespace Models;
+namespace Model;
 
 use Libs;
 
-class Master_Model extends \Libs\Model {
+class Master extends \Libs\Model {
 	public function __construct() {
 		parent::__construct();
 	}
