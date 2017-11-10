@@ -69,8 +69,6 @@
         <script src="/public/back/js/demo.js"></script>
         <script src="/public/back/js/tables.js"></script>
 
-
-
         <!-- DataTables JavaScript -->
         <!-- <script src="/public/bootstrap/bower_components/datatables/media/js/jquery.dataTables.min.js"></script> -->
         <!-- <script src="/public/bootstrap/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script> -->
@@ -89,23 +87,19 @@
         <script src="/public/js/jquery.mask.js"></script>
         <script src="/public/js/mascaras.js"></script>
         <script src="/public/js/validacoes.js"></script>
-        <script  type="text/javascript"  src="/public/js/default.js"></script>
+        <script src="/public/js/default.js"></script>
 
 
 </head>
 
-<body class="layout-no-leftnav compact pace-done nav-toggled">
-    <!-- layout-no-leftnav   pace-done compact nav-toggled -->
-
-    <!-- <body class="preload" > -->
-
+<body class="compact pace-done nav-toggled">
         <div id="top-alert" class="alert alert-promo alert-dismissible fade in text-center" role="alert" style="display:none">
             <span id="top-alert-close" aria-hidden="true" class="icon icon_close close"></span>
             <strong>Welcome to AppKit!</strong> Your trial will run out in 30 days  <a class="btn btn-success btn-sm margin-left-sm" href="pricing.html">Upgrade Now</a>
         </div>
         <header class="header">
 
-            <div class="branding float-left">
+            <div id="main-nav-mouseover" class="branding float-left">
                 <h1 class="logo text-center">
                     <a href="index.html">
                         <img class="logo-icon" src="public/back/images/logo-icon.svg" alt="icon" />
@@ -141,28 +135,14 @@
                 </div>
             </div>
         </header>
+
         {include file='views/back/cabecalho_rodape_sidebar/sidebar.html'}
 
 
-
-<!-- require 'sidebar.php'; -->
-
 <div id="content-wrapper" class="content-wrapper view">
     <div class="container-fluid">
-        <div class="clearfix"></div>
-        <div class="row">
-            <div class="module-wrapper col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <section class="module">
-                    <div class="module-inner">
-                        <div class="">
-                            <h1 class="title">
-                                <i class="fa {if isset($_SESSION.modulos[$modulo['modulo']].icone)} {$_SESSION.modulos[$modulo['modulo']].icone} {/if}"></i>
-                                {$modulo['name']}
-                            </h1>
-                        </div>
-                        <div class="module-content">
-
-
-
-
-
+        <h1 class="title">
+            <i class="fa {if isset($_SESSION.modulos[$modulo['modulo']].icone)} {$_SESSION.modulos[$modulo['modulo']].icone} {/if}"></i>
+            {$modulo['name']}
+        </h1>
+        <div id="masonry" class="row">

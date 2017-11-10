@@ -1,73 +1,14 @@
-<div class="row">
-    <div class="module-wrapper col-md-12 col-sm-12 col-xs-12">
-        <section class="module">
-            <div class="module-inner">
-                <div class="module-heading">
-                    <h3 class="module-title">Cadastrar Autor</h3>
-                    <ul class="actions list-inline">
-                        <li>
-                            <a class="collapse-module" data-toggle="collapse" href="#content-{$modulo.modulo}" aria-expanded="false" aria-controls="content-{$modulo.modulo}">
-                                <span aria-hidden="true" class="icon arrow_carrot-up"></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="module-content collapse in" id="content-{$modulo.modulo}">
-                    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <label for="fullname">Autor * :</label>
-                        <input class="form-control" name="fullname" required type="text">
-                    </div>
-                    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <label for="email">Email * :</label>
-                        <input class="form-control" name="email" required type="email">
-                    </div>
-                    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <label for="email">Lattes/Site * :</label>
-                        <input class="form-control" name="email" required type="email" >
-                    </div>
-                    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <input class="btn btn-primary pull-right" type="submit" value="Cadastrar {$modulo.send}">
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-        </section>
-    </div>
+{include file='views/back/form_padrao/header.html'}
+<div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <label for="autor">Autor * :</label>
+    <input class="form-control" type="text" name="{$modulo.modulo}[nome]"  value="{if isset($cadastro)}{$cadastro.nome}{/if}" required>
 </div>
-
-<!--
-<div class="row-fluid">
-    <div class="span12">
-
-
-
-            <div class="row-fluid">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <label>Autor</label>
-                        <br>
-                        <input class="somente_letras embelezar_string" id="autor" name="<?php  $this->modulo['modulo']; ?>[nome]" style="width: 100%" value="<?php if(isset($this->cadastro)){ $this->cadastro['nome'];} ?>">
-                    </div>
-
-                    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <label>Lattes/Site</label>
-                        <p id="link_autor_div" style="display: none;"></p>
-                        <input id="link_autor_input" type="text" class="form-control" name="<?php  $this->modulo['modulo']; ?>[link]" value="<?php if(isset($this->cadastro)){ $this->cadastro['link'];} ?>">
-                    </div>
-
-                    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <label>Email</label>
-                        <p id="email_autor_div" style="display: none;"></p>
-                        <input class="form-control validar_email email_unico letras_e_numeros remover_caracteres_especiais" id="email_autor_input" type="email" class="form-control" name="<?php  $this->modulo['modulo']; ?>[email]" value="<?php if(isset($this->cadastro)){ $this->cadastro['email'];} ?>">
-                    </div>
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="form-group span12">
-
-
-                </div>
-            </div>
-    </div>
-</div> -->
+<div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <label for="email">Email * :</label>
+    <input class="form-control" type="text" name="{$modulo.modulo}[email]" value="{if isset($cadastro)}{$cadastro.email}{/if}" required>
+</div>
+<div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <label for="link">Lattes/Site * :</label>
+    <input class="form-control" type="text" name="{$modulo.modulo}[link]"  value="{if isset($cadastro)}{$cadastro.link}{/if}" required>
+</div>
+{include file='views/back/form_padrao/footer.html'}

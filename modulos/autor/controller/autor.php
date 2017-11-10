@@ -13,10 +13,6 @@ class Autor extends \Libs\ControllerCrud {
 
 	protected $colunas = ['ID', 'Nome', 'Email', 'Link/Lattes', 'Ações'];
 
-	function __construct() {
-		parent::__construct();
-	}
-
 	protected function carregar_dados_listagem_ajax($busca){
 		$query = $this->model->carregar_listagem($busca);
 

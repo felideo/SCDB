@@ -19,7 +19,7 @@ class Auth {
 				$logged = false;
 			} else {
 				$logged = false;
-				header('location: ' . URL . 'login');
+				header('location: ../index');
 				exit;
 			}
 		}
