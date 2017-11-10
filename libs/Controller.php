@@ -1,23 +1,22 @@
 <?php
 namespace Libs;
 
-/**
-*
-*/
 abstract class Controller {
-
 	function __construct() {
+		\Libs\Session::init();
 		$this->view = new View();
 	}
 
-	public function loadModel($name) {
-		$path = 'models/' . $name . '_model.php';
+	public function loadModel($model) {
+		$path = strtolower("modulos/{$model}/model/{$model}.php");
 
 		if(file_exists($path)) {
-			require 'models/' . $name . '_model.php';
+			require $path;
 
-			$modelName = '\\Models\\' . $name . '_Model';
+			$modelName = '\\Model\\' . ucfirst($model);
 			$this->model = new $modelName;
+		}else{
+			$this->model = new GenericModel();
 		}
 	}
 

@@ -1,19 +1,24 @@
 <?php
 namespace Libs;
+<<<<<<< HEAD
 // include "../vendor/lichtner/fluentpdo/FluentPDO/FluentPDO.php";
 /**
 * classe Model
 */
+=======
+use \Libs\QueryBuilder\QueryBuilder;
+>>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
 
 abstract class Model {
-	private $fpdo;
+	protected $query;
 
 	function __construct() {
-		$this->db = new Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
+		$this->db    = new Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
+		$this->query = new QueryBuilder($this->db);
 	}
 
-	public function fpdo(){
-		return $this->fpdo;
+	public function get_query(){
+		return $this->query;
 	}
 
 	public function create($table, $data){

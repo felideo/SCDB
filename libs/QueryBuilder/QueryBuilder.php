@@ -94,7 +94,44 @@ class QueryBuilder {
 		$retorno =  $this->db->select($this->get_query());
 
 		if($first == 'first'){
+<<<<<<< HEAD
 			return $this->convert_to_tree($retorno)[0];
+=======
+			return $this->convert_to_tree($retorno);
+		}
+
+		$return = $this->convert_to_tree($retorno);
+
+		$this->clean_class();
+
+		return $return;
+	}
+
+	private function clean_class(){
+		unset($this->select);
+		unset($this->query);
+		unset($this->where);
+		unset($this->tables_x_alias);
+		unset($this->join_on);
+		unset($this->first);
+		unset($this->parametros);
+	}
+
+	private function execute_sql_query($sql) {
+		$sth = $this->db->prepare($sql);
+
+		$retorno = [
+			$sth->execute(),
+			$sth->errorCode(),
+			$sth->errorInfo()
+		];
+
+		if(isset($retorno[2][2]) && !empty($retorno[2][2])){
+			return [
+				'error' => $retorno[2],
+				'backtrace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
+			];
+>>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
 		}
 
 		return $this->convert_to_tree($retorno);;
