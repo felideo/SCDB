@@ -3,7 +3,7 @@ namespace Libs;
 
 class ControllerCrud extends \Libs\Controller {
 	protected $modulo     = [];
-	protected $colunas    = [];
+	protected $datatable    = [];
 
 	function __construct() {
 		parent::__construct();
@@ -17,7 +17,9 @@ class ControllerCrud extends \Libs\Controller {
 
 		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
 
-		$this->view->set_colunas_datatable($this->colunas);
+		if(isset($this->datatable) && !empty($this->datatable)){
+			$this->view->set_colunas_datatable($this->datatable['colunas']);
+		}
 
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
 	}
@@ -35,7 +37,7 @@ class ControllerCrud extends \Libs\Controller {
 		echo json_encode([
             "draw"            => intval(carregar_variavel('draw')),
             "recordsTotal"    => intval(count($retorno)),
-            "recordsFiltered" => intval($this->model->db->select("SELECT count(id) AS total FROM {$this->modulo['modulo']} WHERE ativo = 1")[0]['total']),
+            "recordsFiltered" => intval($this->model->db->select("SELECT count(id) AS total FROM {$this->datatable['from']} WHERE ativo = 1")[0]['total']),
             "data"            => $retorno
         ]);
 
@@ -108,8 +110,8 @@ class ControllerCrud extends \Libs\Controller {
 		$this->check_if_exists($id[0]);
 
 		$this->view->assign('cadastro', $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0]);
-		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 
 		$this->view->lazy_view();
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 }

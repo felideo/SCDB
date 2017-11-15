@@ -1,30 +1,53 @@
 <?php
-namespace Controllers;
+namespace Controller;
 
 use Libs;
 
-class Usuario extends \Libs\Controller {
+class Usuario extends \Libs\ControllerCrud {
 
-	private $modulo = [
+
+	private $hierarquia_organizada = [];
+
+	protected $modulo = [
 		'modulo' 	=> 'usuario',
-		'name'		=> 'Usuários',
-		'send'		=> 'Usuário'
+		'name'		=> 'Usuarios',
+		'send'		=> 'Usuario'
 	];
 
-	function __construct() {
-		parent::__construct();
-		$this->view->modulo = $this->modulo;
-	}
+	protected $colunas = ['ID', 'Email', 'Hierarquia', 'Ações'];
+
+
 
 	public function index() {
 		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+		\Util\Permission::check($this->modulo['modulo'], "visualizar");
 
-		$this->view->set_colunas_datatable(['ID', 'Email', 'Hierarquia', 'Ações']);
-		$this->listagem($this->model->load_active_list($this->modulo['modulo']));
+		$this->view->set_colunas_datatable($this->colunas);
 
-		$this->view->hierarquia_list = $this->model->load_active_list('hierarquia');
-		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
+		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
+
+	}
+
+	protected function carregar_dados_listagem_ajax($busca){
+		$query = $this->model->carregar_listagem($busca);
+
+		$retorno = [];
+
+		foreach($this->model->load_active_list('hierarquia') as $indice => $hierarquia) {
+			$this->hierarquia_organizada[$hierarquia['id']] = $hierarquia['nome'];
+		}
+
+		foreach ($query as $indice => $item) {
+			$retorno[] = [
+				$item['id'],
+				$item['email'],
+				!empty($item['hierarquia']) ? $this->hierarquia_organizada[$item['hierarquia']] : '',
+				$this->view->default_buttons_listagem($item['id'], true, true, true)
+			];
+		}
+
+		return $retorno;
 	}
 
 	public function create(){
@@ -89,7 +112,7 @@ class Usuario extends \Libs\Controller {
 
 		$this->view->cadastro = $this->model->full_load_by_id('usuario', $id[0])[0];
 		$this->view->hierarquia_list = $this->model->load_active_list('hierarquia');
-		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form');
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 
 	}
 
@@ -103,8 +126,13 @@ class Usuario extends \Libs\Controller {
 			exit;
 		}
 
+<<<<<<< HEAD
 		$this->view->cadastro = $this->model->full_load_by_id('usuario', $id[0])[0];
 		$this->view->render('back/cabecalho_rodape_sidebar', 'back/usuario/editar/editar');
+=======
+		$this->view->cadastro = $this->model->load_cadastro($id[0])[0];
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
+>>>>>>> d895410... DEV - SWDB * ajuste final em todos os modulos na nova estrutura * incremento na abstração do carregamento do datatable!
 		$this->view->lazy_view();
 	}
 

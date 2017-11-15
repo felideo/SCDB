@@ -8,7 +8,7 @@ class Idioma extends \Libs\Model{
 		parent::__construct();
 	}
 
-	public function carregar_listagem($busca){
+	public function carregar_listagem($busca, $datatable = null){
 		$select = "SELECT"
 			. " 	idioma.id,"
 			. " 	idioma.idioma"

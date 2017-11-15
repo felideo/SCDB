@@ -141,61 +141,56 @@ class Modulo extends \Libs\ControllerCrud {
 		'send'		=> 'Módulo'
 	];
 
-	function __construct() {
-		parent::__construct();
-		\Util\Auth::handLeLoggin();
-
-		$this->view->modulo = $this->modulo;
-	}
+	protected $datatable = [
+		'colunas' => ['ID', 'Modulo', 'Ordem', 'Submenu', 'Acesso', 'Icone',  'Ações'],
+		'from'    => 'modulo'
+	];
 
 	public function index() {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
-		$this->view->set_colunas_datatable(['ID', 'Modulo', 'Ordem' ,'Submenu', 'Link', 'Acesso', 'Icone', 'Ações']);
-		$this->listagem($this->model->load_modulo_list($this->modulo['modulo']));
+		$this->view->set_colunas_datatable($this->datatable['colunas']);
 
-		$this->view->submenu_list = $this->model->load_active_list('submenu');
+		$this->view->assign('submenu_list', $this->model->load_active_list('submenu'));
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
 	}
 
-	public function listagem($dados_linha){
-		// ordem
-		foreach ($dados_linha as $indice => $linha) {
-			$retorno_linhas[] = [
-				"<td class='sorting_1'>{$linha['id']}</td>",
-	        	"<td>{$linha['nome']}</td>",
-	        	"<td>{$linha['ordem']}</td>",
+	protected function carregar_dados_listagem_ajax($busca){
+		$query = $this->model->load_modulo_list($this->modulo['modulo']);
 
-	        	"<td><i class='fa {$linha['submenu_icone']} fa-fw'></i> {$linha['submenu_nome_exibicao']} </td>",
-	        	"<td>/{$linha['modulo']}</td>",
-	        	$linha['hierarquia'] == 0 ? "<td>Super Admin</td>" : "<td></td>",
-	        	"<td><i class='fa {$linha['icone']} fa-fw'></i> {$linha['icone']}</td>",
-	        	"<td>" . $this->view->default_buttons_listagem($linha['id']) . "</td>"
+		$retorno = [];
+
+		foreach ($query as $indice => $item) {
+			$retorno[] = [
+				$item['id'],
+				$item['nome'],
+				$item['ordem'],
+				$item['submenu_nome_exibicao'],
+				empty($item['hierarquia']) ? "Super Admin" : 'Hierarquico',
+				"<i class='fa {$item['icone']} fa-fw'></i> {$item['icone']}",
+				$this->view->default_buttons_listagem($item['id'], true, true, true)
 			];
 		}
 
-		$this->view->linhas_datatable = $retorno_linhas;
+		return $retorno;
 	}
 
 	public function editar($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
-		$this->view->cadastro = $this->model->full_load_by_id('modulo', $id[0])[0];
-		$this->view->submenu_list = $this->model->load_active_list('submenu');
-		// $this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/form/form');
+		$this->view->assign('cadastro', $this->model->full_load_by_id('modulo', $id[0])[0]);
+		$this->view->assign('submenu_list', $this->model->load_active_list('submenu'));
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
-
-
 	}
 
 	public function visualizar($id){
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
-		$this->view->cadastro = $this->model->full_load_by_id('modulo', $id[0])[0];
-		$this->view->submenu_list = $this->model->load_active_list('submenu');
+		$this->view->assign('cadastro', $this->model->full_load_by_id('modulo', $id[0])[0]);
+		$this->view->assign('submenu_list', $this->model->load_active_list('submenu'));
 
-		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
 		$this->view->lazy_view();
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 
 	public function create() {

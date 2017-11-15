@@ -11,6 +11,7 @@ class Palavra_chave extends \Libs\Controller {
 		'send'		=> 'Autor'
 	];
 
+<<<<<<< HEAD
 	function __construct() {
 		parent::__construct();
 		$this->view->modulo = $this->modulo;
@@ -26,6 +27,16 @@ class Palavra_chave extends \Libs\Controller {
 		$this->view->hierarquia_list = $this->model->load_active_list('hierarquia');
 		$this->view->render('back/cabecalho_rodape_sidebar', 'back/' . $this->modulo['modulo'] . '/listagem/listagem');
 	}
+=======
+	protected $colunas = ['ID', 'palavra_chave', 'Ações'];
+
+	protected $datatable = [
+		'colunas' => ['ID', 'Palavra Chave', 'Ações'],
+		'select'  => ['id', 'palavra_chave'],
+		'from'    => 'palavra_chave',
+		'search'  => ['id', 'palavra_chave']
+	];
+>>>>>>> d895410... DEV - SWDB * ajuste final em todos os modulos na nova estrutura * incremento na abstração do carregamento do datatable!
 
 	public function create(){
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar");
@@ -36,7 +47,11 @@ class Palavra_chave extends \Libs\Controller {
 			"senha" => \Util\Hash::get_unic_hash()
 		];
 
+<<<<<<< HEAD
 		$retorno = $this->model->create('usuario', $insert_db);
+=======
+		$query = $this->model->carregar_listagem($busca, $this->datatable);
+>>>>>>> d895410... DEV - SWDB * ajuste final em todos os modulos na nova estrutura * incremento na abstração do carregamento do datatable!
 
 
 		if($retorno['status']){
@@ -184,10 +199,22 @@ class Palavra_chave extends \Libs\Controller {
 
 		$retorno = $this->model->buscar_palavra_chave($busca);
 
+<<<<<<< HEAD
 		if(isset($busca['cadastrar_busca']) && !empty($busca['cadastrar_busca']) && $busca['cadastrar_busca'] == 'true' && $busca['nome'] != '%%'){
 			$add_cadastro[0] = [
 				'id'               => $busca['nome'],
 				'palavra'             => "<strong>Cadastrar Nova Palavra Chave: </strong>" . $busca['nome']
+=======
+
+		if(isset($busca['cadastrar_busca']) && !empty($busca['cadastrar_busca']) && $busca['cadastrar_busca'] == 'true' && $busca['nome'] != '%%'){
+			if(empty($retorno)){
+				$retorno = [];
+			}
+
+			$add_cadastro[0] = [
+				'id'            => $busca['nome'],
+				'palavra_chave' => "<strong>Cadastrar Nova Palavra Chave: </strong>" . $busca['nome']
+>>>>>>> d895410... DEV - SWDB * ajuste final em todos os modulos na nova estrutura * incremento na abstração do carregamento do datatable!
 			];
 
 			$retorno = array_merge($add_cadastro, $retorno);

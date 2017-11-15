@@ -4,10 +4,13 @@ use Libs;
 
 
 class Palavra_Chave extends \Libs\Model {
+<<<<<<< HEAD
 	public function __construct() {
 		parent::__construct();
 	}
 
+=======
+>>>>>>> d895410... DEV - SWDB * ajuste final em todos os modulos na nova estrutura * incremento na abstração do carregamento do datatable!
 	public function buscar_palavra_chave($busca){
 		$select = "SELECT"
 			. " 	palavra.id,"
