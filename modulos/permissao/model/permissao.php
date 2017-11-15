@@ -1,11 +1,48 @@
 <?php
-namespace Models;
+namespace Model;
 
 use Libs;
 
-class Permissao_Model extends \Libs\Model {
+class Permissao extends \Libs\Model {
 	public function __construct() {
 		parent::__construct();
+	}
+
+	public function carregar_listagem($busca, $datatable){
+		$query = $this->query;
+
+		$query->select('
+			permissao.id,
+			permissao.permissao,
+			modulo.nome
+		')
+		->from('permissao permissao')
+		->leftJoin('modulo modulo ON modulo.id = permissao.id_modulo')
+		->where('permissao.ativo = 1');
+
+		if(isset($busca['search']['value']) && !empty($busca['search']['value'])){
+			$query->where("permissao.id LIKE '%{$busca['search']['value']}%'", 'AND')
+				->where("permissao.permissao LIKE '%{$busca['search']['value']}%'", 'OR')
+				->where("modulo.nome LIKE '%{$busca['search']['value']}%'", 'OR');
+		}
+
+		if(isset($busca['order'][0])){
+			if($busca['order'][0]['column'] == 0){
+				$query->orderBy("permissao.id {$busca['order'][0]['dir']}");
+			}elseif($busca['order'][0]['column'] == 1){
+				$query->orderBy("modulo.nome {$busca['order'][0]['dir']}");
+			}elseif($busca['order'][0]['column'] == 2){
+				$query->orderBy("permissao.permissao {$busca['order'][0]['dir']}");
+			}
+		}
+
+
+		if(isset($busca['start']) && isset($busca['length'])){
+			$query->limit($busca['length'])
+				->offset($busca['start']);
+		}
+
+		return $query->fetchArray();
 	}
 
 	public function load_permissions_list() {

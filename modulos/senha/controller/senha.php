@@ -1,14 +1,9 @@
 <?php
-namespace Controllers;
+namespace Controller;
 
 use Libs;
 
 class Senha extends \Libs\Controller {
-
-	function __construct() {
-		parent::__construct();
-	}
-
 	function index(){
 	}
 
