@@ -21,19 +21,19 @@ class Modulo extends \Libs\Model {
 		$permissoes_basicas = [
 			'criar' => [
 				'id_modulo' => $id_modulo,
-				'permissao' => $modulo . '_criar',
+				'permissao' => 'criar',
 			],
 			'visualizar' => [
 				'id_modulo' => $id_modulo,
-				'permissao' => $modulo . '_visualizar',
+				'permissao' => 'visualizar',
 			],
 			'editar' => [
 				'id_modulo' => $id_modulo,
-				'permissao' => $modulo . '_editar',
+				'permissao' => 'editar',
 			],
 			'deletar' => [
 				'id_modulo' => $id_modulo,
-				'permissao' => $modulo . '_deletar',
+				'permissao' => 'deletar',
 			]
 		];
 
@@ -41,6 +41,17 @@ class Modulo extends \Libs\Model {
 
 		foreach ($permissoes_basicas as $indice => $permissao) {
 			$retorno[$indice] = $this->get_insert('permissao', $permissao);
+
+			if(!empty($retorno[$indice]['id'])){
+				$insert_relacao = [
+					'id_hierarquia' => 1,
+					'id_permissao'  => $retorno[$indice]['id']
+				];
+
+				$retorno_relacao[$indice] = $this->get_insert('hierarquia_relaciona_permissao', $insert_relacao);
+			}
+
+
 			$erros = !empty($retorno[$indice]['id']) ? $erros++ : $erros;
 
 			$retorno[$indice]['erros'] = $erros;

@@ -256,6 +256,7 @@ class QueryBuilder{
 			$this->query .= " \nGROUP BY " . $this->parametros['group_by'];
 		}
 
+
 		if(!empty($this->first)){
 			$this->query .= " \nLIMIT 1";
 		}elseif(!empty($this->parametros['limit'])){
@@ -265,7 +266,6 @@ class QueryBuilder{
 		if(!empty($this->parametros['offset']) && empty($this->first)){
 			$this->query .= " \nOFFSET " . $this->parametros['offset'];
 		}
-
 	}
 
 	private function convert_to_tree($query){

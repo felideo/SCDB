@@ -1,10 +1,6 @@
 <?php
-namespace Models;
-
+namespace Model;
 use Libs;
 
-class Submenu_Model extends \Libs\Model {
-	public function __construct() {
-		parent::__construct();
-	}
+class Submenu extends \Libs\Model {
 }

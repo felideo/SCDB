@@ -91,7 +91,7 @@ function remover_acentos($string){
 function transformar_array($variavel) {
 
     if (!is_array($variavel)) {
-        return $variavel;
+        return trim($variavel);
     }
 
     foreach ($variavel as $chave => $cada) {
@@ -101,13 +101,13 @@ function transformar_array($variavel) {
         } else {
 
             if (substr($chave, 0, 8) == 'numero__') {
-                $variavel[substr($chave, 8)] = transformar_numero($cada);
+                $variavel[substr($chave, 8)] = trim(transformar_numero($cada));
                 unset($variavel[$chave]);
             } else if (substr($chave, 0, 6) == 'data__') {
-                $variavel[substr($chave, 6)] = transformar_data($cada);
+                $variavel[substr($chave, 6)] = trim(transformar_data($cada));
                 unset($variavel[$chave]);
             } else if (substr($chave, 0, 7) == 'senha__') {
-                $variavel[substr($chave, 7)] = transformar_senha($cada);
+                $variavel[substr($chave, 7)] = trim(transformar_senha($cada));
                 unset($variavel[$chave]);
             }
         }

@@ -11,10 +11,15 @@ class Autor extends \Libs\ControllerCrud {
 		'send'		=> 'Autor'
 	];
 
-	protected $colunas = ['ID', 'Nome', 'Email', 'Link/Lattes', 'Ações'];
+	protected $datatable = [
+		'colunas' => ['ID', 'Nome', 'Email', 'Link/Lattes', 'Ações'],
+		'select'  => ['id', 'nome', 'email', 'link'],
+		'from'    => 'autor',
+		'search'  => ['id', 'nome', 'email', 'link']
+	];
 
 	protected function carregar_dados_listagem_ajax($busca){
-		$query = $this->model->carregar_listagem($busca);
+		$query = $this->model->carregar_listagem($busca, $this->datatable);
 
 		$retorno = [];
 
@@ -24,7 +29,7 @@ class Autor extends \Libs\ControllerCrud {
 				$item['nome'],
 				$item['email'],
 				$item['link'],
-				$this->view->default_buttons_listagem($item['id'], true, true, false)
+				$this->view->default_buttons_listagem($item['id'], true, true, true)
 			];
 		}
 

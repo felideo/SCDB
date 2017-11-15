@@ -174,6 +174,7 @@ $(document).ready(function(){
         }
 
         retorno[retorno.length-1] = '';
+        retorno = retorno.replace(/  +/g, ' ');
         $(this).val(retorno);
     });
 

@@ -36,6 +36,11 @@ class View {
 		echo $this->dwoo->get($body, $this->assign);
 		echo $this->dwoo->get($footer, $this->assign);
 
+		if(isset($this->lazy_view) && !empty($this->lazy_view)){
+			$lazy_view = new \Dwoo\Template\File('views/back/form_padrao/lazy_view.html');
+			echo $this->dwoo->get($lazy_view, $this->assign);
+		}
+
 		exit;
 
 		// // debug2(get_defined_vars());
@@ -245,35 +250,8 @@ class View {
 	}
 
 	public function lazy_view(){
-		$visualizar = ""
-		. "\n<script type='text/javascript'>"
-		. "\n    $(window).load(function(){"
-		. "\n        $('#lazy_view :input').each(function(){"
-		. "\n            $(this).prop('disabled', true);"
-		. "\n            $(this).select2('disable');"
-		. "\n        });"
-		. "\n        $('.lazy_view :input').each(function(){"
-		. "\n            $(this).prop('disabled', true);"
-		. "\n            $(this).select2('disable');"
-		. "\n        });"
-		. "\n"
-		. "\n        $('#modulo').removeAttr('action');"
-		. "\n"
-		. "\n        $('.btn .btn-primary').remove();"
-
-		. "\n        $('.lazy_view_remove').each(function(){"
-		. "\n            $(this).remove();"
-		. "\n        });"
-
-		. "\n        console.log('lazy_view');"
-
-		. "\n    });"
-		. "\n</script>";
-
-		echo $visualizar;
+		$this->lazy_view = true;
 	}
-
-
 
 	public function default_buttons_listagem($id, $visualizar = true, $editar = true, $excluir = true){
 		$botao_visualizar = '';
@@ -281,19 +259,19 @@ class View {
 		$botao_excluir    = '';
 
 		if($visualizar){
-			$botao_visualizar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar") ?
+			$botao_visualizar = \Util\Permission::check_user_permission($this->modulo['modulo'], "visualizar") ?
 				"<a href='/{$this->modulo['modulo']}/visualizar/{$id}' title='Visualizar'><i class='fa fa-eye fa-fw'></i></a>" :
 				'';
 			}
 
 		if($editar){
-			$botao_editar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar") ?
+			$botao_editar = \Util\Permission::check_user_permission($this->modulo['modulo'], "editar") ?
 				"<a href='/{$this->modulo['modulo']}/editar/{$id}' title='Editar'><i class='fa fa-pencil fa-fw'></i></a>" :
 				 '';
 		}
 
 		if($excluir){
-			$botao_excluir = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar") ?
+			$botao_excluir = \Util\Permission::check_user_permission($this->modulo['modulo'], "deletar") ?
 				"<a href='/{$this->modulo['modulo']}/delete/{$id}' title='Deletar'><i class='fa fa-trash-o fa-fw'></i></a>" :
 				'';
 		}

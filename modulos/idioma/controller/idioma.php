@@ -13,9 +13,12 @@ class Idioma extends \Libs\ControllerCrud {
 
 	protected $colunas = ['ID', 'Idioma', 'Ações'];
 
-	function __construct() {
-		parent::__construct();
-	}
+	protected $datatable = [
+		'colunas' => ['ID', 'Idioma', 'Ações'],
+		'select'  => ['id', 'nome', 'email', 'link'],
+		'from'    => 'autor',
+		'search'  => ['id', 'nome', 'email', 'link']
+	];
 
 	public function carregar_listagem_ajax(){
 		$busca = [

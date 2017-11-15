@@ -3,91 +3,79 @@ namespace Controller;
 
 use Libs;
 
-class Hierarquia extends \Libs\Controller {
+class Hierarquia extends \Libs\ControllerCrud {
 
-	private $modulo = [
+	protected $modulo = [
 		'modulo' 	=> 'hierarquia',
 		'name'		=> 'Hierarquias',
 		'send'		=> 'Hierarquia'
 	];
 
-	function __construct() {
-		parent::__construct();
-		\Util\Auth::handLeLoggin();
+	protected $colunas = ['ID', 'Nome', 'Ações'];
 
-		$this->view->modulo = $this->modulo;
-	}
+	protected $datatable = [
+		'colunas' => ['ID', 'Nome', 'Ações'],
+		'from'    => 'hierarquia',
+	];
 
 	public function index() {
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
+
 
 		$this->view->set_colunas_datatable(['ID', 'Nome', 'Ações']);
-		$this->listagem($this->model->load_active_list($this->modulo['modulo']));
+		// $this->listagem($this->model->load_active_list($this->modulo['modulo']));
 
-		$this->view->permissoes_list = $this->load_external_model('permissao')->load_permissions_list();
+		$this->view->assign('permissoes_list', $this->load_external_model('permissao')->load_permissions_list());
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
 
 	}
 
-	public function listagem($dados_linha){
-		foreach ($dados_linha as $indice => $linha) {
-			$url = URL;
+	protected function carregar_dados_listagem_ajax($busca){
+		$query = $this->model->carregar_listagem($busca);
 
-			$botao_visualizar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar") ?
-				"<a href='/{$this->modulo['modulo']}/visualizar/{$linha['id']}' title='Visualizar'><i class='fa fa-eye fa-fw'></i></a>" :
-				'';
+		$retorno = [];
 
-			$botao_editar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar") ?
-				"<a href='/{$this->modulo['modulo']}/editar/{$linha['id']}' title='Editar'><i class='fa fa-pencil fa-fw'></i></a>" :
-				 '';
-
-			if(\Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar")
-				&& $linha['id'] > 3
-				&& $this->model->db->select("SELECT COUNT(id) AS n_usuarios FROM usuario WHERE hierarquia =  {$linha['id']}")[0]['n_usuarios'] <= 0)
-			{
-					$botao_excluir = "<a href='/{$this->modulo['modulo']}/delete/{$linha['id']}' title='Deletar'><i class='fa fa-trash-o fa-fw'></i></a>";
-			}else{
-				$botao_excluir = '';
-			}
-
-			$retorno_linhas[] = [
-				"<td class='sorting_1'>{$linha['id']}</td>",
-				"<td>{$linha['nome']}</td>",
-	        	"<td>" . $botao_visualizar . $botao_editar . $botao_excluir . "</td>"
+		foreach ($query as $indice => $item) {
+			$retorno[] = [
+				$item['id'],
+				$item['nome'],
+				$item['id'] != 1 ? $this->view->default_buttons_listagem($item['id'], true, true, true) : $this->view->default_buttons_listagem($item['id'], true, true, true)
 			];
 		}
 
-		$this->view->linhas_datatable = $retorno_linhas;
+		return $retorno;
 	}
 
 	public function editar($id) {
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+		\Util\Permission::check($this->modulo['modulo'], "editar");
 
-		$this->view->cadastro = $this->model->load_hierarquia($id[0]);
-		$this->view->permissoes_list = $this->load_external_model('permissao')->load_permissions_list();
+		$this->view->assign('cadastro', $this->model->load_hierarquia($id[0]));
+		$this->view->assign('permissoes_list', $this->load_external_model('permissao')->load_permissions_list());
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 
 	public function visualizar($id){
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+		\Util\Permission::check($this->modulo['modulo'], "visualizar");
 
-		$this->view->cadastro = $this->model->load_hierarquia($id[0]);
-		$this->view->permissoes_list = $this->load_external_model('permissao')->load_permissions_list();
-		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
+		$this->view->assign('cadastro', $this->model->load_hierarquia($id[0]));
+		$this->view->assign('permissoes_list', $this->load_external_model('permissao')->load_permissions_list());
 		$this->view->lazy_view();
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 
 	public function create() {
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar");
+		\Util\Permission::check($this->modulo['modulo'], "criar");
 
-		$insert_db = carregar_variavel($this->modulo['modulo']);
-		$retorno = $this->model->create($this->modulo['modulo'], $insert_db);
+		$insert_db = ['nome' => carregar_variavel($this->modulo['modulo'])];
+
+		$retorno   = $this->model->create($this->modulo['modulo'], $insert_db);
 
 		if($retorno['status']){
 			$hierarquia_relaciona_permissao = carregar_variavel('hierarquia_relaciona_permissao');
 
 			if(isset($hierarquia_relaciona_permissao) && !empty(carregar_variavel('hierarquia_relaciona_permissao'))){
-				foreach (carregar_variavel('hierarquia_relaciona_permissao') as $indice => $permissao) {
+				foreach ($hierarquia_relaciona_permissao as $indice => $permissao) {
 						$insert_permissao = [
 							'id_hierarquia' => $retorno['id'],
 							'id_permissao' => $permissao
@@ -110,9 +98,9 @@ class Hierarquia extends \Libs\Controller {
 	}
 
 	public function update($id) {
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+		\Util\Permission::check($this->modulo['modulo'], "editar");
 
-		$update_db = carregar_variavel($this->modulo['modulo']);
+		$update_db = ['nome' => carregar_variavel($this->modulo['modulo'])];
 		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
 
 		if($retorno['status']){
@@ -166,7 +154,7 @@ class Hierarquia extends \Libs\Controller {
 	}
 
 	public function delete($id) {
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
+		\Util\Permission::check($this->modulo['modulo'], "deletar");
 
 		$retorno = $this->model->delete($this->modulo['modulo'], $id[0]);
 		$retorno = $this->model->delete('permissao', $id[0]);

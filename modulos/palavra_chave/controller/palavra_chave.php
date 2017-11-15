@@ -13,9 +13,12 @@ class Palavra_chave extends \Libs\ControllerCrud {
 
 	protected $colunas = ['ID', 'palavra_chave', 'Ações'];
 
-	function __construct() {
-		parent::__construct();
-	}
+	protected $datatable = [
+		'colunas' => ['ID', 'Palavra Chave', 'Ações'],
+		'select'  => ['id', 'palavra_chave'],
+		'from'    => 'palavra_chave',
+		'search'  => ['id', 'palavra_chave']
+	];
 
 	public function carregar_listagem_ajax(){
 		$busca = [
@@ -25,7 +28,7 @@ class Palavra_chave extends \Libs\ControllerCrud {
 			'length' => carregar_variavel('length'),
 		];
 
-		$query = $this->model->carregar_listagem($busca);
+		$query = $this->model->carregar_listagem($busca, $this->datatable);
 
 		$retorno = [];
 
@@ -50,6 +53,20 @@ class Palavra_chave extends \Libs\ControllerCrud {
 	public function buscar_palavra_chave_select2(){
 		$busca = carregar_variavel('busca');
 		$retorno = $this->model->buscar_palavra_chave($busca);
+
+
+		if(isset($busca['cadastrar_busca']) && !empty($busca['cadastrar_busca']) && $busca['cadastrar_busca'] == 'true' && $busca['nome'] != '%%'){
+			if(empty($retorno)){
+				$retorno = [];
+			}
+
+			$add_cadastro[0] = [
+				'id'            => $busca['nome'],
+				'palavra_chave' => "<strong>Cadastrar Nova Palavra Chave: </strong>" . $busca['nome']
+			];
+
+			$retorno = array_merge($add_cadastro, $retorno);
+		}
 
 		echo json_encode($retorno);
 		exit;
