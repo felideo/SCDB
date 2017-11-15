@@ -21,12 +21,12 @@ abstract class Controller {
 	}
 
 	public function load_external_model($name) {
-		$path = 'models/' . $name . '_model.php';
+		$path = 'modulos/' . $name . '/model/' .  $name . '.php';
 
 		if(file_exists($path)) {
-			require 'models/' . $name . '_model.php';
+			require $path;
 
-			$modelName = '\\Models\\' . $name . '_Model';
+			$modelName = '\\Model\\' . ucfirst($name);
 			return new $modelName;
 		}
 	}

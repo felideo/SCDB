@@ -1,14 +1,14 @@
 <?php
-namespace Models;
+namespace Model;
 
 use Libs;
 
-class trabalho_model extends \Libs\Model{
+class trabalho extends \Libs\Model{
 	public function __construct() {
 		parent::__construct();
 	}
 
-	public function carregar_listagem($busca){
+	public function carregar_listagem($busca, $datatable = null){
 		$select = "SELECT"
 			. " 	trabalho.id,"
 			. " 	trabalho.titulo,"

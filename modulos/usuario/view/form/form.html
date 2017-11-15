@@ -1,0 +1,72 @@
+<div class="row-fluid">
+<div class="contact-form form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="contact-form form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <label>Email</label>
+        <input class="form-control validar_email email_unico letras_e_numeros remover_caracteres_especiais" name="{$modulo.modulo}[email]" value="" required>
+    </div>
+    <div class="contact-form form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <label>Hierarquia</label>
+         <br>
+         <select class="form-group span12" name="" >
+            <option disabled>Selecnione</option>
+            {foreach from=$hierarquia_list item=hierarquia}
+                <option value="{$hierarquia.id}">
+                    {$hierarquia.nome}
+                </option>
+            {/foreach}
+         </select>
+    </div>
+</div>
+
+<div class="contact-form form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row-fluid">
+        <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <label>Pronome de Tratamento</label>
+            <input class="form-control" name="pessoa[pronome]" value="" type="text" >
+        </div>
+
+        <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+            <label>Nome</label>
+            <input class="form-control embelezar_string" name="pessoa[nome]" value="" type="text" required >
+        </div>
+
+        <div class="form-group col-xs-12 col-sm-12 col-md-5 col-lg-5">
+            <label>Sobrenome</label>
+            <input class="form-control embelezar_string" name="pessoa[sobrenome]" value="" type="text" required >
+        </div>
+
+<!--         <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <label>Instituição/Afiliação</label>
+            <input class="form-control" name="pessoa[instituicao]" value="" type="text" required >
+        </div> -->
+
+        <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <label>Area de Atuação</label>
+            <input class="form-control" name="pessoa[atuacao]" value="" type="text" required >
+        </div>
+
+        <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <label>Link Currículo Lattes</label>
+            <input class="form-control" name="pessoa[lattes]" value="" type="text" required >
+        </div>
+
+        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <label>Grau </label>
+            <label class="radio-inline">
+                <input name="pessoa[grau]" value="1" value="" type="radio" required> Aluno de Graduação
+            </label>
+            <label class="radio-inline">
+                <input name="pessoa[grau]" value="2" value="" type="radio" required> Aluno Pós graduação
+            </label>
+            <label class="radio-inline">
+                <input name="pessoa[grau]" value="3" value="" type="radio" required> Professor
+            </label>
+            <label class="radio-inline">
+                <input name="pessoa[grau]" value="4" value="" type="radio" required> Pesquisador
+            </label>
+            <label class="radio-inline">
+                <input name="pessoa[grau]" value="4" value="" type="radio" required> Outros
+            </label>
+        </div>
+    </div>
+</div>

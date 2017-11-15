@@ -159,8 +159,16 @@ class QueryBuilder {
 			$this->query .= " \nRIGHT JOIN " . implode(" \nRIGHT JOIN ", $this->rightJoin);
 		}
 
+<<<<<<< HEAD
 		if(!empty($this->innerJoin)){
 			$this->query .= " \nINNER JOIN " . implode(" \nINNER JOIN ", $this->innerJoin);
+=======
+
+		if(!empty($this->first)){
+			$this->query .= " \nLIMIT 1";
+		}elseif(!empty($this->parametros['limit'])){
+			$this->query .= " \nLIMIT " . $this->parametros['limit'];
+>>>>>>> d895410... DEV - SWDB * ajuste final em todos os modulos na nova estrutura * incremento na abstração do carregamento do datatable!
 		}
 
 		if(!empty($this->where)){
