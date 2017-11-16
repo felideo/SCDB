@@ -1,17 +1,14 @@
 <?php
 namespace Libs;
-use Dwoo\Core;
-use Dwoo\Data;
-use Dwoo\Template\File;
 
 class View {
 	private $dwoo;
 	private $assign;
 
 	function __construct(){
-		$this->dwoo   = new Core();
+		$this->dwoo   = new \Dwoo\Core();
 		$this->dwoo->setCompileDir('template_compile');
-		$this->assign = new Data();
+		$this->assign = new \Dwoo\Data();
 
 		$this->assign('app_name', APP_NAME);
 		$this->assign('_SESSION', $_SESSION);
@@ -26,22 +23,22 @@ class View {
 	}
 
 	public function render($header_footer, $body) {
-		$template = new File('modulos/' . $body . '.html');
+		$template = new \Dwoo\Template\File('modulos/' . $body . '.html');
 
 		if(strpos($header_footer, 'sidebar')){
 			$this->mount_sidebar();
 		}
 
-		$header = new File('views/' 		. $header_footer 	. '/header.html');
-		$body   = new File('modulos/' 	. $body 			. '.html');
-		$footer = new File('views/' 		. $header_footer 	. '/footer.html');
+		$header = new \Dwoo\Template\File('views/' 		. $header_footer 	. '/header.html');
+		$body   = new \Dwoo\Template\File('modulos/' 	. $body 			. '.html');
+		$footer = new \Dwoo\Template\File('views/' 		. $header_footer 	. '/footer.html');
 
 		echo $this->dwoo->get($header, $this->assign);
 		echo $this->dwoo->get($body, $this->assign);
 		echo $this->dwoo->get($footer, $this->assign);
 
 		if(isset($this->lazy_view) && !empty($this->lazy_view)){
-			$lazy_view = new File('views/back/form_padrao/lazy_view.html');
+			$lazy_view = new \Dwoo\Template\File('views/back/form_padrao/lazy_view.html');
 			echo $this->dwoo->get($lazy_view, $this->assign);
 		}
 
@@ -133,6 +130,7 @@ class View {
 	}
 
 	public function set_colunas_datatable($colunas){
+
 		foreach ($colunas as $indice => $coluna) {
 			if($indice == 0){
 				$retorno_coluna[] = "<th aria-sort='ascending' colspan='1' rowspan='1' tabindex='0' class='sorting_asc'>{$coluna}</th>";
