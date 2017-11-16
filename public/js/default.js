@@ -3,18 +3,18 @@ $(document).ready(function() {
         history.back();
     });
 
-    $("#main-nav-mouseover, .main-nav-wrapper").mouseover(function(){
-        $('body').addClass("nav-toggled");
-    }).mouseout(function() {
-        // $('body').removeClass("nav-toggled");
-    });
+    // $("#main-nav-mouseover, .main-nav-wrapper").mouseover(function(){
+    //     $('body').addClass("nav-toggled");
+    // }).mouseout(function() {
+    //     // $('body').removeClass("nav-toggled");
+    // });
 
     autosize($('textarea'));
 });
 
-$(window).load(function(){
-    $('body').addClass("nav-toggled");
-});
+// $(window).load(function(){
+//     $('body').addClass("nav-toggled");
+// });
 
 
 String.prototype.replace_all = function(search, replacement){

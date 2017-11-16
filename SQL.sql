@@ -226,3 +226,12 @@ CREATE TABLE `configuracoes` (
 	`ativo`     TINYINT(1) 			NOT NULL DEFAULT '1',
 	PRIMARY     KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+
+
+
+
+
+set foreign_key_checks = 0;
+set foreign_key_checks = 1;
+
