@@ -90,6 +90,7 @@
             <?php if (((isset($this->scope["_SESSION"]["alertas"]) ? $this->scope["_SESSION"]["alertas"]:null) !== null)) {
 ?>
                 <?php echo $this->scope["_SESSION"]["alertas"];?>
+<<<<<<< HEAD
             <?php 
 }?>
 
@@ -108,12 +109,19 @@ if ($this->isTraversable($_fh0_data) == true)
 /* -- foreach end output */
 	}
 }?>
+=======
+
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
             <?php 
 }?>
 
             $(window).load(function(){
+<<<<<<< HEAD
                 limpar_alertas_ajax();
                 limpar_notificacoes_ajax();
+=======
+                // limpar_alertas_ajax();
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
             });
         </script>
 
