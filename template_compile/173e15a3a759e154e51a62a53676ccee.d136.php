@@ -4,6 +4,10 @@ if (class_exists('Dwoo\Plugins\Functions\PluginInclude')===false)
 	$this->getLoader()->loadPlugin('PluginInclude');
 /* end template head */ ob_start(); /* template body */ ?><!DOCTYPE html>
 <html lang="pt-br">
+<<<<<<< HEAD
+=======
+
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
     <head>
         <title><?php echo $this->scope["app_name"];?></title>
 
@@ -34,9 +38,12 @@ if (class_exists('Dwoo\Plugins\Functions\PluginInclude')===false)
 
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -48,8 +55,11 @@ if (class_exists('Dwoo\Plugins\Functions\PluginInclude')===false)
 
         <!-- Custom CSS  -->
         <link href="/public/css/default.css" rel="stylesheet">
+<<<<<<< HEAD
         <link href="/public/css/custom_layout.css" rel="stylesheet">
 
+=======
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
         <link href="/public/css/bootstrap.css" rel="stylesheet">
 
         <script src="/public/back/js/jquery.js"></script>
@@ -65,6 +75,7 @@ if (class_exists('Dwoo\Plugins\Functions\PluginInclude')===false)
 
         <script src="/public/back/js/tether.js"></script>
         <script src="/public/back/js/tether-shepherd.js"></script>
+<<<<<<< HEAD
         <script src="/public/back/js/notify.js"></script>
         <script src="/public/back/js/main.js"></script>
         <script src="/public/back/js/tour.js"></script>
@@ -72,6 +83,12 @@ if (class_exists('Dwoo\Plugins\Functions\PluginInclude')===false)
         <script src="/public/back/js/demo.js"></script>
         <script src="/public/back/js/tables.js"></script>
         <script src="/public/back/js/notifications.js"></script>
+=======
+        <script src="/public/back/js/main.js"></script>
+        <script src="/public/back/js/tour.js"></script>
+        <script src="/public/back/js/demo.js"></script>
+        <script src="/public/back/js/tables.js"></script>
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
 
 
         <script src="/public/back/js/bootstrap3-wysihtml5.js"></script>
@@ -117,7 +134,11 @@ if (class_exists('Dwoo\Plugins\Functions\PluginInclude')===false)
                     <a href="index.html">
                         <img class="logo-icon" src="public/back/images/logo-icon.svg" alt="icon" />
                         <span class="nav-label">
+<<<<<<< HEAD
                             <span class="highlight">SWDB</span>
+=======
+                            <span class="highlight">Menu</span>
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
                         </span>
                     </a>
                 </h1>
@@ -142,7 +163,11 @@ if (class_exists('Dwoo\Plugins\Functions\PluginInclude')===false)
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu-user" >
                             <!-- <li><span class="arrow"></span><a role="menuitem" href="user-profile.html"><span class="pe-icon pe-7s-user icon"></span>My Account</a></li> -->
                             <!-- <li><a role="menuitem" href="pricing.html"><span class="pe-icon pe-7s-paper-plane icon"></span>Upgrade Plan</a></li> -->
+<<<<<<< HEAD
                             <li><a role="menuitem" href="/master/logout"><span class="pe-icon pe-7s-power icon"></span>Sair</a></li>
+=======
+                            <li><a role="menuitem" href="master/logout"><span class="pe-icon pe-7s-power icon"></span>Sair</a></li>
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
                         </ul>
                     </div>
                 </div>

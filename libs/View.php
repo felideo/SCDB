@@ -7,6 +7,7 @@ class View {
 
 	function __construct(){
 		$this->dwoo   = new \Dwoo\Core();
+		$this->dwoo->setCompileDir('template_compile');
 		$this->assign = new \Dwoo\Data();
 
 		$this->assign('app_name', APP_NAME);

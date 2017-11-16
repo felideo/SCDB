@@ -25,21 +25,39 @@
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Orientador</label>
 			    <br>
+<<<<<<< HEAD
 			    <input id="orientador_$id_clone_orientador" class="clone_orientador_select_2_$id_clone_orientador" type="text" name="<?php echo $this->scope["modulo"]["modulo"];?>[orientador][$id_clone_orientador][orientador]" style="width: 100%;" required disabled>
+=======
+			    <input id="orientador_$id_clone_orientador" class="clone_orientador_select_2_$id_clone_orientador" type="text" name="<?php echo $this->scope["modulo"]["modulo"];?>[orientador][$id_clone_orientador]" style="width: 100%;" disabled>
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
 			</div>
 
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Lattes/Site</label>
+<<<<<<< HEAD
 			    <input id="link_orientador_$id_clone_orientador" type="text" class="form-control" name="<?php echo $this->scope["modulo"]["modulo"];?>[orientador][$id_clone_orientador][site]" value="" disabled>
+=======
+			    <p id="link_orientador_div"></p>
+			    <input id="link_$id_clone_orientador" type="text" class="form-control" name="<?php echo $this->scope["modulo"]["modulo"];?>[site][$id_clone_orientador]" value="" disabled>
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
 			</div>
 
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Email</label>
+<<<<<<< HEAD
 			    <input id="email_orientador_$id_clone_orientador" type="text" class="form-control validar_email" name="<?php echo $this->scope["modulo"]["modulo"];?>[orientador][$id_clone_orientador][email]" value="" disabled>
 			</div>
 		</div>
 		<div class="panel-footer">
 			<button id="remover_clone_orientador_$id_clone_orientador" type="button" class="btn btn-danger pull-right remove-box">Remover Orientador</button>
+=======
+			    <p id="email_orientador_div"></p>
+			    <input id="email_$id_clone_orientador" type="text" class="form-control" name="<?php echo $this->scope["modulo"]["modulo"];?>[site][$id_clone_orientador]" value="" disabled>
+			</div>
+		</div>
+		<div class="panel-footer">
+			<button id="remover_clone_orientador_$id_clone_orientador" type="button" class="btn btn-danger pull-right remove-box">Remover</button>
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
         	<div class="clearfix"></div>
 		</div>
 	</div>
@@ -48,12 +66,16 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $('#botao_clone_orientador').on('click', function(){
+<<<<<<< HEAD
            clone_orientador_box();
       	});
     });
 
 function clone_orientador_box(){
 	 var container_clone    = $('#conteiner_clone_orientador');
+=======
+            var container_clone    = $('#conteiner_clone_orientador');
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
             var id_container_clone = ($("#conteiner_clone_orientador > div").length) + 1;
 
 
@@ -73,9 +95,15 @@ function clone_orientador_box(){
 	            }
             });
 
+<<<<<<< HEAD
         	atualizar_clone_orientador_select_2(id_container_clone);
 
 }
+=======
+            atualizar_clone_orientador_select_2(id_container_clone);
+        });
+    });
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
 
 function atualizar_clone_orientador_select_2(id_container_clone){
 	$('.clone_orientador_select_2_' + id_container_clone).select2({
@@ -101,6 +129,7 @@ function atualizar_clone_orientador_select_2(id_container_clone){
 			}
 		},
 		formatResult: function(object) {
+<<<<<<< HEAD
 			console.log(object);
 
 
@@ -173,6 +202,16 @@ function atualizar_clone_orientador_select_2(id_container_clone){
 
 
 
+=======
+			return object.nome
+		},
+		formatSelection: function(object) {
+			return object.nome.replace_all('Cadastrar ', '')
+		}
+	});
+}
+
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
 </script><?php  /* end template body */
 return $this->buffer . ob_get_clean();
 ?>
