@@ -1,6 +1,7 @@
 <?php
 namespace Model;
 
+<<<<<<< HEAD
 <<<<<<< HEAD:models/index_model.php
 use Libs;
 
@@ -31,5 +32,8 @@ class Index extends \Libs\Model {
 			->fetchArray();
 	}
 >>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!:modulos/index/model/index.php
+=======
+class Index extends \Libs\Model{
+>>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
 }
 
