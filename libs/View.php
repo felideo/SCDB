@@ -43,38 +43,6 @@ class View {
 		}
 
 		exit;
-
-		// // debug2(get_defined_vars());
-		// // exit;
-		// // if(!file_exists('views/' . $header_footer . '/header.php')){
-		// // 	$e = new \Exception('Cabeçalho: views/' . $header_footer . '/header.php não existe!');
-		// // 	debug2($e->getMessage());
-  // //           debug2($e->getTrace());
-  // //           exit;
-		// // }
-
-		// // if(!file_exists('views/' . $header_footer . '/footer.php')){
-		// // 	$e = new \Exception('Rodape: views/render/' . $header_footer . '/footer.php não existe!');
-		// // 	debug2($e->getMessage());
-  // //           debug2($e->getTrace());
-  // //           exit;
-		// // }
-
-		// // if(!file_exists('modulos/' . $body . '.php')){
-		// // 	$e = new \Exception('View não existe!');
-		// // 	debug2($e->getMessage());
-  // //           debug2($e->getTrace());
-  // //           exit;
-		// // }
-
-
-
-
-		// // $this->extra_js = end(explode('/', $body));
-
-		// require 'views/' . $header_footer . '/header.php';
-		// require 'modulos/' . $body . '.php';
-		// require 'views/' . $header_footer . '/footer.php';
 	}
 
 	private function mount_sidebar(){

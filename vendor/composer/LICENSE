@@ -2,6 +2,7 @@
 Copyright (c) 2016 Nils Adermann, Jordi Boggiano
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -15,6 +16,9 @@ License: MPL-2.0
 
 Files: src/Composer/Util/RemoteFilesystem.php
        src/Composer/Util/TlsHelper.php
+=======
+Files: src/Composer/Util/TlsHelper.php
+>>>>>>> 0b185f7... MOD SWDB * composer update * removendo pasta que foi por engano!
 Copyright: 2016, Nils Adermann <naderman@naderman.de>
            2016, Jordi Boggiano <j.boggiano@seld.be>
            2013, Evan Coury <me@evancoury.com>
@@ -52,6 +56,7 @@ License: Expat
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
+<<<<<<< HEAD
 
 License: MPL-2.0
  1. Definitions
@@ -425,3 +430,5 @@ License: MPL-2.0
    This Source Code Form is "Incompatible With Secondary Licenses", as
    defined by the Mozilla Public License, v. 2.0.
 >>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
+=======
+>>>>>>> 0b185f7... MOD SWDB * composer update * removendo pasta que foi por engano!
