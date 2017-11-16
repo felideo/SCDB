@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "13800e1460defbf777f84a4a4bedcbce",
     "content-hash": "3e871d15259b43419679e6e25ae1737a",
     "packages": [
         {
@@ -44,7 +43,7 @@
                 }
             ],
             "description": "Dwoo is a PHP5/PHP7 template engine which is (almost) fully compatible with Smarty templates and plugins, but is written from scratch for PHP5, and adds many features.",
-            "time": "2017-03-27 23:25:23"
+            "time": "2017-03-27T23:25:23+00:00"
         }
     ],
     "packages-dev": [],
