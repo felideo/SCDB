@@ -40,8 +40,8 @@ CREATE TABLE `submenu` (
   `id`            int(11) NOT NULL AUTO_INCREMENT,
   `nome`          varchar(64) NOT NULL,
   `icone`         varchar(64) NOT NULL DEFAULT 'fa-angle-right',
-  `ativo`         tinyint(1) NOT NULL DEFAULT '1',
   `nome_exibicao` varchar(64) NOT NULL,
+  `ativo`         tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY         KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -169,11 +169,6 @@ CREATE TABLE `palavra_chave` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
 
-
-
-
-
-
 CREATE TABLE `trabalho_relaciona_palavra_chave` (
 	`id`               INT(11) 			NOT NULL AUTO_INCREMENT,
 	`id_trabalho`      INT(11) 			NOT NULL,
@@ -184,38 +179,6 @@ CREATE TABLE `trabalho_relaciona_palavra_chave` (
 	FOREIGN            KEY (`id_palavra_chave`) REFERENCES `palavra_chave` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
-
-
-
-
-set foreign_key_checks = 0;
-set foreign_key_checks = 1;
-
-<<<<<<< HEAD:LeafLiveDB.sql
-ALTER TABLE `trabalho`
-    ADD COLUMN `id_autor` INT (11) NOT NULL AFTER resumo,
-    ADD FOREIGN KEY (id_autor) REFERENCES autor(id);
-
-
-ALTER TABLE posicao_geografica
-    CHANGE COLUMN `latitude` `latitude`  DECIMAL(12,4)	 	NOT NULL,
-    CHANGE COLUMN `longitude` `longitude`  DECIMAL(12,4)	 	NOT NULL;
-
-
-
-CREATE TABLE `posicao_geografica` (
-	`id`           INT(11) 			NOT NULL AUTO_INCREMENT,
-	`latitude`     DECIMAL(12,4)	NOT NULL,
-	`longitude`    DECIMAL(12,4)	NOT NULL,
-	`id_organismo` INT(11) 			NOT NULL,
-	`ativo`        TINYINT(1) 		NOT NULL DEFAULT '1',
-	PRIMARY        KEY (`id`),
-	FOREIGN        KEY (`id_organismo`) REFERENCES `organismo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8
-
-ALTER TABLE organismo
-ADD COLUMN `descricao` TEXT NOT NULL AFTER `posicao_ovario`;
-=======
 
 ALTER TABLE `usuario`
     ADD FOREIGN KEY (hierarquia) REFERENCES hierarquia(id);
@@ -244,10 +207,6 @@ CREATE TABLE `pagina_institucional` (
 ALTER TABLE `permissao`
 	ADD COLUMN `ativo`       tinyint(1) 		NOT NULL DEFAULT '1';
 
-
-
-
-
 CREATE TABLE `pessoa` (
   `id`          int(11) 		NOT NULL AUTO_INCREMENT,
   `id_usuario`  int(11) 		NOT NULL,
@@ -267,4 +226,3 @@ CREATE TABLE `configuracoes` (
 	`ativo`     TINYINT(1) 			NOT NULL DEFAULT '1',
 	PRIMARY     KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
->>>>>>> d895410... DEV - SWDB * ajuste final em todos os modulos na nova estrutura * incremento na abstração do carregamento do datatable!:SQL.sql
