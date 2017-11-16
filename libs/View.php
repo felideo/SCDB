@@ -1,14 +1,15 @@
 <?php
 namespace Libs;
+use Dwoo;
 
 class View {
 	private $dwoo;
 	private $assign;
 
 	function __construct(){
-		$this->dwoo   = new \Dwoo\Core();
+		$this->dwoo   = new Dwoo\Core();
 		$this->dwoo->setCompileDir('template_compile');
-		$this->assign = new \Dwoo\Data();
+		$this->assign = new Dwoo\Data();
 
 		$this->assign('app_name', APP_NAME);
 		$this->assign('_SESSION', $_SESSION);
@@ -23,22 +24,22 @@ class View {
 	}
 
 	public function render($header_footer, $body) {
-		$template = new \Dwoo\Template\File('modulos/' . $body . '.html');
+		$template = new Dwoo\Template\File('modulos/' . $body . '.html');
 
 		if(strpos($header_footer, 'sidebar')){
 			$this->mount_sidebar();
 		}
 
-		$header = new \Dwoo\Template\File('views/' 		. $header_footer 	. '/header.html');
-		$body   = new \Dwoo\Template\File('modulos/' 	. $body 			. '.html');
-		$footer = new \Dwoo\Template\File('views/' 		. $header_footer 	. '/footer.html');
+		$header = new Dwoo\Template\File('views/' 		. $header_footer 	. '/header.html');
+		$body   = new Dwoo\Template\File('modulos/' 	. $body 			. '.html');
+		$footer = new Dwoo\Template\File('views/' 		. $header_footer 	. '/footer.html');
 
 		echo $this->dwoo->get($header, $this->assign);
 		echo $this->dwoo->get($body, $this->assign);
 		echo $this->dwoo->get($footer, $this->assign);
 
 		if(isset($this->lazy_view) && !empty($this->lazy_view)){
-			$lazy_view = new \Dwoo\Template\File('views/back/form_padrao/lazy_view.html');
+			$lazy_view = new Dwoo\Template\File('views/back/form_padrao/lazy_view.html');
 			echo $this->dwoo->get($lazy_view, $this->assign);
 		}
 
@@ -129,42 +130,7 @@ class View {
 		$this->assign('sidebar_painel_administrativo', $array_menu);
 	}
 
-	// public function render($name, $noInclude = false) {
-	// 	if($noInclude == true){
-	// 		require 'views/' . $name . '.php';
-	// 	} else {
-	// 		require 'views/render/render/header.php';
-	// 		require 'views/' . $name . '.php';
-	// 		require 'views/render/render/footer.php';
-	// 	}
-	// }
-
-	public function clean_render($name) {
-		require 'views/render/clean_render/header.php';
-		require 'views/' . $name . '.php';
-		require 'views/render/clean_render/footer.php';
-	}
-
-	public function front_render($name) {
-		require 'views/render/front_render/header.php';
-		require 'views/' . $name . '.php';
-		require 'views/render/front_render/footer.php';
-	}
-
-	public function sub_render($name, $name_2 = null) {
-		if(!is_null($name_2)){
-			require 'views/render/render/header.php';
-			require 'views/' . $name . '/' . $name_2 . '.php';
-			require 'views/render/render/footer.php';
-		} else {
-		 	require 'views/render/render/header.php';
-			require 'views/' . $name . '/' . $name . '.php';
-			require 'views/render/render/footer.php';
-		}
-	}
-
 	public function set_colunas_datatable($colunas){
-
 		foreach ($colunas as $indice => $coluna) {
 			if($indice == 0){
 				$retorno_coluna[] = "<th aria-sort='ascending' colspan='1' rowspan='1' tabindex='0' class='sorting_asc'>{$coluna}</th>";

@@ -40,8 +40,8 @@ CREATE TABLE `submenu` (
   `id`            int(11) NOT NULL AUTO_INCREMENT,
   `nome`          varchar(64) NOT NULL,
   `icone`         varchar(64) NOT NULL DEFAULT 'fa-angle-right',
-  `ativo`         tinyint(1) NOT NULL DEFAULT '1',
   `nome_exibicao` varchar(64) NOT NULL,
+  `ativo`         tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY         KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -169,11 +169,6 @@ CREATE TABLE `palavra_chave` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
 
-
-
-
-
-
 CREATE TABLE `trabalho_relaciona_palavra_chave` (
 	`id`               INT(11) 			NOT NULL AUTO_INCREMENT,
 	`id_trabalho`      INT(11) 			NOT NULL,
@@ -183,13 +178,6 @@ CREATE TABLE `trabalho_relaciona_palavra_chave` (
 	FOREIGN            KEY (`id_trabalho`) 	REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	FOREIGN            KEY (`id_palavra_chave`) REFERENCES `palavra_chave` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
-
-
-
-
-
-set foreign_key_checks = 0;
-set foreign_key_checks = 1;
 
 
 ALTER TABLE `usuario`
@@ -218,10 +206,6 @@ CREATE TABLE `pagina_institucional` (
 
 ALTER TABLE `permissao`
 	ADD COLUMN `ativo`       tinyint(1) 		NOT NULL DEFAULT '1';
-
-
-
-
 
 CREATE TABLE `pessoa` (
   `id`          int(11) 		NOT NULL AUTO_INCREMENT,
