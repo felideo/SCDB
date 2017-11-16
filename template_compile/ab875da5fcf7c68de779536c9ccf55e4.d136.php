@@ -1,6 +1,17 @@
-{include file='public/fineuploader/templates/template.html'}
-{include file='modulos/$modulo.modulo/view/form/clones/autor.html'}
-{include file='modulos/$modulo.modulo/view/form/clones/orientador.html'}
+<?php
+/* template head */
+if (class_exists('Dwoo\Plugins\Functions\PluginInclude')===false)
+	$this->getLoader()->loadPlugin('PluginInclude');
+/* end template head */ ob_start(); /* template body */ ;
+echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude', 
+                        array('public/fineuploader/templates/template.html', null, null, null, '_root', null));?>
+
+<?php echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude', 
+                        array('modulos/'.(isset($this->scope["modulo"]["modulo"]) ? $this->scope["modulo"]["modulo"]:null).'/view/form/clones/autor.html', null, null, null, '_root', null));?>
+
+<?php echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude', 
+                        array('modulos/'.(isset($this->scope["modulo"]["modulo"]) ? $this->scope["modulo"]["modulo"]:null).'/view/form/clones/orientador.html', null, null, null, '_root', null));?>
+
 
 
 
@@ -14,7 +25,7 @@
             <div id="" class="row"  >
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div id="upload_trabalho_trigger"></div>
-                    <!-- <input type="text" class="form-control" id="id_arquivo" name="{$modulo.modulo}[id_arquivo]" value=""> -->
+                    <!-- <input type="text" class="form-control" id="id_arquivo" name="<?php echo $this->scope["modulo"]["modulo"];?>[id_arquivo]" value=""> -->
                 </div>
             </div>
 
@@ -35,7 +46,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group">
                     <label>Link do Trabalho</label>
-                    <input type="text" class="form-control" name="{$modulo.modulo}[link_trabalho]" value="">
+                    <input type="text" class="form-control" name="<?php echo $this->scope["modulo"]["modulo"];?>[link_trabalho]" value="">
                 </div>
             </div>
         </div> -->
@@ -44,41 +55,41 @@
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div class="form-group">
                 <label>Titulo</label>
-                <input type="text" class="form-control" name="{$modulo.modulo}[titulo]" value="">
+                <input type="text" class="form-control" name="<?php echo $this->scope["modulo"]["modulo"];?>[titulo]" value="">
             </div>
 
             <!-- <div class="form-group">
                 <label>Idioma</label>
                 <br>
-                <input id="idioma" name="{$modulo.modulo}[idioma]" style="width: 100%">
+                <input id="idioma" name="<?php echo $this->scope["modulo"]["modulo"];?>[idioma]" style="width: 100%">
             </div> -->
 
             <div class="form-group">
                 <label>Ano</label>
-                <input type="text" class="form-control" name="{$modulo.modulo}[ano]" value="">
+                <input type="text" class="form-control" name="<?php echo $this->scope["modulo"]["modulo"];?>[ano]" value="">
             </div>
 
             <div class="form-group">
                 <label>Palavras Chave</label>
                 <br>
-                <input id="palavra_chave" name="{$modulo.modulo}[palavras_chave]" style="width: 100%">
+                <input id="palavra_chave" name="<?php echo $this->scope["modulo"]["modulo"];?>[palavras_chave]" style="width: 100%">
             </div>
 
             <div class="form-group">
                 <label>Resumo</label>
-                <textarea class="form-control" rows="3" name="{$modulo.modulo}[resumo]"></textarea>
+                <textarea class="form-control" rows="3" name="<?php echo $this->scope["modulo"]["modulo"];?>[resumo]"></textarea>
             </div>
 
 <!--             <fieldset class="form-group">
                 <legend>Tipo de Trabalho</legend>
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input" name="{$modulo.modulo}[tipo_trabalho]" id="upload" value="upload" > Upload de Arquivo
+                        <input type="radio" class="form-check-input" name="<?php echo $this->scope["modulo"]["modulo"];?>[tipo_trabalho]" id="upload" value="upload" > Upload de Arquivo
                     </label>
                 </div>
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input" name="{$modulo.modulo}[tipo_trabalho]" id="link" value="link" > Link
+                        <input type="radio" class="form-check-input" name="<?php echo $this->scope["modulo"]["modulo"];?>[tipo_trabalho]" id="link" value="link" > Link
                     </label>
                 </div>
             </fieldset> -->
@@ -93,7 +104,7 @@
 
 </div>
 
-{literal}
+
 <script type="text/javascript">
     $('#autor').select2({
         multiple: false,
@@ -346,6 +357,7 @@
 
 
     <?php if(isset($this->cadastro)) : ?>
+
             $('#idioma').select2(
                 'data', {
                     id: "<?php echo $this->cadastro['idioma'][0]['id']; ?>",
@@ -374,6 +386,7 @@
         echo 'var palavras_chave = ' . json_encode($palavras_chave);
     ?>
 
+
     $('#palavra_chave').select2(
         'data', palavras_chave
     );
@@ -384,8 +397,12 @@
 
 
 
+
     //  document.getElementById("trigger-upload")).attach("click", function() {
     // });
 </script>
-{/literal}
 
+
+<?php  /* end template body */
+return $this->buffer . ob_get_clean();
+?>

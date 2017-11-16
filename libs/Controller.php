@@ -37,4 +37,9 @@ abstract class Controller {
 			header('location: /' . $this->modulo['modulo']);
 		}
 	}
+
+	public function print_sessao(){
+		debug2($_SESSION);
+		exit;
+	}
 }

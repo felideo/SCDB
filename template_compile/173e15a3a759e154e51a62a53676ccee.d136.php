@@ -1,8 +1,12 @@
-<!DOCTYPE html>
+<?php
+/* template head */
+if (class_exists('Dwoo\Plugins\Functions\PluginInclude')===false)
+	$this->getLoader()->loadPlugin('PluginInclude');
+/* end template head */ ob_start(); /* template body */ ?><!DOCTYPE html>
 <html lang="pt-br">
 
     <head>
-        <title>{$app_name}</title>
+        <title><?php echo $this->scope["app_name"];?></title>
 
         <meta charset="utf8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -138,13 +142,18 @@
             </div>
         </header>
 
-        {include file='views/back/cabecalho_rodape_sidebar/sidebar.html'}
+        <?php echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude', 
+                        array('views/back/cabecalho_rodape_sidebar/sidebar.html', null, null, null, '_root', null));?>
 
 
 <div id="content-wrapper" class="content-wrapper view">
     <div class="container-fluid">
         <h1 class="title">
-            <i class="fa {if isset($_SESSION.modulos[$modulo['modulo']].icone)} {$_SESSION.modulos[$modulo['modulo']].icone} {/if}"></i>
-            {$modulo['name']}
+            <i class="fa <?php if (($this->readVar("_SESSION.modulos.".(isset($this->scope["modulo"]["modulo"]) ? $this->scope["modulo"]["modulo"]:null).".icone") !== null)) {
+?> <?php echo $this->readVar("_SESSION.modulos.".(isset($this->scope["modulo"]["modulo"]) ? $this->scope["modulo"]["modulo"]:null).".icone");?> <?php 
+}?>"></i>
+            <?php echo $this->scope["modulo"]["name"];?>
         </h1>
-        <div id="masonry" class="row">
+        <div id="masonry" class="row"><?php  /* end template body */
+return $this->buffer . ob_get_clean();
+?>
