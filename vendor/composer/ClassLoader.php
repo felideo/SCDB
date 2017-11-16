@@ -53,13 +53,17 @@ class ClassLoader
 
     private $useIncludePath = false;
     private $classMap = array();
-
     private $classMapAuthoritative = false;
+<<<<<<< HEAD
 <<<<<<< HEAD
     private $missingClasses = array();
     private $apcuPrefix;
 =======
 >>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
+=======
+    private $missingClasses = array();
+    private $apcuPrefix;
+>>>>>>> 0b185f7... MOD SWDB * composer update * removendo pasta que foi por engano!
 
     public function getPrefixes()
     {
@@ -342,7 +346,7 @@ class ClassLoader
         if (isset($this->classMap[$class])) {
             return $this->classMap[$class];
         }
-        if ($this->classMapAuthoritative) {
+        if ($this->classMapAuthoritative || isset($this->missingClasses[$class])) {
             return false;
         }
         if (null !== $this->apcuPrefix) {
@@ -355,21 +359,27 @@ class ClassLoader
         $file = $this->findFileWithExtension($class, '.php');
 
         // Search for Hack files if we are running on HHVM
-        if ($file === null && defined('HHVM_VERSION')) {
+        if (false === $file && defined('HHVM_VERSION')) {
             $file = $this->findFileWithExtension($class, '.hh');
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0b185f7... MOD SWDB * composer update * removendo pasta que foi por engano!
         if (null !== $this->apcuPrefix) {
             apcu_add($this->apcuPrefix.$class, $file);
         }
 
         if (false === $file) {
+<<<<<<< HEAD
 =======
         if ($file === null) {
 >>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
+=======
+>>>>>>> 0b185f7... MOD SWDB * composer update * removendo pasta que foi por engano!
             // Remember that this class does not exist.
-            return $this->classMap[$class] = false;
+            $this->missingClasses[$class] = true;
         }
 
         return $file;
@@ -382,9 +392,13 @@ class ClassLoader
 
         $first = $class[0];
         if (isset($this->prefixLengthsPsr4[$first])) {
-            foreach ($this->prefixLengthsPsr4[$first] as $prefix => $length) {
-                if (0 === strpos($class, $prefix)) {
-                    foreach ($this->prefixDirsPsr4[$prefix] as $dir) {
+            $subPath = $class;
+            while (false !== $lastPos = strrpos($subPath, '\\')) {
+                $subPath = substr($subPath, 0, $lastPos);
+                $search = $subPath.'\\';
+                if (isset($this->prefixDirsPsr4[$search])) {
+                    foreach ($this->prefixDirsPsr4[$search] as $dir) {
+                        $length = $this->prefixLengthsPsr4[$first][$search];
                         if (file_exists($file = $dir . DIRECTORY_SEPARATOR . substr($logicalPathPsr4, $length))) {
                             return $file;
                         }
@@ -433,6 +447,8 @@ class ClassLoader
         if ($this->useIncludePath && $file = stream_resolve_include_path($logicalPathPsr0)) {
             return $file;
         }
+
+        return false;
     }
 }
 
