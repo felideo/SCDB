@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
 <<<<<<< HEAD
+<<<<<<< HEAD
     "content-hash": "7a152aebe484002428ab43bfad5cac4d",
     "packages": [
         {
@@ -48,6 +49,8 @@
             "time": "2016-07-08T13:40:45+00:00"
 =======
     "hash": "13800e1460defbf777f84a4a4bedcbce",
+=======
+>>>>>>> 0b185f7... MOD SWDB * composer update * removendo pasta que foi por engano!
     "content-hash": "3e871d15259b43419679e6e25ae1737a",
     "packages": [
         {
@@ -87,8 +90,12 @@
                 }
             ],
             "description": "Dwoo is a PHP5/PHP7 template engine which is (almost) fully compatible with Smarty templates and plugins, but is written from scratch for PHP5, and adds many features.",
+<<<<<<< HEAD
             "time": "2017-03-27 23:25:23"
 >>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
+=======
+            "time": "2017-03-27T23:25:23+00:00"
+>>>>>>> 0b185f7... MOD SWDB * composer update * removendo pasta que foi por engano!
         }
     ],
     "packages-dev": [],
