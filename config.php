@@ -17,6 +17,7 @@ define('DB_USER', 'root');
 define('DB_PASS', 'lilith');
 
 define('DEVELOPER', true);
+define('PREVENT_CACHE', true);
 
 define('APP_NAME', 'Scientific Work DB');
 

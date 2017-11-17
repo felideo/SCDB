@@ -22,6 +22,13 @@ class Database extends \PDO {
 	 * return mixed
 	 */
 	public function select($sql, $array = array(), $fetchMode = \PDO::FETCH_ASSOC) {
+		$prevent_cache = '';
+
+		if(PREVENT_CACHE){
+			$prevent_cache = '/* ' . date('Y-m-d H:i:s') . '*/ ';
+			$sql = $prevent_cache . $sql;
+		}
+
 		$sth = $this->prepare($sql);
 		if(isset($array) && !empty($array)){
 			foreach($array as $key => $value) {
