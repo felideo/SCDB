@@ -235,3 +235,20 @@ CREATE TABLE `configuracoes` (
 set foreign_key_checks = 0;
 set foreign_key_checks = 1;
 
+-------------------------------------------------------
+
+
+CREATE TABLE `curso` (
+	`id`            INT(11) 			NOT NULL AUTO_INCREMENT,
+	`curso` 		VARCHAR(512) 		NOT NULL,
+	`ativo`         TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY         KEY (`id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+CREATE TABLE `campus` (
+	`id`            INT(11) 			NOT NULL AUTO_INCREMENT,
+	`campus` 		VARCHAR(512) 		NOT NULL,
+	`ativo`         TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY         KEY (`id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
