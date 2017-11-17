@@ -4,7 +4,7 @@ $(document).ready(function() {
     });
 
     $("#main-nav-mouseover, .main-nav-wrapper").mouseover(function(){
-        $("#item").removeClass();
+        $("body").removeClass();
         $('body').addClass("pace-done");
     }).mouseout(function() {
         // $('body').removeClass("nav-toggled");
@@ -14,7 +14,7 @@ $(document).ready(function() {
 });
 
 $(window).load(function(){
-    $("#item").removeClass();
+    $("body").removeClass();
     $('body').addClass("pace-done");
 });
 
