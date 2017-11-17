@@ -14,15 +14,17 @@ class Usuario extends \Libs\ControllerCrud {
 		'send'		=> 'Usuario'
 	];
 
-	protected $colunas = ['ID', 'Email', 'Hierarquia', 'Ações'];
-
+	protected $datatable = [
+		'colunas' => ['ID', 'Email', 'Hierarquia', 'Ações'],
+		'from'    => 'usuario'
+	];
 
 
 	public function index() {
 		\Util\Auth::handLeLoggin();
 		\Util\Permission::check($this->modulo['modulo'], "visualizar");
 
-		$this->view->set_colunas_datatable($this->colunas);
+		$this->view->set_colunas_datatable($this->datatable['colunas']);
 
 		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');

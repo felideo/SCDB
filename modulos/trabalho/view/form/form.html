@@ -29,6 +29,18 @@
                     </div>
 
                     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label>Curso</label>
+                        <br>
+                        <input id="curso" name="{$modulo.modulo}[curso]" style="width: 100%">
+                    </div>
+
+                    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label>Campus</label>
+                        <br>
+                        <input id="campus" name="{$modulo.modulo}[campus]" style="width: 100%">
+                    </div>
+
+                    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <label>Palavras Chave</label>
                         <br>
                         <input id="palavra_chave" name="{$modulo.modulo}[palavras_chave]" style="width: 100%">
@@ -131,6 +143,70 @@
         },
         formatSelection: function(object) {
             return object.palavra_chave.replace_all('Cadastrar ', '')
+        }
+    });
+
+    $('#curso').select2({
+        placeholder: $(this).data('placeholder'),
+        multiple: false,
+        minimumInputLength: 2,
+        ajax: {
+            type: 'POST',
+            url: "/curso/buscar_curso_select2",
+            dataType: 'json',
+            data: function(term) {
+                return {
+                    busca: {
+                        nome: term,
+                        page_limit: 10,
+                        cadastrar_busca: true
+                    }
+                };
+            },
+            results: function(data) {
+                return {
+                    results: data
+                };
+            }
+        },
+        formatResult: function(object) {
+            console.log(object);
+            return object.curso
+        },
+        formatSelection: function(object) {
+            return object.curso.replace_all('Cadastrar ', '')
+        }
+    });
+
+    $('#campus').select2({
+        placeholder: $(this).data('placeholder'),
+        multiple: false,
+        minimumInputLength: 2,
+        ajax: {
+            type: 'POST',
+            url: "/campus/buscar_campus_select2",
+            dataType: 'json',
+            data: function(term) {
+                return {
+                    busca: {
+                        nome: term,
+                        page_limit: 10,
+                        cadastrar_busca: true
+                    }
+                };
+            },
+            results: function(data) {
+                return {
+                    results: data
+                };
+            }
+        },
+        formatResult: function(object) {
+            console.log(object);
+            return object.campus
+        },
+        formatSelection: function(object) {
+            return object.campus.replace_all('Cadastrar ', '')
         }
     });
 

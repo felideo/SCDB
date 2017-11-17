@@ -40,7 +40,7 @@ class Hierarquia extends \Libs\ControllerCrud {
 			$retorno[] = [
 				$item['id'],
 				$item['nome'],
-				$item['id'] != 1 ? $this->view->default_buttons_listagem($item['id'], true, true, true) : $this->view->default_buttons_listagem($item['id'], true, true, true)
+				$item['id'] != 1 ? $this->view->default_buttons_listagem($item['id'], true, true, true) : $this->view->default_buttons_listagem($item['id'], true, true, false)
 			];
 		}
 
