@@ -42,4 +42,17 @@ abstract class Controller {
 		debug2($_SESSION);
 		exit;
 	}
+
+	public function limpar_sessao(){
+		session_unset();
+		session_destroy();
+		debug2('Sessão limpa! \o/');
+		exit;
+	}
+
+	public function set_sessao($parametros){
+		$_SESSION[$parametros[0]] = $parametros[1];
+		debug2('$_SESSION[' . $parametros[0] . '] = ' . $parametros[1]);
+		exit;
+	}
 }
