@@ -263,6 +263,56 @@ class QueryBuilder{
 			$this->query .= " \nLIMIT " . $this->parametros['limit'];
 		}
 
+
+// 	if(!empty($this->parametros['limit'])){
+// 			$limit = [];
+
+// 			// debug2($this->parametros['where']);
+
+// 			foreach ($this->parametros['where'] as $select){
+// 				$original_from = strpos($select[0], $this->parametros['from'][1]);
+
+// 				if(!empty($original_from) || $original_from == 0){
+// 					$limit[] = $select[0];
+// 				}
+
+// 			}
+// 				// debug2($this->join_on[$this->parametros['from'][1]]);
+
+// 				$query_limit = 'SELECT ' . $this->parametros['from'][1] . '.' . $this->join_on[$this->parametros['from'][1]]['primary']
+// 					. ' FROM ' . $this->parametros['from'][0] . ' ' . $this->parametros['from'][1]
+// 					. ' WHERE ' . implode(' AND ', $limit)
+// 					. ' LIMIT ' . $this->parametros['limit'];
+
+// 				if(isset($this->parametros['offset']) && !empty($this->parametros['offset'])){
+// 					$query_limit = ' OFFSET ' . $this->parametros['offset'];
+// 				}
+
+
+// debug2();
+
+// 				debug2($query_limit);
+// 				exit;
+
+
+// 			if(!empty($this->parametros['where_in']) || !empty($this->parametros['where'])){
+// 				$this->query .= "\n AND " . $this->parametros['from'][1] . '.' . $this->join_on[$this->parametros['from'][1]]['primary'] . ' IN ';
+// 			}else{
+// 				$this->query .= "\n WHERE" . $this->parametros['from'][1] . '.' . $this->join_on[$this->parametros['from'][1]]['primary'] . ' IN ';
+// 			}
+
+// 			 $this->query .= $query_limit;
+
+// 			// debug2($query_limit);
+// 			// debug2($limit);
+
+// 		// debug2($this->query);
+
+// 		// debug2($this->parametros);
+// 		// exit;
+// 		}
+
+
 		if(!empty($this->parametros['offset']) && empty($this->first)){
 			$this->query .= " \nOFFSET " . $this->parametros['offset'];
 		}

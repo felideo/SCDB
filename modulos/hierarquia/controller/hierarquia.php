@@ -69,7 +69,7 @@ class Hierarquia extends \Libs\ControllerCrud {
 
 		$insert_db = ['nome' => carregar_variavel($this->modulo['modulo'])];
 
-		$retorno   = $this->model->create($this->modulo['modulo'], $insert_db);
+		$retorno   = $this->model->insert($this->modulo['modulo'], $insert_db);
 
 		if($retorno['status']){
 			$hierarquia_relaciona_permissao = carregar_variavel('hierarquia_relaciona_permissao');
@@ -81,7 +81,7 @@ class Hierarquia extends \Libs\ControllerCrud {
 							'id_permissao' => $permissao
 						];
 
-					$retorno_permissoes[] = $this->model->create('hierarquia_relaciona_permissao', $insert_permissao);
+					$retorno_permissoes[] = $this->model->insert('hierarquia_relaciona_permissao', $insert_permissao);
 					unset($insert_permissao);
 
 				}
@@ -111,7 +111,7 @@ class Hierarquia extends \Libs\ControllerCrud {
 					'id_permissao' => $permissao
 				];
 
-				$retorno_permissoes[] = $this->model->create('hierarquia_relaciona_permissao', $insert_permissao);
+				$retorno_permissoes[] = $this->model->insert('hierarquia_relaciona_permissao', $insert_permissao);
 				unset($insert_permissao);
 			}
 		}

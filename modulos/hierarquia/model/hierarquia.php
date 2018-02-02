@@ -49,7 +49,6 @@ class Hierarquia extends \Libs\Model {
 
 			$query->where("hierarquia.id = {$id}");
 
-
 			$retorno = $query->fetchArray();
 			$permissoes = [];
 

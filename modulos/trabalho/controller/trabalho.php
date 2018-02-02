@@ -2,7 +2,7 @@
 namespace Controller;
 
 use Libs;
-
+use Libs\URL;
 class Trabalho extends \Libs\ControllerCrud {
 
 	protected $modulo = [
@@ -61,4 +61,71 @@ class Trabalho extends \Libs\ControllerCrud {
 
 		exit;
 	}
+
+	public function create(){
+		$trabalho           = carregar_variavel('trabalho');
+
+		$insert_trabalho_db              = $trabalho['trabalho'];
+		$insert_trabalho_db['id_curso']  = $this->tratar_curso($insert_trabalho_db['id_curso']);
+		$insert_trabalho_db['id_campus'] = $this->tratar_campus($insert_trabalho_db['id_campus']);
+
+		$retorno_trabalho = $this->model->insert('trabalho', $insert_trabalho_db);
+
+		if(!empty($retorno_trabalho['status'])){
+			$retorno_trabalho = ['id' => $retorno_trabalho['id']];
+			$retorno_trabalho += $insert_trabalho_db;
+
+			$url = new URL;
+			$url->setId($retorno_trabalho['id'])
+				->setUrl($insert_trabalho_db['titulo'])
+				->setController($this->modulo['modulo'])
+				->cadastrarUrlAmigavel();
+
+
+			// ::cadastrar_url_amigavel($this->modulo['modulo'], $insert_trabalho_db['titulo'], $retorno_trabalho['id']);
+
+		debug2($trabalho);
+		debug2($retorno_trabalho);
+		exit;
+
+			return $retorno['id'];
+		}
+
+
+		debug2($_POST);
+		exit;
+
+		// $this->model->insert('trabalho', )
+$this->model->insert($this->modulo['modulo'], carregar_variavel($this->modulo['modulo']));
+
+	}
+	private function tratar_curso($curso){
+		if(is_numeric($curso)){
+			return $curso;
+		}
+
+		$insert_db['curso'] = $curso;
+
+		$retorno = $this->model->insert('curso', $insert_db);
+
+		if(!empty($retorno['status'])){
+			return $retorno['id'];
+		}
+	}
+
+	private function tratar_campus($campus){
+		if(is_numeric($campus)){
+			return $campus;
+		}
+
+		$insert_db['campus'] = $campus;
+
+		$retorno = $this->model->insert('campus', $insert_db);
+
+		if(!empty($retorno['status'])){
+			return $retorno['id'];
+		}
+	}
+
+
 }

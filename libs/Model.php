@@ -14,15 +14,7 @@ abstract class Model {
 		return $this->query;
 	}
 
-	public function create($table, $data){
-		$data += [
-			'ativo' => 1,
-		];
-
-		return $this->get_insert($table, $data);
-	}
-
-	public function get_insert($table, $data) {
+	public function insert($table, array $data){
 		return $this->db->insert($table, $data);
 	}
 
