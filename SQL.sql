@@ -149,15 +149,14 @@ CREATE TABLE `trabalho` (
 	`titulo`        TEXT 			NOT NULL,
 	`ano`           INT(4) 			NOT NULL,
 	`resumo`        TEXT 			NOT NULL,
-	`link_trabalho` TEXT 			NULL,
-	`id_arquivo`    INT(11) 		NULL,
-	`id_idioma`     INT(11) 		NOT NULL,
-	`id_autor`      INT(11) 		NOT NULL,
+	`id_idioma`     INT(11) 		NULL,
+	`id_curso`     	INT(11) 		NOT NULL,
+	`id_campus`     INT(11) 		NOT NULL,
 	`ativo`        	TINYINT(1) 		NOT NULL DEFAULT '1',
 	PRIMARY        KEY (`id`),
-	FOREIGN        KEY (`id_arquivo`) 	REFERENCES `arquivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	FOREIGN        KEY (`id_idioma`) 	REFERENCES `idioma` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	FOREIGN        KEY (`id_autor`) 	REFERENCES `autor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+	FOREIGN        KEY (`id_curso`) 	REFERENCES `curso` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN        KEY (`id_campus`) 	REFERENCES `campus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
 
@@ -252,3 +251,11 @@ CREATE TABLE `campus` (
 	PRIMARY         KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
+CREATE TABLE `url` (
+  `id`            int(11) 		NOT NULL AUTO_INCREMENT,
+  `url`			  varchar(512)  NOT NULL UNIQUE,
+  `id_controller` int(11) 		NULL,
+  `controller`    varchar(256) 	NOT NULL,
+  `ativo`         tinyint(1) 	NOT NULL DEFAULT '1',
+  PRIMARY         KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

@@ -69,16 +69,9 @@ class Hierarquia extends \Libs\ControllerCrud {
 
 		$insert_db = ['nome' => carregar_variavel($this->modulo['modulo'])];
 
-		$retorno   = $this->model->create($this->modulo['modulo'], $insert_db);
+		$retorno   = $this->model->insert($this->modulo['modulo'], $insert_db);
 
 		if($retorno['status']){
-<<<<<<< HEAD
-			foreach (carregar_variavel('hierarquia_relaciona_permissao') as $indice => $permissao) {
-					$insert_permissao = [
-						'id_hierarquia' => $retorno['id'],
-						'id_permissao' => $permissao
-					];
-=======
 			$hierarquia_relaciona_permissao = carregar_variavel('hierarquia_relaciona_permissao');
 
 			if(isset($hierarquia_relaciona_permissao) && !empty(carregar_variavel('hierarquia_relaciona_permissao'))){
@@ -87,11 +80,11 @@ class Hierarquia extends \Libs\ControllerCrud {
 							'id_hierarquia' => $retorno['id'],
 							'id_permissao' => $permissao
 						];
->>>>>>> d895410... DEV - SWDB * ajuste final em todos os modulos na nova estrutura * incremento na abstração do carregamento do datatable!
 
-				$retorno_permissoes[] = $this->model->create('hierarquia_relaciona_permissao', $insert_permissao);
-				unset($insert_permissao);
+					$retorno_permissoes[] = $this->model->insert('hierarquia_relaciona_permissao', $insert_permissao);
+					unset($insert_permissao);
 
+				}
 			}
 		}
 
@@ -118,7 +111,7 @@ class Hierarquia extends \Libs\ControllerCrud {
 					'id_permissao' => $permissao
 				];
 
-				$retorno_permissoes[] = $this->model->create('hierarquia_relaciona_permissao', $insert_permissao);
+				$retorno_permissoes[] = $this->model->insert('hierarquia_relaciona_permissao', $insert_permissao);
 				unset($insert_permissao);
 			}
 		}
@@ -127,6 +120,8 @@ class Hierarquia extends \Libs\ControllerCrud {
 			$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');
 
 			unset($_SESSION['permissoes']);
+
+				$hierarquia = empty($_SESSION['usuario']['hierarquia']) ? 'NULL' : $_SESSION['usuario']['hierarquia'];
 
 				$select = 'SELECT hierarquia.id as id_hierarquia, hierarquia.nome,'
 					. ' relacao.id as id_relacao,'
@@ -139,17 +134,17 @@ class Hierarquia extends \Libs\ControllerCrud {
 					. ' ON permissao.id = relacao.id_permissao'
 					. ' LEFT JOIN modulo modulo'
 					. ' ON modulo.id = permissao.id_modulo'
-					. ' WHERE hierarquia.id = ' . $_SESSION['usuario']['hierarquia'];
+					. ' WHERE hierarquia.id = ' . $hierarquia;
 
 				$permissoes = $this->model->db->select($select);
 
-				foreach($permissoes as $indice => $permissao){
-					$retorno_permissoes[$permissao['modulo']][$permissao['permissao']] = $permissao;
+				if(!empty($permissoes)){
+					foreach($permissoes as $indice => $permissao){
+						$retorno_permissoes[$permissao['modulo']][$permissao['permissao']] = $permissao;
+					}
+
+					\Libs\Session::set('permissoes', $retorno_permissoes);
 				}
-
-
-
-			\Libs\Session::set('permissoes', $retorno_permissoes);
 
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');

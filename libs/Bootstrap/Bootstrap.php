@@ -5,6 +5,24 @@ namespace Libs\Bootstrap;
 * classe Bootstrap
 */
 class Bootstrap {
+	private function load_friendly_url($url){
+	    $pdo = new \PDO('mysql:dbname=' . DB_NAME . ";host=" . DB_HOST, DB_USER, DB_PASS);
+	    $sql = $pdo->prepare("SELECT controller, id_controller FROM `url` WHERE controller = '{$url[0]}' AND url = '{$url[1]}' AND ativo = 1");
+		$sql->execute();
+
+		$retorno = $sql->fetchAll(\PDO::FETCH_NUM);
+
+		if(!empty($retorno)){
+			$url = [
+				$retorno[0][0],
+				'visualizar',
+				$retorno[0][1],
+			];
+		}
+
+		return $url;
+	}
+
 	function __construct() {
 		$url = $this->get_url();
 
@@ -16,6 +34,8 @@ class Bootstrap {
 			return false;
 		}
 
+		$url = $this->load_friendly_url($url);
+
 		$amp = $this->identificar_arquivo_metodo_parametro($url);
 
 		if(file_exists($amp['arquivo'])) {
@@ -24,6 +44,8 @@ class Bootstrap {
 			$this->error();
 			exit();
 		}
+
+		$this->load_friendly_url(strtolower($amp['classe']), $amp['metodo']);
 
 		$instancia_controller = '\\Controller\\' . ucfirst($amp['classe']);
 		$_SESSION['modulo_ativo'] = strtolower($amp['classe']);
@@ -37,6 +59,8 @@ class Bootstrap {
 		if(method_exists($controller, $amp['metodo'])) {
 			$controller->{$amp['metodo']}(!empty($amp['parametros']) ? $amp['parametros'] : null);
 		}
+
+
 
 		$controller->index();
 	}

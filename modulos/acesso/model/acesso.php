@@ -21,7 +21,6 @@ class Acesso extends \Libs\Model {
 	}
 
 	public function run_back($acesso) {
-
 		\Libs\Session::init();
 
 		$this->sign_in($acesso);
@@ -39,28 +38,24 @@ class Acesso extends \Libs\Model {
 	}
 
 	private function sign_in($acesso){
-		$sth = $this->db->prepare("SELECT * FROM usuario WHERE
-			email = :email AND senha = :senha");
+		$usuario = $this->query
+			->select('usuario.*')
+			->from('usuario usuario')
+			->where("usuario.email = '{$acesso['email']}'")
+			->where("usuario.senha = '{$acesso['senha']}'")
+			->where("usuario.ativo = 1")
+			->fetchArray()[0];
 
-		$sth->execute(array(
-			':email' => $acesso['email'],
-			// ':senha' => \Libs\Hash::create('sha256', $_POST['senha'], HASH_PASSWORD_KEY)
-			':senha' => $acesso['senha']
-		));
-
-		$data = $sth->fetch();
-		$count = $sth->rowCount();
-
-		if(isset($data) && !empty($data) && $count > 0 && $data !== false) {
-			$user = [
-				'id'          => $data['id'],
-				'nome'        => $data['email'],
-				'hierarquia'  => $data['hierarquia'],
-				'super_admin' => $data['super_admin']
+		if(isset($usuario) && !empty($usuario) && count($usuario) > 0 && $usuario !== false){
+			$usuario = [
+				'id'          => $usuario['id'],
+				'nome'        => $usuario['email'],
+				'hierarquia'  => $usuario['hierarquia'],
+				'super_admin' => $usuario['super_admin']
 			];
 
 			\Libs\Session::set('logado', true);
-			\Libs\Session::set('usuario', $user);
+			\Libs\Session::set('usuario', $usuario);
 		}
 	}
 

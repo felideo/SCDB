@@ -48,7 +48,7 @@ class ControllerCrud extends \Libs\Controller {
 		\Util\Auth::handLeLoggin();
 		\Util\Permission::check($this->modulo['modulo'], "criar");
 
-		$retorno = $this->model->create($this->modulo['modulo'], carregar_variavel($this->modulo['modulo']));
+		$retorno = $this->model->insert($this->modulo['modulo'], carregar_variavel($this->modulo['modulo']));
 
 		if($retorno['status']){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' cadastrado com sucesso!!!', 'sucesso');
