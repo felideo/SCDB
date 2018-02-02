@@ -18,7 +18,7 @@ class Acesso extends \Libs\Controller {
 		$this->view->render('front/cabecalho_rodape', 'front/acesso/login/login');
 	}
 
-	public function admin() {
+	public function admin($parametros){
 		$this->view->render('back/cabecalho_rodape', $this->modulo['modulo'] . '/view/back/login');
 	}
 
@@ -58,7 +58,7 @@ class Acesso extends \Libs\Controller {
 			'senha'      => $usuario['senha']
 		];
 
-		$retorno_usuario = $this->model->create('usuario', $insert_db);
+		$retorno_usuario = $this->model->insert('usuario', $insert_db);
 
 		if($retorno_usuario['status'] == 1 && !empty($retorno_usuario['id'])){
 			unset($insert_db);
@@ -71,7 +71,7 @@ class Acesso extends \Libs\Controller {
 				'instituicao' => $usuario['instituicao']
 			];
 
-			$retorno_pessoa = $this->model->create('pessoa', $insert_db);
+			$retorno_pessoa = $this->model->insert('pessoa', $insert_db);
 		}
 
 		if($retorno_usuario['status'] == 1 && $retorno_pessoa['status'] == 1 && !empty($retorno_usuario) && !empty($retorno_pessoa)){

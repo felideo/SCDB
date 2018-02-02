@@ -201,7 +201,7 @@ class Modulo extends \Libs\ControllerCrud {
 			$insert_db['id_submenu'] = NULL;
 		}
 
-		$retorno = $this->model->create($this->modulo['modulo'], $insert_db);
+		$retorno = $this->model->insert($this->modulo['modulo'], $insert_db);
 
 		if($retorno['status']){
 			$retorno_permissoes = $this->model->permissoes_basicas($insert_db['modulo'], $retorno['id']);

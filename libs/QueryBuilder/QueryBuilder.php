@@ -1,102 +1,136 @@
 <?php
-namespace Libs\QueryBuilder;
+namespace  Libs\QueryBuilder;
 
-class QueryBuilder {
+// colocar comentado no sql em qual local do php esta sendo rodada a query!!!
+
+class QueryBuilder{
+
 	private $db;
 	private $select;
-	private $from;
 	private $query;
 	private $where          = [];
-	private $leftJoin       = [];
-	private $rightJoin      = [];
-	private $innerJoin      = [];
 	private $tables_x_alias = [];
 	private $join_on        = [];
+	private $first;
+	private $parametros = [];
 
-	public function __construct(){
-		$this->db = new \Libs\Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
-		set_time_limit (36000);
+
+	public function __construct($db){
+		$this->db = $db;
 	}
 
 	public function select($select){
-		$select = explode(',', str_replace(' ', '', str_replace("\t", '', str_replace("\n", '', $select))));
+		$select = trim(str_replace(' ', '', str_replace("\t", '', str_replace("\n", '', preg_replace('!\s+!', ' ', $select)))));
 
-		foreach ($select as $indice => $item) {
-			$item = explode('.', $item);
+		if(substr($select, -1) == ','){
+			$select = substr($select, 0, -1);
+		}
 
-			if(!isset($item[1]) || $item[1] == '*'){
-				$selects = $this->try_get_select_columns($item[0]);
+		$select = explode(',', $select);
 
-				if(!empty($selects)){
-					$select = $this->process_select_all($item[0], $selects);
-				}
 
+
+		foreach ($select as &$item) {
+			$table_column = explode('.', $item);
+
+			if(!isset($table_column[1])){
+				$item = $table_column[0];
+				$this->tables_get_primary[$table_column[0]] = 'from';
 				continue;
 			}
 
-			$select[] = $item[0] . '.' . $item[1] . ' AS ' . $item[0] . '__' . $item[1];
-			$tables[$item[0]] = $item[0];
+			if($table_column[1] == '*'){
+				$item = $table_column[0] . '.' . $table_column[1];
+				$this->tables_get_primary[$table_column[0]] = $table_column[0];
+				continue;
+			}
+
+			$item = $table_column[0] . '.' . $table_column[1] . ' AS ' . $table_column[0] . '__' . $table_column[1];
+			$this->tables_get_primary[$table_column[0]] = $table_column[0];
 		}
 
-		foreach ($tables as $indice => $item) {
-			$select[] = $item . '.id AS ' . $item . '__' . 'id';
-		}
+		$this->parametros['select'] = $select;
 
-		$this->select = implode(', ', $select);
+		return $this;
+	}
 
-		if(substr($this->select, -2) == ', '){
-			$this->select = substr($this->select, 0, -2);
-		}
+	public function orderBy($order_by){
+		$this->parametros['order_by'] = $order_by;
+		return $this;
+	}
 
+	public function whereIn($where_in){
+		$this->parametros['where_in'][] = $where_in;
+		return $this;
+	}
+
+	public function limit($limit){
+		$this->parametros['limit'] = $limit;
 		return $this;
 	}
 
 	public function from($from){
 		$this->find_tables_name($from);
-		$this->from = explode(' ', $from);
+		$this->parametros['from'] = explode(' ', $from);
 
-		$this->join_on[$this->from[0]] = [
+		$this->join_on[$this->parametros['from'][1]] = [
 			'from_table' => 0,
-			'table'      => explode(' ', $from)[0],
-			'primary'    => $this->db->select("SHOW KEYS FROM {$this->tables_x_alias[$this->from[0]]} WHERE Key_name = 'PRIMARY'")[0]['Column_name']
+			'table'      => explode(' ', $from)[1],
+			'primary'    => $this->execute_sql_query("SHOW KEYS FROM {$this->parametros['from'][0]} WHERE Key_name = 'PRIMARY'")[0]['Column_name']
 		];
 
 		return $this;
 	}
 
-	public function where($where){
-		$this->where[] = $where;
+	public function groupBy($group_by){
+		$this->parametros['group_by'] = $group_by;
+		return $this;
+	}
+
+	public function where($where, $and_or = null){
+		if(empty($and_or) || ($and_or != 'AND' && $and_or != 'and' && $and_or != 'OR' && $and_or != 'or')){
+			$and_or = 'AND';
+		}
+
+		$this->parametros['where'][] = [
+			$where,
+			strtoupper($and_or)
+		];
+
 		return $this;
 	}
 
 	public function leftJoin($leftJoin){
 		$this->find_tables_name($leftJoin);
 		$this->find_join_on($leftJoin);
-		$this->leftJoin[] = $leftJoin;
+		$this->parametros['left_join'][] = $leftJoin;
 		return $this;
 	}
 
 	public function rightJoin($rightJoin){
 		$this->find_tables_name($rightJoin);
 		$this->find_join_on($rightJoin);
-		$this->rightJoin[] = $rightJoin;
+		$this->parametros['right_join'][] = $rightJoin;
 		return $this;
 	}
 
 	public function innerJoin($innerJoin){
 		$this->find_tables_name($innerJoin);
 		$this->find_join_on($innerJoin);
-		$this->innerJoin[] = $innerJoin;
+		$this->parametros['inner_join'][] = $innerJoin;
+		return $this;
+	}
+
+	public function offset($offset){
+		$this->parametros['offset'] = $offset;
 		return $this;
 	}
 
 	public function fetchArray($first = null){
-		$retorno =  $this->db->select($this->get_query());
+		$this->first = $first;
+		$retorno =  $this->execute_sql_query($this->getQuery());
 
 		if($first == 'first'){
-<<<<<<< HEAD
-			return $this->convert_to_tree($retorno)[0];
-=======
 			return $this->convert_to_tree($retorno);
 		}
 
@@ -131,54 +165,166 @@ class QueryBuilder {
 				'error' => $retorno[2],
 				'backtrace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
 			];
->>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
 		}
 
-		return $this->convert_to_tree($retorno);;
+		return $sth->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
-	public function get_query(){
+	public function getQuery(){
 		$this->build_query();
+
+
+
 		return $this->query;
 	}
 
 	private function build_query(){
+		foreach ($this->join_on as $table) {
+			$this->parametros['select'][] = $table['table'] . '.' . $table['primary'] . ' AS ' . $table['table'] . '__' . $table['primary'];
+		}
+
+		$merge = [];
+
+		foreach ($this->parametros['select'] as $indice => $select){
+			if(!stristr($select, '*')){
+				continue;
+			}
+
+			$select_porra_toda = $this->try_get_select_columns($this->tables_x_alias[explode('.', $select)[0]]);
+
+			if(!empty($select_porra_toda)){
+				$this->process_select_all(explode('.', $select)[0], $select_porra_toda);
+				unset($this->parametros['select'][$indice]);
+			}
+
+			$merge = array_merge($merge, $select_porra_toda);
+		}
+
+		$this->parametros['select'] = array_merge($this->parametros['select'], $merge);
+		$this->parametros['select'] = array_unique($this->parametros['select']);
+
+		$this->select = trim(str_replace("\t", '', str_replace("\n", '', preg_replace('!\s+!', ' ', implode(', ', $this->parametros['select'])))));
+
+		if(substr($this->select, -1) == ','){
+			$this->select = substr($this->select, 0, -1);
+		}
+
 		if(!empty($this->select)){
 			$this->query = 'SELECT ' . $this->select;
 		}
 
-		if(!empty($this->from)){
-			$this->query .= " \nFROM " . $this->from[0] . ' ' . $this->from[1];
+		if(!empty($this->parametros['from'])){
+			$this->query .= " \nFROM " . $this->parametros['from'][0] . ' ' . $this->parametros['from'][1];
 		}
 
-		if(!empty($this->leftJoin)){
-			$this->query .= " \nLEFT JOIN " . implode(" \nLEFT JOIN ", $this->leftJoin);
+		if(!empty($this->parametros['left_join'])){
+			$this->query .= " \nLEFT JOIN " . implode(" \nLEFT JOIN ", $this->parametros['left_join']);
 		}
 
-		if(!empty($this->rightJoin)){
-			$this->query .= " \nRIGHT JOIN " . implode(" \nRIGHT JOIN ", $this->rightJoin);
+		if(!empty($this->parametros['right_join'])){
+			$this->query .= " \nRIGHT JOIN " . implode(" \nRIGHT JOIN ", $this->parametros['right_join']);
 		}
 
-<<<<<<< HEAD
-		if(!empty($this->innerJoin)){
-			$this->query .= " \nINNER JOIN " . implode(" \nINNER JOIN ", $this->innerJoin);
-=======
+		if(!empty($this->parametros['inner_join'])){
+			$this->query .= " \nINNER JOIN " . implode(" \nINNER JOIN ", $this->parametros['inner_join']);
+		}
+
+		if(!empty($this->parametros['where'])){
+
+			$this->query .= " \nWHERE " . $this->parametros['where'][0][0];
+
+			foreach ($this->parametros['where'] as $indice => $where) {
+				if($indice == 0){
+					continue;
+				}
+
+				$this->query .= ' ' . $where[1] . ' ' . $where[0];
+			}
+		}
+
+		if(!empty($this->parametros['where_in']) && !empty($this->parametros['where'])){
+			$this->query .= " \nAND " . implode(' AND ', $this->parametros['where_in']);
+		}elseif(!empty($this->parametros['where_in']) && empty($this->parametros['where'])){
+			$this->query .= " \nWHERE " . implode(' AND ', $this->parametros['where_in']);
+		}
+
+		if(!empty($this->parametros['order_by'])){
+			$this->query .= " \nORDER BY " . $this->parametros['order_by'];
+		}
+
+		if(!empty($this->parametros['group_by'])){
+			$this->query .= " \nGROUP BY " . $this->parametros['group_by'];
+		}
+
 
 		if(!empty($this->first)){
 			$this->query .= " \nLIMIT 1";
 		}elseif(!empty($this->parametros['limit'])){
 			$this->query .= " \nLIMIT " . $this->parametros['limit'];
->>>>>>> d895410... DEV - SWDB * ajuste final em todos os modulos na nova estrutura * incremento na abstração do carregamento do datatable!
 		}
 
-		if(!empty($this->where)){
-			$this->query .= " \nWHERE " . implode(' AND ', $this->where);
+
+// 	if(!empty($this->parametros['limit'])){
+// 			$limit = [];
+
+// 			// debug2($this->parametros['where']);
+
+// 			foreach ($this->parametros['where'] as $select){
+// 				$original_from = strpos($select[0], $this->parametros['from'][1]);
+
+// 				if(!empty($original_from) || $original_from == 0){
+// 					$limit[] = $select[0];
+// 				}
+
+// 			}
+// 				// debug2($this->join_on[$this->parametros['from'][1]]);
+
+// 				$query_limit = 'SELECT ' . $this->parametros['from'][1] . '.' . $this->join_on[$this->parametros['from'][1]]['primary']
+// 					. ' FROM ' . $this->parametros['from'][0] . ' ' . $this->parametros['from'][1]
+// 					. ' WHERE ' . implode(' AND ', $limit)
+// 					. ' LIMIT ' . $this->parametros['limit'];
+
+// 				if(isset($this->parametros['offset']) && !empty($this->parametros['offset'])){
+// 					$query_limit = ' OFFSET ' . $this->parametros['offset'];
+// 				}
+
+
+// debug2();
+
+// 				debug2($query_limit);
+// 				exit;
+
+
+// 			if(!empty($this->parametros['where_in']) || !empty($this->parametros['where'])){
+// 				$this->query .= "\n AND " . $this->parametros['from'][1] . '.' . $this->join_on[$this->parametros['from'][1]]['primary'] . ' IN ';
+// 			}else{
+// 				$this->query .= "\n WHERE" . $this->parametros['from'][1] . '.' . $this->join_on[$this->parametros['from'][1]]['primary'] . ' IN ';
+// 			}
+
+// 			 $this->query .= $query_limit;
+
+// 			// debug2($query_limit);
+// 			// debug2($limit);
+
+// 		// debug2($this->query);
+
+// 		// debug2($this->parametros);
+// 		// exit;
+// 		}
+
+
+		if(!empty($this->parametros['offset']) && empty($this->first)){
+			$this->query .= " \nOFFSET " . $this->parametros['offset'];
 		}
 	}
 
 	private function convert_to_tree($query){
 		if(empty($query)){
-			return ['Nenhum resultado ou erro na query'];
+			return null;
+		}
+
+		if(isset($query['error']) && !empty($query['error'])){
+			return $query;
 		}
 
 		$this->get_height_nodes();
@@ -193,32 +339,63 @@ class QueryBuilder {
 
 		$ordenado_por_tabela = [];
 
-		foreach($query as $tabela) {
-			$primary_from = $this->from[1] . '__' . $this->join_on[$this->from[1]]['primary'];
+		foreach($query as $indice_01 => $tabela) {
+			$primary_from = $this->parametros['from'][1] . '__' . $this->join_on[$this->parametros['from'][1]]['primary'];
 
 			foreach ($tabela as $indice => $coluna) {
 				$tabela_x_coluna = explode('__', $indice);
 
 				$primary = $tabela_x_coluna[0] . '__' . $this->join_on[$tabela_x_coluna[0]]['primary'];
 
+				$from_foreign_primary = $tabela[$primary_from] . '__' . $tabela[$primary];
+
 				if(!empty($this->join_on[$tabela_x_coluna[0]]['from_table'])){
 					$foreign = $this->join_on[$this->join_on[$tabela_x_coluna[0]]['from_table']]['table'] . '__' . $this->join_on[$this->join_on[$tabela_x_coluna[0]]['from_table']]['primary'];
+					$from_foreign_primary = $tabela[$primary_from] . '__' . $tabela[$foreign] .  '__' . $tabela[$primary];
+
+					$prepare_foreign_father = explode('__', $foreign)[0];
+
+
+					if(!empty($this->join_on[$prepare_foreign_father]['from_table'])){
+						$foreign_father = $this->join_on[$prepare_foreign_father]['from_table'] . '__' . $this->join_on[$this->join_on[$prepare_foreign_father]['from_table']]['primary'];
+					}
 				}
 
-				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '__' . $tabela[$primary]][$tabela_x_coluna[1]]  = $coluna;
-				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '__' . $tabela[$primary]]['join_on']            = $this->join_on[$tabela_x_coluna[0]];
-				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '__' . $tabela[$primary]]['join_on']['primary'] = $tabela[$primary];
- 				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '__' . $tabela[$primary]]['join_on']['foreign']      = isset($foreign) ? $tabela[$foreign] : null;
- 				$ordenado_por_tabela[$tabela_x_coluna[0]][$tabela[$primary_from] . '__' . $tabela[$primary]]['join_on']['primary_from'] = $tabela[$primary_from];
+				$ordenado_por_tabela[$tabela_x_coluna[0]][$from_foreign_primary][$tabela_x_coluna[1]]  = $coluna;
+				$ordenado_por_tabela[$tabela_x_coluna[0]][$from_foreign_primary]['join_on']            = $this->join_on[$tabela_x_coluna[0]];
+				$ordenado_por_tabela[$tabela_x_coluna[0]][$from_foreign_primary]['join_on']['primary'] = $tabela[$primary];
+ 				$ordenado_por_tabela[$tabela_x_coluna[0]][$from_foreign_primary]['join_on']['foreign']        = isset($foreign) ? $tabela[$foreign] : null;
+ 				$ordenado_por_tabela[$tabela_x_coluna[0]][$from_foreign_primary]['join_on']['foreign_father'] = isset($foreign_father) ? $tabela[$foreign_father] : null;
+ 				$ordenado_por_tabela[$tabela_x_coluna[0]][$from_foreign_primary]['join_on']['primary_from']   = $tabela[$primary_from];
+
+ 				unset($foreign);
+				unset($foreign_father);
+
 			}
 		}
 
-		foreach($this->join_on as $level) {
-			foreach ($ordenado_por_tabela[$level['table']] as $resultado){
+		// debug2($ordenado_por_tabela);
+		// exit;
 
-				$index = $resultado['join_on']['primary_from'] . '__' . $resultado['join_on']['foreign'];
+
+		foreach($this->join_on as $level) {
+			foreach ($ordenado_por_tabela[$level['table']] as $indice => $resultado){
+				if(!isset($resultado['join_on'])){
+					continue;
+				}
+
+				$index = $resultado['join_on']['primary_from'];
+
+				if(!empty($resultado['join_on']['foreign_father'])){
+					$index .= '__' . $resultado['join_on']['foreign_father'];
+				}
+
+				if(!empty($resultado['join_on']['foreign'])){
+					$index .= '__' . $resultado['join_on']['foreign'];
+				}
 
 				$tabela_join = $resultado['join_on']['table'];
+
 				unset($resultado['join_on']);
 
 				$ordenado_por_tabela[$level['from_table']][$index][$tabela_join][] = $resultado;
@@ -232,7 +409,7 @@ class QueryBuilder {
 		$retorno = [];
 
 		foreach (array_values($ordenado_por_tabela[0]) as $resultado){
-			$retorno[] = $resultado[$this->from[0]][0];
+			$retorno[] = $resultado[$this->parametros['from'][0]][0];
 		}
 
 		return $retorno;
@@ -304,6 +481,8 @@ class QueryBuilder {
 	}
 
 	private function try_get_select_columns($table){
+		// debug2($table);
+
 		$columns = $this->get_columns_name($table);
 		if (!empty($columns)) {
 			$retorno = [];
@@ -319,17 +498,13 @@ class QueryBuilder {
 
 	private function get_columns_name($table){
 
-		return $this->db->select("SELECT column_name FROM information_schema.columns WHERE table_name = '{$table}'");
+		return $this->execute_sql_query("SELECT column_name FROM information_schema.columns WHERE table_name = '{$table}'");
 	}
 
-	private function process_select_all($table, array $selects){
-		$retorno = [];
-
-		foreach ($selects as $select) {
-			$retorno[] = $table . '.' . $select . ' AS ' . $table . '__' . $select;
+	private function process_select_all($table, &$selects){
+		foreach ($selects as &$select) {
+			$select = $table . '.' . $select . ' AS ' . $table . '__' . $select;
 		}
-
-		return $retorno;
 	}
 
 	private function find_tables_name($join){
@@ -348,7 +523,7 @@ class QueryBuilder {
 		$this->join_on[$join_table] = [
 			'from_table' => $from_table,
 			'table'      => $join_table,
-			'primary'    => $this->db->select("SHOW KEYS FROM {$this->tables_x_alias[$join_table]} WHERE Key_name = 'PRIMARY'")[0]['Column_name']
+			'primary'    => $this->execute_sql_query("SHOW KEYS FROM {$this->tables_x_alias[$join_table]} WHERE Key_name = 'PRIMARY'")[0]['Column_name']
 		];
 	}
 
@@ -379,5 +554,5 @@ class QueryBuilder {
 
 	    return $novo_array;
 	}
-}
 
+}

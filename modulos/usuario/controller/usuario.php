@@ -61,7 +61,7 @@ class Usuario extends \Libs\ControllerCrud {
 			"senha" => \Util\Hash::get_unic_hash()
 		];
 
-		$retorno = $this->model->create('usuario', $insert_db);
+		$retorno = $this->model->insert('usuario', $insert_db);
 
 
 		if($retorno['status']){
