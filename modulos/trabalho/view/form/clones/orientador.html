@@ -23,19 +23,17 @@
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Orientador</label>
 			    <br>
-			    <input id="orientador_$id_clone_orientador" class="clone_orientador_select_2_$id_clone_orientador" type="text" name="{$modulo.modulo}[orientador][$id_clone_orientador]" style="width: 100%;" disabled>
+			    <input id="orientador_$id_clone_orientador" class="clone_orientador_select_2_$id_clone_orientador" type="text" name="{$modulo.modulo}[orientador][$id_clone_orientador][orientador]" style="width: 100%;" disabled>
 			</div>
 
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Lattes/Site</label>
-			    <p id="link_orientador_div"></p>
-			    <input id="link_$id_clone_orientador" type="text" class="form-control" name="{$modulo.modulo}[site][$id_clone_orientador]" value="" disabled>
+			    <input id="link_orientador_$id_clone_orientador" type="text" class="form-control" name="{$modulo.modulo}[orientador][$id_clone_orientador][site]" value="" disabled>
 			</div>
 
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Email</label>
-			    <p id="email_orientador_div"></p>
-			    <input id="email_$id_clone_orientador" type="text" class="form-control" name="{$modulo.modulo}[site][$id_clone_orientador]" value="" disabled>
+			    <input id="email_orientador_$id_clone_orientador" type="text" class="form-control" name="{$modulo.modulo}[orientador][$id_clone_orientador][email]" value="" disabled>
 			</div>
 		</div>
 		<div class="panel-footer">
@@ -68,7 +66,8 @@
 	            }
             });
 
-            atualizar_clone_orientador_select_2(id_container_clone);
+        	atualizar_clone_orientador_select_2(id_container_clone);
+
         });
     });
 
@@ -96,12 +95,36 @@ function atualizar_clone_orientador_select_2(id_container_clone){
 			}
 		},
 		formatResult: function(object) {
+			console.log(object);
+
+
 			return object.nome
 		},
 		formatSelection: function(object) {
+			if(object.email != ''){
+				$('#email_orientador_' + id_container_clone).val(object.email);
+			}else{
+				$('#email_orientador_' + id_container_clone).html('Não cadastrado.');
+			}
+
+			if(object.link != ''){
+				$('#link_orientador_' + id_container_clone).val(object.link);
+			}else{
+				$('#link_orientador_' + id_container_clone).html('Não cadastrado.');
+			}
+
+
+
+			if($.isNumeric(object.id)) {
+				$('#email_orientador_' + id_container_clone).attr('readonly', true);
+				$('#link_orientador_' + id_container_clone).attr('readonly', true);
+			}else{
+				$('#email_orientador_' + id_container_clone).removeAttr('readonly');
+				$('#link_orientador_' + id_container_clone).removeAttr('readonly');
+			}
+
 			return object.nome.replace_all('Cadastrar ', '')
 		}
 	});
 }
-
 </script>
