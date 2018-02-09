@@ -63,7 +63,13 @@ class Trabalho extends \Libs\ControllerCrud {
 	}
 
 	public function create(){
-		$trabalho           = carregar_variavel('trabalho');
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "criar");
+
+		$trabalho = carregar_variavel('trabalho');
+
+		debug2($trabalho);
+		exit;
 
 		$insert_trabalho_db              = $trabalho['trabalho'];
 		$insert_trabalho_db['id_curso']  = $this->tratar_curso($insert_trabalho_db['id_curso']);
@@ -97,7 +103,7 @@ class Trabalho extends \Libs\ControllerCrud {
 		exit;
 
 		// $this->model->insert('trabalho', )
-$this->model->insert($this->modulo['modulo'], carregar_variavel($this->modulo['modulo']));
+		$this->model->insert($this->modulo['modulo'], carregar_variavel($this->modulo['modulo']));
 
 	}
 	private function tratar_curso($curso){
@@ -111,6 +117,8 @@ $this->model->insert($this->modulo['modulo'], carregar_variavel($this->modulo['m
 
 		if(!empty($retorno['status'])){
 			return $retorno['id'];
+		}else{
+			$this->view->warning_js('Ocorreu um erro ao cadastrar o curso. Por favor edite o trabalho para corrigir', 'erro');
 		}
 	}
 
@@ -125,6 +133,8 @@ $this->model->insert($this->modulo['modulo'], carregar_variavel($this->modulo['m
 
 		if(!empty($retorno['status'])){
 			return $retorno['id'];
+		}else{
+			$this->view->warning_js('Ocorreu um erro ao cadastrar o campus. Por favor edite o trabalho para corrigir', 'erro');
 		}
 	}
 

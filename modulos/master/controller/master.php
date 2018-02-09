@@ -24,4 +24,10 @@ class Master extends \Libs\Controller {
 		echo json_encode("Alertas limpos");
 		exit;
 	}
+
+	function limpar_notificacoes_ajax(){
+		unset($_SESSION['notificacoes']);
+		echo json_encode("Notificacoes limpas");
+		exit;
+	}
 }
