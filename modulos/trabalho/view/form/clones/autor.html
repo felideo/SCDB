@@ -23,7 +23,7 @@
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Autor</label>
 			    <br>
-			    <input id="autor_$id_clone_autor" class="clone_autor_select_2_$id_clone_autor" type="text" name="{$modulo.modulo}[autor][$id_clone_autor][autor]" style="width: 100%;" disabled>
+			    <input id="autor_$id_clone_autor" class="clone_autor_select_2_$id_clone_autor" type="text" name="{$modulo.modulo}[autor][$id_clone_autor][autor]" style="width: 100%;" required disabled>
 			</div>
 
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -33,7 +33,7 @@
 
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Email</label>
-			    <input id="email__autor_$id_clone_autor" type="text" class="form-control" name="{$modulo.modulo}[autor][$id_clone_autor][email]" value="" disabled>
+			    <input id="email__autor_$id_clone_autor" type="text" class="form-control validar_email" name="{$modulo.modulo}[autor][$id_clone_autor][email]" value="" disabled>
 			</div>
 		</div>
 		<div class="panel-footer">
@@ -124,6 +124,17 @@ function atualizar_clone_autor_select_2(id_container_clone){
 			}
 
 			return object.nome.replace_all('Cadastrar ', '')
+		}
+	});
+
+	$('.validar_email').change(function(){
+		if($('.validar_email').val() == ''){
+			return false;
+		}
+
+		if (!validar_email($('.validar_email').val())) {
+			swal("Erro", "Digite um email válido!", "error");
+			$('.validar_email').val('');
 		}
 	});
 }

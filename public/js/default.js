@@ -47,7 +47,16 @@ function limpar_alertas_ajax(){
         success: function(retorno){
             console.log(retorno);
         }
-    })
+    });
+}
+
+function limpar_notificacoes_ajax(){
+    $.ajax({
+        url: '/master/limpar_notificacoes_ajax',
+        success: function(retorno){
+            console.log(retorno);
+        }
+    });
 }
 
 

@@ -23,7 +23,7 @@
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Orientador</label>
 			    <br>
-			    <input id="orientador_$id_clone_orientador" class="clone_orientador_select_2_$id_clone_orientador" type="text" name="{$modulo.modulo}[orientador][$id_clone_orientador][orientador]" style="width: 100%;" disabled>
+			    <input id="orientador_$id_clone_orientador" class="clone_orientador_select_2_$id_clone_orientador" type="text" name="{$modulo.modulo}[orientador][$id_clone_orientador][orientador]" style="width: 100%;" required disabled>
 			</div>
 
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -33,7 +33,7 @@
 
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Email</label>
-			    <input id="email_orientador_$id_clone_orientador" type="text" class="form-control" name="{$modulo.modulo}[orientador][$id_clone_orientador][email]" value="" disabled>
+			    <input id="email_orientador_$id_clone_orientador" type="text" class="form-control validar_email" name="{$modulo.modulo}[orientador][$id_clone_orientador][email]" value="" disabled>
 			</div>
 		</div>
 		<div class="panel-footer">
@@ -124,6 +124,17 @@ function atualizar_clone_orientador_select_2(id_container_clone){
 			}
 
 			return object.nome.replace_all('Cadastrar ', '')
+		}
+	});
+
+	$('.validar_email').change(function(){
+		if($('.validar_email').val() == ''){
+			return false;
+		}
+
+		if (!validar_email($('.validar_email').val())) {
+			swal("Erro", "Digite um email válido!", "error");
+			$('.validar_email').val('');
 		}
 	});
 }
