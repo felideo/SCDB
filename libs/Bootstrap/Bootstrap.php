@@ -6,6 +6,10 @@ namespace Libs\Bootstrap;
 */
 class Bootstrap {
 	private function load_friendly_url($url){
+		if(!isset($url[1])){
+			return $url;
+		}
+
 	    $pdo = new \PDO('mysql:dbname=' . DB_NAME . ";host=" . DB_HOST, DB_USER, DB_PASS);
 	    $sql = $pdo->prepare("SELECT controller, id_controller FROM `url` WHERE controller = '{$url[0]}' AND url = '{$url[1]}' AND ativo = 1");
 		$sql->execute();
