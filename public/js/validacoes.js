@@ -60,6 +60,15 @@ $(document).ready(function(){
 		}
 	});
 
+    $('.somente_minusculas').change(function(){
+        $(this).val($(this).val().toLowerCase());
+    });
+
+    $('.somente_minusculas').change(function(){
+        $(this).val($(this).val().toLowerCase());
+    });
+
+
 	$(".somente_numeros").keydown(function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
@@ -145,6 +154,7 @@ $(document).ready(function(){
 
     $(".embelezar_string").change(function(){
         var string = $(this).val();
+        console.log(string);
         var palavras = string.split(" ");
         var retorno = "";
 

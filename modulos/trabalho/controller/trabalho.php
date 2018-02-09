@@ -71,12 +71,13 @@ class Trabalho extends \Libs\ControllerCrud {
 
 		$retorno_trabalho = $this->model->insert('trabalho', $insert_trabalho_db);
 
+		debug2($retorno_trabalho);
 		if(!empty($retorno_trabalho['status'])){
 			$retorno_trabalho = ['id' => $retorno_trabalho['id']];
 			$retorno_trabalho += $insert_trabalho_db;
 
 			$url = new URL;
-			$url->setId($retorno_trabalho['id'])
+			$retorno_url = $url->setId($retorno_trabalho['id'])
 				->setUrl($insert_trabalho_db['titulo'])
 				->setController($this->modulo['modulo'])
 				->cadastrarUrlAmigavel();
@@ -85,7 +86,7 @@ class Trabalho extends \Libs\ControllerCrud {
 			// ::cadastrar_url_amigavel($this->modulo['modulo'], $insert_trabalho_db['titulo'], $retorno_trabalho['id']);
 
 		debug2($trabalho);
-		debug2($retorno_trabalho);
+		debug2($retorno_url);
 		exit;
 
 			return $retorno['id'];

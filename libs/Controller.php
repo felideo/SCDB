@@ -35,6 +35,7 @@ abstract class Controller {
 		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id} AND ativo = 1"))){
 			$this->view->alert_js(ucfirst($this->modulo['send']) . ' não existe...', 'erro');
 			header('location: /' . $this->modulo['modulo']);
+			exit;
 		}
 	}
 
