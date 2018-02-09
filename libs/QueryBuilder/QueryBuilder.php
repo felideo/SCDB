@@ -128,6 +128,7 @@ class QueryBuilder{
 
 	public function fetchArray($first = null){
 		$this->first = $first;
+
 		$retorno =  $this->execute_sql_query($this->getQuery());
 
 		if($first == 'first'){
@@ -481,8 +482,6 @@ class QueryBuilder{
 	}
 
 	private function try_get_select_columns($table){
-		// debug2($table);
-
 		$columns = $this->get_columns_name($table);
 		if (!empty($columns)) {
 			$retorno = [];
@@ -497,8 +496,7 @@ class QueryBuilder{
 	}
 
 	private function get_columns_name($table){
-
-		return $this->execute_sql_query("SELECT column_name FROM information_schema.columns WHERE table_name = '{$table}'");
+		return $this->execute_sql_query("SELECT column_name FROM information_schema.columns WHERE table_name = '{$table}' AND TABLE_SCHEMA = '" . DB_NAME . "'");
 	}
 
 	private function process_select_all($table, &$selects){

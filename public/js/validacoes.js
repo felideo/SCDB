@@ -64,6 +64,9 @@ $(document).ready(function(){
         $(this).val($(this).val().toLowerCase());
     });
 
+    $('.somente_minusculas').change(function(){
+        $(this).val($(this).val().toLowerCase());
+    });
 
 
 	$(".somente_numeros").keydown(function (e) {
@@ -151,6 +154,7 @@ $(document).ready(function(){
 
     $(".embelezar_string").change(function(){
         var string = $(this).val();
+        console.log(string);
         var palavras = string.split(" ");
         var retorno = "";
 

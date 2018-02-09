@@ -4,14 +4,12 @@ namespace Controller;
 use Libs;
 
 class Usuario extends \Libs\ControllerCrud {
-
-
 	private $hierarquia_organizada = [];
 
 	protected $modulo = [
-		'modulo' 	=> 'usuario',
-		'name'		=> 'Usuarios',
-		'send'		=> 'Usuario'
+		'modulo' => 'usuario',
+		'name'   => 'Usuarios',
+		'send'   => 'Usuario',
 	];
 
 	protected $datatable = [
@@ -28,7 +26,6 @@ class Usuario extends \Libs\ControllerCrud {
 
 		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
-
 	}
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -53,18 +50,31 @@ class Usuario extends \Libs\ControllerCrud {
 	}
 
 	public function create(){
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar");
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "criar");
 
-		$insert_db = carregar_variavel('usuario');
+		$usuario = carregar_variavel($this->modulo['modulo']);
 
-		$insert_db += [
-			"senha" => \Util\Hash::get_unic_hash()
+		$insert_db_usuario = [
+			// "senha"   => \Util\Hash::get_unic_hash()
+			'senha'      => 12345,
+			'email'      => $usuario['usuario']['email'],
+			'hierarquia' => $usuario['usuario']['hierarquia'],
 		];
 
-		$retorno = $this->model->insert('usuario', $insert_db);
+		$retorno_usuario = $this->model->insert($this->modulo['modulo'], $insert_db_usuario);
 
+		if($retorno_usuario['status']){
+			$insert_db_pessoa = [
+				'id_usuario' => $retorno_usuario['id'],
+				'nome'       => $usuario['pessoa']['nome'],
+				'sobrenome'  => $usuario['pessoa']['sobrenome'],
+			];
 
-		if($retorno['status']){
+			$retorno_pessoa = $this->model->insert('pessoa', $insert_db_pessoa);
+		}
+
+		if($retorno_usuario['status'] && $retorno_pessoa['status']){
 			$this->view->alert_js('Cadastro efetuado com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro, por favor tente novamente...', 'erro');
@@ -115,63 +125,53 @@ class Usuario extends \Libs\ControllerCrud {
 	}
 
 	public function editar($id) {
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "editar");
 
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
-			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
-			header('location: /' . $this->modulo['modulo']);
-			exit;
-		}
+		$this->check_if_exists($id[0]);
 
-		$this->view->cadastro        = $this->model->load_cadastro($id[0])[0];
-		$this->view->hierarquia_list = $this->model->load_active_list('hierarquia');
+		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
+		$this->view->assign('cadastro', $this->model->load_cadastro($id[0])[0]);
+
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
-
 	}
 
 	public function visualizar($id){
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "visualizar");
 
+		$this->check_if_exists($id[0]);
 
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
-			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
-			header('location: /' . $this->modulo['modulo']);
-			exit;
-		}
+		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
+		$this->view->assign('cadastro', $this->model->load_cadastro($id[0])[0]);
 
-		$this->view->cadastro = $this->model->load_cadastro($id[0])[0];
-		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 		$this->view->lazy_view();
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 
 	public function update($id) {
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "editar");
 
+		$this->check_if_exists($id[0]);
 
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
-			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
-			header('location: /' . $this->modulo['modulo']);
-			exit;
+		$usuario = carregar_variavel($this->modulo['modulo']);
+
+		$update_db_usuario = [
+			'hierarquia' => $usuario['usuario']['hierarquia'],
+		];
+
+		$retorno_usuario = $this->model->update($this->modulo['modulo'], $id[0], $update_db_usuario);
+
+		if($retorno_usuario['status']){
+			$update_db_pessoa = [
+				'nome'       => $usuario['pessoa']['nome'],
+				'sobrenome'  => $usuario['pessoa']['sobrenome'],
+			];
+			$retorno_pessoa = $this->model->update_relacao('pessoa', 'id_usuario', $id[0], $update_db_pessoa);
 		}
 
-		$update_db = carregar_variavel('usuario');
-
-		debug2($update_db);
-
-		if(empty($update_db['senha'])){
-			unset($update_db['senha']);
-		}
-
-		$retorno = $this->model->update('usuario', $id[0], $update_db);
-
-		if($retorno['status']){
-			$update_db = carregar_variavel('pessoa');
-			$retorno_pessoa = $this->model->update('pessoa', $id[0], $update_db);
-
-
-		}
-
-		if($retorno['status'] && $retorno_pessoa['status']){
+		if($retorno_usuario['status'] && $retorno_pessoa['status']){
 			$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');
@@ -181,13 +181,10 @@ class Usuario extends \Libs\ControllerCrud {
 	}
 
 	public function delete($id) {
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "deletar");
 
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
-			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
-			header('location: /' . $this->modulo['modulo']);
-			exit;
-		}
+		$this->check_if_exists($id[0]);
 
 		if($_SESSION['usuario']['id'] == $id[0]){
 			$this->view->alert_js('Você não pode excluir seu proprio usuário!!!', 'erro');
@@ -195,9 +192,13 @@ class Usuario extends \Libs\ControllerCrud {
 			exit;
 		}
 
-		$retorno = $this->model->delete('usuario', $id[0]);
+		$retorno_usuario = $this->model->delete('usuario', "id = {$id[0]}");
 
-		if($retorno['status']){
+		if($retorno_usuario['status']){
+			$retorno_pessoa = $this->model->delete('pessoa', "id_usuario = {$id[0]}");
+		}
+
+		if($retorno_usuario['status']){
 			$this->view->alert_js('Remoção efetuada com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do cadastro, por favor tente novamente...', 'erro');
@@ -210,6 +211,16 @@ class Usuario extends \Libs\ControllerCrud {
 		echo json_encode(empty($this->model->load_user_by_email(carregar_variavel('usuario'))));
 		exit;
 	}
+
+
+
+
+
+
+
+
+
+
 
 	public function perfil(){
 		$cadastro = $this->model->carregar_usuario_por_id($_SESSION['usuario']['id']);

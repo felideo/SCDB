@@ -75,6 +75,7 @@ class Usuario extends \Libs\Model{
 
 	public function load_cadastro($id){
 		$query = new QueryBuilder($this->db);
+
 		return $query->select('
 			usuario.*,
 			pessoa.*
@@ -87,18 +88,7 @@ class Usuario extends \Libs\Model{
 
 	public function carregar_usuario_por_id($id){
 		$query = new QueryBuilder($this->db);
-		$retorno = $query->select('
-			usuario.email,
-			usuario.hierarquia,
-			pessoa.pronome,
-			pessoa.nome,
-			pessoa.sobrenome.
-			pessoa.instituicao,
-			pessoa.atuacao,
-			pessoa.lattes,
-			pessoa.grau,
-			pessoa.instituicao,
-		')
+		$retorno = $query->select('usuario.*, pessoa.*')
 		->from('usuario usuario')
 		->leftJoin('pessoa pessoa ON pessoa.id_usuario = usuario.id AND pessoa.ativo = 1')
 		->where("usuario.ativo = 1 AND usuario.id = {$id}")

@@ -3,7 +3,7 @@
 date_default_timezone_set('America/Sao_Paulo');
 
 // Sempre use barra (/) no final das URLs
-define('URL', 'http://felideomvc.localhost');
+define('URL', 'http://swdb.localhost');
 // define('URL', 'http://leaflivedb.felideo.com.br/');
 
 

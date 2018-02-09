@@ -30,15 +30,12 @@ abstract class Model {
 		return $this->db->update($table, $data, "`{$where}` = {$id}");
 	}
 
-	public function delete($table, $id) {
-
+	public function delete($table, $where){
 		$data = [
 			'ativo' => 0,
 		];
 
-		$result = $this->db->update($table, $data, "`id` = {$id}");
-
-		return $result;
+		return $this->db->update($table, $data, $where);
 	}
 
 	public function delete_relacao($table, $where, $id) {
