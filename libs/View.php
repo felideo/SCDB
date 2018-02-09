@@ -143,6 +143,50 @@ class View {
 		$this->assign('colunas_datatable', $retorno_coluna);
 	}
 
+
+	public function warn_js($mensagem, $status){
+		switch ($status) {
+			case 'atencao':
+				$status = 'warn';
+				$icone = '<i class="fa fa-warning"></i>';
+				break;
+
+			case 'erro':
+				$status = 'error';
+				$icone = '<i class="fa fa-frown-o"></i>';
+				break;
+
+			case 'sucesso':
+				$status = 'success';
+				$icone = '<i class="fa fa-check"></i>';
+				break;
+
+			case 'info':
+				$status = 'info';
+				$icone = '<i class="fa fa-info-circle"></i>';
+				break;
+
+			case 'base':
+				$status = 'base';
+				$icone = '<i class="fa fa-send"></i>';
+				break;
+		}
+
+		$mensagem = $icone . ' ' . $mensagem;
+
+		$_SESSION['notificacoes'][] = ""
+			. " setTimeout(function(){\n\t"
+			. " 	$.notify('{$mensagem}', {\n\t\t"
+	        . " 	    style: 'appkit',\n\t\t"
+	        . " 	    className: '$status',\n\t\t"
+	        . " 	    hideAnimation: 'fadeOut',\n\t\t"
+	        . " 	    showAnimation: 'fadeIn',\n\t\t"
+	        . " 		autoHideDelay: 5000,\n\t"
+	        . " 	})\n"
+	        . " }, 1000);\n\n";
+
+	}
+
 	public function alert_js($mensagem, $status){
 		switch ($status) {
 			case 'atencao':
