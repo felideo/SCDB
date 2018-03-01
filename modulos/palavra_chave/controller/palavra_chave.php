@@ -11,8 +11,6 @@ class Palavra_chave extends \Libs\ControllerCrud {
 		'send'		=> 'Palavra Chave'
 	];
 
-	protected $colunas = ['ID', 'palavra_chave', 'Ações'];
-
 	protected $datatable = [
 		'colunas' => ['ID', 'Palavra Chave', 'Ações'],
 		'select'  => ['id', 'palavra_chave'],

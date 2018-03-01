@@ -3,6 +3,7 @@ namespace Controller;
 
 use Libs;
 use Libs\URL;
+
 class Trabalho extends \Libs\ControllerCrud {
 
 	protected $modulo = [
@@ -11,11 +12,10 @@ class Trabalho extends \Libs\ControllerCrud {
 		'send'		=> 'trabalho'
 	];
 
-	protected $colunas = ['ID', 'Titulo', 'Autor', 'Palavras Chave', 'Ações'];
+	protected $datatable = [
+		'colunas' => ['ID', 'Titulo', 'Ano', 'Curso', 'Campi', 'Autor', 'Orientador', 'Ações'],
+	];
 
-	function __construct() {
-		parent::__construct();
-	}
 
 	public function carregar_listagem_ajax(){
 		$busca = [
@@ -40,15 +40,27 @@ class Trabalho extends \Libs\ControllerCrud {
 		$retorno = [];
 
 		foreach ($retorno_tratado as $indice => $item) {
+			$autor      = '';
+			$orientador = '';
+
+			foreach ($item['trabalho_relaciona_autor'] as $indice => $um_autor){
+				$autor .= isset($um_autor['autor'][0]['nome']) ? $um_autor['autor'][0]['nome'] . ' ' : ' ';
+			}
+
+			foreach ($item['trabalho_relaciona_orientador'] as $indice => $um_orientador){
+				$orientador .= isset($um_orientador['orientador'][0]['nome']) ? $um_orientador['orientador'][0]['nome'] . ' ' : ' ';
+			}
 
 			$retorno[] = [
 				$item['id'],
 				$item['titulo'],
-				$item['nome'],
-				$item['palavra'],
+				$item['ano'],
+				$item['curso'][0]['curso'],
+				$item['campus'][0]['campus'],
+				$autor,
+				$orientador,
 
-
-				$this->view->default_buttons_listagem($item['id'], true, true, false)
+				$this->view->default_buttons_listagem($item['id'], true, true, true)
 			];
 		}
 
@@ -68,19 +80,15 @@ class Trabalho extends \Libs\ControllerCrud {
 
 		$trabalho = carregar_variavel('trabalho');
 
-		debug2($trabalho);
-		exit;
-
 		$insert_trabalho_db              = $trabalho['trabalho'];
 		$insert_trabalho_db['id_curso']  = $this->tratar_curso($insert_trabalho_db['id_curso']);
 		$insert_trabalho_db['id_campus'] = $this->tratar_campus($insert_trabalho_db['id_campus']);
 
 		$retorno_trabalho = $this->model->insert('trabalho', $insert_trabalho_db);
 
-		debug2($retorno_trabalho);
+
 		if(!empty($retorno_trabalho['status'])){
-			$retorno_trabalho = ['id' => $retorno_trabalho['id']];
-			$retorno_trabalho += $insert_trabalho_db;
+			$trabalho['trabalho']['id'] = $retorno_trabalho['id'];
 
 			$url = new URL;
 			$retorno_url = $url->setId($retorno_trabalho['id'])
@@ -88,24 +96,43 @@ class Trabalho extends \Libs\ControllerCrud {
 				->setController($this->modulo['modulo'])
 				->cadastrarUrlAmigavel();
 
-
-			// ::cadastrar_url_amigavel($this->modulo['modulo'], $insert_trabalho_db['titulo'], $retorno_trabalho['id']);
-
-		debug2($trabalho);
-		debug2($retorno_url);
-		exit;
-
-			return $retorno['id'];
+			$this->cadastrar_orientador($trabalho['orientador'], $retorno_trabalho['id']);
+			$this->cadastrar_autor($trabalho['autor'], $retorno_trabalho['id']);
+			$this->cadastrar_palavra_chave($trabalho['palavras_chave'], $retorno_trabalho['id']);
+			$this->cadastrar_relacao_trabalho_arquivo($trabalho['arquivo'], $retorno_trabalho['id']);
 		}
 
+		if($retorno_trabalho['status']){
+			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' cadastrado com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+		}
 
-		debug2($_POST);
-		exit;
-
-		// $this->model->insert('trabalho', )
-		$this->model->insert($this->modulo['modulo'], carregar_variavel($this->modulo['modulo']));
-
+		header('location: /' . $this->modulo['modulo']);
 	}
+
+	public function visualizar($id){
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+
+		$this->check_if_exists($id[0]);
+
+		$this->view->assign('cadastro', $this->model->carregar_trabalho($id[0])[0]);
+
+		$this->view->lazy_view();
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
+	}
+
+	public function editar($id){
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "editar");
+
+		$this->check_if_exists($id[0]);
+
+		$this->view->assign('cadastro', $this->model->carregar_trabalho($id[0])[0]);
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
+	}
+
 	private function tratar_curso($curso){
 		if(is_numeric($curso)){
 			return $curso;
@@ -135,6 +162,134 @@ class Trabalho extends \Libs\ControllerCrud {
 			return $retorno['id'];
 		}else{
 			$this->view->warning_js('Ocorreu um erro ao cadastrar o campus. Por favor edite o trabalho para corrigir', 'erro');
+		}
+	}
+
+	private function cadastrar_orientador($orientadores, $id_trabalho){
+		foreach($orientadores as $indice => $orientador){
+			if(is_numeric($orientador['orientador'])){
+				$this->cadrastrar_relacao_trabalho_orientador($orientador['orientador'], $id_trabalho);
+				continue;
+			}
+
+			$insert_db = [
+				'nome'  => $orientador['orientador'],
+				'email' => $orientador['email'],
+				'link'  => $orientador['site'],
+			];
+
+			$retorno = $this->model->insert('orientador', $insert_db);
+
+			if(!empty($retorno['status'])){
+				$this->cadrastrar_relacao_trabalho_orientador($retorno['id'], $id_trabalho);
+			}else{
+				$this->view->warning_js('Ocorreu um erro ao cadastrar o orientador. Por favor edite o trabalho para corrigir', 'erro');
+			}
+		}
+	}
+
+	private function cadrastrar_relacao_trabalho_orientador($id_orientador, $id_trabalho){
+		$insert_db = [
+			'id_trabalho' => $id_trabalho,
+			'id_orientador' => $id_orientador
+		];
+
+		$retorno = $this->model->insert('trabalho_relaciona_orientador', $insert_db);
+
+		if(empty($retorno['status'])){
+			$this->view->warning_js('Ocorreu um erro ao relacionar um orientador ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
+		}
+	}
+
+	private function cadastrar_autor($autores, $id_trabalho){
+		foreach($autores as $indice => $autor){
+			if(is_numeric($autor['autor'])){
+				$this->cadrastrar_relacao_trabalho_autor($autor['autor'], $id_trabalho);
+				continue;
+			}
+
+			$insert_db = [
+				'nome'  => $autor['autor'],
+				'email' => $autor['email'],
+				'link'  => $autor['site'],
+			];
+
+			$retorno = $this->model->insert('autor', $insert_db);
+
+			if(!empty($retorno['status'])){
+				$this->cadrastrar_relacao_trabalho_autor($retorno['id'], $id_trabalho);
+			}else{
+				$this->view->warning_js('Ocorreu um erro ao cadastrar o autor. Por favor edite o trabalho para corrigir', 'erro');
+			}
+		}
+	}
+
+	private function cadrastrar_relacao_trabalho_autor($id_autor, $id_trabalho){
+		$insert_db = [
+			'id_trabalho' => $id_trabalho,
+			'id_autor'    => $id_autor
+		];
+
+		$retorno = $this->model->insert('trabalho_relaciona_autor', $insert_db);
+
+		if(empty($retorno['status'])){
+			$this->view->warning_js('Ocorreu um erro ao relacionar um autor ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
+		}
+	}
+
+	private function cadastrar_palavra_chave($palavras_chave, $id_trabalho){
+		$palavras_chave = explode(',', $palavras_chave);
+
+		foreach($palavras_chave as $indice => $palavra){
+			if(is_numeric($palavra)){
+				$this->cadrastrar_relacao_trabalho_palavra_chave($palavra, $id_trabalho);
+				continue;
+			}
+
+			$insert_db = [
+				'palavra_chave'  => $palavra,
+			];
+
+			$retorno = $this->model->insert('palavra_chave', $insert_db);
+
+			if(!empty($retorno['status'])){
+				$this->cadrastrar_relacao_trabalho_palavra_chave($retorno['id'], $id_trabalho);
+			}else{
+				$this->view->warning_js('Ocorreu um erro ao cadastrar a palvra-chave. Por favor edite o trabalho para corrigir', 'erro');
+			}
+		}
+	}
+
+	private function cadrastrar_relacao_trabalho_palavra_chave($palavra_chave, $id_trabalho){
+		$insert_db = [
+			'id_trabalho'      => $id_trabalho,
+			'id_palavra_chave' => $palavra_chave
+		];
+
+		$retorno = $this->model->insert('trabalho_relaciona_palavra_chave', $insert_db);
+
+		if(empty($retorno['status'])){
+			$this->view->warning_js('Ocorreu um erro ao relacionar a palavra-chave ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
+		}
+	}
+
+	private function cadastrar_relacao_trabalho_arquivo($arquivos, $id_trabalho){
+		foreach($arquivos as $indice => $arquivo){
+			if(!is_numeric($arquivo)){
+				$this->view->warning_js('Ocorreu um erro ao relacionar o arquivo ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
+				continue;
+			}
+
+			$insert_db = [
+				'id_trabalho' => $id_trabalho,
+				'id_arquivo'  => $arquivo
+			];
+
+			$retorno = $this->model->insert('trabalho_relaciona_arquivo', $insert_db);
+
+			if(empty($retorno['status'])){
+				$this->view->warning_js('Ocorreu um erro ao relacionar o arquivo ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
+			}
 		}
 	}
 

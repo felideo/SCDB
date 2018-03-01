@@ -2,19 +2,18 @@
 {include file='modulos/$modulo.modulo/view/form/clones/autor.html'}
 {include file='modulos/$modulo.modulo/view/form/clones/orientador.html'}
 
+{debug2($cadastro)}
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Dados do Trabalho</h3>
         </div>
         <div class="panel-body">
-            <div id="conteiner_clone_autor" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            </div>
-            <div id="nenhum_clone_autor_adicionado" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <label>Titulo</label>
-                        <input type="text" class="form-control" name="{$modulo.modulo}[trabalho][titulo]" value="">
+                        <input type="text" class="form-control" name="{$modulo.modulo}[trabalho][titulo]" value="{if isset($cadastro.titulo)}{$cadastro.titulo}{/if}">
                     </div>
 
                     <!-- <div class="form-group">
@@ -25,7 +24,7 @@
 
                     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <label>Ano</label>
-                        <input type="text" class="form-control" name="{$modulo.modulo}[trabalho][ano]" value="">
+                        <input type="text" class="form-control" name="{$modulo.modulo}[trabalho][ano]" value="{if isset($cadastro.ano)}{$cadastro.ano}{/if}">
                     </div>
 
                     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -48,7 +47,7 @@
 
                     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <label>Resumo</label>
-                        <textarea class="form-control" rows="3" name="{$modulo.modulo}[trabalho][resumo]"></textarea>
+                        <textarea class="form-control" rows="3" name="{$modulo.modulo}[trabalho][resumo]">{if isset($cadastro.resumo)}{$cadastro.resumo}{/if}</textarea>
                     </div>
                 </div>
             </div>
@@ -58,21 +57,18 @@
 
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
     <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Arquivos</h3>
+        </div>
         <div class="panel-body">
-            <div id="conteiner_clone_autor" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            </div>
-            <div id="nenhum_clone_autor_adicionado" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div id="upload_trabalho_trigger"></div>
-                        <!-- <input type="text" class="form-control" id="id_arquivo" name="{$modulo.modulo}[id_arquivo]" value=""> -->
+                    </div>
+                    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div id="upload_trabalho" class="row">
-                            <div class="icon">
-                                <i class="fa "></i>
-                            </div>
-                            <div class="content">
-                                <!-- <button type="button" class="btn btn-link" data-id_trabalho=""><i class="fa fa-close"></i> Visualizar</button> -->
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -229,7 +225,7 @@
         uploadSuccess: {
             endpoint: '/s3/success'
         },
-        autoUpload: false,
+        autoUpload: true,
         debug: true,
         multiple: false,
         callbacks: {
@@ -243,19 +239,74 @@
             onComplete: function(id, name, retorno, maybeXhr) {
                 console.log(retorno);
 
-                $('#id_arquivo').val(retorno['id']);
+                // $('#id_arquivo').val(retorno['id']);
 
-                // input = '<div>\n\t\t'
-                //  + '<input type="hidden" value="' + retorno['id'] + '" name="imagens[' + $("#image_inputs > div").length + ']" />\n\t\t'
-                //  + '</div>\n';
+                input = '<div>\n\t\t'
+                 + '<input type="text" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + ']" />\n\t\t'
+                 + '</div>\n';
+
+                 $('#upload_trabalho').append(input);
 
             }
         }
+
+
     });
 
     qq($('#upload_trabalho_trigger #trigger-upload').on('click', function(){
         trabalho_manualUploader.uploadStoredFiles();
     }));
+
+
+
+{/literal}
+    {if isset($cadastro.curso.0.curso) && !empty($cadastro.curso.0.curso)}
+{literal}
+    $('#curso').select2(
+        'data', {
+            id: {/literal}{$cadastro.curso.0.id}{literal},
+            curso: '{/literal}{$cadastro.curso.0.curso}{literal}'
+        }
+    );
+{/literal}
+    {/if}
+{literal}
+
+{/literal}
+    {if isset($cadastro.campus.0.campus) && !empty($cadastro.campus.0.campus)}
+{literal}
+    $('#campus').select2(
+        'data', {
+            id: {/literal}{$cadastro.campus.0.id}{literal},
+            campus: '{/literal}{$cadastro.campus.0.campus}{literal}'
+        }
+    );
+{/literal}
+    {/if}
+{literal}
+
+
+{/literal}
+    {if isset($cadastro.trabalho_relaciona_palavra_chave) && !empty($cadastro.trabalho_relaciona_palavra_chave)}
+{literal}
+    var palavras_chave = {/literal}{json_encode($cadastro.trabalho_relaciona_palavra_chave)}{literal};
+
+    $.each(palavras_chave, function(index, item){
+        palavras_chave[index] = {
+            'id':            item['palavra_chave'][0]['id'],
+            'palavra_chave': item['palavra_chave'][0]['palavra_chave']
+        }
+    });
+
+        $('#palavra_chave').select2(
+            'data', palavras_chave
+        );
+{/literal}
+    {/if}
+{literal}
+
+
+
 </script>
 {/literal}
 

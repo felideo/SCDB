@@ -18,6 +18,43 @@ class Permissao extends \Libs\ControllerCrud {
 		'search'  => ['id', 'id_modulo', 'permissao']
 	];
 
+	public function index() {
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+
+		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
+
+		if(isset($this->datatable) && !empty($this->datatable)){
+			$this->view->set_colunas_datatable($this->datatable['colunas']);
+		}
+
+		$this->view->assign('modulos', $this->model->load_active_list('modulo'));
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
+	}
+
+	public function editar($id) {
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "editar");
+
+		$this->check_if_exists($id[0]);
+
+		$this->view->assign('modulos', $this->model->load_active_list('modulo'));
+		$this->view->assign('cadastro', $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0]);
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
+	}
+
+	public function visualizar($id){
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+
+		$this->check_if_exists($id[0]);
+
+		$this->view->assign('modulos', $this->model->load_active_list('modulo'));
+		$this->view->assign('cadastro', $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0]);
+
+		$this->view->lazy_view();
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
+	}
 
 	protected function carregar_dados_listagem_ajax($busca){
 		$query = $this->model->carregar_listagem($busca, $this->datatable);

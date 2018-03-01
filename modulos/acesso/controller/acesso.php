@@ -45,7 +45,7 @@ class Acesso extends \Libs\Controller {
 			header('location: ../painel_controle');
 		}else{
 			$this->view->alert_js('Usúario ou Senha inválido...', 'erro');
-			header('location: ../login');
+			header('location: ' . $_SERVER['HTTP_REFERER']);
 		}
 	}
 
