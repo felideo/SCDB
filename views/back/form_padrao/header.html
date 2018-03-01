@@ -7,7 +7,7 @@
                     <li><a class="collapse-module" data-toggle="collapse" href="#content-6" aria-expanded="false" aria-controls="content-6"><span aria-hidden="true" class="icon arrow_carrot-up"></span></a></li>
                 </ul>
             </div>
-            <form method="post" class="lazy_view"
+            <form method="post" class="lazy_view" id="lazy_view"
                 {if isset($cadastro)}
                     action="/{$modulo.modulo}/update/{$cadastro['id']}"
                 {else}
