@@ -44,32 +44,36 @@
 </div>
 
 <script type="text/javascript">
+
+
     $(document).ready(function(){
         $('#botao_clone_autor').on('click', function(){
-            var container_clone    = $('#conteiner_clone_autor');
-            var id_container_clone = ($("#conteiner_clone_autor > div").length) + 1;
-
-
-            $('#nenhum_clone_autor_adicionado').hide();
-
-            var clone = $('#clonar_autor').html();
-            clone     = clone.replaceAll("$id_clone_autor", id_container_clone);
-            clone     = clone.replaceAll("disabled", "", clone);
-
-            container_clone.prepend(clone);
-
-            $('#remover_clone_autor_' + id_container_clone).on('click', function(){
-                $('#box_clone_autor_' + id_container_clone).remove();
-
-	            if($("#conteiner_clone_autor > div").length == 0){
-            		$('#nenhum_clone_autor_adicionado').show();
-	            }
-            });
-
-        	atualizar_clone_autor_select_2(id_container_clone);
-
+            clone_autor_box();
         });
     });
+
+function clone_autor_box(){
+	var container_clone    = $('#conteiner_clone_autor');
+    var id_container_clone = ($("#conteiner_clone_autor > div").length) + 1;
+
+    $('#nenhum_clone_autor_adicionado').hide();
+
+    var clone = $('#clonar_autor').html();
+    clone     = clone.replaceAll("$id_clone_autor", id_container_clone);
+    clone     = clone.replaceAll("disabled", "", clone);
+
+    container_clone.prepend(clone);
+
+    $('#remover_clone_autor_' + id_container_clone).on('click', function(){
+        $('#box_clone_autor_' + id_container_clone).remove();
+
+        if($("#conteiner_clone_autor > div").length == 0){
+    		$('#nenhum_clone_autor_adicionado').show();
+        }
+    });
+
+	atualizar_clone_autor_select_2(id_container_clone);
+}
 
 function atualizar_clone_autor_select_2(id_container_clone){
 	$('.clone_autor_select_2_' + id_container_clone).select2({
@@ -138,4 +142,26 @@ function atualizar_clone_autor_select_2(id_container_clone){
 		}
 	});
 }
+
+{if isset($cadastro.trabalho_relaciona_autor) && !empty($cadastro.trabalho_relaciona_autor)}
+	var autores = {json_encode($cadastro.trabalho_relaciona_autor)};
+
+	$.each(autores, function(index, item){
+		id_container_clone = index + 1;
+
+		var autor = item['autor'][0];
+
+		clone_autor_box();
+
+	    $('#autor_' + id_container_clone).select2(
+	        'data', {
+	            id: autor['id'],
+	            nome: autor['nome']
+	        }
+	    );
+
+		$('#link__autor_' + id_container_clone).val(autor['link']);
+		$('#email__autor_' + id_container_clone).val(autor['email']);
+    });
+{/if}
 </script>

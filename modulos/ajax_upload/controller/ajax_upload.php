@@ -1,5 +1,5 @@
 <?php
-namespace Controllers;
+namespace Controller;
 
 use Libs;
 
@@ -12,6 +12,8 @@ class ajax_upload extends \Libs\Controller {
 	}
 
 	public function upload() {
+
+
 		// debug2($_POST);
 		// debug2($_GET);
 		// debug2($_FILES);
@@ -44,7 +46,7 @@ class ajax_upload extends \Libs\Controller {
 
 			];
 
-			$retorno_arquivo = $this->model->get_insert('arquivo', $insert_db);
+			$retorno_arquivo = $this->model->insert('arquivo', $insert_db);
 
 			$results = array('success' => true);
 			$results = array_merge($results, array_merge($insert_db, $retorno_arquivo));

@@ -5,3 +5,4 @@ readme.md
 php_errors.log
 config.php
 template_compile/*
+uploads/*

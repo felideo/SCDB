@@ -9,47 +9,91 @@ class trabalho extends \Libs\Model{
 	}
 
 	public function carregar_listagem($busca, $datatable = null){
-		$select = "SELECT"
-			. " 	trabalho.id,"
-			. " 	trabalho.titulo,"
-			. " 	autor.nome,"
-			. " 	relacao.id_palavra_chave,"
-			. " 	palavra.palavra"
-			. " FROM"
-			. " 	trabalho trabalho"
-			. " LEFT JOIN autor autor"
-			. "  	ON autor.id = trabalho.id_autor AND autor.ativo = 1"
-			. " LEFT JOIN trabalho_relaciona_palavra_chave relacao"
-			. "  	ON relacao.id_trabalho = trabalho.id AND relacao.ativo = 1"
-			. " LEFT JOIN palavra_chave palavra"
-			. "  	ON palavra.id = relacao.id_palavra_chave AND palavra.ativo = 1"
-			. " WHERE"
-			. " 	trabalho.ativo = 1";
+		// 'colunas' => ['ID', 'Titulo', 'Ano', 'Curso', 'Campi', 'Autor', 'Orientador', 'Ações'],
 
-		if(isset($busca['search']['value']) && !empty($busca['search']['value'])){
-			$select .= " AND trabalho.id LIKE '%{$busca['search']['value']}%'";
-			$select .= " OR trabalho.titulo LIKE '%{$busca['search']['value']}%'";
-			$select .= " OR autor.nome LIKE '%{$busca['search']['value']}%'";
-			$select .= " OR palavra.palavra LIKE '%{$busca['search']['value']}%'";
+		$query = $this->query;
 
-		}
+			$query->select('
+				trabalho.titulo,
+				trabalho.ano,
+				campus.campus,
+				curso.curso,
+				rel_autor.id,
+				rel_orientador.id,
+				autor.nome,
+				orientador.nome,
+			')
+			->from('trabalho trabalho')
+			->leftJoin('campus campus ON campus.id = trabalho.id_campus and campus.ativo = 1')
+			->leftJoin('curso curso ON curso.id = trabalho.id_curso and curso.ativo = 1')
+			->leftJoin('trabalho_relaciona_autor rel_autor ON rel_autor.id_trabalho = trabalho.id and rel_autor.ativo = 1')
+			->leftJoin('trabalho_relaciona_orientador rel_orientador ON rel_orientador.id_trabalho = trabalho.id and rel_orientador.ativo = 1')
+			->leftJoin('autor autor ON autor.id = rel_autor.id_autor AND autor.ativo = 1')
+			->leftJoin('orientador orientador ON orientador.id = rel_orientador.id_orientador AND orientador.ativo = 1')
+			->where('trabalho.ativo = 1');
+			// ->whereIn($this->db->select("SELECT id from trabalho WHERE ativo = 1 LIMIT {$busca['start']}, {$busca['length']}"))
 
-		if(isset($busca['order'][0])){
-			if($busca['order'][0]['column'] == 0){
-				$select .= " ORDER BY trabalho.id {$busca['order'][0]['dir']}";
-			}elseif($busca['order'][0]['column'] == 1){
-				$select .= " ORDER BY trabalho.titulo {$busca['order'][0]['dir']}";
-			}elseif($busca['order'][0]['column'] == 2){
-				$select .= " ORDER BY autor.nome {$busca['order'][0]['dir']}";
-			}elseif($busca['order'][0]['column'] == 3){
-				$select .= " ORDER BY palavra.palavra {$busca['order'][0]['dir']}";
+			if(isset($busca['search']['value']) && !empty($busca['search']['value'])){
+				$query->where("trabalho.id LIKE '%{$busca['search']['value']}%'", 'AND')
+					->where("trabalho.titulo LIKE '%{$busca['search']['value']}%'", 'OR');
 			}
-		}
 
-		if(isset($busca['start']) && isset($busca['length'])){
-			$select .= " LIMIT {$busca['start']}, {$busca['length']}";
-		}
+			if(isset($busca['order'][0])){
+				if($busca['order'][0]['column'] == 0){
+					$query->orderBy("trabalho.id {$busca['order'][0]['dir']}");
+				}elseif($busca['order'][0]['column'] == 1){
+					$query->orderBy("trabalho.titulo {$busca['order'][0]['dir']}");
+				}
+			}
+			$retorno = $query->fetchArray();
 
-		return $this->db->select($select);
+		// if(isset($busca['start']) && isset($busca['length'])){
+		// 	$select .= " LIMIT {$busca['start']}, {$busca['length']}";
+		// }
+
+		return $retorno;
+	}
+
+	public function carregar_trabalho($id){
+		$query = $this->query;
+
+			$query->select('
+				trabalho.titulo,
+				trabalho.ano,
+				trabalho.resumo,
+
+				campus.campus,
+				curso.curso,
+				rel_autor.id,
+				rel_orientador.id,
+				rel_trabalho.id,
+				rel_palavra.id,
+				autor.nome,
+				autor.email,
+				autor.link,
+				orientador.nome,
+				orientador.email,
+				orientador.link,
+				arquivo.endereco,
+				palavra.palavra_chave
+
+
+
+			')
+			->from('trabalho trabalho')
+			->leftJoin('campus campus ON campus.id = trabalho.id_campus and campus.ativo = 1')
+			->leftJoin('curso curso ON curso.id = trabalho.id_curso and curso.ativo = 1')
+			->leftJoin('trabalho_relaciona_autor rel_autor ON rel_autor.id_trabalho = trabalho.id and rel_autor.ativo = 1')
+			->leftJoin('trabalho_relaciona_orientador rel_orientador ON rel_orientador.id_trabalho = trabalho.id and rel_orientador.ativo = 1')
+			->leftJoin('autor autor ON autor.id = rel_autor.id_autor AND autor.ativo = 1')
+			->leftJoin('orientador orientador ON orientador.id = rel_orientador.id_orientador AND orientador.ativo = 1')
+			->leftJoin('trabalho_relaciona_arquivo rel_trabalho ON rel_trabalho.id_trabalho = trabalho.id and rel_trabalho.ativo = 1')
+			->leftJoin('arquivo arquivo ON arquivo.id = rel_trabalho.id_arquivo AND arquivo.ativo = 1')
+			->leftJoin('trabalho_relaciona_palavra_chave rel_palavra ON rel_palavra.id_trabalho = trabalho.id and rel_palavra.ativo = 1')
+			->leftJoin('palavra_chave palavra ON palavra.id = rel_palavra.id_palavra_chave and palavra.ativo = 1')
+
+			->where("trabalho.id = {$id}");
+
+			return $query->fetchArray();
 	}
 }

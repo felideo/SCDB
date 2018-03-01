@@ -46,7 +46,12 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $('#botao_clone_orientador').on('click', function(){
-            var container_clone    = $('#conteiner_clone_orientador');
+           clone_orientador_box();
+      	});
+    });
+
+function clone_orientador_box(){
+	 var container_clone    = $('#conteiner_clone_orientador');
             var id_container_clone = ($("#conteiner_clone_orientador > div").length) + 1;
 
 
@@ -68,8 +73,7 @@
 
         	atualizar_clone_orientador_select_2(id_container_clone);
 
-        });
-    });
+}
 
 function atualizar_clone_orientador_select_2(id_container_clone){
 	$('.clone_orientador_select_2_' + id_container_clone).select2({
@@ -138,4 +142,29 @@ function atualizar_clone_orientador_select_2(id_container_clone){
 		}
 	});
 }
+
+
+{if isset($cadastro.trabalho_relaciona_orientador) && !empty($cadastro.trabalho_relaciona_orientador)}
+	var orientadores = {json_encode($cadastro.trabalho_relaciona_orientador)};
+
+	$.each(orientadores, function(index, item){
+		id_container_clone = index + 1;
+
+		var orientador = item['orientador'][0];
+
+		clone_orientador_box();
+
+	    $('#orientador_' + id_container_clone).select2(
+	        'data', {
+	            id: orientador['id'],
+	            nome: orientador['nome']
+	        }
+	    );
+
+		$('#link_orientador_' + id_container_clone).val(orientador['link']);
+		$('#email_orientador_' + id_container_clone).val(orientador['email']);
+    });
+{/if}
+
+
 </script>

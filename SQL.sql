@@ -56,7 +56,9 @@ CREATE TABLE `modulo` (
   `ordem`      int(11) NOT NULL DEFAULT '1000',
   `ativo`      tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY      KEY (`id`),
-  KEY          `id_submenu` (`id_submenu`),
+  KEY          `id_submenu` (`id_submenu`),INSERT INTO gestaoja2_basico2.plano_assinatura_controle_desconto_periodo_inicial
+(id, id_instancia, descricao, id_cliente_cadastro, id_assinatura_plataforma_ecommerce, id_plano_assinatura_plataforma_ecommerce, ciclo_recorrencia, data_inicial, data_final, preco_cheio, preco_promocional, utilizado, tipo_desconto, trial, ativo)
+VALUES(2070, 'gazetaonline', 'Preco Normal', 2026314, 70437, 4380, 120, '2018-04-16', '2028-04-13', 15.9000, 15.9000, 0, 3, 0, 1);
   CONSTRAINT   `modulo_ibfk_1` FOREIGN KEY (`id_submenu`) REFERENCES `submenu` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -259,3 +261,34 @@ CREATE TABLE `url` (
   `ativo`         tinyint(1) 	NOT NULL DEFAULT '1',
   PRIMARY         KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `trabalho_relaciona_orientador` (
+	`id`            INT(11) 			NOT NULL AUTO_INCREMENT,
+	`id_trabalho`   INT(11) 			NOT NULL,
+	`id_orientador` INT(11) 			NOT NULL,
+	`ativo`         TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY         KEY (`id`),
+	FOREIGN         KEY (`id_trabalho`) 	REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN         KEY (`id_orientador`) REFERENCES `orientador` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+CREATE TABLE `trabalho_relaciona_autor` (
+	`id`          INT(11) 			NOT NULL AUTO_INCREMENT,
+	`id_trabalho` INT(11) 			NOT NULL,
+	`id_autor`    INT(11) 			NOT NULL,
+	`ativo`       TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY       KEY (`id`),
+	FOREIGN       KEY (`id_trabalho`) 	REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN       KEY (`id_autor`) REFERENCES `autor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+
+CREATE TABLE `trabalho_relaciona_arquivo` (
+	`id`          INT(11) 			NOT NULL AUTO_INCREMENT,
+	`id_trabalho` INT(11) 			NOT NULL,
+	`id_arquivo`  INT(11) 			NOT NULL,
+	`ativo`       TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY       KEY (`id`),
+	FOREIGN       KEY (`id_trabalho`) 	REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN       KEY (`id_arquivo`) REFERENCES `arquivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
