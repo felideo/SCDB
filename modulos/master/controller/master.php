@@ -4,13 +4,7 @@ namespace Controller;
 use Libs;
 
 class Master extends \Libs\Controller {
-
-	function __construct() {
-		parent::__construct();
-	}
-
 	function index(){
-
 	}
 
 	function logout() {

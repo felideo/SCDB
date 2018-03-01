@@ -1,12 +1,6 @@
 <?php
-namespace Models;
+namespace Model;
 use Libs;
 
-/**
-* Classe Index_Model
-*/
-class Ajax_Upload_Model extends \Libs\Model {
-	public function __construct() {
-		parent::__construct();
-	}
+class Ajax_Upload extends \Libs\Model {
 }
