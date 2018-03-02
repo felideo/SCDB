@@ -1,8 +1,8 @@
 .htaccess
+config.php
 license
 mvc.sql
 readme.md
+*.fuse_hidden*
 php_errors.log
-config.php
 template_compile/*
-uploads/*
