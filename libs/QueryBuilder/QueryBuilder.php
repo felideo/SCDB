@@ -64,6 +64,12 @@ class QueryBuilder{
 		return $this;
 	}
 
+	public function limitFrom($limit, $offset){
+		$this->parametros['limit_from']['limit']  = $limit;
+		$this->parametros['limit_from']['offset'] = $offset;
+		return $this;
+	}
+
 	public function limit($limit){
 		$this->parametros['limit'] = $limit;
 		return $this;
@@ -179,6 +185,42 @@ class QueryBuilder{
 		return $this->query;
 	}
 
+	private function build_limit_from(){
+		$query = 'SELECT ' . $this->join_on[$this->parametros['from'][0]]['primary']
+			. ' FROM ' . $this->parametros['from'][0];
+
+
+		if(!empty($this->parametros['where'])){
+			$where = [];
+
+			$this->query .= " \nWHERE " . $this->parametros['where'][0][0];
+
+			foreach ($this->parametros['where'] as $indice => $where) {
+				if($indice == 0){
+					continue;
+				}
+
+				$this->query .= ' ' . $where[1] . ' ' . $where[0];
+			}
+		}
+
+
+
+		$query .= ' LIMIT ' . $this->parametros['limit_from']['limit']
+			. ' OFFSET ' . $this->parametros['limit_from']['offset'];
+
+
+
+		debug2($query);
+
+		debug2($this->join_on[$this->parametros['from'][0]]['primary']);
+		debug2($this->parametros);
+		exit;
+
+
+
+	}
+
 	private function build_query(){
 		foreach ($this->join_on as $table) {
 			$this->parametros['select'][] = $table['table'] . '.' . $table['primary'] . ' AS ' . $table['table'] . '__' . $table['primary'];
@@ -247,6 +289,10 @@ class QueryBuilder{
 			$this->query .= " \nAND " . implode(' AND ', $this->parametros['where_in']);
 		}elseif(!empty($this->parametros['where_in']) && empty($this->parametros['where'])){
 			$this->query .= " \nWHERE " . implode(' AND ', $this->parametros['where_in']);
+		}
+
+		if(isset($this->parametros['limit_from']) && !empty($this->parametros['limit_from'])){
+			$this->query .= $this->build_limit_from();
 		}
 
 		if(!empty($this->parametros['order_by'])){

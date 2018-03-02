@@ -9,7 +9,6 @@ class trabalho extends \Libs\Model{
 	}
 
 	public function carregar_listagem($busca, $datatable = null){
-		// 'colunas' => ['ID', 'Titulo', 'Ano', 'Curso', 'Campi', 'Autor', 'Orientador', 'Ações'],
 
 		$query = $this->query;
 
@@ -45,6 +44,11 @@ class trabalho extends \Libs\Model{
 					$query->orderBy("trabalho.titulo {$busca['order'][0]['dir']}");
 				}
 			}
+
+
+
+			// $query->limitFrom(10, 1);
+
 			$retorno = $query->fetchArray();
 
 		// if(isset($busca['start']) && isset($busca['length'])){
@@ -91,7 +95,6 @@ class trabalho extends \Libs\Model{
 			->leftJoin('arquivo arquivo ON arquivo.id = rel_trabalho.id_arquivo AND arquivo.ativo = 1')
 			->leftJoin('trabalho_relaciona_palavra_chave rel_palavra ON rel_palavra.id_trabalho = trabalho.id and rel_palavra.ativo = 1')
 			->leftJoin('palavra_chave palavra ON palavra.id = rel_palavra.id_palavra_chave and palavra.ativo = 1')
-
 			->where("trabalho.id = {$id}");
 
 			return $query->fetchArray();
