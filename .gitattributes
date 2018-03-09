@@ -1,0 +1,7 @@
+*.php linguist-language=php
+*.html linguist-language=html
+*.sql linguist-language=sql
+*.js linguist-language=javascript
+
+public/* linguist-vendored
+uploads/* linguist-vendored
