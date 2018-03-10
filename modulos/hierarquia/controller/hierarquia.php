@@ -154,11 +154,12 @@ class Hierarquia extends \Libs\ControllerCrud {
 	}
 
 	public function delete($id) {
+
 		\Util\Permission::check($this->modulo['modulo'], "deletar");
 
-		$retorno = $this->model->delete($this->modulo['modulo'], $id[0]);
-		$retorno = $this->model->delete('permissao', $id[0]);
-		$retorno = $this->model->delete('hierarquia_relaciona_permissao', $id[0]);
+		$retorno = $this->model->delete($this->modulo['modulo'], "id = {$id[0]}");
+		// $retorno = $this->model->delete('permissao', $id[0]);
+		$retorno = $this->model->delete('hierarquia_relaciona_permissao', "id_hierarquia = {$id[0]}");
 
 
 		if($retorno['status']){

@@ -51,6 +51,16 @@ class Trabalho extends \Libs\ControllerCrud {
 				$orientador .= isset($um_orientador['orientador'][0]['nome']) ? $um_orientador['orientador'][0]['nome'] . ' ' : ' ';
 			}
 
+
+
+			$botao_aprovar = \Util\Permission::check_user_permission($this->modulo['modulo'], "aprovar") ?
+				"<a href='/{$this->modulo['modulo']}/visualizar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-check-circle fa-fw'></i></a>" :
+				'';
+
+			$botao_reprovar = \Util\Permission::check_user_permission($this->modulo['modulo'], "reprovar") ?
+				"<a href='/{$this->modulo['modulo']}/visualizar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-times-circle fa-fw'></i></a>" :
+				'';
+
 			$retorno[] = [
 				$item['id'],
 				$item['titulo'],
@@ -60,7 +70,7 @@ class Trabalho extends \Libs\ControllerCrud {
 				$autor,
 				$orientador,
 
-				$this->view->default_buttons_listagem($item['id'], true, true, true)
+				$this->view->default_buttons_listagem($item['id'], true, true, true) . $botao_aprovar . $botao_reprovar
 			];
 		}
 
@@ -291,6 +301,22 @@ class Trabalho extends \Libs\ControllerCrud {
 				$this->view->warning_js('Ocorreu um erro ao relacionar o arquivo ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
 			}
 		}
+	}
+
+	public function visualizar_front($id){
+		$this->check_if_exists($id[0]);
+		$cadastro = $this->model->carregar_trabalho($id[0])[0];
+		$this->view->assign('cadastro', $cadastro);
+
+		// debug2($cadastro);
+
+
+
+		$this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/front');
+
+		debug2($id);
+		exit;
+
 	}
 
 

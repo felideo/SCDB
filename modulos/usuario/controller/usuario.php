@@ -41,7 +41,7 @@ class Usuario extends \Libs\ControllerCrud {
 			$retorno[] = [
 				$item['id'],
 				$item['email'],
-				!empty($item['hierarquia']) ? $this->hierarquia_organizada[$item['hierarquia']] : '',
+				!empty($item['hierarquia']) && isset($this->hierarquia_organizada[$item['hierarquia']]) ? $this->hierarquia_organizada[$item['hierarquia']] : '',
 				$this->view->default_buttons_listagem($item['id'], true, true, true)
 			];
 		}
