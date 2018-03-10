@@ -1,1 +1,0 @@
-<?php require 'views/front/acesso/cadastro/cadastro.php'; ?>

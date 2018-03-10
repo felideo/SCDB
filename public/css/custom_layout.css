@@ -113,3 +113,28 @@
 .item-inner img{
 	width: 100%;
 }
+
+.botao_listagem{
+	font-size: 20px;
+	padding: 5px;
+}
+
+.qq-upload-success{
+	display: none !important;
+}
+
+.qq-uploader{
+	min-height: 0px !important;
+}
+
+.story-container > .story-container-inner {
+    max-width: 100%;
+}
+
+.story-section .title {
+    color: #444 !important;
+}
+
+.story-section .team {
+    max-width: 100% !important;
+}
