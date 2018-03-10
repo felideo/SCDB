@@ -232,6 +232,8 @@ class View {
 		$this->lazy_view = true;
 	}
 
+
+
 	public function default_buttons_listagem($id, $visualizar = true, $editar = true, $excluir = true){
 		$botao_visualizar = '';
 		$botao_editar     = '';
@@ -239,19 +241,19 @@ class View {
 
 		if($visualizar){
 			$botao_visualizar = \Util\Permission::check_user_permission($this->modulo['modulo'], "visualizar") ?
-				"<a href='/{$this->modulo['modulo']}/visualizar/{$id}' title='Visualizar'><i class='fa fa-eye fa-fw'></i></a>" :
+				"<a href='/{$this->modulo['modulo']}/visualizar/{$id}' title='Visualizar'><i class='botao_listagem fa fa-eye fa-fw'></i></a>" :
 				'';
 			}
 
 		if($editar){
 			$botao_editar = \Util\Permission::check_user_permission($this->modulo['modulo'], "editar") ?
-				"<a href='/{$this->modulo['modulo']}/editar/{$id}' title='Editar'><i class='fa fa-pencil fa-fw'></i></a>" :
+				"<a href='/{$this->modulo['modulo']}/editar/{$id}' title='Editar'><i class='botao_listagem fa fa-pencil fa-fw'></i></a>" :
 				 '';
 		}
 
 		if($excluir){
 			$botao_excluir = \Util\Permission::check_user_permission($this->modulo['modulo'], "deletar") ?
-				"<a href='/{$this->modulo['modulo']}/delete/{$id}' title='Deletar'><i class='fa fa-trash-o fa-fw'></i></a>" :
+				"<a href='/{$this->modulo['modulo']}/delete/{$id}' title='Deletar'><i class='botao_listagem fa fa-trash-o fa-fw'></i></a>" :
 				'';
 		}
 

@@ -11,7 +11,7 @@ class Bootstrap {
 		}
 
 	    $pdo = new \PDO('mysql:dbname=' . DB_NAME . ";host=" . DB_HOST, DB_USER, DB_PASS);
-	    $sql = $pdo->prepare("SELECT controller, id_controller FROM `url` WHERE controller = '{$url[0]}' AND url = '{$url[1]}' AND ativo = 1");
+	    $sql = $pdo->prepare("SELECT controller, metodo, id_controller FROM `url` WHERE controller = '{$url[0]}' AND url = '{$url[1]}' AND ativo = 1");
 		$sql->execute();
 
 		$retorno = $sql->fetchAll(\PDO::FETCH_NUM);
@@ -19,8 +19,8 @@ class Bootstrap {
 		if(!empty($retorno)){
 			$url = [
 				$retorno[0][0],
-				'visualizar',
 				$retorno[0][1],
+				$retorno[0][2],
 			];
 		}
 

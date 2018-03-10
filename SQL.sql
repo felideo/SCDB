@@ -292,3 +292,5 @@ CREATE TABLE `trabalho_relaciona_arquivo` (
 	FOREIGN       KEY (`id_trabalho`) 	REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	FOREIGN       KEY (`id_arquivo`) REFERENCES `arquivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+alter table SWDB.url add COLUMN metodo VARCHAR(256) not null AFTER controller;

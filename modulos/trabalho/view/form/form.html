@@ -225,7 +225,7 @@
             endpoint: '/s3/success'
         },
         autoUpload: true,
-        debug: true,
+        debug: false,
         multiple: false,
         callbacks: {
             onSubmit: function (id, fileName) {
@@ -241,8 +241,11 @@
                 // $('#id_arquivo').val(retorno['id']);
 
                 input = '<div>\n\t\t'
-                 + '<input type="text" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + ']" />\n\t\t'
+                 + '<p>' + retorno.nome + retorno.extensao +  '</p>'
+                 + '<input type="hidden" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + ']" />\n\t\t'
                  + '</div>\n';
+
+                 console.log(input);
 
                  $('#upload_trabalho').append(input);
 

@@ -78,11 +78,14 @@ class trabalho extends \Libs\Model{
 				orientador.nome,
 				orientador.email,
 				orientador.link,
+
+				arquivo.hash,
+				arquivo.nome,
 				arquivo.endereco,
+				arquivo.tamanho,
+				arquivo.extensao,
+
 				palavra.palavra_chave
-
-
-
 			')
 			->from('trabalho trabalho')
 			->leftJoin('campus campus ON campus.id = trabalho.id_campus and campus.ativo = 1')
