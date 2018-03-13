@@ -21,8 +21,4 @@ class Autor extends \Libs\Model {
 
 		return $this->db->select($select);
 	}
-
-
-
-
 }

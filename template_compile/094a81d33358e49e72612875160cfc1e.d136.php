@@ -25,39 +25,21 @@
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Autor</label>
 			    <br>
-<<<<<<< HEAD
 			    <input id="autor_$id_clone_autor" class="clone_autor_select_2_$id_clone_autor" type="text" name="<?php echo $this->scope["modulo"]["modulo"];?>[autor][$id_clone_autor][autor]" style="width: 100%;" required disabled>
-=======
-			    <input id="autor_$id_clone_autor" class="clone_autor_select_2_$id_clone_autor" type="text" name="<?php echo $this->scope["modulo"]["modulo"];?>[autor][$id_clone_autor]" style="width: 100%;" disabled>
->>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
 			</div>
 
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Lattes/Site</label>
-<<<<<<< HEAD
 			    <input id="link__autor_$id_clone_autor" type="text" class="form-control" name="<?php echo $this->scope["modulo"]["modulo"];?>[autor][$id_clone_autor][site]" value="" disabled>
-=======
-			    <p id="link_autor_div"></p>
-			    <input id="link_$id_clone_autor" type="text" class="form-control" name="<?php echo $this->scope["modulo"]["modulo"];?>[site][$id_clone_autor]" value="" disabled>
->>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
 			</div>
 
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Email</label>
-<<<<<<< HEAD
 			    <input id="email__autor_$id_clone_autor" type="text" class="form-control validar_email" name="<?php echo $this->scope["modulo"]["modulo"];?>[autor][$id_clone_autor][email]" value="" disabled>
 			</div>
 		</div>
 		<div class="panel-footer">
 			<button id="remover_clone_autor_$id_clone_autor" type="button" class="btn btn-danger pull-right remove-box">Remover Autor</button>
-=======
-			    <p id="email_autor_div"></p>
-			    <input id="email_$id_clone_autor" type="text" class="form-control" name="<?php echo $this->scope["modulo"]["modulo"];?>[site][$id_clone_autor]" value="" disabled>
-			</div>
-		</div>
-		<div class="panel-footer">
-			<button id="remover_clone_autor_$id_clone_autor" type="button" class="btn btn-danger pull-right remove-box">Remover</button>
->>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
         	<div class="clearfix"></div>
 		</div>
 	</div>
@@ -66,7 +48,6 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $('#botao_clone_autor').on('click', function(){
-<<<<<<< HEAD
             clone_autor_box();
         });
     });
@@ -93,32 +74,6 @@ function clone_autor_box(){
 
 	atualizar_clone_autor_select_2(id_container_clone);
 }
-=======
-            var container_clone    = $('#conteiner_clone_autor');
-            var id_container_clone = ($("#conteiner_clone_autor > div").length) + 1;
-
-
-            $('#nenhum_clone_autor_adicionado').hide();
-
-            var clone = $('#clonar_autor').html();
-            clone     = clone.replaceAll("$id_clone_autor", id_container_clone);
-            clone     = clone.replaceAll("disabled", "", clone);
-
-            container_clone.prepend(clone);
-
-            $('#remover_clone_autor_' + id_container_clone).on('click', function(){
-                $('#box_clone_autor_' + id_container_clone).remove();
-
-	            if($("#conteiner_clone_autor > div").length == 0){
-            		$('#nenhum_clone_autor_adicionado').show();
-	            }
-            });
-
-        	atualizar_clone_autor_select_2(id_container_clone);
-
-        });
-    });
->>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
 
 function atualizar_clone_autor_select_2(id_container_clone){
 	$('.clone_autor_select_2_' + id_container_clone).select2({
@@ -144,7 +99,6 @@ function atualizar_clone_autor_select_2(id_container_clone){
 			}
 		},
 		formatResult: function(object) {
-<<<<<<< HEAD
 			console.log(object);
 
 
@@ -214,15 +168,6 @@ function atualizar_clone_autor_select_2(id_container_clone){
 <?php 
 }?>
 
-=======
-			return object.nome
-		},
-		formatSelection: function(object) {
-			return object.nome.replace_all('Cadastrar ', '')
-		}
-	});
-}
->>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
 </script><?php  /* end template body */
 return $this->buffer . ob_get_clean();
 ?>

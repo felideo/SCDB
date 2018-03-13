@@ -54,16 +54,8 @@ class ClassLoader
     private $useIncludePath = false;
     private $classMap = array();
     private $classMapAuthoritative = false;
-<<<<<<< HEAD
-<<<<<<< HEAD
     private $missingClasses = array();
     private $apcuPrefix;
-=======
->>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
-=======
-    private $missingClasses = array();
-    private $apcuPrefix;
->>>>>>> 0b185f7... MOD SWDB * composer update * removendo pasta que foi por engano!
 
     public function getPrefixes()
     {
@@ -363,21 +355,11 @@ class ClassLoader
             $file = $this->findFileWithExtension($class, '.hh');
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0b185f7... MOD SWDB * composer update * removendo pasta que foi por engano!
         if (null !== $this->apcuPrefix) {
             apcu_add($this->apcuPrefix.$class, $file);
         }
 
         if (false === $file) {
-<<<<<<< HEAD
-=======
-        if ($file === null) {
->>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
-=======
->>>>>>> 0b185f7... MOD SWDB * composer update * removendo pasta que foi por engano!
             // Remember that this class does not exist.
             $this->missingClasses[$class] = true;
         }

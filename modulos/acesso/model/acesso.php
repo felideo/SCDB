@@ -13,6 +13,10 @@ class Acesso extends \Libs\Model {
 
 		$this->sign_in($acesso);
 
+		$this->load_permissions();
+		$this->load_modulos_and_menus();
+
+
 		if(isset($_SESSION['logado']) && $_SESSION['logado'] == true){
 			return true;
 		} else {
@@ -28,8 +32,6 @@ class Acesso extends \Libs\Model {
 		if(isset($_SESSION['logado']) && $_SESSION['logado'] == true){
 			$this->load_permissions();
 			$this->load_modulos_and_menus();
-		debug2('echo');
-		exit;
 
 			return true;
 		} else {
@@ -64,6 +66,9 @@ class Acesso extends \Libs\Model {
 		$submenus = $this->db->select('SELECT * FROM submenu WHERE ATIVO = 1');
 
 		foreach ($modulos as $indice_01 => $modulo) {
+			if($modulo['hierarquia'] == 0 && empty($_SESSION['usuario']['super_admin'])){
+				continue;
+			}
 
 			$retorno_modulos[$modulo['modulo']] = $modulo;
 
@@ -89,6 +94,9 @@ class Acesso extends \Libs\Model {
 
 	private function load_permissions(){
 		try {
+
+			$hierarquia = empty($_SESSION['usuario']['hierarquia']) ? 'NULL' : $_SESSION['usuario']['hierarquia'];
+
 			$select = 'SELECT hierarquia.id as id_hierarquia, hierarquia.nome,'
 				. ' relacao.id as id_relacao,'
 				. ' permissao.id as id_permissao, permissao.permissao, permissao.id_modulo,'
@@ -100,9 +108,14 @@ class Acesso extends \Libs\Model {
 				. ' ON permissao.id = relacao.id_permissao'
 				. ' LEFT JOIN modulo modulo'
 				. ' ON modulo.id = permissao.id_modulo'
-				. ' WHERE hierarquia.id = ' . $_SESSION['usuario']['hierarquia'];
+				. ' WHERE hierarquia.id = ' . $hierarquia;
 
 			$permissoes = $this->db->select($select);
+
+			if(empty($permissoes)){
+				\Libs\Session::set('permissoes', null);
+				return;
+			}
 
 			foreach($permissoes as $indice => $permissao){
 				$retorno_permissoes[$permissao['modulo']][$permissao['permissao']] = $permissao;

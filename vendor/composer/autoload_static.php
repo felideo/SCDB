@@ -6,10 +6,6 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit4fd02fae0f9d271bbbb521796d279d31
 {
-<<<<<<< HEAD
-    public static $files = array (
-        '2371fe58591751a9b725c6706865644e' => __DIR__ . '/..' . '/lichtner/fluentpdo/FluentPDO/FluentPDO.php',
-=======
     public static $prefixLengthsPsr4 = array (
         'U' => 
         array (
@@ -38,7 +34,6 @@ class ComposerStaticInit4fd02fae0f9d271bbbb521796d279d31
         array (
             0 => __DIR__ . '/..' . '/dwoo/dwoo/lib/Dwoo',
         ),
->>>>>>> 0b185f7... MOD SWDB * composer update * removendo pasta que foi por engano!
     );
 
     public static function getInitializer(ClassLoader $loader)

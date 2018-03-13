@@ -1,13 +1,6 @@
 <?php
 namespace Libs;
-<<<<<<< HEAD
-// include "../vendor/lichtner/fluentpdo/FluentPDO/FluentPDO.php";
-/**
-* classe Model
-*/
-=======
 use \Libs\QueryBuilder\QueryBuilder;
->>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
 
 abstract class Model {
 	protected $query;

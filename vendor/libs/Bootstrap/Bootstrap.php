@@ -18,13 +18,10 @@ class Bootstrap {
 
 		$amp = $this->identificar_arquivo_metoro_parametro($url);
 
-<<<<<<< HEAD
-=======
 
 		debug2($amp);
 		exit;
 
->>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
 		if(file_exists($amp['arquivo'])) {
 			require $amp['arquivo'];
 		} else {

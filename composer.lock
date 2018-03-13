@@ -4,53 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-<<<<<<< HEAD
-    "content-hash": "7a152aebe484002428ab43bfad5cac4d",
-    "packages": [
-        {
-            "name": "lichtner/fluentpdo",
-            "version": "v1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fpdo/fluentpdo.git",
-                "reference": "fa0df68d098a1ebb1b0461e4750ef2749869219c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fpdo/fluentpdo/zipball/fa0df68d098a1ebb1b0461e4750ef2749869219c",
-                "reference": "fa0df68d098a1ebb1b0461e4750ef2749869219c",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "FluentPDO/FluentPDO.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0",
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Marek Lichtner",
-                    "homepage": "http://licht.sk/"
-                }
-            ],
-            "description": "FluentPDO is small PHP library for rapid query building. Killer feature is smart join builder which generates joins automatically.",
-            "homepage": "https://github.com/fpdo/fluentpdo",
-            "keywords": [
-                "database",
-                "dbal",
-                "pdo"
-            ],
-            "time": "2016-07-08T13:40:45+00:00"
-=======
-    "hash": "13800e1460defbf777f84a4a4bedcbce",
-=======
->>>>>>> 0b185f7... MOD SWDB * composer update * removendo pasta que foi por engano!
     "content-hash": "3e871d15259b43419679e6e25ae1737a",
     "packages": [
         {
@@ -90,31 +43,18 @@
                 }
             ],
             "description": "Dwoo is a PHP5/PHP7 template engine which is (almost) fully compatible with Smarty templates and plugins, but is written from scratch for PHP5, and adds many features.",
-<<<<<<< HEAD
-            "time": "2017-03-27 23:25:23"
->>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
-=======
             "time": "2017-03-27T23:25:23+00:00"
->>>>>>> 0b185f7... MOD SWDB * composer update * removendo pasta que foi por engano!
         }
     ],
     "packages-dev": [],
     "aliases": [],
-<<<<<<< HEAD
-    "minimum-stability": "stable",
-=======
     "minimum-stability": "dev",
->>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-<<<<<<< HEAD
-    "platform-dev": []
-=======
     "platform-dev": [],
     "platform-overrides": {
         "php": "5.6"
     }
->>>>>>> 262262a... DEV - FELIDEOMVC * reorganização de arquivos na nova estrutura * remoção de porcarias!
 }

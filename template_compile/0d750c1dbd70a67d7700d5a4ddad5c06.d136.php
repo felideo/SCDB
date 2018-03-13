@@ -20,11 +20,7 @@ else {
                     <li><a class="collapse-module" data-toggle="collapse" href="#content-6" aria-expanded="false" aria-controls="content-6"><span aria-hidden="true" class="icon arrow_carrot-up"></span></a></li>
                 </ul>
             </div>
-<<<<<<< HEAD
             <form method="post" class="lazy_view" id="lazy_view"
-=======
-            <form method="post" class="lazy_view"
->>>>>>> e90ea5e... DEV -SWDB * crud de autor * inicio de crud de trabalhos * alteração pasta de compilação de templates * removendo procaria inutil!
                 <?php if (((isset($this->scope["cadastro"]) ? $this->scope["cadastro"] : null) !== null)) {
 ?>
 
