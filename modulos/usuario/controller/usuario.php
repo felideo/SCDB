@@ -13,7 +13,7 @@ class Usuario extends \Libs\ControllerCrud {
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID', 'Email', 'Hierarquia', 'Ações'],
+		'colunas' => ['ID', 'Nome', 'Email', 'Hierarquia', 'Ações'],
 		'from'    => 'usuario'
 	];
 
@@ -40,6 +40,7 @@ class Usuario extends \Libs\ControllerCrud {
 		foreach ($query as $indice => $item) {
 			$retorno[] = [
 				$item['id'],
+				$item['nome'] . ' ' . $item['sobrenome'],
 				$item['email'],
 				!empty($item['hierarquia']) && isset($this->hierarquia_organizada[$item['hierarquia']]) ? $this->hierarquia_organizada[$item['hierarquia']] : '',
 				$this->view->default_buttons_listagem($item['id'], true, true, true)

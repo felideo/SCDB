@@ -14,9 +14,15 @@ class Usuario extends \Libs\Model{
 		$select = "SELECT"
 			. " 	usuario.id,"
 			. " 	usuario.email,"
-			. " 	usuario.hierarquia"
+			. " 	usuario.hierarquia,"
+			. " 	pessoa.nome,"
+			. " 	pessoa.sobrenome"
 			. " FROM"
 			. " 	usuario usuario"
+
+			. " LEFT JOIN pessoa pessoa ON pessoa.id_usuario = usuario.id AND pessoa.ativo = 1"
+
+
 			. " WHERE"
 			. " 	usuario.ativo = 1";
 

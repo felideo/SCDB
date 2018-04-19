@@ -236,7 +236,7 @@ echo $this->scope["cadastro"]["resumo"];
         },
         template: 'qq-template-manual-trigger',
         request: {
-            endpoint: "/ajax_upload/upload/",
+            endpoint: "/ajax_upload/upload/true",
         },
         thumbnails: {
             placeholders: {
@@ -260,6 +260,7 @@ echo $this->scope["cadastro"]["resumo"];
             },
             onComplete: function(id, name, retorno, maybeXhr) {
                 console.log(retorno);
+
 
                 // $('#id_arquivo').val(retorno['id']);
 

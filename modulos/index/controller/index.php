@@ -10,6 +10,8 @@ class Index extends \Libs\Controller {
 	];
 
 	public function index(){
+		header('location: /acesso/admin');
+
 		$this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/index/index');
 	}
 }

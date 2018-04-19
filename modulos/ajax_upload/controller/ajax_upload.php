@@ -11,13 +11,7 @@ class ajax_upload extends \Libs\Controller {
 	public function index() {
 	}
 
-	public function upload() {
-
-
-		// debug2($_POST);
-		// debug2($_GET);
-		// debug2($_FILES);
-
+	public function upload($parametros = null) {
 		// else do regular POST upload (i.e. for old non-HTML5 browsers)
 		$size = $_FILES['qqfile']['size'];
 
@@ -50,6 +44,10 @@ class ajax_upload extends \Libs\Controller {
 
 			$results = array('success' => true);
 			$results = array_merge($results, array_merge($insert_db, $retorno_arquivo));
+		}
+
+		if(!empty($parametros[0]) && isset($results['success']) && !empty($results['success'])){
+			Libs\PDFThumbnail::creatThumbnail($insert_db['endereco']);
 		}
 
 		ob_clean();

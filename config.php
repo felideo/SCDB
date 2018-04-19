@@ -2,10 +2,11 @@
 // Configuração do Fuso Horário
 date_default_timezone_set('America/Sao_Paulo');
 
-// Sempre use barra (/) no final das URLs
-define('URL', 'http://swdb.localhost');
-// define('URL', 'http://leaflivedb.felideo.com.br/');
+$protocolo = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
+$url       = $protocolo . $_SERVER['HTTP_HOST'] . '/';
 
+// Sempre use barra (/) no final das URLs
+define('URL', $url);
 
 define('LIBS', 'libs/');
 
@@ -27,4 +28,3 @@ ini_set('display_errors', 1);
 if (function_exists('xdebug_disable')){
 	xdebug_disable();
 }
-

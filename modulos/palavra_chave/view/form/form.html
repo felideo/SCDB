@@ -1,7 +1,7 @@
 {include file='views/back/form_padrao/header.html'}
 <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <label>Palavra Chave</label>
-    <input class="form-control somente_letras remover_caracteres_especiais"  name="{$modulo.modulo}[palavra_chave]"  value="{if isset($cadastro)}{$cadastro.palavra_chave}{/if}" required>
+    <input class="form-control  somente_letras remover_caracteres_especiais embelezar_string"  name="{$modulo.modulo}[palavra_chave]"  value="{if isset($cadastro)}{$cadastro.palavra_chave}{/if}" required>
 </div>
 {include file='views/back/form_padrao/footer.html'}
 
