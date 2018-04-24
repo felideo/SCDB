@@ -13,7 +13,7 @@ class Trabalho extends \Libs\ControllerCrud {
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID', 'Titulo', 'Ano', 'Curso', 'Campi', 'Autor', 'Orientador', 'Ações'],
+		'colunas' => ['ID', 'Titulo', 'Ano', 'Curso', 'Campi', 'Autor', 'Orientador', 'Status', 'Ações'],
 	];
 
 
@@ -51,15 +51,21 @@ class Trabalho extends \Libs\ControllerCrud {
 				$orientador .= isset($um_orientador['orientador'][0]['nome']) ? $um_orientador['orientador'][0]['nome'] . ' ' : ' ';
 			}
 
-
-
-			$botao_aprovar = \Util\Permission::check_user_permission($this->modulo['modulo'], "aprovar") ?
-				"<a href='/{$this->modulo['modulo']}/visualizar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-check-circle fa-fw'></i></a>" :
+			$botao_aprovar = \Util\Permission::check_user_permission($this->modulo['modulo'], "aprovar") && ($item['status'] == 0 || $item['status'] == 2) ?
+				"<a href='/{$this->modulo['modulo']}/aprovar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-check-circle fa-fw'></i></a>" :
 				'';
 
-			$botao_reprovar = \Util\Permission::check_user_permission($this->modulo['modulo'], "reprovar") ?
-				"<a href='/{$this->modulo['modulo']}/visualizar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-times-circle fa-fw'></i></a>" :
+			$botao_reprovar = \Util\Permission::check_user_permission($this->modulo['modulo'], "reprovar") && ($item['status'] == 0 || $item['status'] == 1) ?
+				"<a href='/{$this->modulo['modulo']}/reprovar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-times-circle fa-fw'></i></a>" :
 				'';
+
+			if($item['status'] == 0){
+				$status = 'Pendente';
+			}elseif($item['status'] == 1){
+				$status = 'Aprovado';
+			}elseif($item['status'] == 2){
+				$status = 'Reprovado';
+			}
 
 			$retorno[] = [
 				$item['id'],
@@ -69,6 +75,7 @@ class Trabalho extends \Libs\ControllerCrud {
 				$item['campus'][0]['campus'],
 				$autor,
 				$orientador,
+				$status,
 
 				$this->view->default_buttons_listagem($item['id'], true, true, true) . $botao_aprovar . $botao_reprovar
 			];
@@ -93,6 +100,48 @@ class Trabalho extends \Libs\ControllerCrud {
 		$insert_trabalho_db              = $trabalho['trabalho'];
 		$insert_trabalho_db['id_curso']  = $this->tratar_curso($insert_trabalho_db['id_curso']);
 		$insert_trabalho_db['id_campus'] = $this->tratar_campus($insert_trabalho_db['id_campus']);
+
+		$retorno_trabalho = $this->model->insert('trabalho', $insert_trabalho_db);
+
+
+		if(!empty($retorno_trabalho['status'])){
+			$trabalho['trabalho']['id'] = $retorno_trabalho['id'];
+
+			$url = new URL;
+			$retorno_url = $url->setId($retorno_trabalho['id'])
+				->setUrl($insert_trabalho_db['titulo'])
+				->setController($this->modulo['modulo'])
+				->cadastrarUrlAmigavel();
+
+			$this->cadastrar_orientador($trabalho['orientador'], $retorno_trabalho['id']);
+			$this->cadastrar_autor($trabalho['autor'], $retorno_trabalho['id']);
+			$this->cadastrar_palavra_chave($trabalho['palavras_chave'], $retorno_trabalho['id']);
+			$this->cadastrar_relacao_trabalho_arquivo($trabalho['arquivo'], $retorno_trabalho['id']);
+		}
+
+		if($retorno_trabalho['status']){
+			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' cadastrado com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+		}
+
+		header('location: /' . $this->modulo['modulo']);
+	}
+
+	public function update($parametros){
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "criar");
+
+		$trabalho = carregar_variavel('trabalho');
+
+		$insert_trabalho_db              = $trabalho['trabalho'];
+		$insert_trabalho_db['id_curso']  = $this->tratar_curso($insert_trabalho_db['id_curso']);
+		$insert_trabalho_db['id_campus'] = $this->tratar_campus($insert_trabalho_db['id_campus']);
+
+
+		debug2($parametros);
+		debug2($insert_trabalho_db);
+		exit;
 
 		$retorno_trabalho = $this->model->insert('trabalho', $insert_trabalho_db);
 
@@ -317,6 +366,25 @@ class Trabalho extends \Libs\ControllerCrud {
 		debug2($id);
 		exit;
 
+	}
+
+	public function aprovar($parametros){
+		$retorno_aprovar = $this->model->update('trabalho', $parametros[0], ['status' => 1]);
+
+		if($retorno_aprovar['status']){
+			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' aprovado com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao aprovar o ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+		}
+	}
+	public function reprovar($parametros){
+		$retorno_reprovar = $this->model->update('trabalho', $parametros[0], ['status' => 2]);
+
+		if($retorno_reprovar['status']){
+			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' reprovado com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao reprovar o ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+		}
 	}
 
 

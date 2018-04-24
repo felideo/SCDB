@@ -1,3 +1,4 @@
+{include file='views/back/form_padrao/header.html'}
 {include file='public/fineuploader/templates/template.html'}
 {include file='modulos/$modulo.modulo/view/form/clones/autor.html'}
 {include file='modulos/$modulo.modulo/view/form/clones/orientador.html'}
@@ -63,11 +64,21 @@
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div id="upload_trabalho_trigger"></div>
+                        <div id="upload_trabalho_trigger lazy_view_remove"></div>
                     </div>
                     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div id="upload_trabalho" class="row">
-
+                            {if isset($cadastro.trabalho_relaciona_arquivo.0.arquivo.0) && !empty($cadastro.trabalho_relaciona_arquivo.0.arquivo.0)}
+                                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                   <div class="panel panel-default">
+                                       <div class="panel-body">
+                                           <p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></i></p>
+                                           <h3 class="text-center">{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.nome}  {$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.extensao}</h3>
+                                           <input type="hidden" value="{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.id}" name="trabalho[arquivo][1]" />
+                                       </div>
+                                   </div>
+                                </div>
+                            {/if}
                         </div>
                     </div>
                 </div>
@@ -238,22 +249,23 @@
             onComplete: function(id, name, retorno, maybeXhr) {
                 console.log(retorno);
 
+                $('#upload_trabalho').html('');
 
-                // $('#id_arquivo').val(retorno['id']);
-
-                input = '<div>\n\t\t'
-                 + '<p>' + retorno.nome + retorno.extensao +  '</p>'
-                 + '<input type="hidden" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + ']" />\n\t\t'
-                 + '</div>\n';
+                input = '<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">'
+                    +       '<div class="panel panel-default">'
+                    +           '<div class="panel-body">'
+                    +               '<p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></i></p>'
+                    +               '<h3 class="text-center">' + retorno.nome + retorno.extensao + '</h3>'
+                    +               '<input type="hidden" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + ']" />'
+                    +           '</div>'
+                    +       '</div>'
+                    + '</div>'
 
                  console.log(input);
 
                  $('#upload_trabalho').append(input);
-
             }
         }
-
-
     });
 
     qq($('#upload_trabalho_trigger #trigger-upload').on('click', function(){
@@ -313,3 +325,4 @@
 </script>
 {/literal}
 
+{include file='views/back/form_padrao/footer.html'}

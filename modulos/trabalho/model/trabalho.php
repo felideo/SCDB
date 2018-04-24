@@ -15,6 +15,7 @@ class trabalho extends \Libs\Model{
 			$query->select('
 				trabalho.titulo,
 				trabalho.ano,
+				trabalho.status,
 				campus.campus,
 				curso.curso,
 				rel_autor.id,

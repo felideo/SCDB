@@ -3,13 +3,16 @@
 if (class_exists('Dwoo\Plugins\Functions\PluginInclude')===false)
 	$this->getLoader()->loadPlugin('PluginInclude');
 /* end template head */ ob_start(); /* template body */ ;
-echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude', 
+echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude',
+                        array('views/back/form_padrao/header.html', null, null, null, '_root', null));?>
+
+<?php echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude',
                         array('public/fineuploader/templates/template.html', null, null, null, '_root', null));?>
 
-<?php echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude', 
+<?php echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude',
                         array('modulos/'.(isset($this->scope["modulo"]["modulo"]) ? $this->scope["modulo"]["modulo"]:null).'/view/form/clones/autor.html', null, null, null, '_root', null));?>
 
-<?php echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude', 
+<?php echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude',
                         array('modulos/'.(isset($this->scope["modulo"]["modulo"]) ? $this->scope["modulo"]["modulo"]:null).'/view/form/clones/orientador.html', null, null, null, '_root', null));?>
 
 
@@ -86,10 +89,24 @@ echo $this->scope["cadastro"]["resumo"];
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div id="upload_trabalho_trigger"></div>
+                        <div id="upload_trabalho_trigger lazy_view_remove"></div>
                     </div>
                     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div id="upload_trabalho" class="row">
+                            <?php if (((isset($this->scope["cadastro"]["trabalho_relaciona_arquivo"]["0"]["arquivo"]["0"]) ? $this->scope["cadastro"]["trabalho_relaciona_arquivo"]["0"]["arquivo"]["0"]:null) !== null) && ! empty($this->scope["cadastro"]["trabalho_relaciona_arquivo"]["0"]["arquivo"]["0"])) {
+?>
+
+                                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                   <div class="panel panel-default">
+                                       <div class="panel-body">
+                                           <p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></i></p>
+                                           <h3 class="text-center"><?php echo $this->scope["cadastro"]["trabalho_relaciona_arquivo"]["0"]["arquivo"]["0"]["nome"];?>  <?php echo $this->scope["cadastro"]["trabalho_relaciona_arquivo"]["0"]["arquivo"]["0"]["extensao"];?></h3>
+                                           <input type="hidden" value="<?php echo $this->scope["cadastro"]["trabalho_relaciona_arquivo"]["0"]["arquivo"]["0"]["id"];?>" name="trabalho[arquivo][1]" />
+                                       </div>
+                                   </div>
+                                </div>
+                            <?php 
+}?>
 
                         </div>
                     </div>
@@ -261,22 +278,23 @@ echo $this->scope["cadastro"]["resumo"];
             onComplete: function(id, name, retorno, maybeXhr) {
                 console.log(retorno);
 
+                $('#upload_trabalho').html('');
 
-                // $('#id_arquivo').val(retorno['id']);
-
-                input = '<div>\n\t\t'
-                 + '<p>' + retorno.nome + retorno.extensao +  '</p>'
-                 + '<input type="hidden" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + ']" />\n\t\t'
-                 + '</div>\n';
+                input = '<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">'
+                    +       '<div class="panel panel-default">'
+                    +           '<div class="panel-body">'
+                    +               '<p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></i></p>'
+                    +               '<h3 class="text-center">' + retorno.nome + retorno.extensao + '</h3>'
+                    +               '<input type="hidden" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + ']" />'
+                    +           '</div>'
+                    +       '</div>'
+                    + '</div>'
 
                  console.log(input);
 
                  $('#upload_trabalho').append(input);
-
             }
         }
-
-
     });
 
     qq($('#upload_trabalho_trigger #trigger-upload').on('click', function(){
@@ -348,6 +366,8 @@ echo $this->scope["cadastro"]["resumo"];
 </script>
 
 
-<?php  /* end template body */
+<?php echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude',
+                        array('views/back/form_padrao/footer.html', null, null, null, '_root', null));
+ /* end template body */
 return $this->buffer . ob_get_clean();
 ?>

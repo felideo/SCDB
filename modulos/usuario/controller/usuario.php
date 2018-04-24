@@ -24,6 +24,8 @@ class Usuario extends \Libs\ControllerCrud {
 
 		$this->view->set_colunas_datatable($this->datatable['colunas']);
 
+		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
+
 		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
 	}
