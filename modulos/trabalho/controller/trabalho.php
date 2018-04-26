@@ -68,14 +68,14 @@ class Trabalho extends \Libs\ControllerCrud {
 			}
 
 			$retorno[] = [
-				$item['id'],
-				$item['titulo'],
-				$item['ano'],
-				$item['curso'][0]['curso'],
-				$item['campus'][0]['campus'],
-				$autor,
-				$orientador,
-				$status,
+				isset($item['id']) && !empty($item['id']) ? $item['id'] : '',
+				isset($item['titulo']) && !empty($item['titulo']) ? $item['titulo'] : '',
+				isset($item['ano']) && !empty($item['ano']) ? $item['ano'] : '',
+				isset($item['curso'][0]['curso']) && !empty($item['curso'][0]['curso']) ? $item['curso'][0]['curso'] : '',
+				isset($item['campus'][0]['campus']) && !empty($item['campus'][0]['campus']) ? $item['campus'][0]['campus'] : '',
+				isset($autor) && !empty($autor) ? $autor : '',
+				isset($orientador) && !empty($orientador) ? $orientador : '',
+				isset($status) && !empty($status) ? $status : '',
 
 				$this->view->default_buttons_listagem($item['id'], true, true, true) . $botao_aprovar . $botao_reprovar
 			];

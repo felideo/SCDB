@@ -138,3 +138,13 @@
 .story-section .team {
     max-width: 100% !important;
 }
+
+.odd .fa{
+	font-size: 21px !important;
+	margin: 5px !important;
+}
+
+.even .fa{
+	font-size: 21px !important;
+	margin: 5px !important;
+}

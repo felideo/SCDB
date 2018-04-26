@@ -98,12 +98,56 @@ $(document).ready(function(){
             url :"/<?php echo $this->scope["modulo"]["modulo"];?>/carregar_listagem_ajax",
             type: "post",
             error: function(){
+            },
+            complete: function(){
+                $.each($('.validar_deletar'), function(index, item){
+                    var link_deletar = $(this).attr('data-redirecionamento');
+                    var id_deletar = $(this).attr('data-id_registro');
+
+
+
+                    $(this).on('click', function(){
+                        swal({
+                             title: "Tem certeza que deseja deletar o registro?",
+                             text: "Está operação é irreversivel e de sua inteira responsabilidade!",
+                             // type: "input",
+                             showCancelButton: true,
+                             closeOnConfirm: false,
+                             animation: "slide-from-top",
+                             // inputPlaceholder: "email@email.com.br",
+                             showLoaderOnConfirm: true,
+                        },
+                        function(inputValue){
+                            if(inputValue){
+                                window.location.href = link_deletar;
+                            }
+                        });
+                    });
+                });
             }
         }
-
     });
 });
 </script>
-<?php  /* end template body */
+
+
+<script type="text/javascript">
+
+        $('.validar_deletar').on('click', function(){
+        swal({
+              title: "Tem certeza que deseja deletar esse registro?",
+              // text: "Digite seu Email",
+              // type: "input",
+              showCancelButton: true,
+              closeOnConfirm: false,
+              animation: "slide-from-top",
+              // inputPlaceholder: "email@email.com.br",
+              showLoaderOnConfirm: true,
+            },
+            function(inputValue){
+                window.location.href = $(this).data('cu');
+            });
+        })
+</script><?php  /* end template body */
 return $this->buffer . ob_get_clean();
 ?>

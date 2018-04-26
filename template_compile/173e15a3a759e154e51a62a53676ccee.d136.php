@@ -149,7 +149,7 @@ if (class_exists('Dwoo\Plugins\Functions\PluginInclude')===false)
             </div>
         </header>
 
-        <?php echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude', 
+        <?php echo $this->classCall('Dwoo\Plugins\Functions\Plugininclude',
                         array('views/back/cabecalho_rodape_sidebar/sidebar.html', null, null, null, '_root', null));?>
 
 

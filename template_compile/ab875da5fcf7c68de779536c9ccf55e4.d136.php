@@ -89,7 +89,7 @@ echo $this->scope["cadastro"]["resumo"];
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div id="upload_trabalho_trigger lazy_view_remove"></div>
+                        <div id="upload_trabalho_trigger" class="lazy_view_remove"></div>
                     </div>
                     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div id="upload_trabalho" class="row">
@@ -115,6 +115,7 @@ echo $this->scope["cadastro"]["resumo"];
         </div>
     </div>
 </div>
+
 
 
 <script type="text/javascript">
@@ -280,15 +281,24 @@ echo $this->scope["cadastro"]["resumo"];
 
                 $('#upload_trabalho').html('');
 
+                var thumb = '<p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></p>';
+
+                if(typeof retorno.thumb !== 'undefined'){
+                    thumb = '<img src="/' + retorno.thumb + '">';
+                }
+
+
+
                 input = '<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">'
                     +       '<div class="panel panel-default">'
                     +           '<div class="panel-body">'
-                    +               '<p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></i></p>'
+                    +               thumb
                     +               '<h3 class="text-center">' + retorno.nome + retorno.extensao + '</h3>'
                     +               '<input type="hidden" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + ']" />'
                     +           '</div>'
                     +       '</div>'
                     + '</div>'
+                    + '<div class="clearfix"></div>';
 
                  console.log(input);
 

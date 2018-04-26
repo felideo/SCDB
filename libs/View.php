@@ -38,6 +38,7 @@ class View {
 		echo $this->dwoo->get($footer, $this->assign);
 
 		if(isset($this->lazy_view) && !empty($this->lazy_view)){
+			debug2($this->lazy_view);
 			$lazy_view = new \Dwoo\Template\File('views/back/form_padrao/lazy_view.html');
 			echo $this->dwoo->get($lazy_view, $this->assign);
 		}
@@ -235,6 +236,9 @@ class View {
 
 
 	public function default_buttons_listagem($id, $visualizar = true, $editar = true, $excluir = true){
+$protocolo = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
+$url       = $protocolo . $_SERVER['HTTP_HOST'] . '/';
+
 		$botao_visualizar = '';
 		$botao_editar     = '';
 		$botao_excluir    = '';
@@ -253,7 +257,7 @@ class View {
 
 		if($excluir){
 			$botao_excluir = \Util\Permission::check_user_permission($this->modulo['modulo'], "deletar") ?
-				"<a href='/{$this->modulo['modulo']}/delete/{$id}' title='Deletar'><i class='botao_listagem fa fa-trash-o fa-fw'></i></a>" :
+				"<a class='validar_deletar' href='#' data-id_registro='{$id}' data-redirecionamento='{$url}/{$this->modulo['modulo']}/delete/{$id}' title='Deletar'><i class='botao_listagem  fa fa-trash-o fa-fw'></i></a>" :
 				'';
 		}
 

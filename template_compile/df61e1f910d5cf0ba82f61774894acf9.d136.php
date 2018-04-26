@@ -96,10 +96,10 @@
             <?php if (((isset($this->scope["_SESSION"]["notificacoes"]) ? $this->scope["_SESSION"]["notificacoes"]:null) !== null)) {
 ?>
                 <?php 
-$_fh0_data = (isset($this->scope["_SESSION"]["notificacoes"]) ? $this->scope["_SESSION"]["notificacoes"]:null);
-if ($this->isTraversable($_fh0_data) == true)
+$_fh3_data = (isset($this->scope["_SESSION"]["notificacoes"]) ? $this->scope["_SESSION"]["notificacoes"]:null);
+if ($this->isTraversable($_fh3_data) == true)
 {
-	foreach ($_fh0_data as $this->scope['notificacao'])
+	foreach ($_fh3_data as $this->scope['notificacao'])
 	{
 /* -- foreach start output */
 ?>
