@@ -8,5 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'Util\\' => array($baseDir . '/util'),
     'Libs\\' => array($baseDir . '/libs'),
+    'Framework\\' => array($baseDir . '/framework'),
     'Dwoo\\' => array($vendorDir . '/dwoo/dwoo/lib/Dwoo'),
 );

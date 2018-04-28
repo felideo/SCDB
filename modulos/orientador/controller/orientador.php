@@ -3,7 +3,7 @@ namespace Controller;
 
 use Libs;
 
-class Orientador extends \Libs\ControllerCrud {
+class Orientador extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'orientador',

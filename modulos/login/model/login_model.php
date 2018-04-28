@@ -3,7 +3,7 @@ namespace Models;
 
 use Libs;
 
-class Login_Model extends \Libs\Model {
+class Login_Model extends \Framework\Model{
 
 	function __construct() {
 		parent::__construct();

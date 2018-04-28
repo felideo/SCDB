@@ -3,7 +3,7 @@ namespace Controller;
 
 use Libs;
 
-class Instalacao extends \Libs\Controller {
+class Instalacao extends \Framework\Controller {
 
 	private $modulo = [
 		'modulo' 	=> 'instalacao',

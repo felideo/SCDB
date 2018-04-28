@@ -3,7 +3,7 @@ namespace Controller;
 
 use Libs;
 
-class Autor extends \Libs\ControllerCrud {
+class Autor extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'autor',

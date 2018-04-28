@@ -3,7 +3,7 @@ namespace Controller;
 
 use Libs;
 
-class Usuario extends \Libs\ControllerCrud {
+class Usuario extends \Framework\ControllerCrud {
 	private $hierarquia_organizada = [];
 
 	protected $modulo = [

@@ -4,7 +4,7 @@ namespace Controller;
 use Libs;
 use Libs\URL;
 
-class Trabalho extends \Libs\ControllerCrud {
+class Trabalho extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'trabalho',

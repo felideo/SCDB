@@ -1,7 +1,7 @@
 <?php
 namespace Model;
 
-class Acesso extends \Libs\Model {
+class Acesso extends \Framework\Model{
 
 	function __construct() {
 		parent::__construct();

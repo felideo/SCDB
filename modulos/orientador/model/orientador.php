@@ -2,7 +2,7 @@
 namespace Model;
 use Libs;
 
-class Orientador extends \Libs\Model {
+class Orientador extends \Framework\Model{
 	public function buscar_orientador($busca){
 		$select = "SELECT"
 			. " 	orientador.id,"

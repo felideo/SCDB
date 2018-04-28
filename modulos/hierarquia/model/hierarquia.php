@@ -2,7 +2,7 @@
 namespace Model;
 use Libs;
 
-class Hierarquia extends \Libs\Model {
+class Hierarquia extends \Framework\Model{
 
 	public function carregar_listagem($busca, $datatable = null){
 		$select = "SELECT"

@@ -3,7 +3,7 @@ namespace Controller;
 
 use Libs;
 
-class Campus extends \Libs\ControllerCrud {
+class Campus extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'campus',

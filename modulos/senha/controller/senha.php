@@ -3,7 +3,7 @@ namespace Controller;
 
 use Libs;
 
-class Senha extends \Libs\Controller {
+class Senha extends \Framework\Controller {
 	function index(){
 	}
 

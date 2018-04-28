@@ -4,7 +4,7 @@ use Libs;
 use \Libs\QueryBuilder\QueryBuilder;
 
 
-class Palavra_Chave extends \Libs\Model {
+class Palavra_Chave extends \Framework\Model{
 	public function buscar_palavra_chave($busca){
 		$query = new QueryBuilder($this->db);
 

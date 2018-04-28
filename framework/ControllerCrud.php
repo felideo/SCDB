@@ -1,7 +1,7 @@
 <?php
-namespace Libs;
+namespace Framework;
 
-class ControllerCrud extends \Libs\Controller {
+class ControllerCrud extends \Framework\Controller {
 	protected $modulo     = [];
 	protected $datatable    = [];
 

@@ -15,6 +15,10 @@ class ComposerStaticInit4fd02fae0f9d271bbbb521796d279d31
         array (
             'Libs\\' => 5,
         ),
+        'F' => 
+        array (
+            'Framework\\' => 10,
+        ),
         'D' => 
         array (
             'Dwoo\\' => 5,
@@ -29,6 +33,10 @@ class ComposerStaticInit4fd02fae0f9d271bbbb521796d279d31
         'Libs\\' => 
         array (
             0 => __DIR__ . '/../..' . '/libs',
+        ),
+        'Framework\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/framework',
         ),
         'Dwoo\\' => 
         array (

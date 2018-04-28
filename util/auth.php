@@ -1,9 +1,6 @@
 <?php
 namespace Util;
-use Libs;
-/**
-*
-*/
+
 class Auth {
 	public static function handLeLoggin() {
 		$url = \Util\URL::modulo_url($_GET['url']);

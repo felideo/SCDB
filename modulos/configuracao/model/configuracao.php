@@ -3,5 +3,5 @@ namespace Model;
 
 use Libs;
 
-class Configuracao extends \Libs\Model {
+class Configuracao extends \Framework\Model{
 }

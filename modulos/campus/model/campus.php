@@ -2,7 +2,7 @@
 namespace Model;
 use Libs;
 
-class Campus extends \Libs\Model {
+class Campus extends \Framework\Model{
 	public function buscar_campus($busca){
 		$select = "SELECT"
 			. " 	campus.id,"

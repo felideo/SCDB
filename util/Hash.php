@@ -1,6 +1,5 @@
 <?php
 namespace Util;
-use Libs;
 
 class Hash {
 	public static function get_unic_hash() {

@@ -3,7 +3,7 @@ namespace Controller;
 
 use Libs;
 
-class ajax_upload extends \Libs\Controller {
+class ajax_upload extends \Framework\Controller {
 	public function __construct() {
 		parent::__construct();
 	}

@@ -2,5 +2,5 @@
 namespace Model;
 use Libs;
 
-class Pagina_Institucional extends \Libs\Model {
+class Pagina_Institucional extends \Framework\Model{
 }

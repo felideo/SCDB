@@ -1,7 +1,7 @@
 <?php
 namespace Controller;
 
-class Acesso extends \Libs\Controller {
+class Acesso extends \Framework\Controller {
 
 	private $modulo = [
 		'modulo' 	=> 'acesso',

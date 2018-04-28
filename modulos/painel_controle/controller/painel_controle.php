@@ -3,7 +3,7 @@ namespace Controller;
 
 use Libs;
 
-class Painel_Controle extends \Libs\Controller {
+class Painel_Controle extends \Framework\Controller {
 
 	private $modulo = [
 		'modulo' 	=> 'painel_controle',

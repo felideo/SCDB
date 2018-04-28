@@ -3,7 +3,7 @@ namespace Controller;
 
 use Libs;
 
-class Master extends \Libs\Controller {
+class Master extends \Framework\Controller {
 	function index(){
 	}
 

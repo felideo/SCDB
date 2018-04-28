@@ -5,5 +5,4 @@ require 'util/auth.php';
 require 'vendor/autoload.php';
 
 session_start();
-
-$lib = new Libs\Bootstrap\Bootstrap();
+new Framework\BigBang();

@@ -9,7 +9,7 @@ use \Libs\QueryBuilder\QueryBuilder;
 /**
 * Classe Index_Model
 */
-class Busca_Model extends \Libs\Model {
+class Busca_Model extends \Framework\Model{
 	public function __construct() {
 		parent::__construct();
 	}

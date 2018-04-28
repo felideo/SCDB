@@ -3,7 +3,7 @@ namespace Model;
 
 use Libs;
 
-class Idioma extends \Libs\Model{
+class Idioma extends \Framework\Model{
 	public function __construct() {
 		parent::__construct();
 	}

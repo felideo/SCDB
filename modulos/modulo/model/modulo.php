@@ -3,7 +3,7 @@ namespace Model;
 
 use Libs;
 
-class Modulo extends \Libs\Model {
+class Modulo extends \Framework\Model{
 	public function __construct() {
 		parent::__construct();
 	}

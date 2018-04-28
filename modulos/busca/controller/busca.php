@@ -3,7 +3,7 @@ namespace Controllers;
 
 use Libs;
 
-class busca extends \Libs\Controller {
+class busca extends \Framework\Controller {
 
 	private $modulo = [
 		'modulo' 	=> 'busca',

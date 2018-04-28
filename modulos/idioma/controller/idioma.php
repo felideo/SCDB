@@ -3,7 +3,7 @@ namespace Controller;
 
 use Libs;
 
-class Idioma extends \Libs\ControllerCrud {
+class Idioma extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'idioma',

@@ -1,7 +1,7 @@
 <?php
 namespace Controller;
 
-class Error extends \Libs\Controller {
+class Error extends \Framework\Controller {
 
 	private $modulo = [
 		'modulo' 	=> 'error',

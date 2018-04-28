@@ -3,7 +3,7 @@ namespace Model;
 
 use Libs;
 
-class Permissao extends \Libs\Model {
+class Permissao extends \Framework\Model{
 	public function __construct() {
 		parent::__construct();
 	}

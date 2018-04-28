@@ -4,7 +4,7 @@ namespace Model;
 use Libs;
 use \Libs\QueryBuilder\QueryBuilder;
 
-class Usuario extends \Libs\Model{
+class Usuario extends \Framework\Model{
 
 	public function __construct() {
 		parent::__construct();

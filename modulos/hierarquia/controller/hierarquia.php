@@ -3,7 +3,7 @@ namespace Controller;
 
 use Libs;
 
-class Hierarquia extends \Libs\ControllerCrud {
+class Hierarquia extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'hierarquia',

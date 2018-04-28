@@ -2,7 +2,7 @@
 namespace Model;
 use Libs;
 
-class Autor extends \Libs\Model {
+class Autor extends \Framework\Model{
 	public function buscar_autor($busca){
 		$select = "SELECT"
 			. " 	autor.id,"

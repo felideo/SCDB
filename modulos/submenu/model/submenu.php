@@ -2,5 +2,5 @@
 namespace Model;
 use Libs;
 
-class Submenu extends \Libs\Model {
+class Submenu extends \Framework\Model{
 }

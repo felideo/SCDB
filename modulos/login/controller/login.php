@@ -3,7 +3,7 @@ namespace Controllers;
 
 use Libs;
 
-class Login extends \Libs\Controller {
+class Login extends \Framework\Controller {
 
 	private $modulo = [
 		'modulo' 	=> 'login',

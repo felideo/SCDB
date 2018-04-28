@@ -1,7 +1,7 @@
 <?php
 namespace Controller;
 
-class Index extends \Libs\Controller {
+class Index extends \Framework\Controller {
 
 	private $modulo = [
 		'modulo' 	=> 'index',

@@ -3,7 +3,7 @@ namespace Controller;
 
 use Libs;
 
-class Submenu extends \Libs\ControllerCrud {
+class Submenu extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'submenu',
