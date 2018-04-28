@@ -8,8 +8,6 @@ $url       = $protocolo . $_SERVER['HTTP_HOST'] . '/';
 // Sempre use barra (/) no final das URLs
 define('URL', $url);
 
-define('LIBS', 'libs/');
-
 // Configuração com Banco de Dados
 define('DB_TYPE', 'mysql');
 define('DB_HOST', '127.0.0.1');

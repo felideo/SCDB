@@ -6,5 +6,3 @@ readme.md
 *.fuse_hidden*
 php_errors.log
 template_compile/*
-uploads/thumbnails/*
-uploads/trabalhos/*
