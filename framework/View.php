@@ -236,8 +236,8 @@ class View {
 
 
 	public function default_buttons_listagem($id, $visualizar = true, $editar = true, $excluir = true){
-$protocolo = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
-$url       = $protocolo . $_SERVER['HTTP_HOST'] . '/';
+		$protocolo = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
+		$url       = $protocolo . $_SERVER['HTTP_HOST'] . '/';
 
 		$botao_visualizar = '';
 		$botao_editar     = '';
@@ -263,5 +263,4 @@ $url       = $protocolo . $_SERVER['HTTP_HOST'] . '/';
 
 		return $botao_visualizar . $botao_editar . $botao_excluir;
 	}
-
 }
