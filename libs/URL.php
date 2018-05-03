@@ -9,8 +9,7 @@ class URL {
 	private $controller;
 
 	public function __construct(){
-
-		$this->model = new GenericModel;
+		$this->model = new \Framework\GenericModel;
 	}
 
 	public function cadastrarUrlAmigavel(){
