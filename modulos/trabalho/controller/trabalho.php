@@ -81,6 +81,8 @@ class Trabalho extends \Framework\ControllerCrud {
 			];
 		}
 
+		ob_clean();
+
 		echo json_encode([
             "draw"            => intval(carregar_variavel('draw')),
             "recordsTotal"    => intval(count($retorno)),
