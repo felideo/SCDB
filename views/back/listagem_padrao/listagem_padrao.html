@@ -65,18 +65,18 @@ $(document).ready(function(){
                     var link_deletar = $(this).attr('data-redirecionamento');
                     var id_deletar = $(this).attr('data-id_registro');
 
-
-
                     $(this).on('click', function(){
                         swal({
-                             title: "Tem certeza que deseja deletar o registro?",
-                             text: "Está operação é irreversivel e de sua inteira responsabilidade!",
-                             // type: "input",
-                             showCancelButton: true,
-                             closeOnConfirm: false,
-                             animation: "slide-from-top",
-                             // inputPlaceholder: "email@email.com.br",
-                             showLoaderOnConfirm: true,
+                            title: "Tem certeza que deseja deletar o registro?",
+                            text: "Está operação é irreversivel e de sua inteira responsabilidade!",
+                            type: "warning",
+
+                            showCancelButton: true,
+                            closeOnConfirm: false,
+                            animation: "slide-from-top",
+                            dangerMode: true,
+                            confirmButtonColor: "#DD6B55",
+                            showLoaderOnConfirm: true,
                         },
                         function(inputValue){
                             if(inputValue){
@@ -89,6 +89,7 @@ $(document).ready(function(){
         }
     });
 });
+
 </script>
 {/literal}
 
