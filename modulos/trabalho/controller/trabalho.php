@@ -140,9 +140,6 @@ class Trabalho extends \Framework\ControllerCrud {
 		];
 
 		$retorno = $this->model->insert('blame_cadastro_trabalho', $insert_db);
-
-		debug2($retorno);
-		exit;
 	}
 
 	public function update($parametros){
