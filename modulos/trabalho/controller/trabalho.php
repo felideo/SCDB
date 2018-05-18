@@ -68,11 +68,11 @@ class Trabalho extends \Framework\ControllerCrud {
 			}
 
 			$retorno[] = [
-				isset($item['id']) && !empty($item['id']) ? $item['id'] : '',
-				isset($item['titulo']) && !empty($item['titulo']) ? $item['titulo'] : '',
-				isset($item['ano']) && !empty($item['ano']) ? $item['ano'] : '',
-				isset($item['curso'][0]['curso']) && !empty($item['curso'][0]['curso']) ? $item['curso'][0]['curso'] : '',
-				isset($item['campus'][0]['campus']) && !empty($item['campus'][0]['campus']) ? $item['campus'][0]['campus'] : '',
+				$item['id'],
+				$item['titulo'],
+				$item['ano'],
+				$item['curso'][0]['curso'],
+				$item['campus'][0]['campus'],
 				isset($autor) && !empty($autor) ? $autor : '',
 				isset($orientador) && !empty($orientador) ? $orientador : '',
 				isset($status) && !empty($status) ? $status : '',
@@ -102,9 +102,9 @@ class Trabalho extends \Framework\ControllerCrud {
 		$insert_trabalho_db              = $trabalho['trabalho'];
 		$insert_trabalho_db['id_curso']  = $this->tratar_curso($insert_trabalho_db['id_curso']);
 		$insert_trabalho_db['id_campus'] = $this->tratar_campus($insert_trabalho_db['id_campus']);
+		$insert_trabalho_db['status']    = 0;
 
 		$retorno_trabalho = $this->model->insert('trabalho', $insert_trabalho_db);
-
 
 		if(!empty($retorno_trabalho['status'])){
 			$trabalho['trabalho']['id'] = $retorno_trabalho['id'];
