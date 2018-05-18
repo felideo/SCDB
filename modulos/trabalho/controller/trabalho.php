@@ -108,6 +108,8 @@ class Trabalho extends \Framework\ControllerCrud {
 		if(!empty($retorno_trabalho['status'])){
 			$trabalho['trabalho']['id'] = $retorno_trabalho['id'];
 
+			$this->blame($trabalho['trabalho']['id'], 'Cadastro');
+
 			$url = new URL;
 			$retorno_url = $url->setId($retorno_trabalho['id'])
 				->setUrl($insert_trabalho_db['titulo'])
@@ -129,6 +131,20 @@ class Trabalho extends \Framework\ControllerCrud {
 		header('location: /' . $this->modulo['modulo']);
 	}
 
+	public function blame($id_trabalho, $operacao){
+		$insert_db = [
+			'id_usuario'  => $_SESSION['usuario']['id'],
+			'data'        => date("Y-m-d H:i:s"),
+			'id_trabalho' => $id_trabalho,
+			'operacao'    => $operacao
+		];
+
+		$retorno = $this->model->insert('blame_cadastro_trabalho', $insert_db);
+
+		debug2($retorno);
+		exit;
+	}
+
 	public function update($parametros){
 		\Util\Auth::handLeLoggin();
 		\Util\Permission::check($this->modulo['modulo'], "criar");
@@ -148,6 +164,9 @@ class Trabalho extends \Framework\ControllerCrud {
 
 		if(!empty($retorno_trabalho['status'])){
 			$trabalho['trabalho']['id'] = $retorno_trabalho['id'];
+
+			$this->blame($trabalho['trabalho']['id'], 'Edição');
+
 
 			$this->cadastrar_orientador($trabalho['orientador'], $retorno_trabalho['id']);
 			$this->cadastrar_autor($trabalho['autor'], $retorno_trabalho['id']);
@@ -390,8 +409,30 @@ class Trabalho extends \Framework\ControllerCrud {
 
 	}
 
+	public function delete($id) {
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "deletar");
+
+		$this->check_if_exists($id[0]);
+
+		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
+
+		$this->blame($id[0], 'Deletou');
+
+		if($retorno['status']){
+			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+		}
+
+		header('location: /' . $this->modulo['modulo']);
+	}
+
 	public function aprovar($parametros){
 		$retorno_aprovar = $this->model->update('trabalho', ['status' => 1], ['id' => $parametros[0]]);
+
+		$this->blame($parametros[0], 'Aprovou');
+
 
 		if($retorno_aprovar['status']){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' aprovado com sucesso!!!', 'sucesso');
@@ -402,6 +443,8 @@ class Trabalho extends \Framework\ControllerCrud {
 
 	public function reprovar($parametros){
 		$retorno_reprovar = $this->model->update('trabalho', ['status' => 2], ['id' => $parametros[0]]);
+
+		$this->blame($parametros[0], 'Reprovou');
 
 		if($retorno_reprovar['status']){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' reprovado com sucesso!!!', 'sucesso');
