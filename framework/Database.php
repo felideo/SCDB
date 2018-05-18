@@ -1,9 +1,6 @@
 <?php
 namespace Framework;
 
-/**
-*
-*/
 class Database extends \PDO {
 	public function __construct($DB_TYPE, $DB_HOST, $DB_NAME, $DB_USER, $DB_PASS){
 		try {
@@ -52,6 +49,25 @@ class Database extends \PDO {
 		return $sth->fetchAll($fetchMode);
 	}
 
+	public function execute($sql){
+		$sth = $this->prepare($sql);
+
+		$retorno = [
+			$sth->execute(),
+			$sth->errorCode(),
+			$sth->errorInfo()
+		];
+
+		if(isset($retorno[2][2]) && !empty($retorno[2][2])){
+			return [
+				'error' => $retorno[2],
+				'backtrace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
+			];
+		}
+
+		return $retorno;
+	}
+
 	/**
 	 * insert
 	 * @param string $table Nome da tabela a ser inserida
@@ -97,17 +113,28 @@ class Database extends \PDO {
 	 */
 	public function update($table, $data, $where) {
 		ksort($data);
+		ksort($where);
 
 		$fieldDetails = NULL;
 		foreach($data as $key => $value) {
 			$fieldDetails .= "`$key` = :$key,";
 		}
 
-		$fieldDetails = rtrim($fieldDetails, ',');
+		$mount_where = NULL;
+		foreach($where as $key => $value) {
+			$mount_where .= "`$key` = :$key AND";
+		}
 
-		$sth = $this->prepare("UPDATE $table SET $fieldDetails WHERE $where");
+		$fieldDetails = rtrim($fieldDetails, ',');
+		$mount_where = rtrim($mount_where, 'AND');
+
+		$sth = $this->prepare("UPDATE $table SET $fieldDetails WHERE $mount_where");
 
 		foreach($data as $key => $value) {
+			$sth->bindValue(":$key", $value);
+		}
+
+		foreach($where as $key => $value) {
 			$sth->bindValue(":$key", $value);
 		}
 

@@ -101,7 +101,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 		\Util\Permission::check($this->modulo['modulo'], "editar");
 
 		$update_db = ['nome' => carregar_variavel($this->modulo['modulo'])];
-		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
+		$retorno = $this->model->update($this->modulo['modulo'], $update_db, ['id' => $id[0]]);
 
 		if($retorno['status']){
 			$retorno = $this->model->update_relacao('hierarquia_relaciona_permissao', 'id_hierarquia', $id[0], ['ativo' => 0]);
@@ -157,9 +157,9 @@ class Hierarquia extends \Framework\ControllerCrud {
 
 		\Util\Permission::check($this->modulo['modulo'], "deletar");
 
-		$retorno = $this->model->delete($this->modulo['modulo'], "id = {$id[0]}");
+		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
 		// $retorno = $this->model->delete('permissao', $id[0]);
-		$retorno = $this->model->delete('hierarquia_relaciona_permissao', "id_hierarquia = {$id[0]}");
+		$retorno = $this->model->delete('hierarquia_relaciona_permissao', ['id_hierarquia' => $id[0]]);
 
 
 		if($retorno['status']){
