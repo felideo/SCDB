@@ -436,6 +436,8 @@ class Trabalho extends \Framework\ControllerCrud {
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao aprovar o ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
 		}
+
+		header('location: /' . $this->modulo['modulo']);
 	}
 
 	public function reprovar($parametros){
@@ -448,7 +450,7 @@ class Trabalho extends \Framework\ControllerCrud {
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao reprovar o ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
 		}
+
+		header('location: /' . $this->modulo['modulo']);
 	}
-
-
 }
