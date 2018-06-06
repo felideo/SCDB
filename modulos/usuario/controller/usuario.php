@@ -188,7 +188,12 @@ class Usuario extends \Framework\ControllerCrud {
 				'sobrenome'  => $usuario['pessoa']['sobrenome'],
 			];
 
-			$retorno_pessoa = $this->model->update('pessoa', ['id_usuario' => $id[0]], $update_db_pessoa);
+			$retorno_pessoa = $this->model->insert_update(
+				'pessoa',
+				['id_usuario' => $id[0]],
+				$update_db_pessoa,
+				true
+			);
 		}
 
 		if($retorno_usuario['status'] && $retorno_pessoa['status']){
