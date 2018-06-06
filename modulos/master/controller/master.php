@@ -24,4 +24,14 @@ class Master extends \Framework\Controller {
 		echo json_encode("Notificacoes limpas");
 		exit;
 	}
+
+	public function deploy($parametros){
+		if($parametros[0] != DEPLOY_KEY){
+			header('location: /');
+			exit;
+		}
+
+		echo shell_exec("sh /www/swdb/automatic_deploy.sh");
+		exit;
+	}
 }
