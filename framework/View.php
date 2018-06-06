@@ -33,12 +33,15 @@ class View {
 		$body   = new \Dwoo\Template\File('modulos/' 	. $body 			. '.html');
 		$footer = new \Dwoo\Template\File('views/' 		. $header_footer 	. '/footer.html');
 
+		if(isset($this->lazy_view) && !empty($this->lazy_view)){
+			$this->assign('lazy_view', true);
+		}
+
 		echo $this->dwoo->get($header, $this->assign);
 		echo $this->dwoo->get($body, $this->assign);
 		echo $this->dwoo->get($footer, $this->assign);
 
 		if(isset($this->lazy_view) && !empty($this->lazy_view)){
-			debug2($this->lazy_view);
 			$lazy_view = new \Dwoo\Template\File('views/back/form_padrao/lazy_view.html');
 			echo $this->dwoo->get($lazy_view, $this->assign);
 		}

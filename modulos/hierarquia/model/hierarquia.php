@@ -40,6 +40,7 @@ class Hierarquia extends \Framework\Model{
 			$query->select('
 				hierarquia.id,
 				hierarquia.nome,
+				hierarquia.nivel,
 				relacao.id,
 				permissao.id
 			')

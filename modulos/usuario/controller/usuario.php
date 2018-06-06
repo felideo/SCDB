@@ -133,8 +133,15 @@ class Usuario extends \Framework\ControllerCrud {
 
 		$this->check_if_exists($id[0]);
 
+		$cadastro = $this->model->load_cadastro($id[0])[0];
+		$cadastro['hierarquia_nivel'] = $this->model->query
+			->select('hierarquia.*')
+			->from('hierarquia hierarquia')
+			->where("hierarquia.ativo = 1 AND hierarquia.id = {$cadastro['hierarquia']}")
+			->fetchArray()[0]['nivel'];
+
+		$this->view->assign('cadastro', $cadastro);
 		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
-		$this->view->assign('cadastro', $this->model->load_cadastro($id[0])[0]);
 
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
@@ -145,8 +152,16 @@ class Usuario extends \Framework\ControllerCrud {
 
 		$this->check_if_exists($id[0]);
 
+
+		$cadastro = $this->model->load_cadastro($id[0])[0];
+		$cadastro['hierarquia_nivel'] = $this->model->query
+			->select('hierarquia.*')
+			->from('hierarquia hierarquia')
+			->where("hierarquia.ativo = 1 AND hierarquia.id = {$cadastro['hierarquia']}")
+			->fetchArray()[0]['nivel'];
+
+		$this->view->assign('cadastro', $cadastro);
 		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
-		$this->view->assign('cadastro', $this->model->load_cadastro($id[0])[0]);
 
 		$this->view->lazy_view();
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
@@ -168,10 +183,12 @@ class Usuario extends \Framework\ControllerCrud {
 
 		if($retorno_usuario['status']){
 			$update_db_pessoa = [
+				'id_usuario' => $id[0],
 				'nome'       => $usuario['pessoa']['nome'],
 				'sobrenome'  => $usuario['pessoa']['sobrenome'],
 			];
-			$retorno_pessoa = $this->model->update_relacao('pessoa', 'id_usuario', $id[0], $update_db_pessoa);
+
+			$retorno_pessoa = $this->model->update('pessoa', ['id_usuario' => $id[0]], $update_db_pessoa);
 		}
 
 		if($retorno_usuario['status'] && $retorno_pessoa['status']){

@@ -67,7 +67,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 	public function create() {
 		\Util\Permission::check($this->modulo['modulo'], "criar");
 
-		$insert_db = ['nome' => carregar_variavel($this->modulo['modulo'])];
+		$insert_db = carregar_variavel($this->modulo['modulo']);
 
 		$retorno   = $this->model->insert($this->modulo['modulo'], $insert_db);
 
@@ -100,7 +100,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 	public function update($id) {
 		\Util\Permission::check($this->modulo['modulo'], "editar");
 
-		$update_db = ['nome' => carregar_variavel($this->modulo['modulo'])];
+		$update_db = carregar_variavel($this->modulo['modulo']);
 		$retorno = $this->model->update($this->modulo['modulo'], $update_db, ['id' => $id[0]]);
 
 		if($retorno['status']){

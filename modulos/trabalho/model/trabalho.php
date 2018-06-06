@@ -66,6 +66,8 @@ class trabalho extends \Framework\Model{
 				trabalho.titulo,
 				trabalho.ano,
 				trabalho.resumo,
+				trabalho.status,
+
 
 				campus.campus,
 				curso.curso,

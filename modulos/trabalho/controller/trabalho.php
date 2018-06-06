@@ -214,7 +214,7 @@ class Trabalho extends \Framework\ControllerCrud {
 		if(!empty($retorno['status'])){
 			return $retorno['id'];
 		}else{
-			$this->view->warning_js('Ocorreu um erro ao cadastrar o curso. Por favor edite o trabalho para corrigir', 'erro');
+			$this->view->warn_js('Ocorreu um erro ao cadastrar o curso. Por favor edite o trabalho para corrigir', 'erro');
 		}
 	}
 
@@ -230,7 +230,7 @@ class Trabalho extends \Framework\ControllerCrud {
 		if(!empty($retorno['status'])){
 			return $retorno['id'];
 		}else{
-			$this->view->warning_js('Ocorreu um erro ao cadastrar o campus. Por favor edite o trabalho para corrigir', 'erro');
+			$this->view->warn_js('Ocorreu um erro ao cadastrar o campus. Por favor edite o trabalho para corrigir', 'erro');
 		}
 	}
 
@@ -252,7 +252,7 @@ class Trabalho extends \Framework\ControllerCrud {
 			if(!empty($retorno['status'])){
 				$this->cadrastrar_relacao_trabalho_orientador($retorno['id'], $id_trabalho);
 			}else{
-				$this->view->warning_js('Ocorreu um erro ao cadastrar o orientador. Por favor edite o trabalho para corrigir', 'erro');
+				$this->view->warn_js('Ocorreu um erro ao cadastrar o orientador. Por favor edite o trabalho para corrigir', 'erro');
 			}
 		}
 	}
@@ -273,7 +273,7 @@ class Trabalho extends \Framework\ControllerCrud {
 		);
 
 		if(empty($retorno['status'])){
-			$this->view->warning_js('Ocorreu um erro ao relacionar um orientador ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
+			$this->view->warn_js('Ocorreu um erro ao relacionar um orientador ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
 		}
 	}
 
@@ -295,7 +295,7 @@ class Trabalho extends \Framework\ControllerCrud {
 			if(!empty($retorno['status'])){
 				$this->cadrastrar_relacao_trabalho_autor($retorno['id'], $id_trabalho);
 			}else{
-				$this->view->warning_js('Ocorreu um erro ao cadastrar o autor. Por favor edite o trabalho para corrigir', 'erro');
+				$this->view->warn_js('Ocorreu um erro ao cadastrar o autor. Por favor edite o trabalho para corrigir', 'erro');
 			}
 		}
 	}
@@ -316,7 +316,7 @@ class Trabalho extends \Framework\ControllerCrud {
 		);
 
 		if(empty($retorno['status'])){
-			$this->view->warning_js('Ocorreu um erro ao relacionar um autor ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
+			$this->view->warn_js('Ocorreu um erro ao relacionar um autor ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
 		}
 	}
 
@@ -338,7 +338,7 @@ class Trabalho extends \Framework\ControllerCrud {
 			if(!empty($retorno['status'])){
 				$this->cadrastrar_relacao_trabalho_palavra_chave($retorno['id'], $id_trabalho);
 			}else{
-				$this->view->warning_js('Ocorreu um erro ao cadastrar a palvra-chave. Por favor edite o trabalho para corrigir', 'erro');
+				$this->view->warn_js('Ocorreu um erro ao cadastrar a palvra-chave. Por favor edite o trabalho para corrigir', 'erro');
 			}
 		}
 	}
@@ -359,14 +359,14 @@ class Trabalho extends \Framework\ControllerCrud {
 		);
 
 		if(empty($retorno['status'])){
-			$this->view->warning_js('Ocorreu um erro ao relacionar a palavra-chave ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
+			$this->view->warn_js('Ocorreu um erro ao relacionar a palavra-chave ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
 		}
 	}
 
 	private function cadastrar_relacao_trabalho_arquivo($arquivos, $id_trabalho){
 		foreach($arquivos as $indice => $arquivo){
 			if(!is_numeric($arquivo)){
-				$this->view->warning_js('Ocorreu um erro ao relacionar o arquivo ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
+				$this->view->warn_js('Ocorreu um erro ao relacionar o arquivo ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
 				continue;
 			}
 
@@ -385,7 +385,7 @@ class Trabalho extends \Framework\ControllerCrud {
 			);
 
 			if(empty($retorno['status'])){
-				$this->view->warning_js('Ocorreu um erro ao relacionar o arquivo ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
+				$this->view->warn_js('Ocorreu um erro ao relacionar o arquivo ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
 			}
 		}
 	}
@@ -414,7 +414,7 @@ class Trabalho extends \Framework\ControllerCrud {
 
 		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
 
-		$this->blame($id[0], 'Deletou');
+		$this->blame($id[0], 'Exclusão');
 
 		if($retorno['status']){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
@@ -428,7 +428,7 @@ class Trabalho extends \Framework\ControllerCrud {
 	public function aprovar($parametros){
 		$retorno_aprovar = $this->model->update('trabalho', ['status' => 1], ['id' => $parametros[0]]);
 
-		$this->blame($parametros[0], 'Aprovou');
+		$this->blame($parametros[0], 'Aprovação');
 
 
 		if($retorno_aprovar['status']){
@@ -441,7 +441,7 @@ class Trabalho extends \Framework\ControllerCrud {
 	public function reprovar($parametros){
 		$retorno_reprovar = $this->model->update('trabalho', ['status' => 2], ['id' => $parametros[0]]);
 
-		$this->blame($parametros[0], 'Reprovou');
+		$this->blame($parametros[0], 'Reprovação');
 
 		if($retorno_reprovar['status']){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' reprovado com sucesso!!!', 'sucesso');

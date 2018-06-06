@@ -34,6 +34,45 @@ class Curso extends \Framework\ControllerCrud {
 		return $retorno;
 	}
 
+	public function delete($id) {
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "deletar");
+
+		$this->check_if_exists($id[0]);
+
+		$curso_utilizado = $this->model->query->select('
+				trabalho.id
+			')
+			->from('trabalho trabalho')
+			->where("trabalho.id_curso = {$id[0]}")
+			->fetchArray();
+
+		if(!empty($curso_utilizado)){
+			$msg = 'O curso esta relacionado ao(s) trabalho(s) ID numero: ';
+
+			foreach($curso_utilizado as $indice => $trabalho){
+				$msg .= $trabalho['id'] . ', ';
+			}
+
+			$msg = rtrim($msg, ', ');
+			$msg .= '. Exclusão negada! Remova manualmente este curso de todos os trabalhos antes de tentar excluir-lo.';
+
+			$this->view->alert_js($msg, 'erro');
+			header('location: /' . $this->modulo['modulo']);
+			exit;
+		}
+
+		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
+
+		if($retorno['status']){
+			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+		}
+
+		header('location: /' . $this->modulo['modulo']);
+	}
+
 	public function buscar_curso_select2(){
 		$busca = carregar_variavel('busca');
 

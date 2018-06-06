@@ -48,12 +48,20 @@ class Acesso extends \Framework\Model{
 			->where("usuario.ativo = 1")
 			->fetchArray()[0];
 
+
 		if(isset($usuario) && !empty($usuario) && count($usuario) > 0 && $usuario !== false){
+			$hierarquia = $this->query
+				->select('hierarquia.*')
+				->from('hierarquia hierarquia')
+				->where("hierarquia.ativo = 1 AND hierarquia.id = {$usuario['hierarquia']}")
+				->fetchArray()[0];
+
 			$usuario = [
-				'id'          => $usuario['id'],
-				'nome'        => $usuario['email'],
-				'hierarquia'  => $usuario['hierarquia'],
-				'super_admin' => $usuario['super_admin']
+				'id'               => $usuario['id'],
+				'nome'             => $usuario['email'],
+				'hierarquia'       => $usuario['hierarquia'],
+				'hierarquia_nivel' => $hierarquia['nivel'],
+				'super_admin'      => $usuario['super_admin']
 			];
 
 			\Libs\Session::set('logado', true);

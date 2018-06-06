@@ -4,7 +4,12 @@
             <div class="module-heading">
                 <h3 class="module-title">{if isset($cadastro)}Editar {$modulo.send}{elseif !empty($lazy_view)}Visualizar {$modulo.send}{else}Cadastrar {$modulo.send}{/if}</h3>
                 <ul class="actions list-inline">
-                    <li><a class="collapse-module" data-toggle="collapse" href="#content-6" aria-expanded="false" aria-controls="content-6"><span aria-hidden="true" class="icon arrow_carrot-up"></span></a></li>
+                    <li>
+                        <a class="collapse-module collapsed" data-toggle="collapse" href="#content-6" aria-expanded="false" aria-controls="content-6">
+                            Abrir Painel
+                            <span aria-hidden="true" class="icon arrow_carrot-up"></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <form method="post" class="lazy_view" id="lazy_view"
@@ -14,7 +19,9 @@
                     action="/{$modulo.modulo}/create"
                 {/if}
             >
-                <div class="module-content collapse in" id="content-6">
+                <!-- <div class="module-content collapse" id="content-6" aria-expanded="false"> -->
+                <div class="module-content" id="content-6">
+
                     <div class="module-content-inner no-padding-bottom">
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12 margin-bottom-md">

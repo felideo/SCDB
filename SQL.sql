@@ -293,3 +293,11 @@ CREATE TABLE `trabalho_relaciona_arquivo` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
 alter table SWDB.url add COLUMN metodo VARCHAR(256) not null AFTER controller;
+
+
+
+
+
+----------------------
+
+alter table SWDB.hierarquia add COLUMN nivel int(11) not null AFTER nome;

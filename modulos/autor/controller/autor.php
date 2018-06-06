@@ -36,6 +36,46 @@ class Autor extends \Framework\ControllerCrud {
 		return $retorno;
 	}
 
+	public function delete($id) {
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "deletar");
+
+		$this->check_if_exists($id[0]);
+
+		$autor_utilizado = $this->model->query->select('
+				rel_autor.id_autor,
+				rel_autor.id_trabalho
+			')
+			->from('trabalho_relaciona_autor rel_autor')
+			->where("rel_autor.id_autor = {$id[0]}")
+			->fetchArray();
+
+		if(!empty($autor_utilizado)){
+			$msg = 'O autor esta relacionado ao(s) trabalho(s) ID numero: ';
+
+			foreach($autor_utilizado as $indice => $trabalho){
+				$msg .= $trabalho['id_trabalho'] . ', ';
+			}
+
+			$msg = rtrim($msg, ', ');
+			$msg .= '. Exclusão negada! Remova manualmente este autor de todos os trabalhos antes de tentar excluir-lo.';
+
+			$this->view->alert_js($msg, 'erro');
+			header('location: /' . $this->modulo['modulo']);
+			exit;
+		}
+
+		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
+
+		if($retorno['status']){
+			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+		}
+
+		header('location: /' . $this->modulo['modulo']);
+	}
+
 	public function buscar_autor_select2(){
 		$busca = carregar_variavel('busca');
 
