@@ -5,6 +5,7 @@ echo "<br>"
 cd "/www/swdb/"
 cp /www/swdb/config.php ~/config.php.swdb.back
 git checkout -- .
+git fetch --all
 git pull
 cp ~/config.php.swdb.back /www/swdb/
 mv config.php.swdb.back config.php
