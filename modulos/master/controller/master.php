@@ -31,7 +31,7 @@ class Master extends \Framework\Controller {
 			exit;
 		}
 
-		echo shell_exec("sh /www/swdb/automatic_deploy.sh");
+		echo shell_exec("sudo sh /www/swdb/automatic_deploy.sh");
 		exit;
 	}
 }
