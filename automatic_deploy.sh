@@ -6,7 +6,8 @@ cd "/www/swdb/"
 cp /www/swdb/config.php ~/config.php.swdb.back
 git checkout -- .
 git fetch --all
-git pull
+git reset --hard origin/master
+git pull --rebase
 cp ~/config.php.swdb.back /www/swdb/
 mv config.php.swdb.back config.php
 
