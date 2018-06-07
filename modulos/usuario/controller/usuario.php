@@ -77,7 +77,7 @@ class Usuario extends \Framework\ControllerCrud {
 			$retorno_pessoa = $this->model->insert('pessoa', $insert_db_pessoa);
 		}
 
-		if($retorno_usuario['status'] && $retorno_pessoa['status']){
+		if($retorno_usuario['status']){
 			$this->view->alert_js('Cadastro efetuado com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro, por favor tente novamente...', 'erro');
@@ -175,9 +175,11 @@ class Usuario extends \Framework\ControllerCrud {
 
 		$usuario = carregar_variavel($this->modulo['modulo']);
 
-		$update_db_usuario = [
-			'hierarquia' => $usuario['usuario']['hierarquia'],
-		];
+		if(isset($usuario['usuario']['hierarquia']) && !empty($usuario['usuario']['hierarquia'])){
+			$update_db_usuario = [
+				'hierarquia' => $usuario['usuario']['hierarquia'],
+			];
+		}
 
 		$retorno_usuario = $this->model->update($this->modulo['modulo'], $update_db_usuario, ['id' => $id[0]]);
 
@@ -196,7 +198,7 @@ class Usuario extends \Framework\ControllerCrud {
 			);
 		}
 
-		if($retorno_usuario['status'] && $retorno_pessoa['status']){
+		if($retorno_usuario['status']){
 			$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');
