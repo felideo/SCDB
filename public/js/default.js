@@ -3,19 +3,19 @@ $(document).ready(function() {
         history.back();
     });
 
-    $("#main-nav-mouseover, .main-nav-wrapper").mouseover(function(){
-        $("body").removeClass();
-        $('body').addClass("pace-done");
-    }).mouseout(function() {
-        // $('body').removeClass("nav-toggled");
-    });
+    // $("#main-nav-mouseover, .main-nav-wrapper").mouseover(function(){
+    //     $("body").removeClass();
+    //     $('body').addClass("pace-done");
+    // }).mouseout(function() {
+    //     // $('body').removeClass("nav-toggled");
+    // });
 
-    autosize($('textarea'));
+    // autosize($('textarea'));
 });
 
 $(window).load(function(){
-    $("body").removeClass();
-    $('body').addClass("pace-done");
+    // $("body").removeClass();
+    // $('body').addClass("pace-done");
 });
 
 
