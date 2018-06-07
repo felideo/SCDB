@@ -4,7 +4,7 @@
         <label>Email * :</label>
         <input class="form-control validar_email email_unico letras_e_numeros remover_caracteres_especiais" {if isset($cadastro)} disabled {/if} name="{$modulo.modulo}[{$modulo.modulo}][email]" value="{if isset($cadastro)}{$cadastro['email']}{/if}" required>
     </div>
-    {if $_SESSION.usuario.hierarquia_nivel <= $cadastro['nivel'] || !empty($lazy_view) || !isset($cadastro) || $_SESSION.usuario.super_admin}
+    {if $_SESSION.usuario.hierarquia_nivel <= $cadastro.hierarquia_nivel || !empty($lazy_view) || !isset($cadastro) || $_SESSION.usuario.super_admin}
         <div class="contact-form form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <label>Hierarquia</label>
              <br>
@@ -15,7 +15,7 @@
                         <option value="{$hierarquia.id}" {if $hierarquia['id'] == $cadastro['hierarquia']} selected {/if}>
                             {$hierarquia.nome}
                         </option>
-                    {elseif $_SESSION.usuario.hierarquia_nivel <= $hierarquia.nivel || empty($_SESSION.usuario.hierarquia_nivel) || $_SESSION.usuario.super_admin}
+                    {elseif $_SESSION.usuario.hierarquia_nivel <= $hierarquia.nivel || $_SESSION.usuario.super_admin}
                         <option value="{$hierarquia.id}" {if $hierarquia['id'] == $cadastro['hierarquia']} selected {/if}>
                             {$hierarquia.nome}
                         </option>
@@ -28,6 +28,15 @@
             <label>Hierarquia</label>
              <br>
              <p>Somente é possível editar a hierarquia de usuários com permissões menores ou igual ao usuário logado!</p>
+
+             <select class="form-group span12" name="{$modulo.modulo}[{$modulo.modulo}][hierarquia]" style="display: none;" >
+                <option disabled>Selecnione</option>
+                {foreach from=$hierarquia_list item=hierarquia}
+                    <option value="{$hierarquia.id}" {if $hierarquia['id'] == $cadastro['hierarquia']} selected {/if}>
+                            {$hierarquia.nome}
+                        </option>
+                {/foreach}
+             </select>
         </div>
     {/if}
 </div>
