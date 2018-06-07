@@ -10,7 +10,5 @@ if(empty(DEVELOPER)){
 	error_reporting(0);
 }
 
-
-// teste4
 session_start();
 new Framework\BigBang();
