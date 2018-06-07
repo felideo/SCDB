@@ -73,9 +73,11 @@
                                     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                        <div class="panel panel-default">
                                            <div class="panel-body">
-                                               <p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></i></p>
-                                               <h3 class="text-center">{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.nome}  {$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.extensao}</h3>
-                                               <input type="hidden" value="{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.id}" name="trabalho[arquivo][1]" />
+                                                <a href="/{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.endereco}" target="_blank">
+                                                    <p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></i></p>
+                                                    <h3 class="text-center">{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.nome}  {$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.extensao}</h3>
+                                                    <input type="hidden" value="{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.id}" name="trabalho[arquivo][1]" />
+                                                </a>
                                            </div>
                                        </div>
                                     </div>
