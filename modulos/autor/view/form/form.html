@@ -51,9 +51,28 @@
 				return object.nome
 			},
 			formatSelection: function(object) {
-				console.log(object);
+				$('#sobrenome').val('');
+				$('#nome').val('');
+
+
+				var validar_numero =  object.nome
+				validar_numero = validar_numero.replace_all('<strong>Cadastrar Novo Autor: </strong>', '');
+
+				if($.isNumeric(validar_numero)){
+					swal("Erro", "Vetada a inserção de numeros no nome do Autor!", "error");
+					$('#autor_nome').select2("val", "");
+					return false;
+				}
+
+				if(hasNumber(object.nome)){
+					swal("Erro", "O nome do Autor não pode conter caracteres numericos!", "error");
+				}
+
+				object.nome = (object.nome).replace(/\d+/g,'');
+
 				if($.isNumeric(object.id) && object.validar){
 					swal("Erro", "Autor já cadastrado! Cadastro desnecessario.", "error");
+					$('#autor_nome').select2("val", "");
 					return false;
 				}
 
@@ -62,6 +81,7 @@
 
 				if($.isNumeric(object.id) && object.validar == 'true'){
 					swal("Erro", "Obrigatoria a indicação de Nome e Sobrenome do Autor!", "error");
+					$('#autor_nome').select2("val", "");
 					return false;
 				}
 
@@ -73,8 +93,8 @@
 
 				$.each(nome, function (index, value) {
 					console.log(value);
-					$('#nome').val(embelezar_string(($('#nome').val() + ' ' + value).trim()));
-					$('#nome').val($('#nome').val().replace_all('<strong>cadastrar Novo Autor: </strong>', ''));
+					$('#nome').val(($('#nome').val() + ' ' + value).trim());
+					$('#nome').val(embelezar_string($('#nome').val().replace_all('<strong>cadastrar Novo Autor: </strong>', '')));
 
 				});
 

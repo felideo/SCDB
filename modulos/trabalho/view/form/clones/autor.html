@@ -82,6 +82,8 @@ function atualizar_clone_autor_select_2(id_container_clone){
 			url: "/autor/buscar_autor_select2",
 			dataType: 'json',
 			data: function(term) {
+				// term = (term).replace(/\d+/g,'');
+
 				return {
 					busca: {
 						nome: term,
@@ -97,12 +99,26 @@ function atualizar_clone_autor_select_2(id_container_clone){
 			}
 		},
 		formatResult: function(object) {
-			console.log(object);
-
-
 			return object.nome
 		},
 		formatSelection: function(object) {
+			var validar_numero =  object.nome
+			validar_numero = validar_numero.replace_all('<strong>Cadastrar Novo Autor: </strong>', '');
+
+			if($.isNumeric(validar_numero)){
+				swal("Erro", "Vetada a inserção de numeros no nome do Autor!", "error");
+				$('.clone_autor_select_2_' + id_container_clone).select2("val", "");
+				return false;
+			}
+
+			if(hasNumber(object.nome)){
+				swal("Erro", "O nome do Autor não pode conter caracteres numericos!", "error");
+			}
+
+			object.nome = (object.nome).replace(/\d+/g,'');
+
+
+			console.log(object.email);
 			if(object.email != ''){
 				$('#email__autor_' + id_container_clone).val(object.email);
 			}else{

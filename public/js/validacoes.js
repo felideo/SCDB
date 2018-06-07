@@ -159,7 +159,10 @@ $(document).ready(function(){
 });
 
 function embelezar_string(string){
-    console.log(string);
+    if(typeof string == 'undefined'){
+        return false;
+    }
+
     var palavras = string.split(" ");
     var retorno = "";
 
@@ -202,5 +205,7 @@ String.prototype.replaceAll = function(search, replacement){
     return target.split(search).join(replacement);
 }
 
-
+function hasNumber(myString) {
+  return /\d/.test(myString);
+}
 

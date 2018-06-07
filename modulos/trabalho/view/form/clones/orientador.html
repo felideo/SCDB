@@ -110,6 +110,21 @@ function atualizar_clone_orientador_select_2(id_container_clone){
 			return object.nome
 		},
 		formatSelection: function(object) {
+			var validar_numero =  object.nome
+			validar_numero = validar_numero.replace_all('<strong>Cadastrar Novo Orientador: </strong>', '');
+
+			if($.isNumeric(validar_numero)){
+				swal("Erro", "Vetada a inserção de numeros no nome do Orientador!", "error");
+				$('.clone_orientador_select_2_' + id_container_clone).select2("val", "");
+				return false;
+			}
+
+			if(hasNumber(object.nome)){
+				swal("Erro", "O nome do Orientador não pode conter caracteres numericos!", "error");
+			}
+
+			object.nome = (object.nome).replace(/\d+/g,'');
+
 			if(object.email != ''){
 				$('#email_orientador_' + id_container_clone).val(object.email);
 			}else{
