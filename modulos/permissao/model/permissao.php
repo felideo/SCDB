@@ -56,12 +56,8 @@ class Permissao extends \Framework\Model{
 
 		$permissoes = $this->db->select($select);
 
-		foreach ($permissoes as $indice => $permissao) {
+		foreach($permissoes as $indice => $permissao) {
 			if(!isset($retorno[$permissao['modulo_modulo']])){
-				if($_SESSION['usuario']['hierarquia'] > $permissao['modulo_hierarquia']){
-					continue;
-				}
-
 				$retorno[$permissao['modulo_modulo']] = [
 					'modulo' => [
 						'id' => $permissao['modulo_id'],
@@ -80,9 +76,7 @@ class Permissao extends \Framework\Model{
 		}
 
 		return $retorno;
-
 	}
-
 }
 
 
