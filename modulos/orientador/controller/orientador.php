@@ -11,11 +11,18 @@ class Orientador extends \Framework\ControllerCrud {
 		'send'		=> 'Orientador'
 	];
 
+	// protected $datatable = [
+	// 	'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo <i class="fa fa-search"></i>', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Link/Lattes', 'Ações'],
+	// 	'select'  => [' id', 'titulo', 'nome', 'email', 'link'],
+	// 	'from'    => 'orientador',
+	// 	'search'  => ['id', 'titulo', 'nome', 'email']
+	// ];
+
 	protected $datatable = [
-		'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo <i class="fa fa-search"></i>', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Link/Lattes', 'Ações'],
-		'select'  => [' id', 'titulo', 'nome', 'email', 'link'],
+		'colunas' => ['ID <i class="fa fa-search"></i>', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Link/Lattes', 'Ações'],
+		'select'  => [' id', 'nome', 'email', 'link'],
 		'from'    => 'orientador',
-		'search'  => ['id', 'titulo', 'nome', 'email']
+		'search'  => ['id', 'nome', 'email']
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -26,7 +33,7 @@ class Orientador extends \Framework\ControllerCrud {
 		foreach ($query as $indice => $item) {
 			$retorno[] = [
 				$item['id'],
-				$item['titulo'],
+				// $item['titulo'],
 				$item['nome'],
 				$item['email'],
 				$item['link'],

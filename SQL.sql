@@ -17,15 +17,14 @@ CREATE TABLE `hierarquia` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `usuario` (
-  `id`          	int(11) 		NOT NULL AUTO_INCREMENT,
-  `email`       	varchar(256) 	NOT NULL,
-  `senha`       	varchar(64) 	NOT NULL,
-  `hierarquia`  	int(11) 		NULL,
-  `super_admin` 	tinyint(1) 		NOT NULL DEFAULT '0',
-  `ativo`       	tinyint(1) 		NOT NULL DEFAULT '1',
-  PRIMARY       KEY (`id`),
-  KEY           `hierarquia` (`hierarquia`),
-  CONSTRAINT    `usuario_ibfk_1` FOREIGN KEY (`hierarquia`) REFERENCES `hierarquia` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+	`id`          int(11) 			NOT NULL AUTO_INCREMENT,
+	`email`       varchar(256) 		NOT NULL,
+	`senha`       varchar(64) 		NOT NULL,
+	`hierarquia`  int(11) 			NULL,
+	`super_admin` tinyint(1) 		NOT NULL DEFAULT '0',
+	`ativo`       tinyint(1) 		NOT NULL DEFAULT '1',
+  	PRIMARY       KEY (`id`),
+	FOREIGN       KEY (`hierarquia`) REFERENCES `hierarquia` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 INSERT INTO `hierarquia`
@@ -302,3 +301,6 @@ alter table SWDB.url add COLUMN metodo VARCHAR(256) not null AFTER controller;
 
 alter table SWDB.hierarquia add COLUMN nivel int(11) not null AFTER nome;
 alter table SWDB.orientador add COLUMN titulo varchar(128) not null AFTER id;
+
+
+ALTER TABLE orientador MODIFY titulo varchar(128) NULL;
