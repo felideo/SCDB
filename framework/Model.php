@@ -53,7 +53,7 @@ abstract class Model {
 		return $this->db->select($query);
 	}
 
-	public function carregar_listagem($busca, $datatable){
+	public function carregar_listagem($busca, $datatable, $where = null){
 		$select = "SELECT " . implode(', ', $datatable['select'])
 			. " FROM " . $datatable['from']
 			. " WHERE ativo = 1";

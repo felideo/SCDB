@@ -18,18 +18,47 @@ class Autor extends \Framework\ControllerCrud {
 		'search'  => ['id', 'nome', 'email']
 	];
 
-	protected function carregar_dados_listagem_ajax($busca){
-		$query = $this->model->carregar_listagem($busca, $this->datatable);
+	protected $datatable_trabalhos_relacionados = [
+		'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo <i class="fa fa-search"></i>', 'Ações'],
+		'select'  => ['id', 'titulo'],
+		'from'    => 'trabalho',
+		'search'  => ['id', 'titulo']
+	];
+
+	public function carregar_listagem_trabalhos_relacionados_ajax($busca, $where = null){
+		$query = $this->model->carregar_listagem($busca, $this->datatable_trabalhos_relacionados, $where);
 
 		$retorno = [];
 
 		foreach ($query as $indice => $item) {
 			$retorno[] = [
 				$item['id'],
+				$item['titulo'],
+				$this->view->default_buttons_listagem($item['id'], true, true, true, 'trabalho')
+			];
+		}
+
+		return $retorno;
+	}
+
+	public function carregar_dados_listagem_ajax($busca){
+		$query = $this->model->carregar_listagem($busca, $this->datatable);
+
+		$retorno = [];
+
+		foreach ($query as $indice => $item) {
+			// $botao_relacionados = \Util\Permission::check_user_permission($this->modulo['modulo'], "visualizar") ?
+			// 	"<a href='/{$this->modulo['modulo']}/listagem_trabalhos_relacionados/{$item['id']}' title='Trabalhos Relacionados'><i class='botao_listagem fa fa-book fa-fw'></i></a>" :
+			// 	'';
+
+			$retorno[] = [
+				$item['id'],
 				$item['nome'],
 				$item['email'],
 				$item['link'],
+				// $this->view->default_buttons_listagem($item['id'], true, true, true) . $botao_relacionados
 				$this->view->default_buttons_listagem($item['id'], true, true, true)
+
 			];
 		}
 

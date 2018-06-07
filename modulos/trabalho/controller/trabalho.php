@@ -16,7 +16,7 @@ class Trabalho extends \Framework\ControllerCrud {
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo <i class="fa fa-search"></i>', 'Ano <i class="fa fa-search"></i>', 'Curso <i class="fa fa-search"></i>', 'Campi <i class="fa fa-search"></i>', 'Autor <i class="fa fa-search"></i>', 'Orientador <i class="fa fa-search"></i>', 'Status', 'Ações'],
 	];
 
-	public function carregar_listagem_ajax(){
+	public function carregar_listagem_ajax($parametros = null){
 		$busca = [
 			'order'  => carregar_variavel('order'),
 			'search' => carregar_variavel('search'),

@@ -56,7 +56,7 @@ class Permissao extends \Framework\ControllerCrud {
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 
-	protected function carregar_dados_listagem_ajax($busca){
+	public function carregar_dados_listagem_ajax($busca){
 		$query = $this->model->carregar_listagem($busca, $this->datatable);
 
 		$retorno = [];

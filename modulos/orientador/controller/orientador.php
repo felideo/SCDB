@@ -18,7 +18,7 @@ class Orientador extends \Framework\ControllerCrud {
 		'search'  => ['id', 'titulo', 'nome', 'email']
 	];
 
-	protected function carregar_dados_listagem_ajax($busca){
+	public function carregar_dados_listagem_ajax($busca){
 		$query = $this->model->carregar_listagem($busca, $this->datatable);
 
 		$retorno = [];

@@ -8,7 +8,7 @@ class Permissao extends \Framework\Model{
 		parent::__construct();
 	}
 
-	public function carregar_listagem($busca, $datatable){
+	public function carregar_listagem($busca, $datatable, $where = null){
 		$query = $this->query;
 
 		$query->select('

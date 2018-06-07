@@ -8,7 +8,7 @@ class trabalho extends \Framework\Model{
 		parent::__construct();
 	}
 
-	public function carregar_listagem($busca, $datatable = null){
+	public function carregar_listagem($busca, $datatable, $where = null){
 
 		$query = $this->query;
 

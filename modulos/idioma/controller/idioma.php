@@ -20,7 +20,7 @@ class Idioma extends \Framework\ControllerCrud {
 		'search'  => ['id', 'nome', 'email', 'link']
 	];
 
-	public function carregar_listagem_ajax(){
+	public function carregar_listagem_ajax($parametros = null){
 		$busca = [
 			'order'  => carregar_variavel('order'),
 			'search' => carregar_variavel('search'),

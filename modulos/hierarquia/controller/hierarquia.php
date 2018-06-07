@@ -31,7 +31,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 
 	}
 
-	protected function carregar_dados_listagem_ajax($busca){
+	public function carregar_dados_listagem_ajax($busca){
 		$query = $this->model->carregar_listagem($busca);
 
 		$retorno = [];

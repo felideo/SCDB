@@ -2,8 +2,8 @@
 namespace Framework;
 
 class ControllerCrud extends \Framework\Controller {
-	protected $modulo     = [];
-	protected $datatable    = [];
+	protected $modulo    = [];
+	protected $datatable = [];
 
 	function __construct() {
 		parent::__construct();
@@ -24,7 +24,25 @@ class ControllerCrud extends \Framework\Controller {
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
 	}
 
-	public function carregar_listagem_ajax(){
+	public function listagem_trabalhos_relacionados($parametros = null) {
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+
+		$this->view->assign('listagem_customizada', 'carregar_listagem_trabalhos_relacionados_ajax');
+
+		if(!empty($parametros)){
+			$parametros = implode('/', $parametros);
+			$this->view->assign('parametros', $parametros);
+		}
+
+		if(isset($this->datatable_trabalhos_relacionados) && !empty($this->datatable_trabalhos_relacionados)){
+			$this->view->set_colunas_datatable($this->datatable_trabalhos_relacionados['colunas']);
+		}
+
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem_trabalhos_relacionados');
+	}
+
+	public function carregar_listagem_ajax($parametros = null){
 		$busca = [
 			'order'  => carregar_variavel('order'),
 			'search' => carregar_variavel('search'),
@@ -32,7 +50,10 @@ class ControllerCrud extends \Framework\Controller {
 			'length' => carregar_variavel('length'),
 		];
 
-		$retorno = $this->carregar_dados_listagem_ajax($busca);
+		$metodo_listagem = isset($parametros[0]) && !empty($parametros[0]) ? $parametros[0] : 'carregar_dados_listagem_ajax';
+		unset($parametros[0]);
+
+		$retorno = $this->$metodo_listagem($busca, $parametros);
 
 		echo json_encode([
             "draw"            => intval(carregar_variavel('draw')),

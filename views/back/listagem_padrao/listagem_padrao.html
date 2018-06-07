@@ -1,4 +1,3 @@
-
 <div class="row" style="display: block; clear: both;">
 <div class="module-wrapper masonry-item col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <section class="module">
@@ -43,6 +42,7 @@
     </section>
 </div>
 </div>
+
 {literal}
 <script type="text/javascript">
 $(document).ready(function(){
@@ -56,7 +56,7 @@ $(document).ready(function(){
             "url": "/public/back/js/DataTable-Portuguese-Brasil.json"
         },
         "ajax":{
-            url :"/{/literal}{$modulo.modulo}{literal}/carregar_listagem_ajax",
+            url :"/{/literal}{$modulo.modulo}{literal}/carregar_listagem_ajax/{/literal}{if isset($listagem_customizada) && !empty($listagem_customizada)}{$listagem_customizada}{/if}{if isset($parametros) && !empty($parametros)}/{$parametros}{/if}{literal}",
             type: "post",
             error: function(){
             },

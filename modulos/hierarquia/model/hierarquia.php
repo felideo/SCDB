@@ -4,7 +4,7 @@ use Libs;
 
 class Hierarquia extends \Framework\Model{
 
-	public function carregar_listagem($busca, $datatable = null){
+	public function carregar_listagem($busca, $datatable = null, $where = null){
 		$select = "SELECT"
 			. " 	hierarquia.id,"
 			. " 	hierarquia.nome"

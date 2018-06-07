@@ -238,7 +238,7 @@ class View {
 
 
 
-	public function default_buttons_listagem($id, $visualizar = true, $editar = true, $excluir = true){
+	public function default_buttons_listagem($id, $visualizar = true, $editar = true, $excluir = true, $modulo = false){
 		$protocolo = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
 		$url       = $protocolo . $_SERVER['HTTP_HOST'] . '/';
 
@@ -247,19 +247,19 @@ class View {
 		$botao_excluir    = '';
 
 		if($visualizar){
-			$botao_visualizar = \Util\Permission::check_user_permission($this->modulo['modulo'], "visualizar") ?
+			$botao_visualizar = \Util\Permission::check_user_permission(!empty($modulo) ? $this->modulo['modulo'] : $modulo, "visualizar") ?
 				"<a href='/{$this->modulo['modulo']}/visualizar/{$id}' title='Visualizar'><i class='botao_listagem fa fa-eye fa-fw'></i></a>" :
 				'';
 			}
 
 		if($editar){
-			$botao_editar = \Util\Permission::check_user_permission($this->modulo['modulo'], "editar") ?
+			$botao_editar = \Util\Permission::check_user_permission(!empty($modulo) ? $this->modulo['modulo'] : $modulo, "editar") ?
 				"<a href='/{$this->modulo['modulo']}/editar/{$id}' title='Editar'><i class='botao_listagem fa fa-pencil fa-fw'></i></a>" :
 				 '';
 		}
 
 		if($excluir){
-			$botao_excluir = \Util\Permission::check_user_permission($this->modulo['modulo'], "deletar") ?
+			$botao_excluir = \Util\Permission::check_user_permission(!empty($modulo) ? $this->modulo['modulo'] : $modulo, "deletar") ?
 				"<a class='validar_deletar' href='#' data-id_registro='{$id}' data-redirecionamento='{$url}/{$this->modulo['modulo']}/delete/{$id}' title='Deletar'><i class='botao_listagem  fa fa-trash-o fa-fw'></i></a>" :
 				'';
 		}
