@@ -175,11 +175,9 @@ class Usuario extends \Framework\ControllerCrud {
 
 		$usuario = carregar_variavel($this->modulo['modulo']);
 
-		if(isset($usuario['usuario']['hierarquia']) && !empty($usuario['usuario']['hierarquia'])){
-			$update_db_usuario = [
-				'hierarquia' => $usuario['usuario']['hierarquia'],
-			];
-		}
+		$update_db_usuario = [
+			'hierarquia' => $usuario['usuario']['hierarquia'],
+		];
 
 		$retorno_usuario = $this->model->update($this->modulo['modulo'], $update_db_usuario, ['id' => $id[0]]);
 
