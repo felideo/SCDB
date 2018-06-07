@@ -15,8 +15,8 @@ class Senha extends \Framework\Controller {
 
 		if(isset($usuario[0]) && !empty($usuario[0])){
 			$hash =  \Util\Hash::get_unic_hash();
-			$retorno_hash = $model_usuario->update('usuario', $usuario[0]['id'], ['token' => $hash]);
-			$retorno_hash = $model_usuario->update('usuario', $usuario[0]['id'], ['senha' => md5($hash)]);
+			$retorno_hash = $model_usuario->update('usuario', ['id' => $usuario[0]['id']], ['token' => $hash]);
+			$retorno_hash = $model_usuario->update('usuario', ['id' => $usuario[0]['id']], ['senha' => md5($hash)]);
 		} else {
 			$this->view->alert_js('Email não encontrado...', 'erro');
 			echo json_encode(false);
@@ -60,7 +60,7 @@ class Senha extends \Framework\Controller {
 
 		if(!isset($token_verdadeiro[0])){
 			$this->view->alert_js('Token de redefinição de senha inválido!!!', 'erro');
-			header('location: ' . URL . 'login');
+			header('location: /acesso/admin');
 		}else{
 			$this->view->token = $token[0];
 			$this->view->clean_render('/senha/redefinir_senha');
@@ -86,6 +86,6 @@ class Senha extends \Framework\Controller {
 		$_POST['email'] = $token_verdadeiro[0]['email'];
 		$_POST['senha'] = $nova_senha;
 
-		header('location: ' . URL . 'login');
+		header('location: /acesso/admin');
 	}
 }
