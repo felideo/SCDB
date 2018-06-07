@@ -59,13 +59,19 @@ abstract class Model {
 			. " WHERE ativo = 1";
 
 		if(isset($busca['search']['value']) && !empty($busca['search']['value'])){
+			$select .= ' AND ( ';
+
 			foreach ($datatable['search'] as $indice => $column){
+
 				if($indice == 0){
-					$select .= " AND {$column} LIKE '%{$busca['search']['value']}%'";
+					$select .= " {$column} LIKE '%{$busca['search']['value']}%'";
 				}else{
 					$select .= " OR {$column} LIKE '%{$busca['search']['value']}%'";
 				}
 			}
+
+			$select .= ' ) ';
+
 		}
 
 		if(isset($busca['order'][0])){

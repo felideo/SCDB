@@ -12,10 +12,10 @@ class Autor extends \Framework\ControllerCrud {
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID', 'Nome', 'Email', 'Link/Lattes', 'Ações'],
+		'colunas' => ['ID <i class="fa fa-search"></i>', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Link/Lattes', 'Ações'],
 		'select'  => ['id', 'nome', 'email', 'link'],
 		'from'    => 'autor',
-		'search'  => ['id', 'nome', 'email', 'link']
+		'search'  => ['id', 'nome', 'email']
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){

@@ -12,10 +12,10 @@ class Orientador extends \Framework\ControllerCrud {
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID', 'Titulo', 'Nome', 'Email', 'Link/Lattes', 'Ações'],
-		'select'  => ['id', 'titulo', 'nome', 'email', 'link'],
+		'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo <i class="fa fa-search"></i>', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Link/Lattes', 'Ações'],
+		'select'  => [' id', 'titulo', 'nome', 'email', 'link'],
 		'from'    => 'orientador',
-		'search'  => ['id', 'nome', 'email', 'link']
+		'search'  => ['id', 'titulo', 'nome', 'email']
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){

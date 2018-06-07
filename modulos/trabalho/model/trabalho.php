@@ -34,8 +34,16 @@ class trabalho extends \Framework\Model{
 			// ->whereIn($this->db->select("SELECT id from trabalho WHERE ativo = 1 LIMIT {$busca['start']}, {$busca['length']}"))
 
 			if(isset($busca['search']['value']) && !empty($busca['search']['value'])){
-				$query->where("trabalho.id LIKE '%{$busca['search']['value']}%'", 'AND')
-					->where("trabalho.titulo LIKE '%{$busca['search']['value']}%'", 'OR');
+				$query->andWhere("
+					trabalho.id LIKE '%{$busca['search']['value']}%'
+					OR trabalho.titulo LIKE '%{$busca['search']['value']}%'
+					OR campus.campus LIKE '%{$busca['search']['value']}%'
+					OR curso.curso LIKE '%{$busca['search']['value']}%'
+					OR autor.nome LIKE '%{$busca['search']['value']}%'
+					OR orientador.nome LIKE '%{$busca['search']['value']}%'
+					OR trabalho.ano LIKE '%{$busca['search']['value']}%'
+
+				", 'AND');
 			}
 
 			if(isset($busca['order'][0])){

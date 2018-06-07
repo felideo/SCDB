@@ -12,7 +12,7 @@ class Pagina_institucional extends \Framework\ControllerCrud {
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID', 'Titulo', 'Ações'],
+		'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo <i class="fa fa-search"></i>', 'Ações'],
 		'select'  => ['id', 'titulo'],
 		'from'    => 'pagina_institucional',
 		'search'  => ['id', 'titulo']

@@ -12,7 +12,7 @@ class Palavra_chave extends \Framework\ControllerCrud {
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID', 'Palavra Chave', 'Ações'],
+		'colunas' => ['ID <i class="fa fa-search"></i>', 'Palavra Chave <i class="fa fa-search"></i>', 'Ações'],
 		'select'  => ['id', 'palavra_chave'],
 		'from'    => 'palavra_chave',
 		'search'  => ['id', 'palavra_chave']

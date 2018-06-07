@@ -148,3 +148,11 @@
 	font-size: 21px !important;
 	margin: 5px !important;
 }
+
+.collapse-module.collapsed::before {
+    content: "Abrir Painel";
+}
+
+.collapse-module:not(.collapsed)::before {
+    content: "Fechar Painel";
+}

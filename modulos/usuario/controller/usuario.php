@@ -13,7 +13,7 @@ class Usuario extends \Framework\ControllerCrud {
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID', 'Nome', 'Email', 'Hierarquia', 'Ações'],
+		'colunas' => ['ID  <i class="fa fa-search"></i>', 'Nome  <i class="fa fa-search"></i>', 'Email  <i class="fa fa-search"></i>', 'Hierarquia', 'Ações'],
 		'from'    => 'usuario'
 	];
 

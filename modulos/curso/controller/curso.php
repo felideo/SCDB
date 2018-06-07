@@ -12,7 +12,7 @@ class Curso extends \Framework\ControllerCrud {
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID', 'Curso', 'Ações'],
+		'colunas' => ['ID <i class="fa fa-search"></i>', 'Curso <i class="fa fa-search"></i>', 'Ações'],
 		'select'  => ['id', 'curso'],
 		'from'    => 'curso',
 		'search'  => ['id', 'curso']

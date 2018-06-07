@@ -13,7 +13,7 @@ class Trabalho extends \Framework\ControllerCrud {
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID', 'Titulo', 'Ano', 'Curso', 'Campi', 'Autor', 'Orientador', 'Status', 'Ações'],
+		'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo <i class="fa fa-search"></i>', 'Ano <i class="fa fa-search"></i>', 'Curso <i class="fa fa-search"></i>', 'Campi <i class="fa fa-search"></i>', 'Autor <i class="fa fa-search"></i>', 'Orientador <i class="fa fa-search"></i>', 'Status', 'Ações'],
 	];
 
 	public function carregar_listagem_ajax(){

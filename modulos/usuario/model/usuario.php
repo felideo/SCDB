@@ -27,9 +27,13 @@ class Usuario extends \Framework\Model{
 			. " 	usuario.ativo = 1";
 
 		if(isset($busca['search']['value']) && !empty($busca['search']['value'])){
-			$select .= " AND usuario.id LIKE '%{$busca['search']['value']}%'";
+			$select .= "  AND ( ";
+			$select .= " usuario.id LIKE '%{$busca['search']['value']}%'";
 			$select .= " OR usuario.email LIKE '%{$busca['search']['value']}%'";
-			$select .= " OR usuario.hierarquia LIKE '%{$busca['search']['value']}%'";
+			$select .= " OR pessoa.nome LIKE '%{$busca['search']['value']}%'";
+			$select .= " OR pessoa.sobrenome LIKE '%{$busca['search']['value']}%'";
+			$select .= "  ) ";
+
 		}
 
 		if(isset($busca['order'][0])){

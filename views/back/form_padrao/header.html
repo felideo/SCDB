@@ -5,8 +5,7 @@
                 <h3 class="module-title">{if isset($cadastro)}Editar {$modulo.send}{elseif !empty($lazy_view)}Visualizar {$modulo.send}{else}Cadastrar {$modulo.send}{/if}</h3>
                 <ul class="actions list-inline">
                     <li>
-                        <a class="collapse-module collapsed" data-toggle="collapse" href="#content-6" aria-expanded="false" aria-controls="content-6">
-                            Abrir Painel
+                        <a class="collapse-module collapsed" data-toggle="collapse" href="#box_cadastro_padrao" aria-expanded="false" aria-controls="box_cadastro_padrao">
                             <span aria-hidden="true" class="icon arrow_carrot-up"></span>
                         </a>
                     </li>
@@ -20,7 +19,7 @@
                 {/if}
             >
                 <!-- <div class="module-content collapse" id="content-6" aria-expanded="false"> -->
-                <div class="module-content" id="content-6">
+                <div class="module-content collapse" id="box_cadastro_padrao" aria-expanded="false">
 
                     <div class="module-content-inner no-padding-bottom">
                         <div class="row">
