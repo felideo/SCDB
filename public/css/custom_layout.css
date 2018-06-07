@@ -156,3 +156,8 @@
 .collapse-module:not(.collapsed)::before {
     content: "Fechar Painel";
 }
+
+input[type="text"]:disabled{
+    background-color: #FFFFFF;
+    color: #555;
+}

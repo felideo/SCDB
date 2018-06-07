@@ -91,6 +91,10 @@ class Orientador extends \Framework\ControllerCrud {
 			$retorno = array_merge($add_cadastro, $retorno);
 		}
 
+		foreach($retorno as &$item){
+			$item['validar'] = true;
+		}
+
 		echo json_encode($retorno);
 		exit;
 	}

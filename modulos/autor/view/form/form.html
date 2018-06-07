@@ -1,14 +1,97 @@
 {include file='views/back/form_padrao/header.html'}
-<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <label for="autor">Autor * :</label>
-    <input class="form-control embelezar_string somente_letras" type="text" name="{$modulo.modulo}[nome]"  value="{if isset($cadastro)}{$cadastro.nome}{/if}" required>
+<div class="form-group col-xs-12 col-sm-12 col-md-7 col-lg-7">
+    <label for="autor">Nome (Preenchimento Automatico)</label>
+    <input id="nome" class="form-control embelezar_string somente_letras" disabled type="text">
 </div>
+<div class="form-group col-xs-12 col-sm-12 col-md-5 col-lg-5">
+    <label for="autor">Sobrenome (Preenchimento Automatico)</label>
+    <input id="sobrenome" class="form-control embelezar_string somente_letras" disabled type="text">
+</div>
+
+<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <label>Autor *:</label>
+    <br>
+    <input  id="autor_nome" class="embelezar_string somente_letras" type="text" name="{$modulo.modulo}[nome]"  value="{if isset($cadastro)}{$cadastro.nome}{/if}" style="width: 100%;" required>
+</div>
+
 <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
     <label for="email">Email * :</label>
     <input class="form-control validar_email" type="text" name="{$modulo.modulo}[email]" value="{if isset($cadastro)}{$cadastro.email}{/if}" required>
 </div>
 <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
     <label for="link">Lattes/Site * :</label>
-    <input class="form-control" type="text" name="{$modulo.modulo}[link]"  value="{if isset($cadastro)}{$cadastro.link}{/if}" required>
+    <input class="form-control" type="text" name="{$modulo.modulo}[link]"  value="{if isset($cadastro)}{$cadastro.link}{/if}">
 </div>
+
+<script type="text/javascript">
+
+		$('#autor_nome').select2({
+			multiple: false,
+			minimumInputLength: 2,
+			ajax: {
+				type: 'POST',
+				url: "/autor/buscar_autor_select2",
+				dataType: 'json',
+				data: function(term) {
+					return {
+						busca: {
+							nome: term,
+							page_limit: 10,
+							cadastrar_busca: true
+						}
+					};
+				},
+				results: function(data) {
+					return {
+						results: data
+					};
+				}
+			},
+			formatResult: function(object) {
+				return object.nome
+			},
+			formatSelection: function(object) {
+				console.log(object);
+				if($.isNumeric(object.id) && object.validar){
+					swal("Erro", "Autor já cadastrado! Cadastro desnecessario.", "error");
+					return false;
+				}
+
+				object.id   = object.id.replace(/\s\s+/g, ' ').trim();
+				object.nome = object.nome.replace(/\s\s+/g, ' ').trim();
+
+				if($.isNumeric(object.id) && object.validar == 'true'){
+					swal("Erro", "Obrigatoria a indicação de Nome e Sobrenome do Autor!", "error");
+					return false;
+				}
+
+				var nome = object.nome.split(" ");
+
+				$('#sobrenome').val(embelezar_string(nome[nome.length - 1]));
+
+				nome.splice(nome.length - 1);
+
+				$.each(nome, function (index, value) {
+					console.log(value);
+					$('#nome').val(embelezar_string(($('#nome').val() + ' ' + value).trim()));
+					$('#nome').val($('#nome').val().replace_all('<strong>cadastrar Novo Autor: </strong>', ''));
+
+				});
+
+				return embelezar_string(object.nome.replace_all('Cadastrar ', ''));
+			}
+		});
+
+	{if isset($cadastro) && !empty($cadastro)}
+		var autor = {json_encode($cadastro)};
+
+		$('#autor_nome').select2(
+	        'data', {
+	            id:   autor['id'],
+	            nome: autor['nome'],
+	            validar: false
+	        }
+	    );
+	{/if}
+</script>
 {include file='views/back/form_padrao/footer.html'}

@@ -153,36 +153,39 @@ $(document).ready(function(){
     });
 
     $(".embelezar_string").change(function(){
-        var string = $(this).val();
-        console.log(string);
-        var palavras = string.split(" ");
-        var retorno = "";
-
-        for (i = 0 ; i < palavras.length; i ++){
-            to_lower = palavras[i].toLowerCase();
-            to_lower = to_lower.trim();
-
-            if(to_lower.length > 3){
-                first_to_upper = to_lower.slice(0,1).toUpperCase() + to_lower.slice(1);
-            }else if(to_lower == 'ana'){
-                first_to_upper = to_lower.slice(0,1).toUpperCase() + to_lower.slice(1);
-            }else{
-                first_to_upper = to_lower;
-            }
-
-            retorno += first_to_upper;
-
-            if (i != palavras.length-1){
-                retorno+=" ";
-            }
-        }
-
-        retorno[retorno.length-1] = '';
-        retorno = retorno.replace(/  +/g, ' ');
-        $(this).val(retorno);
+        $(this).val(embelezar_string($(this).val()));
     });
 
 });
+
+function embelezar_string(string){
+    console.log(string);
+    var palavras = string.split(" ");
+    var retorno = "";
+
+    for (i = 0 ; i < palavras.length; i ++){
+        to_lower = palavras[i].toLowerCase();
+        to_lower = to_lower.trim();
+
+        if(to_lower.length > 3){
+            first_to_upper = to_lower.slice(0,1).toUpperCase() + to_lower.slice(1);
+        }else if(to_lower == 'ana'){
+            first_to_upper = to_lower.slice(0,1).toUpperCase() + to_lower.slice(1);
+        }else{
+            first_to_upper = to_lower;
+        }
+
+        retorno += first_to_upper;
+
+        if (i != palavras.length-1){
+            retorno+=" ";
+        }
+    }
+
+    retorno[retorno.length-1] = '';
+    retorno = retorno.replace(/  +/g, ' ');
+    return retorno;
+}
 
 function validar_email(email){
 	var str = email;
