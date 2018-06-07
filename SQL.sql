@@ -76,10 +76,8 @@ CREATE TABLE `hierarquia_relaciona_permissao` (
   `id_permissao`  int(11) NOT NULL,
   `ativo`         tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY         KEY (`id`),
-  KEY             `id_hierarquia` (`id_hierarquia`),
-  KEY             `id_permissao` (`id_permissao`),
-  CONSTRAINT      `hierarquia_relaciona_permissao_ibfk_1` FOREIGN KEY (`id_hierarquia`) REFERENCES `hierarquia` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT      `hierarquia_relaciona_permissao_ibfk_2` FOREIGN KEY (`id_permissao`) REFERENCES `permissao` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  FOREIGN KEY (`id_hierarquia`) REFERENCES `hierarquia` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`id_permissao`) REFERENCES `permissao` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
