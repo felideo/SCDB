@@ -12,8 +12,8 @@ class Orientador extends \Framework\ControllerCrud {
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID', 'Nome', 'Email', 'Link/Lattes', 'Ações'],
-		'select'  => ['id', 'nome', 'email', 'link'],
+		'colunas' => ['ID', 'Titulo', 'Nome', 'Email', 'Link/Lattes', 'Ações'],
+		'select'  => ['id', 'titulo', 'nome', 'email', 'link'],
 		'from'    => 'orientador',
 		'search'  => ['id', 'nome', 'email', 'link']
 	];
@@ -26,6 +26,7 @@ class Orientador extends \Framework\ControllerCrud {
 		foreach ($query as $indice => $item) {
 			$retorno[] = [
 				$item['id'],
+				$item['titulo'],
 				$item['nome'],
 				$item['email'],
 				$item['link'],

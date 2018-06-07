@@ -185,8 +185,34 @@ class Trabalho extends \Framework\ControllerCrud {
 		\Util\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->check_if_exists($id[0]);
+		$blame = $this->model->carregar_blame($id[0]);
+
+		foreach ($blame as &$trabalho){
+			switch ($trabalho['operacao']) {
+				case 'Cadastro':
+					$trabalho['cor_tag'] = 'label label-success';
+					break;
+
+				case 'Edição':
+					$trabalho['cor_tag'] = 'label label-high';
+					break;
+
+				case 'Exclusão':
+					$trabalho['cor_tag'] = 'label label-critical';
+					break;
+
+				case 'Aprovação':
+					$trabalho['cor_tag'] = 'label label-normal';
+					break;
+
+				case 'Reprovação':
+					$trabalho['cor_tag'] = 'label label-low';
+					break;
+			}
+		}
 
 		$this->view->assign('cadastro', $this->model->carregar_trabalho($id[0])[0]);
+		$this->view->assign('blame', $blame);
 
 		$this->view->lazy_view();
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');

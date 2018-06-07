@@ -41,7 +41,7 @@
 								{foreach from=$blame key=indice item=trabalho}
 									<tr>
 										<td><span class="label label-number">{$trabalho.trabalho.0.id}</span></td>
-										<td class="truncate"><a href="#">{$trabalho.trabalho.0.titulo}</a></td>
+										<td class="truncate"><a href="/trabalho/visualizar/{$trabalho.trabalho.0.id}">{$trabalho.trabalho.0.titulo}</a></td>
 										<td>
 											<span class="truncate">
 												{if !empty($trabalho.usuario.0.pessoa)}

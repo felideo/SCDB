@@ -90,6 +90,55 @@
 </div>
 
 
+{if !empty($blame)}
+<div class="module-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <section class="module module-has-footer module-tickets">
+        <div class="module-inner">
+            <div class="module-heading">
+                <h3 class="module-title">Historico de Alterações</h3>
+                <ul class="actions list-inline">
+                    <li><a class="collapse-module" data-toggle="collapse" href="#content-tickets" aria-expanded="false" aria-controls="content-tickets"><span aria-hidden="true" class="icon arrow_carrot-up"></span></a></li>
+                </ul>
+            </div>
+
+            <div class="module-content collapse in" id="content-tickets">
+                <div class="module-content-inner">
+                    <div class="table-responsive">
+                        <table class="table table-simple">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;" class="number">Data</th>
+                                    <th style="width: 30%;" class="truncate">Usuario</th>
+                                    <th style="width: 5%;" >Operação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {foreach from=$blame key=indice item=trabalho}
+                                    <tr>
+                                        <td>{$trabalho.data}</td>
+                                        <td>
+                                            <span class="truncate">
+                                                {if !empty($trabalho.usuario.0.pessoa)}
+                                                    {$trabalho.usuario.0.pessoa.0.nome} {$trabalho.usuario.0.pessoa.0.sobrenome}
+                                                {else}
+                                                    {$trabalho.usuario.0.email}
+                                                {/if}
+                                            </span>
+                                        </td>
+                                        <td><span class="{$trabalho.cor_tag}">{$trabalho.operacao}</span></td>
+                                    </tr>
+                                {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{/if}
+
+
 {literal}
 <script type="text/javascript">
     $('#idioma').select2({

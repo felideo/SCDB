@@ -59,6 +59,23 @@ class trabalho extends \Framework\Model{
 		return $retorno;
 	}
 
+	public function carregar_blame($id_trabalho){
+		return $this->query
+			->select('
+				blame.*,
+				usuario.email,
+				pessoa.nome,
+				pessoa.sobrenome,
+			')
+			->from('blame_cadastro_trabalho blame')
+			->leftJoin('usuario usuario ON usuario.id = blame.id_usuario')
+			->leftJoin('pessoa pessoa ON pessoa.id_usuario = usuario.id ')
+			->where("blame.id_trabalho = {$id_trabalho}")
+			->orderBy('blame.data ASC')
+			->fetchArray();
+
+	}
+
 	public function carregar_trabalho($id){
 		$query = $this->query;
 

@@ -39,6 +39,8 @@ class Painel_Controle extends \Framework\Controller {
 		// debug2($blame);
 
 		foreach ($blame as &$trabalho){
+			$trabalho['data'] = date("d/m/Y H:i:s", strtotime($trabalho['data']));
+
 			switch ($trabalho['operacao']) {
 				case 'Cadastro':
 					$trabalho['cor_tag'] = 'label label-success';

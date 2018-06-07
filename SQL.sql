@@ -301,3 +301,4 @@ alter table SWDB.url add COLUMN metodo VARCHAR(256) not null AFTER controller;
 ----------------------
 
 alter table SWDB.hierarquia add COLUMN nivel int(11) not null AFTER nome;
+alter table SWDB.orientador add COLUMN titulo varchar(128) not null AFTER id;
