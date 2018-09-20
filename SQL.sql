@@ -249,9 +249,11 @@ CREATE TABLE `campus` (
 	PRIMARY         KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
+set foreign_key_checks = 1;
+set foreign_key_checks = 1;
 CREATE TABLE `url` (
   `id`            int(11) 		NOT NULL AUTO_INCREMENT,
-  `url`			  varchar(512)  NOT NULL UNIQUE,
+  `url`			  varchar(512)  NOT NULL,
   `id_controller` int(11) 		NULL,
   `controller`    varchar(256) 	NOT NULL,
   `ativo`         tinyint(1) 	NOT NULL DEFAULT '1',
@@ -291,10 +293,6 @@ CREATE TABLE `trabalho_relaciona_arquivo` (
 
 alter table SWDB.url add COLUMN metodo VARCHAR(256) not null AFTER controller;
 
-
-
-
-
 ----------------------
 
 alter table SWDB.hierarquia add COLUMN nivel int(11) not null AFTER nome;
@@ -302,3 +300,21 @@ alter table SWDB.orientador add COLUMN titulo varchar(128) not null AFTER id;
 
 
 ALTER TABLE orientador MODIFY titulo varchar(128) NULL;
+
+alter table SWDB.pagina_institucional add COLUMN exibir_cabecalho TINYINT(1) NOT NULL DEFAULT '0' AFTER conteudo;
+alter table SWDB.pagina_institucional add COLUMN exibir_rodape TINYINT(1) NOT NULL DEFAULT '0' AFTER exibir_cabecalho;
+alter table SWDB.url add COLUMN metodo varchar(256) NOT NULL AFTER controller;
+
+CREATE TABLE `configuracao` (
+	`id`                  INT(11) 			NOT NULL AUTO_INCREMENT,
+	`aplicacao_nome`      varchar(32) 		NULL,
+	`email`               varchar(256) 		NULL,
+	`id_google_analytics` varchar(128) 		NULL,
+	`cor_padrao`          varchar(64) 		NULL,
+	`ativo`               TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY               KEY (`id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+
+insert into configuracao (id, ativo) VALUES (1, 1);
+

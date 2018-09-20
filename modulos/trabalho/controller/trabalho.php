@@ -6,6 +6,8 @@ use Libs\URL;
 
 class Trabalho extends \Framework\ControllerCrud {
 
+// hellcal insight
+
 	protected $modulo = [
 		'modulo' 	=> 'trabalho',
 		'name'		=> 'Trabalhos',
@@ -146,6 +148,10 @@ class Trabalho extends \Framework\ControllerCrud {
 		\Util\Auth::handLeLoggin();
 		\Util\Permission::check($this->modulo['modulo'], "criar");
 
+		if(empty($_POST)){
+			header('location: /' . $this->modulo['modulo']);
+		}
+
 		$trabalho = carregar_variavel('trabalho');
 
 		$insert_trabalho_db              = $trabalho['trabalho'];
@@ -172,12 +178,69 @@ class Trabalho extends \Framework\ControllerCrud {
 		}
 
 		if($retorno_trabalho['status']){
+			$this->indexar_trabalho_elasticsearch($trabalho);
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' cadastrado com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
 		}
 
 		header('location: /' . $this->modulo['modulo']);
+	}
+
+	private function indexar_trabalho_elasticsearch($trabalho){
+		$elastic_search = new \Libs\ElasticSearch\ElasticSearch();
+		foreach(explode(',', $trabalho['palavras_chave']) as $indice => $palavra){
+			$tmp[] = ['palavra_chave' => $palavra];
+		}
+			$trabalho['palavras_chave'] = $tmp;
+			unset($tmp);
+
+		foreach($trabalho['autor'] as $indice => $autor){
+			$tmp[] = ['autor' => $autor['autor']];
+
+		}
+		$trabalho['autor']['autores'] = $tmp;
+		unset($tmp);
+
+
+		foreach($trabalho['orientador'] as $indice => $orientador){
+			$tmp[] = ['orientador' => $orientador['orientador']];
+		}
+		$trabalho['orientador']['orientadores'] = $tmp;
+		unset($tmp);
+
+		$tmp = array_values($trabalho['arquivo']);
+
+		$trabalho['arquivo'] = $this->model->db->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
+
+		$params = [
+		    'index' => 'swdb',
+		    'type'  => 'trabalho',
+		    'id'    => $trabalho['trabalho']['id'],
+		    'body'  => [
+		    	'titulo' => $trabalho['trabalho']['titulo'],
+		    	'ano' => $trabalho['trabalho']['ano'],
+				'id_curso'      => $trabalho['trabalho']['id_curso'],
+				'id_campus'     => $trabalho['trabalho']['id_campus'],
+				'palavra_chave' => $trabalho['palavras_chave'],
+				'autor'         => $trabalho['autor']['autores'],
+				'orientador'    => $trabalho['orientador']['orientadores'],
+				// 'arquivo'       => base64_encode(file_get_contents(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco']))
+			]
+		];
+
+debug2(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco']);
+
+
+		$response = $elastic_search->indexar($params);
+		$elastic_search->indexar_documento(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco'], $trabalho['trabalho']['id']);
+debug2($response);
+debug2($trabalho);
+exit;
+debug2(get_class_methods($client));
+		debug2('fim');
+		exit;
+
 	}
 
 	public function visualizar($id){
@@ -261,6 +324,8 @@ class Trabalho extends \Framework\ControllerCrud {
 	}
 
 	private function cadastrar_orientador($orientadores, $id_trabalho){
+		$this->model->execute("DELETE from trabalho_relaciona_orientador WHERE id_trabalho = {$id_trabalho}");
+
 		foreach($orientadores as $indice => $orientador){
 			if(is_numeric($orientador['orientador'])){
 				$this->cadrastrar_relacao_trabalho_orientador($orientador['orientador'], $id_trabalho);
@@ -289,8 +354,6 @@ class Trabalho extends \Framework\ControllerCrud {
 			'id_orientador' => $id_orientador
 		];
 
-		$this->model->execute("DELETE from trabalho_relaciona_orientador WHERE id_trabalho = {$id_trabalho}");
-
 		$retorno = $this->model->insert_update(
 			'trabalho_relaciona_orientador',
 			['id_trabalho' => $id_trabalho, 'id_orientador' => $id_orientador],
@@ -304,6 +367,8 @@ class Trabalho extends \Framework\ControllerCrud {
 	}
 
 	private function cadastrar_autor($autores, $id_trabalho){
+		$this->model->execute("DELETE from trabalho_relaciona_autor WHERE id_trabalho = {$id_trabalho}");
+
 		foreach($autores as $indice => $autor){
 			if(is_numeric($autor['autor'])){
 				$this->cadrastrar_relacao_trabalho_autor($autor['autor'], $id_trabalho);
@@ -332,8 +397,6 @@ class Trabalho extends \Framework\ControllerCrud {
 			'id_autor'    => $id_autor
 		];
 
-		$this->model->execute("DELETE from trabalho_relaciona_autor WHERE id_trabalho = {$id_trabalho}");
-
 		$retorno = $this->model->insert_update(
 			'trabalho_relaciona_autor',
 			['id_trabalho' => $id_trabalho, 'id_autor' => $id_autor],
@@ -349,6 +412,8 @@ class Trabalho extends \Framework\ControllerCrud {
 	private function cadastrar_palavra_chave($palavras_chave, $id_trabalho){
 		$palavras_chave = explode(',', $palavras_chave);
 
+		$this->model->execute("DELETE from trabalho_relaciona_palavra_chave WHERE id_trabalho = {$id_trabalho}");
+
 		foreach($palavras_chave as $indice => $palavra){
 			if(is_numeric($palavra)){
 				$this->cadrastrar_relacao_trabalho_palavra_chave($palavra, $id_trabalho);
@@ -360,6 +425,7 @@ class Trabalho extends \Framework\ControllerCrud {
 			];
 
 			$retorno = $this->model->insert('palavra_chave', $insert_db);
+
 
 			if(!empty($retorno['status'])){
 				$this->cadrastrar_relacao_trabalho_palavra_chave($retorno['id'], $id_trabalho);
@@ -375,8 +441,6 @@ class Trabalho extends \Framework\ControllerCrud {
 			'id_palavra_chave' => $palavra_chave
 		];
 
-		$this->model->execute("DELETE from trabalho_relaciona_palavra_chave WHERE id_trabalho = {$id_trabalho}");
-
 		$retorno = $this->model->insert_update(
 			'trabalho_relaciona_palavra_chave',
 			['id_trabalho' => $id_trabalho, 'id_palavra_chave' => $palavra_chave],
@@ -390,6 +454,8 @@ class Trabalho extends \Framework\ControllerCrud {
 	}
 
 	private function cadastrar_relacao_trabalho_arquivo($arquivos, $id_trabalho){
+		$this->model->execute("DELETE from trabalho_relaciona_arquivo WHERE id_trabalho = {$id_trabalho}");
+
 		foreach($arquivos as $indice => $arquivo){
 			if(!is_numeric($arquivo)){
 				$this->view->warn_js('Ocorreu um erro ao relacionar o arquivo ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
@@ -400,8 +466,6 @@ class Trabalho extends \Framework\ControllerCrud {
 				'id_trabalho' => $id_trabalho,
 				'id_arquivo'  => $arquivo
 			];
-
-			$this->model->execute("DELETE from trabalho_relaciona_arquivo WHERE id_trabalho = {$id_trabalho}");
 
 			$retorno = $this->model->insert_update(
 				'trabalho_relaciona_arquivo',
@@ -418,18 +482,17 @@ class Trabalho extends \Framework\ControllerCrud {
 
 	public function visualizar_front($id){
 		$this->check_if_exists($id[0]);
+
+		$front_controller = $this->get_controller('front');
+
+		$this->view->assign('paginas_institucionais', $front_controller->carregar_cabecalho_rodape());
+
+		$this->get_controller('contador')->contar('visita');
+
 		$cadastro = $this->model->carregar_trabalho($id[0])[0];
+
 		$this->view->assign('cadastro', $cadastro);
-
-		// debug2($cadastro);
-
-
-
 		$this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/front');
-
-		debug2($id);
-		exit;
-
 	}
 
 	public function delete($id) {

@@ -10,4 +10,9 @@ class Configuracao extends \Framework\ControllerCrud {
 		'name'		=> 'Configurações de Sistema',
 		'send'		=> 'Configurações de Sistema'
 	];
+
+	public function index(){
+		header('location: /' . $this->modulo['modulo'] . '/editar/1');
+	}
+
 }

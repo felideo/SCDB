@@ -46,10 +46,10 @@ class ajax_upload extends \Framework\Controller {
 			$results = array_merge($results, array_merge($insert_db, $retorno_arquivo));
 		}
 
-		if(!empty($parametros[0]) && isset($results['success']) && !empty($results['success'])){
-			$thumb = Libs\PDFThumbnail::creatThumbnail($insert_db['endereco']);
-			$results['thumb'] = $thumb;
-		}
+		// if(!empty($parametros[0]) && isset($results['success']) && !empty($results['success'])){
+		// 	$thumb = Libs\PDFThumbnail::creatThumbnail($insert_db['endereco']);
+		// 	$results['thumb'] = $thumb;
+		// }
 
 		ob_clean();
 

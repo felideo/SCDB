@@ -7,13 +7,15 @@ class URL {
 	private $url;
 	private $model;
 	private $controller;
+	private $metodo;
 
 	public function __construct(){
-		$this->model = new \Framework\GenericModel;
+
+		$this->model = new \Framework\GenericModel();
 	}
 
 	public function cadastrarUrlAmigavel(){
-		$this->get_url_amigavel();
+		$this->url = $this->get_url_amigavel($this->url);
 		$this->tratar_preexistencia();
 
 		$retorno = $this->cadastrarUrl();
@@ -25,10 +27,13 @@ class URL {
 		return false;
 	}
 
-	private function get_url_amigavel(){
-		$this->url = Strings::limparStringCompleto($this->url);
-		$this->url = Strings::remover_acentos($this->url);
-		$this->url = Strings::removerCaracteresMultiplicados('-', $this->url);
+	private function get_url_amigavel($url){
+    	$url = Strings::remover_caracteres_especiais($url, ['-']);
+		$url = Strings::limparStringCompleto($url);
+		$url = Strings::remover_acentos($url);
+		$url = Strings::removerCaracteresMultiplicados('-', $url);
+
+		return $url;
 	}
 
 	private function tratar_preexistencia(){
@@ -37,7 +42,7 @@ class URL {
 		$url_unica     = $this->url;
 
 		while(!empty($ja_existe)) {
-			$query = $this->model->db->select("SELECT id FROM url WHERE  controller = '{$this->controller}' AND url = '{$url_unica}'");
+			$query = $this->model->db->select("SELECT id FROM url WHERE  controller = '{$this->controller}' AND url = '{$url_unica}' AND id_controller != {$this->id} AND ativo = 1");
 
 			if(!empty($query)){
 				$url_unica = $this->url . '-' . $diferenciador;
@@ -54,8 +59,17 @@ class URL {
 		$insert_db = [
 			'url'           => $this->url,
 			'controller'    => $this->controller,
+			'metodo'        => $this->metodo,
 			'id_controller' => $this->id,
+			'ativo'         => 1
 		];
+
+		return $this->model->insert_update(
+			'url',
+			['id_controller' => $this->id, 'controller' => $this->controller],
+			$insert_db,
+			true
+		);
 
 		return $this->model->insert('url', $insert_db);
 	}
@@ -72,6 +86,11 @@ class URL {
 
 	public function setController($controller){
 		$this->controller = $controller;
+		return $this;
+	}
+
+	public function setMetodo($metodo){
+		$this->metodo = $metodo;
 		return $this;
 	}
 }

@@ -10,7 +10,8 @@
                                 <span aria-hidden="true" class="icon arrow_carrot-up"></span>
                             </a>
                         {else}
-                            <a class="collapse-module" data-toggle="collapse" href="#box_cadastro_padrao" aria-expanded="true" aria-controls="box_cadastro_padrao">
+                            <!-- <a class="collapse-module" data-toggle="collapse" href="#box_cadastro_padrao" aria-expanded="true" aria-controls="box_cadastro_padrao"> -->
+                            <a class="collapse-module collapsed" data-toggle="collapse" href="#box_cadastro_padrao" aria-expanded="false" aria-controls="box_cadastro_padrao">
                                 <span aria-hidden="true" class="icon arrow_carrot-up"></span>
                             </a>
                         {/if}
@@ -27,7 +28,8 @@
                 {if !empty($lazy_view) || isset($cadastro)}
                     <div class="module-content collapse in" id="box_cadastro_padrao" aria-expanded="true" style="">
                 {else}
-                    <div class="module-content collapse" id="box_cadastro_padrao" aria-expanded="false" style="height: 0px;">
+                    <!-- <div class="module-content collapse" id="box_cadastro_padrao" aria-expanded="false" style="height: 0px;"> -->
+                    <div class="module-content collapse in" id="box_cadastro_padrao" aria-expanded="true" style="">
                 {/if}
 
                     <div class="module-content-inner no-padding-bottom">

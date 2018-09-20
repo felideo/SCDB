@@ -132,7 +132,7 @@
 }
 
 .story-section .title {
-    color: #444 !important;
+    color: #D4D4D4 !important;
 }
 
 .story-section .team {
@@ -160,4 +160,8 @@
 input[type="text"]:disabled{
     background-color: #FFFFFF;
     color: #555;
+}
+
+.width100{
+	width: 100%;
 }

@@ -1,9 +1,12 @@
 <?php
 namespace Framework;
 
+use Libs\URL;
+
+
 class ControllerCrud extends \Framework\Controller {
-	protected $modulo     = [];
-	protected $datatable    = [];
+	protected $modulo    = [];
+	protected $datatable = [];
 
 	function __construct() {
 		parent::__construct();
@@ -50,6 +53,11 @@ class ControllerCrud extends \Framework\Controller {
 
 		$retorno = $this->model->insert($this->modulo['modulo'], carregar_variavel($this->modulo['modulo']));
 
+		if(isset($this->modulo['url']) && !empty($this->modulo['url']) && !empty($retorno['status'])){
+			$dados['id'] = $retorno['id'];
+			$this->cadastrar_url($dados);
+		}
+
 		if($retorno['status']){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' cadastrado com sucesso!!!', 'sucesso');
 		} else {
@@ -75,7 +83,13 @@ class ControllerCrud extends \Framework\Controller {
 
 		$this->check_if_exists($id[0]);
 
-		$retorno = $this->model->update($this->modulo['modulo'], carregar_variavel($this->modulo['modulo']), ['id' => $id[0]]);
+		$dados   = carregar_variavel($this->modulo['modulo']);
+		$retorno = $this->model->update($this->modulo['modulo'], $dados, ['id' => $id[0]]);
+
+		if(isset($this->modulo['url']) && !empty($this->modulo['url']) && !empty($retorno['status'])){
+			$dados['id'] = $id[0];
+			$this->cadastrar_url($dados);
+		}
 
 		if($retorno['status']){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' editado com sucesso!!!', 'sucesso');
@@ -84,6 +98,15 @@ class ControllerCrud extends \Framework\Controller {
 		}
 
 		header('location: /' . $this->modulo['modulo']);
+	}
+
+	private function cadastrar_url($dados){
+		$url          = new URL;
+		$retorno_url  = $url->setId($dados['id'])
+			->setUrl($dados[$this->modulo['url']['url']])
+			->setMetodo($this->modulo['url']['metodo'])
+			->setController($this->modulo['modulo'])
+			->cadastrarUrlAmigavel();
 	}
 
 	public function delete($id) {

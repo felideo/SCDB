@@ -6,9 +6,9 @@ use Libs;
 class Palavra_chave extends \Framework\ControllerCrud {
 
 	protected $modulo = [
-		'modulo' 	=> 'palavra_chave',
-		'name'		=> 'Palavras Chaves',
-		'send'		=> 'Palavra Chave'
+		'modulo' => 'palavra_chave',
+		'name'   => 'Palavras Chaves',
+		'send'   => 'Palavra Chave',
 	];
 
 	protected $datatable = [

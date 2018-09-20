@@ -5,7 +5,7 @@ use Libs;
 
 class Login extends \Framework\Controller {
 
-	private $modulo = [
+	protected $modulo = [
 		'modulo' 	=> 'login',
 		'name'		=> 'Login',
 		'send'		=> 'Login'

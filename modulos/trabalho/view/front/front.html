@@ -1,162 +1,89 @@
-<body class="about-page">
-    <!-- ******HEADER****** -->
-    <header id="header" class="header navbar-fixed-top">
-        <div class="container">
-            <h1 class="logo">
-                <a href="index.html"><span class="logo-icon"></span><span class="text">Velocity</span></a>
-            </h1><!--//logo-->
-            <nav class="main-nav navbar-right" role="navigation">
-                <div class="navbar-header">
-                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button><!--//nav-toggle-->
-                </div><!--//navbar-header-->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="nav-item"><a href="index.html">Home</a></li>
-                        <li class="nav-item"><a href="features.html">Features</a></li>
-                        <li class="nav-item"><a href="pricing.html">Pricing</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false" href="#">Pages <i class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="download.html">Download Apps</a></li>
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="blog-single.html">Blog Single</a></li>
-                                <li><a href="blog-category.html">Blog Category</a></li>
-                                <li><a href="blog-archive.html">Blog Archive</a></li>
-                                <li><a href="about.html">About Us</a></li>
-                                <li><a href="contact.html">Contact</a></li>
-                            </ul>
-                        </li><!--//dropdown-->
-                        <li class="nav-item"><a href="login.html">Log in</a></li>
-                        <li class="nav-item nav-item-cta last"><a class="btn btn-cta btn-cta-secondary" href="signup.html">Sign Up Free</a></li>
-                    </ul><!--//nav-->
-                </div><!--//navabr-collapse-->
-            </nav><!--//main-nav-->
-        </div><!--//container-->
-    </header><!--//header-->
-
-    <div class="headline-bg about-headline-bg">
-    </div><!--//headline-bg-->
-
-    <!-- ******Video Section****** -->
-    <section class="story-section section section-on-bg">
-        <h2 class="title container text-center">{$cadastro.titulo}</h2>
-        <div class="story-container container text-center">
-            <div class="story-container-inner" >
-                <div class="about">
-                    {*debug2($cadastro)*}
-                    <h3 class="title text-center" style="color: #000;">Resumo</h3>
-                    <blockquote class="belife">{$cadastro.resumo}</blockquote>
-                </div><!--//about-->
-            </div>
+<!-- ******Video Section****** -->
+<section class="story-section section section-on-bg">
+    <h2 class="title container text-center">{$cadastro.titulo}</h2>
+    <div class="story-container container text-center">
+        <div class="story-container-inner" >
+            <div class="about">
+                {*debug2($cadastro)*}
+                <h3 class="title text-center" style="color: #000;">Resumo</h3>
+                <blockquote class="belife">{$cadastro.resumo}</blockquote>
+            </div><!--//about-->
         </div>
+    </div>
 
-        <div class="container">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="row">
+    <div class="container">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <p>Ano: {$cadastro.ano}</p>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <p>Curso: {$cadastro.curso.0.curso}</p>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <p>Campus: {$cadastro.campus.0.campus}</p>
-                        </div>
+                        <p>Ano: {$cadastro.ano}</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <p>Curso: {$cadastro.curso.0.curso}</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <p>Campus: {$cadastro.campus.0.campus}</p>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <h2 class="title text-center">Nomes Populares</h2>
-
-                        {foreach from=$cadastro.trabalho_relaciona_palavra_chave item=palavra_chave}
-                            <p>{$palavra_chave.palavra_chave.0.palavra_chave}</p>
-                        {/foreach}
-                    </div>
-                </div>
-
-                <div class="team row">
-                    <h3 class="title">Autores</h3>
-                    {foreach from=$cadastro.trabalho_relaciona_autor item=autor}
-                        <div class="member col-md-4 col-sm-4 col-xs-12">
-                            <div class="member-inner">
-                                <figure class="profile">
-                                    <img class="img-responsive" src="assets/images/team/member-1.png" alt=""/>
-                                    <figcaption class="info">
-                                        <span class="name">{$autor.autor.0.nome}</span>
-                                        <br />
-                                        <span class="job-title">{$autor.autor.0.email}</span>
-                                        <br />
-                                        <span class="job-title">{$autor.autor.0.link}</span>
-
-                                        </figcaption>
-                                    </figure><!--//profile-->
-                                </div><!--//member-inner-->
-                        </div><!--//member-->
-                    {/foreach}
-                </div><!--//team-->
-
-                <div class="team row">
-                    <h3 class="title">Autores</h3>
-                    {foreach from=$cadastro.trabalho_relaciona_orientador item=orientador}
-                        <div class="member col-md-4 col-sm-4 col-xs-12">
-                            <div class="member-inner">
-                                <figure class="profile">
-                                    <img class="img-responsive" src="assets/images/team/member-1.png" alt=""/>
-                                    <figcaption class="info">
-                                        <span class="name">{$autor.autor.0.nome}</span>
-                                        <br />
-                                        <span class="job-title">{$autor.autor.0.email}</span>
-                                        <br />
-                                        <span class="job-title">{$autor.autor.0.link}</span>
-
-                                        </figcaption>
-                                    </figure><!--//profile-->
-                                </div><!--//member-inner-->
-                        </div><!--//member-->
-                    {/foreach}
-                </div><!--//team-->
-
             </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h2 class="title text-center">Palavras Chave</h2>
+                    {foreach from=$cadastro.trabalho_relaciona_palavra_chave item=palavra_chave}
+                        <p>{$palavra_chave.palavra_chave.0.palavra_chave}</p>
+                    {/foreach}
+                </div>
+            </div>
+
+            <div class="team row">
+                <h3 class="title">Autores</h3>
+                {foreach from=$cadastro.trabalho_relaciona_autor item=autor}
+                    <div class="member col-md-4 col-sm-4 col-xs-12">
+                        <div class="member-inner">
+                            <figure class="profile">
+                                <img class="img-responsive" src="assets/images/team/member-1.png" alt=""/>
+                                <figcaption class="info">
+                                    <span class="name">{$autor.autor.0.nome}</span>
+                                    <br />
+                                    <span class="job-title">{$autor.autor.0.email}</span>
+                                    <br />
+                                    <span class="job-title">{$autor.autor.0.link}</span>
+
+                                    </figcaption>
+                                </figure><!--//profile-->
+                            </div><!--//member-inner-->
+                    </div><!--//member-->
+                {/foreach}
+            </div><!--//team-->
+
+            <div class="team row">
+                <h3 class="title">Orientadores</h3>
+                {foreach from=$cadastro.trabalho_relaciona_orientador item=orientador}
+                    <div class="member col-md-4 col-sm-4 col-xs-12">
+                        <div class="member-inner">
+                            <figure class="profile">
+                                <img class="img-responsive" src="assets/images/team/member-1.png" alt=""/>
+                                <figcaption class="info">
+                                    <span class="name">{$orientador.orientador.0.nome}</span>
+                                    <br />
+                                    <span class="job-title">{$orientador.orientador.0.email}</span>
+                                    <br />
+                                    <span class="job-title">{$orientador.orientador.0.link}</span>
+
+                                    </figcaption>
+                                </figure><!--//profile-->
+                            </div><!--//member-inner-->
+                    </div><!--//member-->
+                {/foreach}
+            </div><!--//team-->
+
+            <div class="press-kit text-center">
+                <h3 class="title">Aviso</h3>
+                <p>A consulta a este documento fica condicionada na aceitação das seguintes condições de uso:</p>
+                <p>Este trabalho é somente para uso privado de atividades de pesquisa e ensino. Não é autorizada sua reprodução para quaisquer fins lucrativos. Esta reserva de direitos abrange todos os dados do documento bem como seu conteúdo. Na utilização ou citação de partes do documento é obrigatório mencionar nome(s) do(s) autor(es) do trabalho. <a href="contact.html">Link Bonito</a> </p>
+                <a class="btn btn-cta btn-cta-secondary" target="_blank" href="/{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.endereco}">Download Trabalho</a>
+            </div><!--//press-kit-->
         </div>
-
-
-
-
-
-
-
-
-    {$orientador.orientador.0.nome}
-    {$orientador.orientador.0.email}
-    {$orientador.orientador.0.link}
-{/foreach}
-
-
-
-
-{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.hash}
-{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.nome}
-{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.endereco}
-{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.tamanho}
-{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.extensao}
-
-
-
-
-
-                <div class="press-kit text-center">
-                    <h3 class="title">Press Kit</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec.</p>
-                    <p>Please <a href="contact.html">contact us</a> if you need more materials.</p>
-                    <a class="btn btn-cta btn-cta-secondary" href="#">Download Press Kit</a>
-                </div><!--//press-kit-->
-            </div><!--//story-container-->
-        </div><!--//container-->
-    </section><!--//story-video-->
+    </div>
+</section><!--//story-video-->

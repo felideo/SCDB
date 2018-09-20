@@ -5,7 +5,7 @@ use Libs;
 
 class Painel_Controle extends \Framework\Controller {
 
-	private $modulo = [
+	protected $modulo = [
 		'modulo' 	=> 'painel_controle',
 		'name'		=> 'Painel de Controle',
 		'send'		=> 'Painel de Controle'

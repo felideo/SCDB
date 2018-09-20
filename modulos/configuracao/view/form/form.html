@@ -2,16 +2,31 @@
 
 <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
     <label for="email">Nome do Site * :</label>
-    <input class="form-control" type="text" name="{$modulo.modulo}[email]" value="{if isset($cadastro)}{$cadastro.email}{/if}" required>
+    <input class="form-control" type="text" name="{$modulo.modulo}[aplicacao_nome]" value="{if isset($cadastro)}{$cadastro.aplicacao_nome}{/if}" required>
 </div>
 <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
     <label for="link">ID Google Analytics * :</label>
-    <input class="form-control" type="text" name="{$modulo.modulo}[link]"  value="{if isset($cadastro)}{$cadastro.link}{/if}" required>
+    <input class="form-control" type="text" name="{$modulo.modulo}[id_google_analytics]"  value="{if isset($cadastro)}{$cadastro.id_google_analytics}{/if}" >
 </div>
 
 <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
     <label for="link">Email para Notificações * :</label>
     <input class="form-control validar_email email_unico letras_e_numeros remover_caracteres_especiais" name="{$modulo.modulo}[email]" value="{if isset($cadastro)}{$cadastro.email}{/if}" required>
 </div>
+
+<div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <label for="link">Padrão de Cor do Site * :</label>
+		<select name="{$modulo.modulo}[cor_padrao]" required>
+            <option value="/public/front/css/styles.css"  {if isset($cadastro) && $cadastro.cor_padrao == '/public/front/css/styles.css'} selected {/if}  >Salmão</option>
+            <option value="/public/front/css/styles-2.css" {if isset($cadastro) && $cadastro.cor_padrao == '/public/front/css/styles-2.css'} selected {/if} >Verde Escuro</option>
+            <option value="/public/front/css/styles-3.css" {if isset($cadastro) && $cadastro.cor_padrao == '/public/front/css/styles-3.css'} selected {/if} >Azul</option>
+            <option value="/public/front/css/styles-4.css" {if isset($cadastro) && $cadastro.cor_padrao == '/public/front/css/styles-4.css'} selected {/if} >Laranja</option>
+            <option value="/public/front/css/styles-5.css" {if isset($cadastro) && $cadastro.cor_padrao == '/public/front/css/styles-5.css'} selected {/if} >Fumê</option>
+            <option value="/public/front/css/styles-6.css" {if isset($cadastro) && $cadastro.cor_padrao == '/public/front/css/styles-6.css'} selected {/if} >Verde Claro</option>
+            <option value="/public/front/css/styles-7.css" {if isset($cadastro) && $cadastro.cor_padrao == '/public/front/css/styles-7.css'} selected {/if} >Roxo</option>
+            <option value="/public/front/css/styles-8.css" {if isset($cadastro) && $cadastro.cor_padrao == '/public/front/css/styles-8.css'} selected {/if} >Verde Musgo</option>
+            <option value="/public/front/css/styles-9.css" {if isset($cadastro) && $cadastro.cor_padrao == '/public/front/css/styles-9.css'} selected {/if} >Rosa</option>
+            <option value="/public/front/css/styles-10.css" {if isset($cadastro) && $cadastro.cor_padrao == '/public/front/css/styles-10.css'} selected {/if} >Cinza</option>
+		</select>
 
 {include file='views/back/form_padrao/footer.html'}
