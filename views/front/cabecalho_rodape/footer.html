@@ -70,39 +70,22 @@
                 </div> -->
                 <div class="row has-divider">
                     <div class="footer-col download col-xs-12 col-md-6">
-                        <!-- <div class="footer-col-inner">
-                            <h3 class="title">Mobile apps</h3>
-                            <ul class="list-unstyled download-list">
-                                <li><a class="btn btn-ghost" href="#"><i class="fa fa-apple"></i><span class="text">Download for iOS</span> </a></li>
-                                <li><a class="btn btn-ghost" href="#"><i class="fa fa-android"></i><span class="text">Download for Android</span></a></li>
-                                <li><a class="btn btn-ghost" href="#"><i class="fa fa-windows"></i><span class="text">Windows coming soon...</span></a></li>
-                            </ul>
-                        </div> -->
+                        <div class="footer-col-inner">
+                            {$_SESSION['configuracoes']['texto_esquerdo_rodape']}
+                        </div>
                     </div>
                     <div class="footer-col contact col-xs-12 col-md-6">
                         <div class="footer-col-inner">
-                            <h3 class="title">Contato</h3>
-                            <p class="adr clearfix">
-                                <i class="fa fa-map-marker pull-left"></i>
-                                <span class="adr-group pull-left">
-                                    <span class="street-address">UMC</span><br>
-                                    <span class="region">RUa Lerolero</span><br>
-                                    <span class="postal-code">São Paulo</span><br>
-                                    <span class="country-name">SP</span>
-                                </span>
-                            </p>
-                            <p class="tel"><i class="fa fa-phone"></i>(11) 1234-4321</p>
-                            <p class="email"><i class="fa fa-envelope-o"></i><a href="#">contato_swdb@blablabla.com</a></p>
-                            <!-- <a href="https://twitter.com/3rdwave_themes" class="twitter-follow-button" data-show-count="false">Follow @3rdwave_themes</a> -->
-                            {literal}<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>{/literal}
+                            {$_SESSION['configuracoes']['texto_direito_rodape']}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="bottom-bar">
             <div class="container">
-                <small class="copyright">SWDBt @ <a href="" target="_blank">Desenvolvido por do tcc</a> - Construido com a Framework FelideoMVC - lerolero</small>
+                <small class="copyright">SWDB - <a href="" target="_blank">Desenvolvido por do tcc</a> - Construido com a Framework FelideoMVC - lerolero</small>
             </div><!--//container-->
         </div><!--//bottom-bar-->
     </footer><!--//footer-->
@@ -156,9 +139,18 @@
     <script type="text/javascript" src="/public/front/plugins/flexslider/jquery.flexslider-min.js"></script>
     <script type="text/javascript" src="/public/front/js/main.js"></script>
 
+    <script type="text/javascript" src="/public/front/plugins/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script type="text/javascript" src="/public/front/plugins/masonry.pkgd.min.js"></script>
+    <script type="text/javascript" src="/public/front/js/blog.js"></script>
+
+
     <!-- Modal Video -->
     <!-- <script type="text/javascript" src="/public/front/js/modal-video.js"></script> -->
-
+    <script type="text/javascript">
+        {if isset($_SESSION['alertas'])}
+            {$_SESSION['alertas']}
+        {/if}
+    </script>
 
 </body>
 </html>

@@ -84,50 +84,74 @@ class trabalho extends \Framework\Model{
 
 	}
 
+	public function carregar_resultado_busca($trabalhos){
+		$query = $this->query;
+		$query->select('
+			trabalho.titulo,
+			trabalho.ano,
+			trabalho.resumo,
+			trabalho.status,
+
+			curso.curso,
+			rel_autor.id,
+			rel_palavra.id,
+			autor.nome,
+
+			palavra.palavra_chave
+		')
+		->from('trabalho trabalho')
+		->leftJoin('curso curso ON curso.id = trabalho.id_curso and curso.ativo = 1')
+		->leftJoin('trabalho_relaciona_autor rel_autor ON rel_autor.id_trabalho = trabalho.id and rel_autor.ativo = 1')
+		->leftJoin('autor autor ON autor.id = rel_autor.id_autor AND autor.ativo = 1')
+		->leftJoin('trabalho_relaciona_palavra_chave rel_palavra ON rel_palavra.id_trabalho = trabalho.id and rel_palavra.ativo = 1')
+		->leftJoin('palavra_chave palavra ON palavra.id = rel_palavra.id_palavra_chave and palavra.ativo = 1')
+		->where('trabalho.id IN (' . implode(',', $trabalhos) . ')');
+
+		return $query->fetchArray();
+	}
+
 	public function carregar_trabalho($id){
 		$query = $this->query;
+		$query->select('
+			trabalho.titulo,
+			trabalho.ano,
+			trabalho.resumo,
+			trabalho.status,
 
-			$query->select('
-				trabalho.titulo,
-				trabalho.ano,
-				trabalho.resumo,
-				trabalho.status,
+			campus.campus,
+			curso.curso,
+			rel_autor.id,
+			rel_orientador.id,
+			rel_trabalho.id,
+			rel_palavra.id,
+			autor.nome,
+			autor.email,
+			autor.link,
+			orientador.nome,
+			orientador.email,
+			orientador.link,
 
+			arquivo.hash,
+			arquivo.nome,
+			arquivo.endereco,
+			arquivo.tamanho,
+			arquivo.extensao,
 
-				campus.campus,
-				curso.curso,
-				rel_autor.id,
-				rel_orientador.id,
-				rel_trabalho.id,
-				rel_palavra.id,
-				autor.nome,
-				autor.email,
-				autor.link,
-				orientador.nome,
-				orientador.email,
-				orientador.link,
+			palavra.palavra_chave
+		')
+		->from('trabalho trabalho')
+		->leftJoin('campus campus ON campus.id = trabalho.id_campus and campus.ativo = 1')
+		->leftJoin('curso curso ON curso.id = trabalho.id_curso and curso.ativo = 1')
+		->leftJoin('trabalho_relaciona_autor rel_autor ON rel_autor.id_trabalho = trabalho.id and rel_autor.ativo = 1')
+		->leftJoin('trabalho_relaciona_orientador rel_orientador ON rel_orientador.id_trabalho = trabalho.id and rel_orientador.ativo = 1')
+		->leftJoin('autor autor ON autor.id = rel_autor.id_autor AND autor.ativo = 1')
+		->leftJoin('orientador orientador ON orientador.id = rel_orientador.id_orientador AND orientador.ativo = 1')
+		->leftJoin('trabalho_relaciona_arquivo rel_trabalho ON rel_trabalho.id_trabalho = trabalho.id and rel_trabalho.ativo = 1')
+		->leftJoin('arquivo arquivo ON arquivo.id = rel_trabalho.id_arquivo AND arquivo.ativo = 1')
+		->leftJoin('trabalho_relaciona_palavra_chave rel_palavra ON rel_palavra.id_trabalho = trabalho.id and rel_palavra.ativo = 1')
+		->leftJoin('palavra_chave palavra ON palavra.id = rel_palavra.id_palavra_chave and palavra.ativo = 1')
+		->where("trabalho.id = {$id}");
 
-				arquivo.hash,
-				arquivo.nome,
-				arquivo.endereco,
-				arquivo.tamanho,
-				arquivo.extensao,
-
-				palavra.palavra_chave
-			')
-			->from('trabalho trabalho')
-			->leftJoin('campus campus ON campus.id = trabalho.id_campus and campus.ativo = 1')
-			->leftJoin('curso curso ON curso.id = trabalho.id_curso and curso.ativo = 1')
-			->leftJoin('trabalho_relaciona_autor rel_autor ON rel_autor.id_trabalho = trabalho.id and rel_autor.ativo = 1')
-			->leftJoin('trabalho_relaciona_orientador rel_orientador ON rel_orientador.id_trabalho = trabalho.id and rel_orientador.ativo = 1')
-			->leftJoin('autor autor ON autor.id = rel_autor.id_autor AND autor.ativo = 1')
-			->leftJoin('orientador orientador ON orientador.id = rel_orientador.id_orientador AND orientador.ativo = 1')
-			->leftJoin('trabalho_relaciona_arquivo rel_trabalho ON rel_trabalho.id_trabalho = trabalho.id and rel_trabalho.ativo = 1')
-			->leftJoin('arquivo arquivo ON arquivo.id = rel_trabalho.id_arquivo AND arquivo.ativo = 1')
-			->leftJoin('trabalho_relaciona_palavra_chave rel_palavra ON rel_palavra.id_trabalho = trabalho.id and rel_palavra.ativo = 1')
-			->leftJoin('palavra_chave palavra ON palavra.id = rel_palavra.id_palavra_chave and palavra.ativo = 1')
-			->where("trabalho.id = {$id}");
-
-			return $query->fetchArray();
+		return $query->fetchArray();
 	}
 }

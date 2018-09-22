@@ -4,6 +4,12 @@ namespace Controller;
 use Libs;
 
 class Master extends \Framework\Controller {
+	protected $modulo = [
+		'modulo' 	=> 'master',
+		'name'		=> 'Master',
+		'send'		=> 'Master'
+	];
+
 	function index(){
 	}
 

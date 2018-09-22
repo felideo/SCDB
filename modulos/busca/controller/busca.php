@@ -17,9 +17,14 @@ class Busca extends \Framework\ControllerCrud {
 
 		$query = carregar_variavel('query');
 
+		if(!empty($query)){
+			$this->view->assign('query', $query);
 
+			$query = implode(' ', $this->validar_parametros_busca_textual($query));
 
-		$this->view->assign('query', $query);
+			$this->view->assign('retorno_busca_simples', $this->get_dados_trabalho($this->buscar($query)));
+		}
+
 		$this->view->assign('anos', $this->carregar_anos());
 		$this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/busca');
 	}
@@ -29,7 +34,7 @@ class Busca extends \Framework\ControllerCrud {
 
 		foreach($this->model->db->select("SELECT ano FROM trabalho GROUP BY ano") as $indice => $ano){
 			$anos[] = [
-				'id' => $ano['ano'],
+				'id'   => $ano['ano'],
 				'text' => $ano['ano']
 			];
 		}
@@ -37,18 +42,77 @@ class Busca extends \Framework\ControllerCrud {
 		return $anos;
 	}
 
-	public function buscar(){
+	public function buscar($termo){
 		$elastic_search = new \Libs\ElasticSearch\ElasticSearch();
-
-    	$termo = 'popularmente';
-
-		$retorno = $elastic_search->pesquisar_conteudo_documentos($termo);
-
-
-		debug2($retorno);
-		exit;
-
+		return $elastic_search->pesquisar_conteudo_documentos($termo);
 	}
+
+	private function get_dados_trabalho($encontrados){
+		// debug2($encontrados);
+		// exit;
+
+		if(empty($encontrados['hits']['hits'])){
+			return [
+				'status'     => false,
+				'resultados' => []
+			];
+		}
+
+		$trabalhos = [];
+
+		foreach($encontrados['hits']['hits'] as $indice => $item){
+			if($item['_score'] < 1){
+				continue;
+			}
+
+			$trabalhos[] = $item['_id'];
+		}
+
+		$model_trabalho = $this->get_model('trabalho');
+
+		return [
+			'status'     => true,
+			'resultados' => $model_trabalho->carregar_resultado_busca($trabalhos)
+		];
+	}
+
+	private function validar_parametros_busca_textual($query){
+		$query = \Libs\Strings::limparString($query);
+		$query = explode(' ', $query);
+
+		foreach($query as $indice => $palavra){
+			if(strlen($palavra) < 4){
+				unset($query[$indice]);
+			}
+		}
+
+		if(count($query) < 2){
+			$this->view->alert_js('Obrigatorio efetuar a busca com no minimo duas palavras! Palavra com 3 caracteres ou menos são desconsideradas!', 'erro');
+			header('location: ' . $_SERVER['HTTP_REFERER']);
+			exit;
+		}
+
+		return array_values($query);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public function buscar_taxonomia_select2(){
 		$busca       = carregar_variavel('busca');
@@ -67,8 +131,6 @@ class Busca extends \Framework\ControllerCrud {
 		echo json_encode($retorno);
 		exit;
 	}
-
-
 
 	public function buscar_hierarquia_ajax(){
 		$busca = carregar_variavel('id_clado');

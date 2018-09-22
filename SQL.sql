@@ -318,3 +318,7 @@ CREATE TABLE `configuracao` (
 
 insert into configuracao (id, ativo) VALUES (1, 1);
 
+
+alter table SWDB.configuracao add COLUMN texto_direito_rodape TEXT NULL AFTER id_google_analytics;
+alter table SWDB.configuracao add COLUMN texto_esquerdo_rodape TEXT NULL AFTER texto_direito_rodape
+

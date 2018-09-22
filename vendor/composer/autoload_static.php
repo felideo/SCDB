@@ -31,6 +31,8 @@ class ComposerStaticInit4fd02fae0f9d271bbbb521796d279d31
         array (
             'GuzzleHttp\\Stream\\' => 18,
             'GuzzleHttp\\Ring\\' => 16,
+            'GuzzleHttp\\' => 11,
+            'Glooby\\Pexels\\' => 14,
         ),
         'F' => 
         array (
@@ -74,6 +76,14 @@ class ComposerStaticInit4fd02fae0f9d271bbbb521796d279d31
         'GuzzleHttp\\Ring\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/ringphp/src',
+        ),
+        'GuzzleHttp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
+        'Glooby\\Pexels\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/glooby/pexels/src',
         ),
         'Framework\\' => 
         array (

@@ -61,7 +61,7 @@ class Usuario extends \Framework\Model{
 
 		// $data['senha'] = \Libs\Hash::create('sha1', $data['senha'], HASH_PASSWORD_KEY);
 
-		return $this->get_insert($table, $data);
+		return $this->insert($table, $data);
 	}
 
 	public function load_user_by_email($email){

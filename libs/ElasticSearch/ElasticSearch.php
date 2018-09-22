@@ -34,28 +34,76 @@ class ElasticSearch{
 	}
 
 	public function pesquisar_conteudo_documentos($termo){
-		$query = [
-			'query' => [
-				'simple_query_string' => [
-					'query'  => $termo,
-					'fields' => [
-				        'attachment.content'
-			        ]
+		try{
+			$query = [
+				'index' => 'swdb',
+				'type'  => 'trabalho',
+				'body'  => [
+					'query' => [
+						"bool" => [
+							"must" => [
+								'match' => [
+									'attachment.content'  => $termo,
+								]
+							]
+						]
+					],
+					'stored_fields' => []
 				]
-			]
-		];
+			];
 
-		$curl = new Curl();
-        $curl->setHeader('Content-Type', 'application/json');
+// 			{
+//   "query": {
+//     "bool": {
+//     	"must": [
+//       	{"match": { "attachment.content": "depressão Fédida arangaricu tirimirruaaro"}}
+//     	]
+//     }
+//   }
+// }
+
+			return $this->client->search($query);
+		} catch(\Exception $e) {
+            $this->error = [
+                'exception_msg' => $e->getMessage(),
+                'code'          => $e->getCode(),
+                'localizador'   => "Class => " . __CLASS__ . " - Function => " . __FUNCTION__ . "() - Line => " . __LINE__,
+                'line'          => $e->getLine(),
+                'file'          => $e->getFile(),
+                'backtrace'     => $e->getTraceAsString(),
+            ];
+
+            debug2($this->error);
+            exit;
+
+            throw new \Exception(json_encode($this->error));
+        }
 
 
-        debug2($termo);
-        debug2($query);
+		// $params['index'] = ElasticSearch::INDEX;
+		// 		$params['type'] = ElasticSearch::TYPE_PRODUTO_CADASTRO;
+		// 		$params['body'] = array(
+		// 			'query' => array(
+		// 				'filtered' => array(
+		// 					'query' => array(
+		// 						'match_all' => array(),
+		// 					),
+		// 					'filter' => array(
+		// 						'bool' => array(
+		// 							'must' => array(
+		// 								array('term' => array('ativo' => 1)),
+		// 								array('term' => array('oculto' => 0)),
+		// 								array('term' => array('id_instancia' => $instancia)),
+		// 							),
+		// 						),
+		// 					),
+		// 				),
+		// 			),
+		// 		);
+		// 		$params['from'] = $offset;
+		// 		$params['size'] = $limit;
+		// 		return $params;
 
-        debug2($curl->get('127.0.0.1:9200/swdb/trabalho/_search', $query));
-        exit;
-
-        return $curl->get('127.0.0.1:9200/swdb/trabalho/_search', $query);
 	}
 
 	public function indexar($parametros){

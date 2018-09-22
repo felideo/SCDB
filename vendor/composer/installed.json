@@ -99,6 +99,109 @@
         ]
     },
     {
+        "name": "glooby/pexels",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/glooby/pexels.git",
+            "reference": "4cd5cf2624d251556ee374a661d3b38e14df168a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/glooby/pexels/zipball/4cd5cf2624d251556ee374a661d3b38e14df168a",
+            "reference": "4cd5cf2624d251556ee374a661d3b38e14df168a",
+            "shasum": ""
+        },
+        "require": {
+            "guzzlehttp/guzzle": "~5.1",
+            "php": ">=5.4.0"
+        },
+        "time": "2016-11-22T18:17:09+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Glooby\\Pexels\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Emil Kilhage",
+                "email": "emil.kilhage@glooby.com",
+                "homepage": "https://www.glooby.se"
+            }
+        ],
+        "description": "Pexels API Client for www.pexels.com",
+        "homepage": "https://www.glooby.se",
+        "keywords": [
+            "api",
+            "glooby",
+            "images",
+            "pexels",
+            "sdk"
+        ]
+    },
+    {
+        "name": "guzzlehttp/guzzle",
+        "version": "5.3.x-dev",
+        "version_normalized": "5.3.9999999.9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/guzzle/guzzle.git",
+            "reference": "93bbdb30d59be6cd9839495306c65f2907370eb9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/guzzle/guzzle/zipball/93bbdb30d59be6cd9839495306c65f2907370eb9",
+            "reference": "93bbdb30d59be6cd9839495306c65f2907370eb9",
+            "shasum": ""
+        },
+        "require": {
+            "guzzlehttp/ringphp": "^1.1",
+            "php": ">=5.4.0",
+            "react/promise": "^2.2"
+        },
+        "require-dev": {
+            "ext-curl": "*",
+            "phpunit/phpunit": "^4.0"
+        },
+        "time": "2018-07-31T13:33:10+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "GuzzleHttp\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
+            }
+        ],
+        "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
+        "homepage": "http://guzzlephp.org/",
+        "keywords": [
+            "client",
+            "curl",
+            "framework",
+            "http",
+            "http client",
+            "rest",
+            "web service"
+        ]
+    },
+    {
         "name": "guzzlehttp/ringphp",
         "version": "dev-master",
         "version_normalized": "9999999-dev",

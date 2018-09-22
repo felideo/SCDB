@@ -1,0 +1,50 @@
+<div class="row" style="min-height: 19vh;">
+    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+        <label class="" for="cname">Resultado Busca</label>
+            <div class="row">
+                <div id="blog-mansonry" class="blog-list">
+                	{*debug2($retorno_busca_simples)*}
+                	{if isset($retorno_busca_simples.status) && !empty($retorno_busca_simples.status)}
+                    	{foreach from=$retorno_busca_simples.resultados key=$index item=trabalho}
+		                    <article class="post col-md-4 col-sm-6 col-xs-12">
+		                        <div class="post-inner">
+		                            <!-- <figure class="post-thumb">
+		                                <a href="blog-single.html"><img class="img-responsive" src="/public/front/images/blog/post-1-thumb.jpg" alt="" /></a>
+		                            </figure> -->
+		                            <div class="content">
+		                                <h3 class="post-title"><a href="blog-single.html">{$trabalho.titulo}</a></h3>
+		                                <div class="post-entry">
+		                                    <p>{$trabalho.resumo}</p>
+		                                    <a class="read-more" href="blog-single.html">Read more <i class="fa fa-long-arrow-right"></i></a>
+		                                </div>
+		                                <div class="meta">
+		                                    <ul class="meta-list list-inline">
+		                                    	<li class="post-author">{$trabalho.curso.0.curso}</li> -
+		                                    	<li class="post-time post_date date updated">{$trabalho.ano}</li>
+		                                    	<li class="post-author">por <a href="#">{foreach from=$trabalho.trabalho_relaciona_autor item=autor}{$autor.autor.0.nome}, {/foreach}</a></li>
+
+		                                    	<li class="post-comments-link">
+		                                	        <!-- <a href="blog-single.html#comment-area"><i class="fa fa-comments"></i>8</a> -->
+		                                	    </li>
+		                                	</ul>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </article>
+		                {/foreach}
+		            {/if}
+                </div><!--//blog-list-->
+            </div><!--//row-->
+            <!-- <div class="pagination-container text-center">
+                <ul class="pagination">
+                    <li class="disabled"><a href="#">&laquo;</a></li>
+                    <li class="active"><a href="#">1<span class="sr-only">(current)</span></a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                </ul>
+            </div> -->
+    </div>
+</div>

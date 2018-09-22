@@ -30,12 +30,14 @@
     <!-- <script type="text/javascript" src="/public/front/plugins/jquery-1.12.3.min.js"></script> -->
     <script src="/public/back/js/jquery.js"></script>
 
+    <!-- Sweet Alert -->
+    <link rel="stylesheet" type="text/css" href="/public/sweetalert-master/dist/sweetalert.css">
+    <script src="/public/sweetalert-master/dist/sweetalert.min.js"></script>
+
 
     <!-- Select2 3  -->
     <link rel="stylesheet" type="text/css" href="/public/select2_gj/select2.css">
     <script src="/public/select2_gj/select2.js"></script>
-
-
 
     <!-- Custom CSS  -->
     <link href="/public/css/custom_layout.css" rel="stylesheet">
@@ -70,7 +72,7 @@
                     <div class="contact-form-inner col-xs-12">
                         <div class="row" style="margin-top: 15px;">
                             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-9">
-                                <input type="text" class="form-control" name="query" placeholder="Digite os termos para pesquisa dentro dos documentos PDF dos trabalhos" />
+                                <input type="text" class="form-control" name="query" placeholder="Buscar trabalhos pelo conteudo" />
                             </div>
                              <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-3">
                                 <button type="submit" class="btn btn-block btn-cta btn-cta-primary">Buscar</button>
@@ -97,7 +99,7 @@
                     <ul class="nav navbar-nav">
 
                         <li class="nav-item"><a href="/">Home</a></li>
-                        <!-- <li class="nav-item"><a href="/busca">Busca</a></li> -->
+                        <li class="nav-item"><a href="/busca">Busca Avançada</a></li>
 
                         <!-- {foreach from=$paginas_institucionais.0 key=indice item=pagina}
                             {if !empty($pagina.exibir_cabecalho)}
