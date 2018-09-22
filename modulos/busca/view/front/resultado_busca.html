@@ -32,6 +32,8 @@
 		                        </div>
 		                    </article>
 		                {/foreach}
+	              	{elseif isset($query) && !empty($query)}
+	              		<h2 class="text-center">Nenhum resultado</h2>
 		            {/if}
                 </div><!--//blog-list-->
             </div><!--//row-->

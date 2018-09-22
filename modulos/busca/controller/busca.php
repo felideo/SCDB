@@ -70,6 +70,13 @@ class Busca extends \Framework\ControllerCrud {
 
 		$model_trabalho = $this->get_model('trabalho');
 
+		if(empty($trabalhos)){
+			return [
+				'status'     => false,
+				'resultados' => []
+			];
+		}
+
 		return [
 			'status'     => true,
 			'resultados' => $model_trabalho->carregar_resultado_busca($trabalhos)
