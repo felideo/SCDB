@@ -20,6 +20,7 @@ class Front extends \Framework\ControllerCrud {
 
 		if(empty($paginas_institucionais)){
 			$this->view->assign('paginas_institucionais', []);
+			return;
 		}
 
 		$contador = 0;
@@ -52,6 +53,7 @@ class Front extends \Framework\ControllerCrud {
 
 		if(empty($banners)){
 			$this->view->assign('banners', []);
+			return;
 		}
 
 		$this->view->assign('banners', $this->model->carregar_banners());
