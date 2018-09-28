@@ -72,9 +72,9 @@ class Busca extends \Framework\ControllerCrud {
 		// exit;
 
 		foreach($encontrados['hits']['hits'] as $indice => $item){
-			if($item['_score'] < 1){
-				continue;
-			}
+			// if($item['_score'] < 1){
+			// 	continue;
+			// }
 
 			$trabalhos[] = $item['_id'];
 		}

@@ -5,6 +5,12 @@ abstract class Controller {
 	function __construct() {
 		\Libs\Session::init();
 
+		if(!isset($this->modulo['modulo']) || empty($this->modulo['modulo'])){
+			$this->modulo = [
+				'modulo' 	=> 'generic'
+			];
+		}
+
 		if(empty($this->model)){
 			$this->model = $this->get_model($this->modulo['modulo']);
 		}
