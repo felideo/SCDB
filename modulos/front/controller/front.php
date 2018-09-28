@@ -11,7 +11,16 @@ class Front extends \Framework\ControllerCrud {
 	];
 
 	public function carregar_cabecalho_rodape(){
+		$this->carregar_paginas_institucionais();
+
+	}
+
+	private function carregar_paginas_institucionais(){
 		$paginas_institucionais = $this->model->carregar_paginas_institucionais();
+
+		if(empty($paginas_institucionais)){
+			$this->view->assign('paginas_institucionais', []);
+		}
 
 		$contador = 0;
 
@@ -36,6 +45,15 @@ class Front extends \Framework\ControllerCrud {
 
 		$paginas_institucionais = $tmp;
 		$this->view->assign('paginas_institucionais', $paginas_institucionais);
+	}
+
+	private function carregar_banners(){
+		$banners = $this->model->carregar_banners();
+
+		if(empty($banners)){
+			$this->view->assign('banners', []);
+		}
+
 		$this->view->assign('banners', $this->model->carregar_banners());
 	}
 }
