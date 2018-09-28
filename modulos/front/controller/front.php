@@ -36,5 +36,6 @@ class Front extends \Framework\ControllerCrud {
 
 		$paginas_institucionais = $tmp;
 		$this->view->assign('paginas_institucionais', $paginas_institucionais);
+		$this->view->assign('banners', $this->model->carregar_banners());
 	}
 }

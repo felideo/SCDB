@@ -42,6 +42,9 @@
     <!-- Custom CSS  -->
     <link href="/public/css/custom_layout.css" rel="stylesheet">
 
+    <script src="/public/js/default.js"></script>
+
+
     {if isset($_SESSION['configuracoes']['id_google_analytics']) && !empty($_SESSION['configuracoes']['id_google_analytics'])}
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id={$_SESSION['configuracoes']['id_google_analytics']}"></script>
@@ -59,7 +62,7 @@
 </head>
 <body class="about-page">
     <!-- ******HEADER****** -->
-    <header id="header" class="header navbar-fixed-top">
+    <header id="header" class="header navbar-fixed-top scrolled">
     <!-- <header id="" class="header"> -->
 
         <div class="container">
@@ -72,7 +75,7 @@
                     <div class="contact-form-inner col-xs-12">
                         <div class="row" style="margin-top: 15px;">
                             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-9">
-                                <input type="text" class="form-control" name="query" placeholder="Buscar trabalhos pelo conteudo" />
+                                <input type="text" class="form-control" name="query[busca_textual]" placeholder="Buscar trabalhos pelo conteudo" />
                             </div>
                              <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-3">
                                 <button type="submit" class="btn btn-block btn-cta btn-cta-primary">Buscar</button>
@@ -100,22 +103,27 @@
 
                         <li class="nav-item"><a href="/">Home</a></li>
                         <li class="nav-item"><a href="/busca">Busca Avançada</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false" href="#">Paginas <i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu">
+                                {foreach from=$paginas_institucionais.0 key=indice item=pagina}
+                                    {if !empty($pagina.exibir_cabecalho)}
+                                        <li><a href="/{$pagina.url.0.controller}/{$pagina.url.0.url}">{$pagina.titulo}</a></li>
+                                    {/if}
+                                {/foreach}
+                                {foreach from=$paginas_institucionais.1 key=indice item=pagina}
+                                    {if !empty($pagina.exibir_cabecalho)}
+                                        <li><a href="/{$pagina.url.0.controller}/{$pagina.url.0.url}">{$pagina.titulo}</a></li>
+                                    {/if}
+                                {/foreach}
+                                {foreach from=$paginas_institucionais.2 key=indice item=pagina}
+                                    {if !empty($pagina.exibir_cabecalho)}
+                                        <li><a href="/{$pagina.url.0.controller}/{$pagina.url.0.url}">{$pagina.titulo}</a></li>
+                                    {/if}
+                                {/foreach}
+                                    </ul>
+                        </li><!--//dropdown-->
 
-                        <!-- {foreach from=$paginas_institucionais.0 key=indice item=pagina}
-                            {if !empty($pagina.exibir_cabecalho)}
-                                <li class="nav-item"><a href="/{$pagina.url.0.controller}/{$pagina.url.0.url}">{$pagina.titulo}</a></li>
-                            {/if}
-                        {/foreach}
-                        {foreach from=$paginas_institucionais.1 key=indice item=pagina}
-                            {if !empty($pagina.exibir_cabecalho)}
-                                <li class="nav-item"><a href="/{$pagina.url.0.controller}/{$pagina.url.0.url}">{$pagina.titulo}</a></li>
-                            {/if}
-                        {/foreach}
-                        {foreach from=$paginas_institucionais.2 key=indice item=pagina}
-                            {if !empty($pagina.exibir_cabecalho)}
-                                <li class="nav-item"><a href="/{$pagina.url.0.controller}/{$pagina.url.0.url}">{$pagina.titulo}</a></li>
-                            {/if}
-                        {/foreach} -->
                         <!-- aqui ficava o codigo comentado abaixo -->
                     </ul><!--//nav-->
                 </div><!--//navabr-collapse-->

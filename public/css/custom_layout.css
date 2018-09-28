@@ -169,3 +169,7 @@ input[type="text"]:disabled{
 .img-responsive.img-circle{
 	width: 20%;
 }
+
+.promo{
+	height: 420px;
+}

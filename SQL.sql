@@ -322,3 +322,13 @@ insert into configuracao (id, ativo) VALUES (1, 1);
 alter table SWDB.configuracao add COLUMN texto_direito_rodape TEXT NULL AFTER id_google_analytics;
 alter table SWDB.configuracao add COLUMN texto_esquerdo_rodape TEXT NULL AFTER texto_direito_rodape
 
+
+CREATE TABLE `banner` (
+	`id`         INT(11) 			NOT NULL AUTO_INCREMENT,
+	`ordem`      INT(11) 			NOT NULL,
+	`id_arquivo` INT(11) 			NOT NULL,
+	`ativo`      TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY      KEY (`id`),
+	FOREIGN      KEY (`id_arquivo`) REFERENCES `arquivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+

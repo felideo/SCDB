@@ -12,10 +12,10 @@ class Banner extends \Framework\ControllerCrud {
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID <i class="fa fa-search"></i>', 'Curso <i class="fa fa-search"></i>', 'Ações'],
-		'select'  => ['id', 'curso'],
-		'from'    => 'curso',
-		'search'  => ['id', 'curso']
+		'colunas' => ['ID', 'Ordem <i class="fa fa-search"></i>', 'Imagem <i class="fa fa-search"></i>', 'Ações'],
+		'select'  => ['id', 'ordem', 'id_arquivo'],
+		'from'    => 'banner',
+		'search'  => ['id', 'ordem', 'id_arquivo']
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -26,12 +26,25 @@ class Banner extends \Framework\ControllerCrud {
 		foreach ($query as $indice => $item) {
 			$retorno[] = [
 				$item['id'],
-				$item['curso'],
-				$this->view->default_buttons_listagem($item['id'], true, true, true)
+				$item['ordem'],
+				$item['arquivo'][0]['nome'],
+				$this->view->default_buttons_listagem($item['id'], true, false, true)
 			];
 		}
 
 		return $retorno;
+	}
+
+	public function visualizar($id){
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+
+		$this->check_if_exists($id[0]);
+
+		$this->view->assign('cadastro', $this->model->carregar_banner($id[0])[0]);
+
+		$this->view->lazy_view();
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 
 	public function delete($id) {
@@ -40,29 +53,10 @@ class Banner extends \Framework\ControllerCrud {
 
 		$this->check_if_exists($id[0]);
 
-		$curso_utilizado = $this->model->query->select('
-				trabalho.id
-			')
-			->from('trabalho trabalho')
-			->where("trabalho.id_curso = {$id[0]}")
-			->fetchArray();
-
-		if(!empty($curso_utilizado)){
-			$msg = 'O curso esta relacionado ao(s) trabalho(s) ID numero: ';
-
-			foreach($curso_utilizado as $indice => $trabalho){
-				$msg .= $trabalho['id'] . ', ';
-			}
-
-			$msg = rtrim($msg, ', ');
-			$msg .= '. Exclusão negada! Remova manualmente este curso de todos os trabalhos antes de tentar excluir-lo.';
-
-			$this->view->alert_js($msg, 'erro');
-			header('location: /' . $this->modulo['modulo']);
-			exit;
-		}
+		$banner = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
 
 		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
+		$this->model->delete('arquivo', ['id' => $banner['id_arquivo']]);
 
 		if($retorno['status']){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
@@ -73,21 +67,6 @@ class Banner extends \Framework\ControllerCrud {
 		header('location: /' . $this->modulo['modulo']);
 	}
 
-	public function buscar_curso_select2(){
-		$busca = carregar_variavel('busca');
 
-		$retorno = $this->model->buscar_curso($busca);
 
-		if(isset($busca['cadastrar_busca']) && !empty($busca['cadastrar_busca']) && $busca['cadastrar_busca'] == 'true' && $busca['nome'] != '%%'){
-			$add_cadastro[0] = [
-				'id'               => $busca['nome'],
-				'curso'             => "<strong>Cadastrar Novo curso: </strong>" . $busca['nome']
-			];
-
-			$retorno = array_merge($add_cadastro, $retorno);
-		}
-
-		echo json_encode($retorno);
-		exit;
-	}
 }

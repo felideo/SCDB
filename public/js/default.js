@@ -16,8 +16,17 @@ $(document).ready(function() {
 $(window).load(function(){
     // $("body").removeClass();
     // $('body').addClass("pace-done");
+
+
 });
 
+function isset(data){
+    if(typeof data !== 'undefined'){
+        return true;
+    }
+
+    return false;
+}
 
 String.prototype.replace_all = function(search, replacement){
     var target = this;

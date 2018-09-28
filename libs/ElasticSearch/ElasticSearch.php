@@ -33,7 +33,68 @@ class ElasticSearch{
 		return $this->client;
 	}
 
-	public function pesquisar_conteudo_documentos($termo){
+	public function criar_intex(){
+
+		$params = [
+		    'index' => 'swdb',
+		    'body' => [
+		        'settings' => [
+		            'number_of_shards'   => 3,
+		            'number_of_replicas' => 2
+		        ],
+		        'mappings' => [
+		            'trabalho' => [
+		                '_source' => [
+		                    'enabled' => true
+		                ],
+		                'properties' => [
+		                    'titulo' => [
+								'type' => 'text'
+							],
+							'ano' => [
+								'type' => 'integer'
+							],
+							'resumo' => [
+								'type' => 'text',
+							],
+							'idioma' => [
+								'type' => 'integer'
+							],
+							'curso' => [
+								'type' => 'integer'
+							],
+							'campus' => [
+								'type' => 'integer'
+							],
+							'status' => [
+								'type' => 'byte'
+							],
+							'ativo' => [
+								'type' => 'boolean'
+							],
+							'autor' => [
+								'type' => 'text'
+							],
+							'orientador' => [
+								'type' => 'text'
+							],
+							'palavra_chave' => [
+								'type' => 'text'
+							],
+		                ]
+		            ]
+		        ]
+		    ]
+		];
+
+// Create the index with mappings and settings now
+$response = $this->client->indices()->create($params);
+debug2($response);
+exit;
+
+	}
+
+	public function busca_textual($termo){
 		try{
 			$query = [
 				'index' => 'swdb',
@@ -52,15 +113,146 @@ class ElasticSearch{
 				]
 			];
 
-// 			{
-//   "query": {
-//     "bool": {
-//     	"must": [
-//       	{"match": { "attachment.content": "depressão Fédida arangaricu tirimirruaaro"}}
-//     	]
-//     }
-//   }
-// }
+			return $this->client->search($query);
+		} catch(\Exception $e) {
+            $this->error = [
+                'exception_msg' => $e->getMessage(),
+                'code'          => $e->getCode(),
+                'localizador'   => "Class => " . __CLASS__ . " - Function => " . __FUNCTION__ . "() - Line => " . __LINE__,
+                'line'          => $e->getLine(),
+                'file'          => $e->getFile(),
+                'backtrace'     => $e->getTraceAsString(),
+            ];
+
+            debug2($this->error);
+            exit;
+
+            throw new \Exception(json_encode($this->error));
+        }
+	}
+
+	public function buscar_avancada($termos){
+		debug2($termos);
+
+		$must     = [];
+		$must_not = [];
+		$should   = [];
+		$filter   = [];
+
+		$tmp = [];
+
+		foreach($termos['busca_avancada'] as $indice_01 => $termo) {
+			if(count(explode(',', $termo['valor_pesquisa'])) > 1){
+				foreach(explode(',', $termo['valor_pesquisa']) as $indice_02 => $item) {
+					$tmp[$indice_01 . '_' . $indice_02] = $termo;
+					$tmp[$indice_01 . '_' . $indice_02]['valor_pesquisa'] = $item;
+				}
+			}else{
+				$tmp[$indice_01 . '_' . $indice_02] = $termo;
+			}
+		}
+
+		$termos['busca_avancada'] = array_values($tmp);
+
+		foreach($termos['busca_avancada'] as $indice => $termo) {
+			if(!isset($termo['operador_pesquisa']) || $termo['operador_pesquisa'] == 'and' || $termo['comparativo_pesquisa'] == 'diferente'){
+				if($termo['comparativo_pesquisa'] == 'igual'){
+					$must[] = [
+						$termo['atributo_pesquisa'],
+						$termo['valor_pesquisa']
+					];
+				}
+
+				if($termo['comparativo_pesquisa'] == 'diferente'){
+					$must_not[] = [
+						$termo['atributo_pesquisa'],
+						$termo['valor_pesquisa']
+					];
+				}
+			}
+
+			if(isset($termo['operador_pesquisa']) && $termo['operador_pesquisa'] == 'or'){
+				$should[] = [
+					$termo['atributo_pesquisa'],
+					$termo['valor_pesquisa']
+				];
+			}
+		}
+
+		// debug2($must);
+		// debug2($must_not);
+		// debug2($should);
+		// debug2($filter);
+
+		// must
+		// All of these clauses must match. The equivalent of AND.
+		// must_not
+		// All of these clauses must not match. The equivalent of NOT.
+		// should
+		// At least one of these clauses must match. The equivalent of OR.
+		// filter
+		// Clauses that must match, but are run in non-scoring, filtering mode.
+
+
+
+		try{
+			$query = [
+				'index' => 'swdb',
+				'type'  => 'trabalho',
+				'body'  => [
+					'query' => [
+						"bool" => [
+						]
+					],
+					'stored_fields' => []
+				]
+			];
+
+			if(!empty($must)){
+				foreach($must as $indice => $item){
+					$query['body']['query']['bool']['must'][] = [
+						'term' => [
+							$item[0],
+							$item[1]
+						],
+					];
+				}
+			}
+			if(!empty($must_not)){
+				foreach($must_not as $indice => $item){
+					$query['body']['query']['bool']['must_not'][] = [
+						'term' => [
+							$item[0],
+							$item[1]
+						],
+					];
+				}
+			}
+			if(!empty($should)){
+				foreach($should as $indice => $item){
+					$query['body']['query']['bool']['should'][] = [
+						'term' => [
+							$item[0],
+							$item[1]
+						],
+					];
+				}
+			}
+			if(!empty($filter)){
+				foreach($filter as $indice => $item){
+					$query['body']['query']['bool']['filter'][] = [
+						'term' => [
+							$item[0],
+							$item[1]
+						],
+					];
+				}
+			}
+
+			debug2($query);
+
+			debug2($this->client->search($query));
+			exit;
 
 			return $this->client->search($query);
 		} catch(\Exception $e) {
@@ -78,79 +270,50 @@ class ElasticSearch{
 
             throw new \Exception(json_encode($this->error));
         }
-
-
-		// $params['index'] = ElasticSearch::INDEX;
-		// 		$params['type'] = ElasticSearch::TYPE_PRODUTO_CADASTRO;
-		// 		$params['body'] = array(
-		// 			'query' => array(
-		// 				'filtered' => array(
-		// 					'query' => array(
-		// 						'match_all' => array(),
-		// 					),
-		// 					'filter' => array(
-		// 						'bool' => array(
-		// 							'must' => array(
-		// 								array('term' => array('ativo' => 1)),
-		// 								array('term' => array('oculto' => 0)),
-		// 								array('term' => array('id_instancia' => $instancia)),
-		// 							),
-		// 						),
-		// 					),
-		// 				),
-		// 			),
-		// 		);
-		// 		$params['from'] = $offset;
-		// 		$params['size'] = $limit;
-		// 		return $params;
-
 	}
 
 	public function indexar($parametros){
-		return $this->client->index($parametros);
+		$this->verificar_preexistencia($parametros['id']);
+		return $this->client->update($parametros);
 	}
 
 	public function indexar_documento($url_documento, $id_trabalho){
+		$this->verificar_preexistencia($id_trabalho);
+
         $curl = new Curl();
         $curl->setHeader('Content-Type', 'application/json');
 		$documento = [
 			'arquivo' => base64_encode(file_get_contents($url_documento))
 		];
 
-        debug2($curl->put('127.0.0.1:9200/swdb/trabalho/' . $id_trabalho . '?pipeline=attachment', $documento));
-
-
-        debug2(get_class_methods($curl));
-        exit;
-
-
-
-        $solicitacao = [
-            'email' => $email,
-            'site'  => "https://www.gazetaonline.com.br/recuperarsenha?action=reset"
-        ];
-
-        $curl->post($this->end_point['esqueci_senha'], $solicitacao);
-
-		debug2(get_class_methods($this->client));
-		exit;
-
-
-
-
-		$comando = "curl -XPUT '127.0.0.1:9200/swdb/trabalho/44?pipeline=attachment&pretty' -H 'Content-Type: application/json' -d '" . $documento;
-		debug2(shell_exec($comando));
-		debug2($comando);
-		exit;
-
-
-
-// 		exec()
-
-
+        return $curl->put('127.0.0.1:9200/swdb/trabalho/' . $id_trabalho . '?pipeline=attachment', $documento);
 	}
 
+	public function verificar_preexistencia($id_trabalho){
+		try{
+			$parametros = [
+	    		'index' => 'swdb',
+	    		'type'  => 'trabalho',
+	    		'id'    => $id_trabalho
+			];
 
+			$retorno = $this->client->get($parametros);
+		} catch(\Exception $e) {
+            $this->error = [
+                'exception_msg' => $e->getMessage(),
+                'code'          => $e->getCode(),
+                'localizador'   => "Class => " . __CLASS__ . " - Function => " . __FUNCTION__ . "() - Line => " . __LINE__,
+                'line'          => $e->getLine(),
+                'file'          => $e->getFile(),
+                'backtrace'     => $e->getTraceAsString(),
+            ];
 
+        	$exception_msg = json_decode($this->error['exception_msg'], true);
 
+        	if(empty($exception_msg['found'])){
+        		$parametros['body']['doc']['ativo'] = true;
+				$this->client->index($parametros);
+        	}
+        }
+	}
 }

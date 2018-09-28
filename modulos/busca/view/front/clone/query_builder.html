@@ -7,24 +7,32 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<div id="conteiner_clone_query_builder" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					<div id="box_clone_query_builder_1">
-						<div class="row">
-						    <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 ">
-						        <label>Atributo</label>
-						        <input id="atributo_pesquisa_1" data-id_container_clone="1" class="width100" type="text" placeholder="" />
-						    </div>
-						    <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 ">
-						        <label>Comparativo</label>
-						        <input id="comparativo_pesquisa_1" class="width100" type="text" placeholder="" />
-						    </div>
-						    <div id="valores_1" class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-						    </div>
+			<form id="busca_avancada" method="get" action="/busca">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div id="conteiner_clone_query_builder" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div id="box_clone_query_builder_1">
+								<div class="row">
+								    <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 ">
+								        <label>Atributo</label>
+								        <input id="atributo_pesquisa_1" data-id_container_clone="1" class="width100" type="text" placeholder="" />
+								    </div>
+								    <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 ">
+								        <label>Comparativo</label>
+								        <input id="comparativo_pesquisa_1" class="width100" type="text" placeholder="" />
+								    </div>
+								    <div id="valores_1" class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+								    </div>
+								</div>
+							</div>
 						</div>
-					</div>
 				</div>
-			</div>
+				<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-3">
+		            <input type="submit" class="btn btn-block btn-cta btn-cta-primary" value="Buscar">
+		        </div>
+		        <div id="inputs_avancados">
+
+		        </div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -56,7 +64,43 @@
 	</div>
 </div>
 
+
 <script type="text/javascript">
+	    $(document).ready(function() {
+        $('#busca_avancada').submit(function(){
+            var erro = false;
+
+            qtd_parametros = $("#conteiner_clone_query_builder > div").length + 1;
+
+            for(var i = 0; i < qtd_parametros; i++){
+				if(isset($('#operador_pesquisa_' + i).val())){
+					$('#inputs_avancados').append('<input type="text" name="query[busca_avancada][' + i + '][operador_pesquisa]" value="' + $('#operador_pesquisa_' + i).val() + '">');
+				}
+				if(isset($('#comparativo_pesquisa_' + i).val())){
+					$('#inputs_avancados').append('<input type="text" name="query[busca_avancada][' + i + '][comparativo_pesquisa]" value="' + $('#comparativo_pesquisa_' + i).val() + '">');
+				}
+				if(isset($('#atributo_pesquisa_' + i).val())){
+					$('#inputs_avancados').append('<input type="text" name="query[busca_avancada][' + i + '][atributo_pesquisa]" value="' + $('#atributo_pesquisa_' + i).val() + '">');
+				}
+				if(isset($('#valor_pesquisa_' + i).val())){
+					$('#inputs_avancados').append('<input type="text" name="query[busca_avancada][' + i + '][valor_pesquisa]" value="' + $('#valor_pesquisa_' + i).val() + '">');
+				}
+            }
+
+			console.log($('#operador_pesquisa_1').val());
+			console.log($('#comparativo_pesquisa_1').val());
+			console.log($('#atributo_pesquisa_1').val());
+			console.log($('#valor_pesquisa_1').val())
+
+			// return false;
+   //          if(erro){
+   //              console.log('entrou if erro');
+   //              return false;
+   //          }
+
+            return true;
+        });
+    });
 	String.prototype.replaceAll = function(search, replacement){
 	    var target = this;
 	    return target.split(search).join(replacement);
@@ -105,31 +149,27 @@ function atualizar_gatilho_atributo_pesquisa(id_container_clone){
     $('#atributo_pesquisa_' + id_container_clone).on('change', function(){
     	var id_container_clone = $(this).data('id_container_clone');
 
-    	console.log(id_container_clone)
-
     	$('#valores_' + id_container_clone).html('');
 
     	var input = '<label>Valores</label>'
 	        + '<input id="valor_pesquisa_' + id_container_clone + '" class="width100" type="text" placeholder="Digite para buscar" />'
 
-	    console.log(input);
-
     	$('#valores_' + id_container_clone).html(input);
 
     	switch($(this).val()) {
-		    case 'autores':
+		    case 'autor':
 		        atualizar_autor_search_select2(id_container_clone);
 		        break;
-	        case 'orientadores':
+	        case 'orientador':
 		        atualizar_orientador_search_select2(id_container_clone);
 		        break;
-		    case 'anos':
+		    case 'ano':
 		        atualizar_anos_search_select2(id_container_clone);
 		        break;
-		    case 'cursos':
+		    case 'curso':
 		        atualizar_curso_search_select2(id_container_clone);
 		        break;
-		    case 'palavras_chave':
+		    case 'palavra_chave':
 		        atualizar_palavra_search_select2(id_container_clone);
 		        break;
 		    case 'campus':
@@ -163,19 +203,19 @@ function atualizar_atributo_pesquisa_select2(id_container_clone){
 	$('#atributo_pesquisa_' + id_container_clone).select2({
 		data: [
 			{
-				'id': 'autores',
+				'id': 'autor',
 				'text': 'Autores'
 			},
 			{
-				'id': 'orientadores',
+				'id': 'orientador',
 				'text': 'Orientadores'
 			},
 			{
-				'id': 'anos',
+				'id': 'ano',
 				'text': 'Anos'
 			},
 			{
-				'id': 'cursos',
+				'id': 'curso',
 				'text': 'Cursos'
 			},
 			{
@@ -183,7 +223,7 @@ function atualizar_atributo_pesquisa_select2(id_container_clone){
 				'text': 'Campus'
 			},
 			{
-				'id': 'palavras_chave',
+				'id': 'palavra_chave',
 				'text': 'Palavras Chave'
 			}
 		]

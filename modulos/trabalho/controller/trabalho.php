@@ -189,6 +189,7 @@ class Trabalho extends \Framework\ControllerCrud {
 
 	private function indexar_trabalho_elasticsearch($trabalho){
 		$elastic_search = new \Libs\ElasticSearch\ElasticSearch();
+
 		foreach(explode(',', $trabalho['palavras_chave']) as $indice => $palavra){
 			$tmp[] = ['palavra_chave' => $palavra];
 		}
@@ -213,31 +214,39 @@ class Trabalho extends \Framework\ControllerCrud {
 
 		$trabalho['arquivo'] = $this->model->db->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
 
+		// debug2($trabalho);
+		// exit;
+
 		$params = [
 		    'index' => 'swdb',
 		    'type'  => 'trabalho',
 		    'id'    => $trabalho['trabalho']['id'],
 		    'body'  => [
-		    	'titulo' => $trabalho['trabalho']['titulo'],
-		    	'ano' => $trabalho['trabalho']['ano'],
-				'id_curso'      => $trabalho['trabalho']['id_curso'],
-				'id_campus'     => $trabalho['trabalho']['id_campus'],
-				'palavra_chave' => $trabalho['palavras_chave'],
-				'autor'         => $trabalho['autor']['autores'],
-				'orientador'    => $trabalho['orientador']['orientadores'],
-				// 'arquivo'       => base64_encode(file_get_contents(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco']))
+		    	'doc' => [
+			    	'titulo'     => $trabalho['trabalho']['titulo'],
+			    	'ano'        => $trabalho['trabalho']['ano'],
+			    	'resumo'     => $trabalho['trabalho']['resumo'],
+			    	'ativo'      => true,
+					'curso'         => $trabalho['trabalho']['id_curso'],
+					'campus'        => $trabalho['trabalho']['id_campus'],
+					'palavra_chave' => 'palavra_chave',
+					'autor'         => 'autor',
+					'orientador'    => 'orientador',
+					// 'idioma'        => 'Portugues - PT-BR',
+					'status'        => 1,
+					// 'arquivo'    => base64_encode(file_get_contents(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco']))
+				]
 			]
 		];
 
-debug2(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco']);
-
-
+		$arquivo  = $elastic_search->indexar_documento(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco'], $trabalho['trabalho']['id']);
 		$response = $elastic_search->indexar($params);
-		$elastic_search->indexar_documento(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco'], $trabalho['trabalho']['id']);
-debug2($response);
-debug2($trabalho);
-exit;
-debug2(get_class_methods($client));
+
+		debug2($arquivo);
+		debug2($response);
+		debug2($trabalho);
+		exit;
+		debug2(get_class_methods($client));
 		debug2('fim');
 		exit;
 

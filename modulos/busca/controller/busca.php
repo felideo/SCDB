@@ -17,12 +17,15 @@ class Busca extends \Framework\ControllerCrud {
 
 		$query = carregar_variavel('query');
 
-		if(!empty($query)){
-			$this->view->assign('query', $query);
 
-			$query = implode(' ', $this->validar_parametros_busca_textual($query));
+		if(!empty($query['busca_textual'])){
+			$this->view->assign('query', $query['busca_textual']);
+			$query = implode(' ', $this->validar_parametros_busca_textual($query['busca_textual']));
+			$this->view->assign('retorno_busca_simples', $this->get_dados_trabalho($this->busca_textual($query)));
+		}
 
-			$this->view->assign('retorno_busca_simples', $this->get_dados_trabalho($this->buscar($query)));
+		if(!empty($query['busca_avancada'])){
+			$this->view->assign('retorno_busca_simples', $this->get_dados_trabalho($this->buscar_avancada($query)));
 		}
 
 		$this->view->assign('anos', $this->carregar_anos());
@@ -42,9 +45,14 @@ class Busca extends \Framework\ControllerCrud {
 		return $anos;
 	}
 
-	public function buscar($termo){
+	public function busca_textual($termo){
 		$elastic_search = new \Libs\ElasticSearch\ElasticSearch();
-		return $elastic_search->pesquisar_conteudo_documentos($termo);
+		return $elastic_search->busca_textual($termo);
+	}
+
+	public function buscar_avancada($termo){
+		$elastic_search = new \Libs\ElasticSearch\ElasticSearch();
+		return $elastic_search->buscar_avancada($termo);
 	}
 
 	private function get_dados_trabalho($encontrados){
@@ -59,6 +67,9 @@ class Busca extends \Framework\ControllerCrud {
 		}
 
 		$trabalhos = [];
+
+		// debug2($encontrados);
+		// exit;
 
 		foreach($encontrados['hits']['hits'] as $indice => $item){
 			if($item['_score'] < 1){

@@ -19,4 +19,20 @@ class Front extends \Framework\Model{
 			->where('pagina.ativo = 1')
 			->fetchArray();
 	}
+
+	public function carregar_banners(){
+		$query = $this->query;
+		$query->select('
+			banner.ordem,
+			arquivo.nome,
+			arquivo.endereco,
+			arquivo.extensao,
+		')
+		->from('banner banner')
+		->leftJoin('arquivo arquivo ON arquivo.id = banner.id_arquivo and arquivo.ativo = 1')
+		->orderBy('banner.ordem ASC')
+		->where("banner.ativo = 1");
+
+		return $query->fetchArray();
+	}
 }

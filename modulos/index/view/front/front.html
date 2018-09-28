@@ -1,12 +1,44 @@
+<style type="text/css">
+{foreach from=$banners key=indice item=banner}
+    .bg-slider-wrapper .flexslider .slide.slide-{$indice} {
+      background: #253340 url('/{$banner.arquivo.0.endereco}') no-repeat 50% top;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+
+    .blog-slider .slide.slide-{$indice} {
+        background: #253340 url('/{$banner.arquivo.0.endereco}') no-repeat 50% top;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+{/foreach}
+</style>
+
 <div class="bg-slider-wrapper">
-    <div class="flexslider bg-slider">
+    <div class="flexslider bg-slider" >
         <ul class="slides">
-            <li class="slide slide-1"></li>
+            {foreach from=$banners key=indice item=banner}
+                <li class="slide slide-{$indice}"></li>
+            {/foreach}
+            <!-- <li class="slide slide-1"></li> -->
             <!-- <li class="slide slide-2"></li> -->
             <!-- <li class="slide slide-3"></li> -->
         </ul>
     </div>
 </div><!--//bg-slider-wrapper-->
+
+
+
+
+
+
+
+
+
 
 <section class="promo section section-on-bg">
     <div class="container text-center">
