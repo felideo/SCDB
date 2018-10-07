@@ -59,7 +59,15 @@
         </script>
     {/if}
 
+<style type="text/css">
+    .header .main-nav .navbar-collapse {
+        padding: 0 15px;
+        margin-top: -15px;
+    }
+</style>
+
 </head>
+
 <body class="about-page">
     <!-- ******HEADER****** -->
     <header id="header" class="header navbar-fixed-top scrolled">
@@ -70,14 +78,14 @@
                 <a href="/"><span class="logo-icon"></span><span class="text">{$_SESSION['configuracoes']['aplicacao_nome']}</span></a>
             </h1><!--//logo-->
 
-            <form id="contact-form" class="contact-form col-xs-offset-1 col-xs-6" method="get" action="/busca">
+            <form id="contact-form" class="contact-form col-xs-10 col-sm-5 col-md-5 col-lg-7" method="get" action="/busca">
                 <div class="row text-center">
-                    <div class="contact-form-inner col-xs-12">
+                    <div class="contact-form-inner col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="row" style="margin-top: 15px;">
-                            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-9">
+                            <div class="form-group col-xs-12 col-sm-7 col-md-8 col-lg-8">
                                 <input type="text" class="form-control" name="query[busca_textual]" placeholder="Buscar trabalhos pelo conteudo" />
                             </div>
-                             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-3">
+                             <div class="form-group col-xs-12 col-sm-5 col-md-4 col-lg-4">
                                 <button type="submit" class="btn btn-block btn-cta btn-cta-primary">Buscar</button>
                             </div>
                         </div><!--//row-->
@@ -86,21 +94,17 @@
                 <div id="form-messages"></div>
             </form><!--//contact-form-->
 
-
             <nav class="main-nav navbar-right" role="navigation">
-                <!-- <div class="navbar-header">
+                <div class="navbar-header">
                     <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button> --><!--//nav-toggle-->
-                <!-- </div> --><!--//navbar-header-->
-                <!-- <div id="navbar-collapse" class="navbar-collapse collapse"> -->
+                        <span class="icon-bar" style="margin-bottom: 2px;"><i class="fa fa-2x fa-minus"></i></span>
+                        <span class="icon-bar" style="margin-bottom: 2px;"><i class="fa fa-2x fa-minus"></i></span>
+                        <span class="icon-bar" style="margin-bottom: 2px;"><i class="fa fa-2x fa-minus"></i></span>
+                    </button><!--//nav-toggle -->
+                 </div><!-- //navbar-header -->
                 <div id="navbar-collapse" class="navbar-collapse collapse">
-
                     <ul class="nav navbar-nav">
-
                         <li class="nav-item"><a href="/">Home</a></li>
                         <li class="nav-item"><a href="/busca">Busca Avançada</a></li>
                         <li class="nav-item dropdown">
@@ -122,8 +126,7 @@
                                     {/if}
                                 {/foreach}
                                     </ul>
-                        </li><!--//dropdown-->
-
+                        </li><!--//dropdown
                         <!-- aqui ficava o codigo comentado abaixo -->
                     </ul><!--//nav-->
                 </div><!--//navabr-collapse-->

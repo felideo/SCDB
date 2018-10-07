@@ -332,7 +332,7 @@ function atualizar_clone_query_builder_select_2(id_container_clone){
 function atualizar_autor_search_select2(id_container_clone){
 	$('#valor_pesquisa_' + id_container_clone).select2({
 		placeholder: $(this).data('placeholder'),
-		multiple: true,
+		multiple: false,
 		minimumInputLength: 2,
 		ajax: {
 			type: 'POST',
@@ -364,7 +364,7 @@ function atualizar_autor_search_select2(id_container_clone){
 function atualizar_orientador_search_select2(id_container_clone){
 	$('#valor_pesquisa_' + id_container_clone).select2({
 		placeholder: $(this).data('placeholder'),
-		multiple: true,
+		multiple: false,
 		minimumInputLength: 2,
 		ajax: {
 			type: 'POST',
@@ -396,7 +396,7 @@ function atualizar_orientador_search_select2(id_container_clone){
 function atualizar_curso_search_select2(id_container_clone){
 	$('#valor_pesquisa_' + id_container_clone).select2({
 		placeholder: $(this).data('placeholder'),
-		multiple: true,
+		multiple: false,
 		minimumInputLength: 2,
 		ajax: {
 			type: 'POST',
@@ -428,7 +428,7 @@ function atualizar_curso_search_select2(id_container_clone){
 function atualizar_campus_search_select2(id_container_clone){
 	$('#valor_pesquisa_' + id_container_clone).select2({
 		placeholder: $(this).data('placeholder'),
-		multiple: true,
+		multiple: false,
 		minimumInputLength: 2,
 		ajax: {
 			type: 'POST',
@@ -460,7 +460,7 @@ function atualizar_campus_search_select2(id_container_clone){
 function atualizar_palavra_search_select2(id_container_clone){
 	$('#valor_pesquisa_' + id_container_clone).select2({
 		placeholder: $(this).data('placeholder'),
-		multiple: true,
+		multiple: false,
 		minimumInputLength: 2,
 		ajax: {
 			type: 'POST',
@@ -492,7 +492,7 @@ function atualizar_palavra_search_select2(id_container_clone){
 function atualizar_anos_search_select2(id_container_clone){
 	$('#valor_pesquisa_' + id_container_clone).select2({
 		data: {json_encode($anos)},
-		multiple: true
+		multiple: false
 	});
 };
 

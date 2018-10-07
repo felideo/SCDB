@@ -34,7 +34,6 @@ class ElasticSearch{
 	}
 
 	public function criar_intex(){
-
 		$params = [
 		    'index' => 'swdb',
 		    'body' => [
@@ -87,10 +86,10 @@ class ElasticSearch{
 		    ]
 		];
 
-// Create the index with mappings and settings now
-$response = $this->client->indices()->create($params);
-debug2($response);
-exit;
+		// Create the index with mappings and settings now
+		$response = $this->client->indices()->create($params);
+		debug2($response);
+		exit;
 
 	}
 
@@ -131,8 +130,79 @@ exit;
         }
 	}
 
+	private function carregar_autor($termo){
+		$autor = $this->model->query
+		 	->select('autor.nome')
+		 	->from('autor autor')
+		 	->whereIn('autor.id IN (' . $termo . ')')
+		 	->fetchArray();
+
+		foreach($autor as $indice => $autor){
+			$tmp[] = $autor['nome'];
+		}
+
+		return implode(', ', $tmp);
+	}
+
+	private function carregar_orientador($termo){
+		$orientador = $this->model->query
+		 	->select('orientador.nome')
+		 	->from('orientador orientador')
+		 	->whereIn('orientador.id IN (' . $termo . ')')
+		 	->fetchArray();
+
+		foreach($orientador as $indice => $orientador){
+			$tmp[] = $orientador['nome'];
+		}
+
+		return implode(', ', $tmp);
+	}
+
+	private function carregar_palavra_chave($termo){
+		$palavras_chave = $this->model->query
+		 	->select('palavra_chave.palavra_chave')
+		 	->from('palavra_chave palavra_chave')
+		 	->whereIn('palavra_chave.id IN (' . $termo . ')')
+		 	->fetchArray();
+
+		 foreach($palavras_chave as $indice => $palavra){
+			$tmp[] = $palavra['palavra_chave'];
+		}
+
+		return implode(', ', $tmp);
+	}
+
+
+
+
+
+
+
+
 	public function buscar_avancada($termos){
-		debug2($termos);
+		$this->model = new \Framework\GenericModel();
+
+		foreach($termos['busca_avancada'] as $indice_01 => $termo) {
+			switch ($termo['atributo_pesquisa']) {
+				case 'autor':
+					$termo['valor_pesquisa'] = $this->carregar_autor($termo['valor_pesquisa']);
+					break;
+
+				case 'orientador':
+					$termo['valor_pesquisa'] = $this->carregar_orientador($termo['valor_pesquisa']);
+					break;
+
+				case 'palavra_chave':
+					$termo['valor_pesquisa'] = $this->carregar_palavra_chave($termo['valor_pesquisa']);
+					break;
+			}
+
+
+			$tmp[$termo['atributo_pesquisa']][] = $termo;
+		}
+
+		$termos['busca_avancada'] = $tmp;
+		unset($tmp);
 
 		$must     = [];
 		$must_not = [];
@@ -141,23 +211,28 @@ exit;
 
 		$tmp = [];
 
-		foreach($termos['busca_avancada'] as $indice_01 => $termo) {
-			if(count(explode(',', $termo['valor_pesquisa'])) > 1){
-				foreach(explode(',', $termo['valor_pesquisa']) as $indice_02 => $item) {
-					$tmp[$indice_01 . '_' . $indice_02] = $termo;
-					$tmp[$indice_01 . '_' . $indice_02]['valor_pesquisa'] = $item;
+		foreach($termos['busca_avancada'] as $indice_01 => $termo){
+
+			if(is_array($termo)){
+				foreach($termo as $indice_02 => $item){
+					$tmp[] = $item;
 				}
 			}else{
-				$tmp[$indice_01 . '_' . $indice_02] = $termo;
+				$tmp[] = $termo;
 			}
 		}
 
 		$termos['busca_avancada'] = array_values($tmp);
 
+		// debug2($termos['busca_avancada']);
+		// exit;
+
 		foreach($termos['busca_avancada'] as $indice => $termo) {
 			if(!isset($termo['operador_pesquisa']) || $termo['operador_pesquisa'] == 'and' || $termo['comparativo_pesquisa'] == 'diferente'){
 				if($termo['comparativo_pesquisa'] == 'igual'){
-					$must[] = [
+					// $must[] = [
+					$should[] = [
+
 						$termo['atributo_pesquisa'],
 						$termo['valor_pesquisa']
 					];
@@ -183,6 +258,7 @@ exit;
 		// debug2($must_not);
 		// debug2($should);
 		// debug2($filter);
+		// exit;
 
 		// must
 		// All of these clauses must match. The equivalent of AND.
@@ -192,7 +268,6 @@ exit;
 		// At least one of these clauses must match. The equivalent of OR.
 		// filter
 		// Clauses that must match, but are run in non-scoring, filtering mode.
-
 
 
 		try{
@@ -208,56 +283,64 @@ exit;
 				]
 			];
 
+// {
+//   "query": {
+//     "bool": {
+//       "must":     { "match": { "ano": "2017" }},
+//       "must_not": { "match": { "ano": "2006"  }},
+//       "should": [
+//                   { "match": { "ano": "2016" }},
+//                   { "match": { "ano": "2018"   }}
+//       ]
+//     }
+//   }
+// }
+
+
+
+
 			if(!empty($must)){
 				foreach($must as $indice => $item){
-					$query['body']['query']['bool']['must'][] = [
-						'term' => [
-							$item[0],
-							$item[1]
-						],
+					$query['body']['query']['bool']['must'][]['match'] = [
+						$item[0] => $item[1]
 					];
 				}
 			}
 			if(!empty($must_not)){
 				foreach($must_not as $indice => $item){
-					$query['body']['query']['bool']['must_not'][] = [
-						'term' => [
-							$item[0],
-							$item[1]
-						],
+					$query['body']['query']['bool']['must_not'][]['match'] = [
+						$item[0] => $item[1]
 					];
 				}
 			}
 			if(!empty($should)){
 				foreach($should as $indice => $item){
-					$query['body']['query']['bool']['should'][] = [
-						'term' => [
-							$item[0],
-							$item[1]
-						],
+					$query['body']['query']['bool']['should'][]['match'] = [
+						$item[0] => $item[1]
 					];
 				}
 			}
-			if(!empty($filter)){
-				foreach($filter as $indice => $item){
-					$query['body']['query']['bool']['filter'][] = [
-						'term' => [
-							$item[0],
-							$item[1]
-						],
-					];
-				}
-			}
+			// if(!empty($filter)){
+			// 	foreach($filter as $indice => $item){
+			// 		$query['body']['query']['bool']['filter'][] = [
+			// 			'match' => [
+			// 				$item[0],
+			// 				$item[1]
+			// 			],
+			// 		];
+			// 	}
+			// }
 
-			debug2($query);
+			// debug2(json_encode($query));
+			// debug2($query);
+			// debug2($this->client->search($query));
 
-			debug2($this->client->search($query));
-			exit;
+			// exit;
 
 			return $this->client->search($query);
 		} catch(\Exception $e) {
             $this->error = [
-                'exception_msg' => $e->getMessage(),
+                'exception_msg' => json_decode($e->getMessage()),
                 'code'          => $e->getCode(),
                 'localizador'   => "Class => " . __CLASS__ . " - Function => " . __FUNCTION__ . "() - Line => " . __LINE__,
                 'line'          => $e->getLine(),

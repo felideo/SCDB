@@ -179,7 +179,7 @@ class Trabalho extends \Framework\ControllerCrud {
 
 		if($retorno_trabalho['status']){
 			$this->indexar_trabalho_elasticsearch($trabalho);
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' cadastrado com sucesso!!!', 'sucesso');
+			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' editado com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
 		}
@@ -190,32 +190,63 @@ class Trabalho extends \Framework\ControllerCrud {
 	private function indexar_trabalho_elasticsearch($trabalho){
 		$elastic_search = new \Libs\ElasticSearch\ElasticSearch();
 
-		foreach(explode(',', $trabalho['palavras_chave']) as $indice => $palavra){
-			$tmp[] = ['palavra_chave' => $palavra];
+		$trabalho['palavras_chave'] = $this->model->query
+		 	->select('palavra_chave.palavra_chave')
+		 	->from('palavra_chave palavra_chave')
+		 	->whereIn('palavra_chave.id IN (' . $trabalho['palavras_chave'] . ')')
+		 	->fetchArray();
+
+		foreach($trabalho['palavras_chave'] as $indice => $palavra){
+			$tmp[] = $palavra['palavra_chave'];
 		}
-			$trabalho['palavras_chave'] = $tmp;
-			unset($tmp);
+
+		$trabalho['palavras_chave'] = implode(', ', $tmp);
+		unset($tmp);
+
+
 
 		foreach($trabalho['autor'] as $indice => $autor){
-			$tmp[] = ['autor' => $autor['autor']];
-
+			$tmp[] = $autor['autor'];
 		}
-		$trabalho['autor']['autores'] = $tmp;
+
+		$trabalho['autor'] = $this->model->query
+		 	->select('autor.nome')
+		 	->from('autor autor')
+		 	->whereIn('autor.id IN (' . implode(',', $tmp) . ')')
+		 	->fetchArray();
+
 		unset($tmp);
 
+		foreach($trabalho['autor'] as $indice => $autor){
+			$tmp[] = $autor['nome'];
+		}
+
+		$trabalho['autor'] = implode(', ', $tmp);
+		unset($tmp);
 
 		foreach($trabalho['orientador'] as $indice => $orientador){
-			$tmp[] = ['orientador' => $orientador['orientador']];
+			$tmp[] = $orientador['orientador'];
 		}
-		$trabalho['orientador']['orientadores'] = $tmp;
+
+		$trabalho['orientador'] = $this->model->query
+		 	->select('orientador.nome')
+		 	->from('orientador orientador')
+		 	->whereIn('orientador.id IN (' . implode(',', $tmp) . ')')
+		 	->fetchArray();
+
 		unset($tmp);
+
+		foreach($trabalho['orientador'] as $indice => $orientador){
+			$tmp[] = $orientador['nome'];
+		}
+
+		$trabalho['orientador'] = implode(', ', $tmp);
 
 		$tmp = array_values($trabalho['arquivo']);
 
 		$trabalho['arquivo'] = $this->model->db->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
 
-		// debug2($trabalho);
-		// exit;
+		$this->model->db->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
 
 		$params = [
 		    'index' => 'swdb',
@@ -229,9 +260,9 @@ class Trabalho extends \Framework\ControllerCrud {
 			    	'ativo'      => true,
 					'curso'         => $trabalho['trabalho']['id_curso'],
 					'campus'        => $trabalho['trabalho']['id_campus'],
-					'palavra_chave' => 'palavra_chave',
-					'autor'         => 'autor',
-					'orientador'    => 'orientador',
+					'palavra_chave' => $trabalho['palavras_chave'],
+					'autor'         => $trabalho['autor'],
+					'orientador'    => $trabalho['orientador'],
 					// 'idioma'        => 'Portugues - PT-BR',
 					'status'        => 1,
 					// 'arquivo'    => base64_encode(file_get_contents(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco']))
@@ -239,17 +270,9 @@ class Trabalho extends \Framework\ControllerCrud {
 			]
 		];
 
+
 		$arquivo  = $elastic_search->indexar_documento(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco'], $trabalho['trabalho']['id']);
 		$response = $elastic_search->indexar($params);
-
-		debug2($arquivo);
-		debug2($response);
-		debug2($trabalho);
-		exit;
-		debug2(get_class_methods($client));
-		debug2('fim');
-		exit;
-
 	}
 
 	public function visualizar($id){
