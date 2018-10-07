@@ -40,4 +40,9 @@ class Master extends \Framework\Controller {
 		echo shell_exec("sudo sh /www/swdb/automatic_deploy.sh");
 		exit;
 	}
+
+	public function index_es(){
+		$elastic_search = new \Libs\ElasticSearch\ElasticSearch();
+		$elastic_search->criar_intex();
+	}
 }
