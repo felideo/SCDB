@@ -4,10 +4,6 @@ namespace Model;
 use Libs;
 
 class Permissao extends \Framework\Model{
-	public function __construct() {
-		parent::__construct();
-	}
-
 	public function carregar_listagem($busca, $datatable){
 		$query = $this->query;
 
@@ -78,5 +74,3 @@ class Permissao extends \Framework\Model{
 		return $retorno;
 	}
 }
-
-

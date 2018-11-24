@@ -2,6 +2,9 @@
 namespace Framework;
 
 abstract class Controller {
+	private $models      = [];
+	private $controllers = [];
+
 	function __construct() {
 		\Libs\Session::init();
 
@@ -11,12 +14,15 @@ abstract class Controller {
 			];
 		}
 
-		if(empty($this->model)){
-			$this->model = $this->get_model($this->modulo['modulo']);
-		}
+		$_SESSION['modulo_ativo'] = $this->modulo['modulo'];
+
+		$model = explode('\\', get_class($this));
+		$this->model = $this->get_model(strtolower(end($model)));
 
 		$_SESSION['configuracoes'] = $this->model->full_load_by_id('configuracao', 1)[0];
 		$this->view = new View();
+
+		$this->view->modulo = $this->modulo;
 	}
 
 	public function set_view(&$view){
@@ -25,11 +31,15 @@ abstract class Controller {
 	}
 
 	public function get_controller($controller, $subcontroller = null){
+		if(isset($this->controllers[$controller . '_' . $subcontroller]) && !empty($this->controllers[$controller . '_' . $subcontroller]) && is_object($this->controllers[$controller . '_' . $subcontroller])){
+			return $this->controllers[$controller . '_' . $subcontroller];
+		}
+
 		$subcontroller = (!empty($subcontroller) ? $subcontroller : $controller);
 		$file          = "modulos/{$controller}/controller/{$subcontroller}.php";
 
-		if(!file_exists($file)) {
-			debug2('controler não existe, se fudeu, aproveita e coloca uma exception aqui');
+		if(!file_exists($file)){
+			throw new \Error('Controller Inexistente');
 		}
 
 		$instancia_controller = '\\Controller\\' . ucfirst($subcontroller);
@@ -40,49 +50,31 @@ abstract class Controller {
 			return $controller->set_view($this->view);
 		}
 
-		return $controller;
+		$this->controllers[$controller . '_' . $subcontroller] = $controller;
+
+		return $this->controllers[$controller . '_' . $subcontroller];
 	}
 
 	public function get_model($model, $submodel = null){
+		if(isset($this->models[$model . '_' . $submodel]) && !empty($this->models[$model . '_' . $submodel]) && is_object($this->models[$model . '_' . $submodel])){
+			return $this->models[$model . '_' . $submodel];
+		}
+
 		$submodel = (!empty($submodel) ? $submodel : $model);
 		$file          = "modulos/{$model}/model/{$submodel}.php";
 
 		if(!file_exists($file)) {
-			return new GenericModel();
-			// debug2($file);
-			// debug2('model não existe, se fudeu, aproveita e coloca uma exception aqui');
+			// return new GenericModel();
+			throw new \Error('Model Inexistente');
 		}
 
 		$instancia_model = '\\Model\\' . ucfirst($submodel);
 
 		require_once $file;
-		return new $instancia_model;
-	}
 
+		$this->models[$model . '_' . $submodel] = new $instancia_model;
 
-
-	public function loadModel($model) {
-		$path = strtolower("modulos/{$model}/model/{$model}.php");
-
-		if(file_exists($path)) {
-			require_once $path;
-
-			$modelName = '\\Model\\' . ucfirst($model);
-			$this->model = new $modelName;
-		}else{
-			$this->model = new GenericModel();
-		}
-	}
-
-	public function load_external_model($name) {
-		$path = 'modulos/' . $name . '/model/' .  $name . '.php';
-
-		if(file_exists($path)) {
-			require $path;
-
-			$modelName = '\\Model\\' . ucfirst($name);
-			return new $modelName;
-		}
+		return $this->models[$model . '_' . $submodel];
 	}
 
 	public function check_if_exists($id){
@@ -91,6 +83,12 @@ abstract class Controller {
 			header('location: /' . $this->modulo['modulo']);
 			exit;
 		}
+	}
+
+	public function set_sessao($parametros){
+		$_SESSION[$parametros[0]] = $parametros[1];
+		debug2('$_SESSION[' . $parametros[0] . '] = ' . $parametros[1]);
+		exit;
 	}
 
 	public function print_sessao(){
@@ -102,12 +100,6 @@ abstract class Controller {
 		session_unset();
 		session_destroy();
 		debug2('Sessão limpa! \o/');
-		exit;
-	}
-
-	public function set_sessao($parametros){
-		$_SESSION[$parametros[0]] = $parametros[1];
-		debug2('$_SESSION[' . $parametros[0] . '] = ' . $parametros[1]);
 		exit;
 	}
 }

@@ -10,10 +10,6 @@ use \Libs\QueryBuilder\QueryBuilder;
 * Classe Index_Model
 */
 class Busca_Model extends \Framework\Model{
-	public function __construct() {
-		parent::__construct();
-	}
-
 	public function efetuar_busca($busca){
 		$all_empty = true;
 		foreach ($busca as $filtro) {

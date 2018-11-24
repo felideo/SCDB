@@ -4,13 +4,6 @@ namespace Controller;
 use Libs;
 
 class ajax_upload extends \Framework\Controller {
-	public function __construct() {
-		parent::__construct();
-	}
-
-	public function index() {
-	}
-
 	public function upload($parametros = null) {
 		// else do regular POST upload (i.e. for old non-HTML5 browsers)
 		$size = $_FILES['qqfile']['size'];

@@ -86,14 +86,16 @@ abstract class Model {
 	}
 
 	public function insert_update($from, array $where, array $data, $update = false){
-		$this->query->select("{$from}.id")
-			->from("{$from} {$from}");
+		if(isset($where) && !empty($where)){
+			$this->query->select("{$from}.id")
+				->from("{$from} {$from}");
 
-		foreach ($where as $indice => $item) {
-			$this->query->where("{$from}.{$indice} =  '{$item}'", 'AND');
+			foreach ($where as $indice => $item) {
+				$this->query->where("{$from}.{$indice} =  '{$item}'", 'AND');
+			}
+
+			$registro_existe = $this->query->fetchArray();
 		}
-
-		$registro_existe = $this->query->fetchArray();
 
 		if(!isset($registro_existe[0]['id']) || empty($registro_existe[0]['id'])){
 			$retorno['operacao'] = 'insert';

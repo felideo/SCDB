@@ -30,21 +30,30 @@
             <option value="/public/front/css/styles-10.css" {if isset($cadastro) && $cadastro.cor_padrao == '/public/front/css/styles-10.css'} selected {/if} >Cinza</option>
         </select>
     </div>
-</div>
 
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Texto Esquerdo Rodapé</h3>
+    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <label for="link">Politica de Aprovação e/ou Reprovação de Trabalho* :</label><br>
+            </div>
         </div>
-        <div class="panel-body">
-            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <textarea class="form-control texto_esquerdo_rodape" rows="10" name="{$modulo.modulo}[texto_esquerdo_rodape]">{if isset($cadastro)}{$cadastro.texto_esquerdo_rodape}{/if}</textarea>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <input type="radio" name="{$modulo.modulo}[politica_aprovacao]" value="1" {if isset($cadastro) && $cadastro.politica_aprovacao == 1} checked {/if} required> Qualquer usuario que possua permissão, pode aprovar o trabalho para ser exibido no site
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <input type="radio" name="{$modulo.modulo}[politica_aprovacao]" value="2" {if isset($cadastro) && $cadastro.politica_aprovacao == 2} checked {/if} required> Somente o orientador do trabalho pode aprovar o trabalho para ser exibido no site
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <input type="radio" name="{$modulo.modulo}[politica_aprovacao]" value="3" {if isset($cadastro) && $cadastro.politica_aprovacao == 3} checked {/if} required> Somente orientadores que não sejam o orientador do trabalho, podem aprovar o trabalho para ser exibido no site
             </div>
         </div>
     </div>
+
 </div>
 
+
+<img src="">
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="panel panel-default">
         <div class="panel-heading">

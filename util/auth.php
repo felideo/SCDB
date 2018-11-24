@@ -16,7 +16,7 @@ class Auth {
 				$logged = false;
 			} else {
 				$logged = false;
-				header('location: ' . $_SERVER['HTTP_REFERER']);
+				header('location: /error');
 				exit;
 			}
 		}

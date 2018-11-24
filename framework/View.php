@@ -15,14 +15,18 @@ class View {
 	}
 
 	public function assign($index, $data){
+
 		$this->assign->assign($index, $data);
 	}
 
 	public function getAssign($data){
+
 		return $this->assign->get($data);
 	}
 
 	public function render($header_footer, $body) {
+		$this->set_todo();
+
 		$template = new \Dwoo\Template\File('modulos/' . $body . '.html');
 
 		if(strpos($header_footer, 'sidebar')){
@@ -37,6 +41,8 @@ class View {
 			$this->assign('lazy_view', true);
 		}
 
+		$this->assign('_SESSION', $_SESSION);
+
 		echo $this->dwoo->get($header, $this->assign);
 		echo $this->dwoo->get($body, $this->assign);
 		echo $this->dwoo->get($footer, $this->assign);
@@ -47,6 +53,16 @@ class View {
 		}
 
 		exit;
+	}
+
+	private function set_todo(){
+		if((!defined('DEVELOPER') || empty(DEVELOPER)) || (!isset($GLOBALS['todo']) || empty($GLOBALS['todo']))){
+			return false;
+		}
+
+		foreach($GLOBALS['todo'] as $indice => $todo){
+			$this->warn_js($todo, 'info');
+		}
 	}
 
 	private function mount_sidebar(){
@@ -188,7 +204,6 @@ class View {
 	        . " 		autoHideDelay: 5000,\n\t"
 	        . " 	})\n"
 	        . " }, 1000);\n\n";
-
 	}
 
 	public function alert_js($mensagem, $status){
@@ -233,6 +248,7 @@ class View {
 	}
 
 	public function lazy_view(){
+
 		$this->lazy_view = true;
 	}
 
@@ -260,7 +276,7 @@ class View {
 
 		if($excluir){
 			$botao_excluir = \Util\Permission::check_user_permission($this->modulo['modulo'], "deletar") ?
-				"<a class='validar_deletar' href='#' data-id_registro='{$id}' data-redirecionamento='{$url}/{$this->modulo['modulo']}/delete/{$id}' title='Deletar'><i class='botao_listagem  fa fa-trash-o fa-fw'></i></a>" :
+				"<a class='validar_deletar' href='#' data-id_registro='{$id}' data-redirecionamento='{$url}/{$this->modulo['modulo']}/destroy/{$id}' title='Deletar'><i class='botao_listagem  fa fa-trash-o fa-fw'></i></a>" :
 				'';
 		}
 

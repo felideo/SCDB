@@ -3,12 +3,11 @@ namespace Framework;
 
 use Libs\URL;
 
-
 class ControllerCrud extends \Framework\Controller {
 	protected $modulo    = [];
 	protected $datatable = [];
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 		$this->view->modulo = $this->modulo;
 		$this->view->assign('modulo', $this->modulo);
@@ -23,6 +22,8 @@ class ControllerCrud extends \Framework\Controller {
 		if(isset($this->datatable) && !empty($this->datatable)){
 			$this->view->set_colunas_datatable($this->datatable['colunas']);
 		}
+
+		$this->middle_index();
 
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
 	}
@@ -51,14 +52,14 @@ class ControllerCrud extends \Framework\Controller {
 		\Util\Auth::handLeLoggin();
 		\Util\Permission::check($this->modulo['modulo'], "criar");
 
-		$retorno = $this->model->insert($this->modulo['modulo'], carregar_variavel($this->modulo['modulo']));
+		$retorno = $this->insert_update(carregar_variavel($this->modulo['modulo']), []);
 
 		if(isset($this->modulo['url']) && !empty($this->modulo['url']) && !empty($retorno['status'])){
 			$dados['id'] = $retorno['id'];
 			$this->cadastrar_url($dados);
 		}
 
-		if($retorno['status']){
+		if(isset($retorno['status']) && !empty($retorno['status'])){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' cadastrado com sucesso!!!', 'sucesso');
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
@@ -67,37 +68,15 @@ class ControllerCrud extends \Framework\Controller {
 		header('location: /' . $this->modulo['modulo']);
 	}
 
-	public function editar($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "editar");
+	public function insert_update($dados, $id = null){
+		$table = isset($this->modulo['table']) ? $this->modulo['table'] : $this->modulo['modulo'];
 
-		$this->check_if_exists($id[0]);
-
-		$this->view->assign('cadastro', $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0]);
-		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
-	}
-
-	public function update($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "editar");
-
-		$this->check_if_exists($id[0]);
-
-		$dados   = carregar_variavel($this->modulo['modulo']);
-		$retorno = $this->model->update($this->modulo['modulo'], $dados, ['id' => $id[0]]);
-
-		if(isset($this->modulo['url']) && !empty($this->modulo['url']) && !empty($retorno['status'])){
-			$dados['id'] = $id[0];
-			$this->cadastrar_url($dados);
-		}
-
-		if($retorno['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' editado com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
-		}
-
-		header('location: /' . $this->modulo['modulo']);
+		return $this->model->insert_update(
+			$table,
+			$where,
+			$dados,
+			true
+		);
 	}
 
 	private function cadastrar_url($dados){
@@ -109,18 +88,34 @@ class ControllerCrud extends \Framework\Controller {
 			->cadastrarUrlAmigavel();
 	}
 
-	public function delete($id) {
+	public function editar($id) {
 		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "deletar");
+		\Util\Permission::check($this->modulo['modulo'], "editar");
 
 		$this->check_if_exists($id[0]);
 
-		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
+		$this->middle_editar($id[0]);
 
-		if($retorno['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
+	}
+
+	public function update($id) {
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "editar");
+
+		$this->check_if_exists($id[0]);
+
+		$retorno = $this->insert_update(carregar_variavel($this->modulo['modulo']), ['id' => $id[0]]);
+
+		if(isset($this->modulo['url']) && !empty($this->modulo['url']) && !empty($retorno['status'])){
+			$dados['id'] = $id[0];
+			$this->cadastrar_url($dados);
+		}
+
+		if(isset($retorno['status']) && !empty($retorno['status'])){
+			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' editado com sucesso!!!', 'sucesso');
 		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
 		}
 
 		header('location: /' . $this->modulo['modulo']);
@@ -132,9 +127,47 @@ class ControllerCrud extends \Framework\Controller {
 
 		$this->check_if_exists($id[0]);
 
-		$this->view->assign('cadastro', $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0]);
+		$this->middle_visualizar($id[0]);
 
 		$this->view->lazy_view();
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
+	}
+
+	public function destroy($id) {
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "deletar");
+
+		$this->check_if_exists($id[0]);
+
+		$retorno = $this->middle_delete($id);
+
+		if(isset($retorno['status']) && !empty($retorno['status'])){
+			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+		}
+
+		header('location: /' . $this->modulo['modulo']);
+	}
+
+	public function middle_index(){
+	}
+
+	public function middle_adicionar(){
+	}
+
+	public function middle_editar($id){
+		$table = isset($this->modulo['table']) ? $this->modulo['table'] : $this->modulo['modulo'];
+		$this->view->assign('cadastro', $this->model->full_load_by_id($table, $id)[0]);
+	}
+
+	public function middle_visualizar($id){
+		$table = isset($this->modulo['table']) ? $this->modulo['table'] : $this->modulo['modulo'];
+		$this->view->assign('cadastro', $this->model->full_load_by_id($table, $id)[0]);
+	}
+
+	public function middle_delete($id){
+		$table = isset($this->modulo['table']) ? $this->modulo['table'] : $this->modulo['modulo'];
+		return $this->model->delete($table, ['id' => $id[0]]);
 	}
 }

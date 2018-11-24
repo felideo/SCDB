@@ -26,7 +26,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 		$this->view->set_colunas_datatable(['ID', 'Nome', 'Ações']);
 		// $this->listagem($this->model->load_active_list($this->modulo['modulo']));
 
-		$this->view->assign('permissoes_list', $this->load_external_model('permissao')->load_permissions_list());
+		$this->view->assign('permissoes_list', $this->get_model('permissao')->load_permissions_list());
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
 
 	}
@@ -51,7 +51,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 		\Util\Permission::check($this->modulo['modulo'], "editar");
 
 		$this->view->assign('cadastro', $this->model->load_hierarquia($id[0]));
-		$this->view->assign('permissoes_list', $this->load_external_model('permissao')->load_permissions_list());
+		$this->view->assign('permissoes_list', $this->get_model('permissao')->load_permissions_list());
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 
@@ -59,7 +59,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 		\Util\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->view->assign('cadastro', $this->model->load_hierarquia($id[0]));
-		$this->view->assign('permissoes_list', $this->load_external_model('permissao')->load_permissions_list());
+		$this->view->assign('permissoes_list', $this->get_model('permissao')->load_permissions_list());
 		$this->view->lazy_view();
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}

@@ -341,6 +341,7 @@ class ElasticSearch{
 		} catch(\Exception $e) {
             $this->error = [
                 'exception_msg' => json_decode($e->getMessage()),
+                'exception'     => $e->getMessage(),
                 'code'          => $e->getCode(),
                 'localizador'   => "Class => " . __CLASS__ . " - Function => " . __FUNCTION__ . "() - Line => " . __LINE__,
                 'line'          => $e->getLine(),

@@ -2,11 +2,6 @@
 namespace Model;
 
 class Acesso extends \Framework\Model{
-
-	function __construct() {
-		parent::__construct();
-	}
-
 	public function run($acesso) {
 
 		\Libs\Session::init();

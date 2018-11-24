@@ -32,7 +32,7 @@ class Busca extends \Framework\ControllerCrud {
 		$this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/busca');
 	}
 
-	public function carregar_anos(){
+	private function carregar_anos(){
 		$anos = [];
 
 		foreach($this->model->db->select("SELECT ano FROM trabalho GROUP BY ano") as $indice => $ano){
@@ -134,7 +134,7 @@ class Busca extends \Framework\ControllerCrud {
 
 	public function buscar_taxonomia_select2(){
 		$busca       = carregar_variavel('busca');
-		$taxon_model = $this->load_external_model('taxon');
+		$taxon_model = $this->get_model('taxon');
 		$retorno     = $taxon_model->buscar_taxon($busca);
 
 		echo json_encode($retorno);
@@ -143,7 +143,7 @@ class Busca extends \Framework\ControllerCrud {
 
 	public function buscar_nome_popular_select2(){
 		$busca           = carregar_variavel('busca');
-		$organismo_model = $this->load_external_model('organismo');
+		$organismo_model = $this->get_model('organismo');
 		$retorno         = $organismo_model->buscar_nome_popular($busca);
 
 		echo json_encode($retorno);

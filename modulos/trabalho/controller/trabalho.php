@@ -18,7 +18,7 @@ class Trabalho extends \Framework\ControllerCrud {
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo <i class="fa fa-search"></i>', 'Ano <i class="fa fa-search"></i>', 'Curso <i class="fa fa-search"></i>', 'Campi <i class="fa fa-search"></i>', 'Autor <i class="fa fa-search"></i>', 'Orientador <i class="fa fa-search"></i>', 'Status', 'Ações'],
 	];
 
-	public function carregar_listagem_ajax(){
+	public function carregar_listagem_ajax($busca){
 		$busca = [
 			'order'  => carregar_variavel('order'),
 			'search' => carregar_variavel('search'),
@@ -52,13 +52,16 @@ class Trabalho extends \Framework\ControllerCrud {
 				$orientador .= isset($um_orientador['orientador'][0]['nome']) ? $um_orientador['orientador'][0]['nome'] . ' ' : ' ';
 			}
 
+			$botao_aprovar  = $this->permicao_apovar_reprovar_trebalho($item, 'aprovar');
+			$botao_reprovar = $this->permicao_apovar_reprovar_trebalho($item, 'reprovar');
+
 			$botao_aprovar = \Util\Permission::check_user_permission($this->modulo['modulo'], "aprovar") && ($item['status'] == 0 || $item['status'] == 2) ?
 				"<a href='/{$this->modulo['modulo']}/aprovar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-check-circle fa-fw'></i></a>" :
 				'';
 
 			$botao_reprovar = \Util\Permission::check_user_permission($this->modulo['modulo'], "reprovar") && ($item['status'] == 0 || $item['status'] == 1) ?
-				"<a href='/{$this->modulo['modulo']}/reprovar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-times-circle fa-fw'></i></a>" :
-				'';
+					"<a href='/{$this->modulo['modulo']}/reprovar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-times-circle fa-fw'></i></a>" :
+					'';
 
 			if($item['status'] == 0){
 				$status = 'Pendente';
@@ -92,6 +95,47 @@ class Trabalho extends \Framework\ControllerCrud {
         ]);
 
 		exit;
+	}
+
+	private function permicao_apovar_reprovar_trebalho($trabalho, $botao){
+		switch ($_SESSION['configuracoes']['politica_aprovacao']) {
+			case 1:
+				$aprovar =  true;
+				break;
+			case 2:
+				debug2($trabalho);
+
+				$orientadores = [];
+
+				foreach ($trabalho['trabalho_relaciona_orientador'] as $indice => $orientador){
+					# code...
+				}
+
+
+				break;
+			case 3:
+				# code...
+				break;
+
+			default:
+				$aprovar_reprovar = false;
+				break;
+		}
+
+		switch ($botao) {
+			case 'aprobar':
+				return \Util\Permission::check_user_permission($this->modulo['modulo'], "aprovar") && ($item['status'] == 0 || $item['status'] == 2) ?
+				"<a href='/{$this->modulo['modulo']}/aprovar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-check-circle fa-fw'></i></a>" :
+				'';
+				break;
+
+			case 'reprovar':
+				return \Util\Permission::check_user_permission($this->modulo['modulo'], "reprovar") && ($item['status'] == 0 || $item['status'] == 1) ?
+					"<a href='/{$this->modulo['modulo']}/reprovar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-times-circle fa-fw'></i></a>" :
+					'';
+				break;
+		}
+
 	}
 
 	public function create(){

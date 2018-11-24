@@ -7,9 +7,9 @@ class Usuario extends \Framework\ControllerCrud {
 	private $hierarquia_organizada = [];
 
 	protected $modulo = [
-		'modulo' => 'usuario',
-		'name'   => 'Usuarios',
-		'send'   => 'Usuario',
+		'modulo'     => 'usuario',
+		'name'       => 'Usuarios',
+		'send'       => 'Usuario'
 	];
 
 	protected $datatable = [
@@ -17,17 +17,9 @@ class Usuario extends \Framework\ControllerCrud {
 		'from'    => 'usuario'
 	];
 
-
-	public function index() {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
-
-		$this->view->set_colunas_datatable($this->datatable['colunas']);
-
-		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
+	public function middle_index() {
 
 		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
-		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
 	}
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -52,41 +44,101 @@ class Usuario extends \Framework\ControllerCrud {
 		return $retorno;
 	}
 
-	public function create(){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "criar");
-
-		$usuario = carregar_variavel($this->modulo['modulo']);
-
-		$insert_db_usuario = [
-			// "senha"   => \Util\Hash::get_unic_hash()
-			'senha'      => 12345,
-			'email'      => $usuario['usuario']['email'],
-			'hierarquia' => $usuario['usuario']['hierarquia'],
-		];
-
-		$retorno_usuario = $this->model->insert($this->modulo['modulo'], $insert_db_usuario);
-
-		if($retorno_usuario['status']){
-			$insert_db_pessoa = [
-				'id_usuario' => $retorno_usuario['id'],
-				'nome'       => $usuario['pessoa']['nome'],
-				'sobrenome'  => $usuario['pessoa']['sobrenome'],
-			];
-
-			$retorno_pessoa = $this->model->insert('pessoa', $insert_db_pessoa);
+	public function insert_update($usuario, $where = null){
+		if(empty($where['id'])){
+			// $usuario['senha']         = \Util\Hash::get_unic_hash()
+			$usuario['usuario']['senha'] = 12345;
 		}
 
-		if($retorno_usuario['status']){
-			$this->view->alert_js('Cadastro efetuado com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro, por favor tente novamente...', 'erro');
+		$usuario['usuario']['retorno'] = $this->model->insert_update(
+			$this->modulo['modulo'],
+			$where,
+			$usuario['usuario'],
+			true
+		);
+
+		if(!empty($usuario['usuario']['retorno']['status'])){
+			$usuario['pessoa']['id_usuario'] = $usuario['usuario']['retorno']['id'];
+
+			$usuario['pessoa']['retorno'] = $this->model->insert_update(
+				'pessoa',
+				['id_usuario' => $usuario['pessoa']['id_usuario']],
+				$usuario['pessoa'],
+				true
+			);
 		}
 
-		header('location: /' . $this->modulo['modulo']);
+		if(!empty($usuario['usuario']['retorno']['status'] && $usuario['pessoa']['retorno']['status'])){
+			$usuario['status'] = $usuario['usuario']['retorno']['status'] && $usuario['pessoa']['retorno']['status'];
+			return $usuario;
+		}
+
+		return $usuario;
 	}
 
+	public function middle_editar($id) {
+		$cadastro = $this->model->load_cadastro($id[0])[0];
+		$cadastro['hierarquia_nivel'] = $this->model->query
+			->select('hierarquia.*')
+			->from('hierarquia hierarquia')
+			->where("hierarquia.ativo = 1 AND hierarquia.id = {$cadastro['hierarquia']}")
+			->fetchArray()[0]['nivel'];
+
+		$this->view->assign('cadastro', $cadastro);
+		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
+	}
+
+	public function middle_visualizar($id){
+		$cadastro = $this->model->load_cadastro($id[0])[0];
+		$cadastro['hierarquia_nivel'] = $this->model->query
+			->select('hierarquia.*')
+			->from('hierarquia hierarquia')
+			->where("hierarquia.ativo = 1 AND hierarquia.id = {$cadastro['hierarquia']}")
+			->fetchArray()[0]['nivel'];
+
+		$this->view->assign('cadastro', $cadastro);
+		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
+	}
+
+	public function delete($id) {
+		if($_SESSION['usuario']['id'] == $id){
+			$this->view->alert_js('Você não pode excluir seu proprio usuário!!!', 'erro');
+			header('location: /' . $this->modulo['modulo']);
+			exit;
+		}
+
+		$retorno_usuario = $this->model->delete('usuario', ['id' => $id]);
+
+		if($retorno_usuario['status']){
+			$retorno_pessoa = $this->model->delete('pessoa', ['id_usuario' => $id]);
+		}
+
+		return $retorno_usuario['status'] && $retorno_pessoa['status'];
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	private function listagem($dados_linha){
+		debug2($dados_linha);
+		exit;
+
 		if(empty($dados_linha)){
 			return false;
 		}
@@ -127,110 +179,6 @@ class Usuario extends \Framework\ControllerCrud {
 		$this->view->linhas_datatable = $retorno_linhas;
 	}
 
-	public function editar($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "editar");
-
-		$this->check_if_exists($id[0]);
-
-		$cadastro = $this->model->load_cadastro($id[0])[0];
-		$cadastro['hierarquia_nivel'] = $this->model->query
-			->select('hierarquia.*')
-			->from('hierarquia hierarquia')
-			->where("hierarquia.ativo = 1 AND hierarquia.id = {$cadastro['hierarquia']}")
-			->fetchArray()[0]['nivel'];
-
-		$this->view->assign('cadastro', $cadastro);
-		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
-
-		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
-	}
-
-	public function visualizar($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
-
-		$this->check_if_exists($id[0]);
-
-
-		$cadastro = $this->model->load_cadastro($id[0])[0];
-		$cadastro['hierarquia_nivel'] = $this->model->query
-			->select('hierarquia.*')
-			->from('hierarquia hierarquia')
-			->where("hierarquia.ativo = 1 AND hierarquia.id = {$cadastro['hierarquia']}")
-			->fetchArray()[0]['nivel'];
-
-		$this->view->assign('cadastro', $cadastro);
-		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
-
-		$this->view->lazy_view();
-		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
-	}
-
-	public function update($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "editar");
-
-		$this->check_if_exists($id[0]);
-
-		$usuario = carregar_variavel($this->modulo['modulo']);
-
-		$update_db_usuario = [
-			'hierarquia' => $usuario['usuario']['hierarquia'],
-		];
-
-		$retorno_usuario = $this->model->update($this->modulo['modulo'], $update_db_usuario, ['id' => $id[0]]);
-
-		if($retorno_usuario['status']){
-			$update_db_pessoa = [
-				'id_usuario' => $id[0],
-				'nome'       => $usuario['pessoa']['nome'],
-				'sobrenome'  => $usuario['pessoa']['sobrenome'],
-			];
-
-			$retorno_pessoa = $this->model->insert_update(
-				'pessoa',
-				['id_usuario' => $id[0]],
-				$update_db_pessoa,
-				true
-			);
-		}
-
-		if($retorno_usuario['status']){
-			$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do cadastro, por favor tente novamente...', 'erro');
-		}
-
-		header('location: /' . $this->modulo['modulo']);
-	}
-
-	public function delete($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "deletar");
-
-		$this->check_if_exists($id[0]);
-
-		if($_SESSION['usuario']['id'] == $id[0]){
-			$this->view->alert_js('Você não pode excluir seu proprio usuário!!!', 'erro');
-			header('location: /' . $this->modulo['modulo']);
-			exit;
-		}
-
-		$retorno_usuario = $this->model->delete('usuario', ['id' => $id[0]]);
-
-		if($retorno_usuario['status']){
-			$retorno_pessoa = $this->model->delete('pessoa', ['id_usuario' => $id[0]]);
-		}
-
-		if($retorno_usuario['status']){
-			$this->view->alert_js('Remoção efetuada com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do cadastro, por favor tente novamente...', 'erro');
-		}
-
-		header('location: /' . $this->modulo['modulo']);
-	}
 
 	public function verificar_duplicidade_ajax(){
 		echo json_encode(empty($this->model->load_user_by_email(carregar_variavel('usuario'))));

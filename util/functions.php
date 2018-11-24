@@ -45,6 +45,8 @@ function debug2($var, $legenda = false, $exit = false) {
         // echo "\n=============== FIM ===============\n";
         echo "\n";
         debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        echo "\n";
+
         echo "</pre>";
     // }
 

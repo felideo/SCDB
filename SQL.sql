@@ -332,3 +332,26 @@ CREATE TABLE `banner` (
 	FOREIGN      KEY (`id_arquivo`) REFERENCES `arquivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
+alter table configuracao
+add COLUMN politica_aprovacao tinyint(1) not null AFTER cor_padrao;
+
+alter table pessoa
+add COLUMN `link`  TEXT NULL AFTER sobrenome;
+
+alter table orientador
+add COLUMN `id_usuario` INT (11) NOT NULL AFTER id,
+ADD FOREIGN KEY (id_usuario) REFERENCES usuario(id);
+
+CREATE TABLE `trabalho_relaciona_orientador` (
+	`id`          INT(11) 			NOT NULL AUTO_INCREMENT,
+	`id_trabalho` INT(11) 			NOT NULL,
+	`id_pessoa`   INT(11) 			NOT NULL,
+	`ativo`       TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY       KEY (`id`),
+	FOREIGN       KEY (`id_trabalho`) 	REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN       KEY (`id_pessoa`) REFERENCES `pessoa` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+alter table pessoa
+add COLUMN orientador tinyint(1) not null DEFAULT 0 AFTER instituicao,
+add COLUMN autor tinyint(1) not null DEFAULT 0 AFTER orientador;
