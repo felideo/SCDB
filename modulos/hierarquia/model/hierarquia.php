@@ -30,7 +30,7 @@ class Hierarquia extends \Framework\Model{
 			$select .= " LIMIT {$busca['start']}, {$busca['length']}";
 		}
 
-		return $this->db->select($select);
+		return $this->select($select);
 	}
 
 	public function load_hierarquia($id){

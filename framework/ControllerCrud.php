@@ -41,7 +41,7 @@ class ControllerCrud extends \Framework\Controller {
 		echo json_encode([
             "draw"            => intval(carregar_variavel('draw')),
             "recordsTotal"    => intval(count($retorno)),
-            "recordsFiltered" => intval($this->model->db->select("SELECT count(id) AS total FROM {$this->datatable['from']} WHERE ativo = 1")[0]['total']),
+            "recordsFiltered" => intval($this->model->select("SELECT count(id) AS total FROM {$this->datatable['from']} WHERE ativo = 1")[0]['total']),
             "data"            => $retorno
         ]);
 
@@ -60,15 +60,15 @@ class ControllerCrud extends \Framework\Controller {
 		}
 
 		if(isset($retorno['status']) && !empty($retorno['status'])){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' cadastrado com sucesso!!!', 'sucesso');
+			$this->view->alert_js(ucfirst($this->modulo['send']) . ' cadastrado com sucesso!!!', 'sucesso');
 		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro do ' . strtolower($this->modulo['send']) . ', por favor tente novamente...', 'erro');
 		}
 
 		header('location: /' . $this->modulo['modulo']);
 	}
 
-	public function insert_update($dados, $id = null){
+	public function insert_update($dados, $where){
 		$table = isset($this->modulo['table']) ? $this->modulo['table'] : $this->modulo['modulo'];
 
 		return $this->model->insert_update(
@@ -113,9 +113,9 @@ class ControllerCrud extends \Framework\Controller {
 		}
 
 		if(isset($retorno['status']) && !empty($retorno['status'])){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' editado com sucesso!!!', 'sucesso');
+			$this->view->alert_js(ucfirst($this->modulo['send']) . ' editado com sucesso!!!', 'sucesso');
 		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+			$this->view->alert_js('Ocorreu um erro ao efetuar a edição do ' . strtolower($this->modulo['send']) . ', por favor tente novamente...', 'erro');
 		}
 
 		header('location: /' . $this->modulo['modulo']);
@@ -142,9 +142,9 @@ class ControllerCrud extends \Framework\Controller {
 		$retorno = $this->middle_delete($id);
 
 		if(isset($retorno['status']) && !empty($retorno['status'])){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
+			$this->view->alert_js(ucfirst($this->modulo['send']) . ' removido com sucesso!!!', 'sucesso');
 		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['send']) . ', por favor tente novamente...', 'erro');
 		}
 
 		header('location: /' . $this->modulo['modulo']);

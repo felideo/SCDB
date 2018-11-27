@@ -46,27 +46,4 @@ class Banner extends \Framework\ControllerCrud {
 		$this->view->lazy_view();
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
-
-	public function delete($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "deletar");
-
-		$this->check_if_exists($id[0]);
-
-		$banner = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
-
-		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
-		$this->model->delete('arquivo', ['id' => $banner['id_arquivo']]);
-
-		if($retorno['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
-		}
-
-		header('location: /' . $this->modulo['modulo']);
-	}
-
-
-
 }

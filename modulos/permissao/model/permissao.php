@@ -50,7 +50,7 @@ class Permissao extends \Framework\Model{
 			. ' WHERE modulo.ativo = 1';
 
 
-		$permissoes = $this->db->select($select);
+		$permissoes = $this->select($select);
 
 		foreach($permissoes as $indice => $permissao) {
 			if(!isset($retorno[$permissao['modulo_modulo']])){

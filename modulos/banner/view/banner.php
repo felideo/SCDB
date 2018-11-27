@@ -6,9 +6,7 @@ use Libs;
 class Banner extends \Framework\ControllerCrud {
 
 	protected $modulo = [
-		'modulo' 	=> 'banner',
-		'name'		=> 'Banners',
-		'send'		=> 'Banner'
+		'modulo' 	=> 'banner'
 	];
 
 	protected $datatable = [

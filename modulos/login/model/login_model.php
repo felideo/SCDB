@@ -4,13 +4,7 @@ namespace Models;
 use Libs;
 
 class Login_Model extends \Framework\Model{
-
-	function __construct() {
-		parent::__construct();
-	}
-
 	public function run() {
-
 		\Libs\Session::init();
 
 		$this->sign_in();
@@ -26,13 +20,9 @@ class Login_Model extends \Framework\Model{
 	}
 
 	public function run_back() {
-
 		\Libs\Session::init();
 
 		$this->sign_in();
-
-
-
 
 		if(isset($_SESSION['logado']) && $_SESSION['logado'] == true){
 			$this->load_permissions();
@@ -45,17 +35,7 @@ class Login_Model extends \Framework\Model{
 	}
 
 	private function sign_in(){
-		$sth = $this->db->prepare("SELECT * FROM usuario WHERE
-			email = :email AND senha = :senha");
-
-		$sth->execute(array(
-			':email' => $_POST['email'],
-			// ':senha' => \Libs\Hash::create('sha256', $_POST['senha'], HASH_PASSWORD_KEY)
-			':senha' => $_POST['senha']
-		));
-
-		$data = $sth->fetch();
-		$count = $sth->rowCount();
+		$retorno = $this->select("SELECT * FROM usuario WHERE email = {$_POST['email']} AND senha = {$_POST['senha']} AND ativo = 1 AND bloqueado = 0");
 
 		if(isset($data) && !empty($data) && $count > 0 && $data !== false) {
 			$user = [
@@ -71,8 +51,8 @@ class Login_Model extends \Framework\Model{
 	}
 
 	private function load_modulos_and_menus(){
-		$modulos = $this->db->select('SELECT * FROM modulo WHERE ATIVO = 1 ORDER BY ordem');
-		$submenus = $this->db->select('SELECT * FROM submenu WHERE ATIVO = 1');
+		$modulos = $this->select('SELECT * FROM modulo WHERE ATIVO = 1 ORDER BY ordem');
+		$submenus = $this->select('SELECT * FROM submenu WHERE ATIVO = 1');
 
 		foreach ($modulos as $indice_01 => $modulo) {
 
@@ -113,7 +93,7 @@ class Login_Model extends \Framework\Model{
 				. ' ON modulo.id = permissao.id_modulo'
 				. ' WHERE hierarquia.id = ' . $_SESSION['usuario']['hierarquia'];
 
-			$permissoes = $this->db->select($select);
+			$permissoes = $this->select($select);
 
 
 			foreach($permissoes as $indice => $permissao){

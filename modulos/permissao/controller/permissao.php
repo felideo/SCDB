@@ -7,7 +7,7 @@ class Permissao extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'permissao',
-		'name'		=> 'Permissão',
+		'name'		=> 'Permissões',
 		'send'		=> 'Permissão'
 	];
 

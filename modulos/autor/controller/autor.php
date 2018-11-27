@@ -8,14 +8,13 @@ class Autor extends \Framework\ControllerCrud {
 	protected $modulo = [
 		'modulo' 	=> 'autor',
 		'name'		=> 'Autores',
-		'send'		=> 'Autor'
+		'send'		=> 'Autor',
+		'table'  => 'pessoa'
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID <i class="fa fa-search"></i>', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Link/Lattes', 'Ações'],
-		'select'  => ['id', 'nome', 'email', 'link'],
-		'from'    => 'autor',
-		'search'  => ['id', 'nome', 'email']
+		'colunas' => ['ID <i class="fa fa-search"></i>', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Ações'],
+		'from'    => 'orientador',
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -23,12 +22,15 @@ class Autor extends \Framework\ControllerCrud {
 
 		$retorno = [];
 
+		if(empty($query)){
+			return $retorno;
+		}
+
 		foreach ($query as $indice => $item) {
 			$retorno[] = [
 				$item['id'],
-				$item['nome'],
-				$item['email'],
-				$item['link'],
+				$item['nome'] . ' ' . $item['sobrenome'],
+				$item['usuario'][0]['email'],
 				$this->view->default_buttons_listagem($item['id'], true, true, true)
 			];
 		}
@@ -36,18 +38,57 @@ class Autor extends \Framework\ControllerCrud {
 		return $retorno;
 	}
 
-	public function delete($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "deletar");
+	public function insert_update($dados, $where = null){
+		if(isset($where['id']) && !empty($where['id'])){
+			if(is_numeric($dados['nome'])){
+				unset($dados['nome']);
+			}
 
-		$this->check_if_exists($id[0]);
+			if(isset($dados['id_usuario']) && !empty($dados['id_usuario'])){
+				$where['id'] = $dados['id_usuario'];
+				unset($dados['id_usuario']);
+			}
+		}
 
+		$autor = [
+			'pessoa'     => [
+				'nome'      => str_replace(end(explode(' ', $dados['nome'])), '', $dados['nome']),
+				'sobrenome' => end(explode(' ', $dados['nome'])),
+				'link'      => $dados['link'],
+				'autor'     => 1,
+			],
+			'usuario'    => [
+				'email'      => $dados['email'],
+				'hierarquia' => 10,
+				'bloqueado'  => 1,
+				'oculto'     => 1
+			],
+		];
+
+		$controller_usuario = $this->get_controller('usuario');
+		$orientador         = $controller_usuario->insert_update($autor, $where);
+
+		return $orientador;
+	}
+
+	public function middle_visualizar($id){
+		$cadastro = $this->model->load_cadastro($id)[0];
+		$this->view->assign('cadastro', $cadastro);
+	}
+
+	public function middle_editar($id){
+		$cadastro = $this->model->load_cadastro($id)[0];
+		$this->view->assign('cadastro', $cadastro);
+	}
+
+
+	public function middle_delete($id) {
 		$autor_utilizado = $this->model->query->select('
 				rel_autor.id_autor,
 				rel_autor.id_trabalho
 			')
 			->from('trabalho_relaciona_autor rel_autor')
-			->where("rel_autor.id_autor = {$id[0]}")
+			->where("rel_autor.id_autor = {$id[0]} AND rel_autor.ativo = 1")
 			->fetchArray();
 
 		if(!empty($autor_utilizado)){
@@ -65,15 +106,22 @@ class Autor extends \Framework\ControllerCrud {
 			exit;
 		}
 
-		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
+		$retorno = $this->model->delete($this->modulo['table'], ['id' => $id[0]]);
 
 		if($retorno['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+			$pessoa = $this->model->query->select('
+					pessoa.id_usuario,
+				')
+				->from('pessoa pessoa')
+				->where("pessoa.id = {$id[0]}")
+				->fetchArray();
+
+			if(isset($pessoa[0]['id_usuario']) && !empty($pessoa[0]['id_usuario'])){
+				$retorno_usuario = $this->model->delete('usuario', ['id' => $pessoa[0]['id_usuario']]);
+			}
 		}
 
-		header('location: /' . $this->modulo['modulo']);
+		return $retorno;
 	}
 
 	public function buscar_autor_select2(){

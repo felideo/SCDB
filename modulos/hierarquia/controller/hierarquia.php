@@ -7,8 +7,6 @@ class Hierarquia extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'hierarquia',
-		'name'		=> 'Hierarquias',
-		'send'		=> 'Hierarquia'
 	];
 
 	protected $colunas = ['ID', 'Nome', 'Ações'];
@@ -136,7 +134,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 					. ' ON modulo.id = permissao.id_modulo'
 					. ' WHERE hierarquia.id = ' . $hierarquia;
 
-				$permissoes = $this->model->db->select($select);
+				$permissoes = $this->model->select($select);
 
 				if(!empty($permissoes)){
 					foreach($permissoes as $indice => $permissao){

@@ -355,3 +355,9 @@ CREATE TABLE `trabalho_relaciona_orientador` (
 alter table pessoa
 add COLUMN orientador tinyint(1) not null DEFAULT 0 AFTER instituicao,
 add COLUMN autor tinyint(1) not null DEFAULT 0 AFTER orientador;
+
+alter table usuario
+add COLUMN bloqueado TINYINT not null default 0 AFTER super_admin;
+
+alter table usuario
+add COLUMN oculto tinyint not null DEFAULT 0 AFTER super_admin;

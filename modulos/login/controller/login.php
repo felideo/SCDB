@@ -11,13 +11,6 @@ class Login extends \Framework\Controller {
 		'send'		=> 'Login'
 	];
 
-	public function __construct() {
-		// \Util\Auth::handLeLoggin();
-		parent::__construct();
-
-		$this->view->modulo = $this->modulo;
-	}
-
 	public function index() {
 		$this->view->render('front/cabecalho_rodape', 'front/acesso/login/login');
 	}

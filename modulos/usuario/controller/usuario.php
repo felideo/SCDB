@@ -7,9 +7,8 @@ class Usuario extends \Framework\ControllerCrud {
 	private $hierarquia_organizada = [];
 
 	protected $modulo = [
-		'modulo'     => 'usuario',
-		'name'       => 'Usuarios',
-		'send'       => 'Usuario'
+		'modulo'         => 'usuario',
+		'delete_message' => 'Tem certeza que deseja deletar este usuario?'
 	];
 
 	protected $datatable = [
@@ -31,17 +30,73 @@ class Usuario extends \Framework\ControllerCrud {
 			$this->hierarquia_organizada[$hierarquia['id']] = $hierarquia['nome'];
 		}
 
+		$url = URL;
+		$permissao_remover_acesso = \Util\Permission::check_user_permission($this->modulo['modulo'], 'remover_conceder_acesso');
+
 		foreach ($query as $indice => $item) {
+
+			$remover_acesso = '';
+
+			if(!empty($permissao_remover_acesso)){
+				if(empty($item['bloqueado'])){
+					$remover_acesso = "<a class='validar_deletar' href='#' data-id_registro='{$item['id']}'"
+						 . " data-redirecionamento='{$url}/{$this->modulo['modulo']}/remover_conceder_acesso/{$item['id']}/1'"
+						 . " data-mensagem='Tem certeza que deseja remover o acesso deste usuario?'"
+						 . " title='Remover Acesso'><i class='botao_listagem fa fa-minus-circle fa-fw'></i></a>";
+				}
+
+				if(!empty($item['bloqueado'])){
+					$remover_acesso = "<a class='validar_deletar' href='#' data-id_registro='{$item['id']}'"
+						 . " data-redirecionamento='{$url}/{$this->modulo['modulo']}/remover_conceder_acesso/{$item['id']}/0'"
+						 . " data-mensagem='Tem certeza que deseja conceder acesso para este usuario?'"
+						 . " title='Conceder Acesso'><i class='botao_listagem fa fa-check-circle fa-fw'></i></a>";
+				}
+			}
+
 			$retorno[] = [
 				$item['id'],
-				$item['nome'] . ' ' . $item['sobrenome'],
+				(isset($item['pessoa'][0]) ? $item['pessoa'][0]['nome'] : '') . ' ' . (isset($item['pessoa'][0]) ? $item['pessoa'][0]['sobrenome'] : ''),
 				$item['email'],
 				!empty($item['hierarquia']) && isset($this->hierarquia_organizada[$item['hierarquia']]) ? $this->hierarquia_organizada[$item['hierarquia']] : '',
-				$this->view->default_buttons_listagem($item['id'], true, true, true)
+				$this->view->default_buttons_listagem($item['id'], true, true, $_SESSION['usuario']['id'] != $item['id'] ? true : false) . $remover_acesso
 			];
 		}
 
 		return $retorno;
+	}
+
+	public function remover_conceder_acesso($parametros){
+		\Util\Auth::handLeLoggin();
+		\Util\Permission::check($this->modulo['modulo'], "remover_conceder_acesso");
+
+		$this->check_if_exists($parametros[0]);
+
+		$retorno = $this->model->insert_update(
+			$this->modulo['modulo'],
+			['id' => $parametros[0]],
+			['bloqueado' => $parametros[1]],
+			true
+		);
+
+		switch ($parametros[1]) {
+			case '0':
+				$msg_retorno_sucesso = 'Concedido';
+				$msg_retorno_erro   = 'Concedido';
+				break;
+
+			case '1':
+				$msg_retorno_sucesso = 'Removido';
+				$msg_retorno_erro   = 'concessão';
+				break;
+		}
+
+		if(isset($retorno['status']) && !empty($retorno['status'])){
+			$this->view->alert_js('Acesso do usuario ' . $msg_retorno_sucesso . ' com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar a ' . $msg_retorno_erro . ' do acesso do usuario, por favor tente novamente...', 'erro');
+		}
+
+		header('location: /' . $this->modulo['modulo']);
 	}
 
 	public function insert_update($usuario, $where = null){
@@ -77,7 +132,7 @@ class Usuario extends \Framework\ControllerCrud {
 	}
 
 	public function middle_editar($id) {
-		$cadastro = $this->model->load_cadastro($id[0])[0];
+		$cadastro = $this->model->load_cadastro($id)[0];
 		$cadastro['hierarquia_nivel'] = $this->model->query
 			->select('hierarquia.*')
 			->from('hierarquia hierarquia')
@@ -89,7 +144,7 @@ class Usuario extends \Framework\ControllerCrud {
 	}
 
 	public function middle_visualizar($id){
-		$cadastro = $this->model->load_cadastro($id[0])[0];
+		$cadastro = $this->model->load_cadastro($id)[0];
 		$cadastro['hierarquia_nivel'] = $this->model->query
 			->select('hierarquia.*')
 			->from('hierarquia hierarquia')
@@ -100,21 +155,6 @@ class Usuario extends \Framework\ControllerCrud {
 		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
 	}
 
-	public function delete($id) {
-		if($_SESSION['usuario']['id'] == $id){
-			$this->view->alert_js('Você não pode excluir seu proprio usuário!!!', 'erro');
-			header('location: /' . $this->modulo['modulo']);
-			exit;
-		}
-
-		$retorno_usuario = $this->model->delete('usuario', ['id' => $id]);
-
-		if($retorno_usuario['status']){
-			$retorno_pessoa = $this->model->delete('pessoa', ['id_usuario' => $id]);
-		}
-
-		return $retorno_usuario['status'] && $retorno_pessoa['status'];
-	}
 
 
 
@@ -238,7 +278,7 @@ class Usuario extends \Framework\ControllerCrud {
 	}
 
 	public function permitir_cadastro($id){
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+		if(empty($this->model->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
 			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
 			header('location: ' . URL . $this->modulo['modulo']);
 			exit;
@@ -260,7 +300,7 @@ class Usuario extends \Framework\ControllerCrud {
 
 	}
 	public function proibir_cadastro($id){
-		if(empty($this->model->db->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
+		if(empty($this->model->select("SELECT id FROM {$this->modulo['modulo']} WHERE id = {$id[0]} AND ativo = 1"))){
 			$this->view->alert_js("{$this->modulo['send']} não existe...", 'erro');
 			header('location: ' . URL . $this->modulo['modulo'] . '/');
 			exit;

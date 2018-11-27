@@ -274,9 +274,15 @@ class View {
 				 '';
 		}
 
+		$delete_message = 'Tem certeza que deseja deletar o registro?';
+
+		if(isset($this->modulo['delete_message']) && !empty($this->modulo['delete_message'])){
+			$delete_message = $this->modulo['delete_message'];
+		}
+
 		if($excluir){
 			$botao_excluir = \Util\Permission::check_user_permission($this->modulo['modulo'], "deletar") ?
-				"<a class='validar_deletar' href='#' data-id_registro='{$id}' data-redirecionamento='{$url}/{$this->modulo['modulo']}/destroy/{$id}' title='Deletar'><i class='botao_listagem  fa fa-trash-o fa-fw'></i></a>" :
+				"<a class='validar_deletar' href='#' data-id_registro='{$id}' data-mensagem='{$delete_message}' data-redirecionamento='{$url}{$this->modulo['modulo']}/destroy/{$id}' title='Deletar'><i class='botao_listagem  fa fa-trash-o fa-fw'></i></a>" :
 				'';
 		}
 

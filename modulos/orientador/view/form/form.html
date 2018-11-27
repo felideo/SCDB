@@ -8,11 +8,6 @@
     <input id="sobrenome" class="form-control embelezar_string somente_letras" disabled type="text">
 </div>
 
-<!-- <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
-    <label for="autor">Titulo * :</label>
-    <input class="form-control embelezar_string somente_letras" type="text" name="{$modulo.modulo}[titulo]"  value="{if isset($cadastro)}{$cadastro.titulo}{/if}" required>
-</div> -->
-
 <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" style="min-height: 59px;">
     <label>Orientador *:</label>
     <br>
@@ -87,7 +82,7 @@
 				object.id   = object.id.replace(/\s\s+/g, ' ').trim();
 				object.nome = object.nome.replace(/\s\s+/g, ' ').trim();
 
-				if($.isNumeric(object.id) && object.validar == 'true'){
+				if($.isNumeric(object.id) && object.validar == 'true' && object.autor != 0){
 					swal("Erro", "Obrigatoria a indicação de Nome e Sobrenome do Orientador!", "error");
 					$('#orientador_nome').select2("val", "");
 					return false;

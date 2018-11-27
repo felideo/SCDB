@@ -89,7 +89,7 @@ function carregar_variavel($nome, $padrao = '') {
 function transformar_array($variavel) {
 
     if (!is_array($variavel)) {
-        return trim($variavel);
+        return trim(preg_replace('/\s+/', ' ', $variavel));
     }
 
     foreach ($variavel as $chave => $cada) {
@@ -99,13 +99,13 @@ function transformar_array($variavel) {
         } else {
 
             if (substr($chave, 0, 8) == 'numero__') {
-                $variavel[substr($chave, 8)] = transformar_numero(trim($cada));
+                $variavel[substr($chave, 8)] = transformar_numero(trim(preg_replace('/\s+/', ' ', $cada)));
                 unset($variavel[$chave]);
             } else if (substr($chave, 0, 6) == 'data__') {
-                $variavel[substr($chave, 6)] = transformar_data(trim($cada));
+                $variavel[substr($chave, 6)] = transformar_data(trim(preg_replace('/\s+/', ' ', $cada)));
                 unset($variavel[$chave]);
             } else if (substr($chave, 0, 7) == 'senha__') {
-                $variavel[substr($chave, 7)] = transformar_senha(trim($cada));
+                $variavel[substr($chave, 7)] = transformar_senha(trim(preg_replace('/\s+/', ' ', $cada)));
                 unset($variavel[$chave]);
             }
         }

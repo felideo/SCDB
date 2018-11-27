@@ -67,7 +67,7 @@ $(document).ready(function(){
 
                     $(this).on('click', function(){
                         swal({
-                            title: "Tem certeza que deseja deletar o registro?",
+                            title: $(this).data('mensagem'),
                             text: "Está operação é irreversivel e de sua inteira responsabilidade!",
                             type: "warning",
 

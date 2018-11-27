@@ -5,9 +5,7 @@ use Libs;
 
 class Master extends \Framework\Controller {
 	protected $modulo = [
-		'modulo' 	=> 'master',
-		'name'		=> 'Master',
-		'send'		=> 'Master'
+		'modulo' 	=> 'master'
 	];
 
 	function index(){

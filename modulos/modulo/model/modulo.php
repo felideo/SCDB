@@ -10,7 +10,7 @@ class Modulo extends \Framework\Model{
     		. ' LEFT JOIN submenu submenu ON submenu.id = modulo.id_submenu AND submenu.ativo = 1'
 	    	. ' WHERE modulo.ativo = 1';
 
-	    return $this->db->select($select);
+	    return $this->select($select);
 	}
 
 	public function permissoes_basicas($modulo, $id_modulo){

@@ -6,7 +6,7 @@ class Error extends \Framework\Controller {
 	protected $modulo = [
 		'modulo' 	=> 'error',
 		'name'		=> 'Error',
-		'send'		=> 'Errors'
+		'send'		=> 'Error'
 	];
 
 	public function index() {

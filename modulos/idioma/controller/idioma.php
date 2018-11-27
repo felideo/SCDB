@@ -7,8 +7,6 @@ class Idioma extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'idioma',
-		'name'		=> 'Idiomas',
-		'send'		=> 'Idioma'
 	];
 
 	protected $colunas = ['ID', 'Idioma', 'Ações'];
@@ -43,7 +41,7 @@ class Idioma extends \Framework\ControllerCrud {
 		echo json_encode([
             "draw"            => intval(carregar_variavel('draw')),
             "recordsTotal"    => intval(count($retorno)),
-            "recordsFiltered" => intval($this->model->db->select("SELECT count(id) AS total FROM {$this->modulo['modulo']} WHERE ativo = 1")[0]['total']),
+            "recordsFiltered" => intval($this->model->select("SELECT count(id) AS total FROM {$this->modulo['modulo']} WHERE ativo = 1")[0]['total']),
             "data"            => $retorno
         ]);
 

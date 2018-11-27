@@ -9,9 +9,7 @@ class Trabalho extends \Framework\ControllerCrud {
 // hellcal insight
 
 	protected $modulo = [
-		'modulo' 	=> 'trabalho',
-		'name'		=> 'Trabalhos',
-		'send'		=> 'trabalho'
+		'modulo' 	=> 'trabalho'
 	];
 
 	protected $datatable = [
@@ -90,7 +88,7 @@ class Trabalho extends \Framework\ControllerCrud {
 		echo json_encode([
             "draw"            => intval(carregar_variavel('draw')),
             "recordsTotal"    => intval(count($retorno)),
-            "recordsFiltered" => intval($this->model->db->select("SELECT count(id) AS total FROM {$this->modulo['modulo']} WHERE ativo = 1")[0]['total']),
+            "recordsFiltered" => intval($this->model->select("SELECT count(id) AS total FROM {$this->modulo['modulo']} WHERE ativo = 1")[0]['total']),
             "data"            => $retorno
         ]);
 
@@ -288,9 +286,9 @@ class Trabalho extends \Framework\ControllerCrud {
 
 		$tmp = array_values($trabalho['arquivo']);
 
-		$trabalho['arquivo'] = $this->model->db->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
+		$trabalho['arquivo'] = $this->model->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
 
-		$this->model->db->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
+		$this->model->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
 
 		$params = [
 		    'index' => 'swdb',

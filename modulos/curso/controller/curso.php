@@ -7,8 +7,6 @@ class Curso extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'curso',
-		'name'		=> 'Cursos',
-		'send'		=> 'Curso'
 	];
 
 	protected $datatable = [

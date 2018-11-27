@@ -35,7 +35,7 @@ class Busca extends \Framework\ControllerCrud {
 	private function carregar_anos(){
 		$anos = [];
 
-		foreach($this->model->db->select("SELECT ano FROM trabalho GROUP BY ano") as $indice => $ano){
+		foreach($this->model->select("SELECT ano FROM trabalho GROUP BY ano") as $indice => $ano){
 			$anos[] = [
 				'id'   => $ano['ano'],
 				'text' => $ano['ano']

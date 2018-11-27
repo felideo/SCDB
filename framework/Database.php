@@ -40,10 +40,7 @@ class Database extends \PDO {
 		];
 
 		if(isset($retorno[2][2]) && !empty($retorno[2][2])){
-			return [
-				'error' => $retorno[2],
-				'backtrace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
-			];
+			throw new \Error($retorno[2][2], $retorno[2][1]);
 		}
 
 		return $sth->fetchAll($fetchMode);
@@ -59,10 +56,7 @@ class Database extends \PDO {
 		];
 
 		if(isset($retorno[2][2]) && !empty($retorno[2][2])){
-			return [
-				'error' => $retorno[2],
-				'backtrace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
-			];
+			throw new \Error($retorno[2][2], $retorno[2][1]);
 		}
 
 		return $retorno;
