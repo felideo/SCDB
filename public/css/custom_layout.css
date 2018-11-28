@@ -177,3 +177,21 @@ input[type="text"]:disabled{
 table.dataTable thead th.sorting_disabled::after {
     content: none !important;
 }
+
+.gridly {
+	position: relative;
+	width: 100%;
+}
+
+.brick.linha {
+	margin-left: 15px;
+	width: 90%;
+	border: 1px #dadae7 solid;
+	padding: 0px 7px 7px 7px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.brick.linha label{
+	cursor: pointer;
+}

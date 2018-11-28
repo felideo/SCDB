@@ -2,7 +2,7 @@
 
 namespace Libs;
 
-class Array{
+class Arrays{
 	public static function ordenarPorColuna(&$array, $coluna, $direcao = 'asc') {
 		if ($direcao != 'asc' && $direcao != 'desc') {
 			$direcao = 'asc';

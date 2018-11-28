@@ -175,7 +175,40 @@ class Usuario extends \Framework\ControllerCrud {
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/perfil/editar_meu_perfil');
 	}
 
+	public function salvar_ordem_preferencial_menu_ajax(){
+		$nova_ordem = carregar_variavel('data');
 
+		foreach($nova_ordem as $indice => $item){
+			$update = [
+				'id_usuario' => $_SESSION['usuario']['id'],
+				'id_modulo'  => $item['id_modulo'],
+				'ordem'      => $item['ordem'],
+				'ativo'      => 0
+			];
+
+			$retorno = $this->model->insert_update(
+				'ordem_usuario_menu',
+				['id_usuario' => $_SESSION['usuario']['id'], 'id_modulo' => $item['id_modulo']],
+				$update,
+				true
+			);
+
+			if(!empty($retorno)){
+				debug2($_SESSION['menus']);
+				debug2(isset($_SESSION['menus'][0][$item['modulo']]));
+				debug2($item);
+				if(!isset($_SESSION['menus'][$item['modulo']])){
+					continue;
+				}
+
+				$_SESSION['menus'][$item['modulo']][0]['ordem'] = $item['ordem'];
+				$_SESSION['modulos'][$item['modulo']]['ordem']  = $item['ordem'];
+			}
+		}
+
+		echo json_encode(true);
+		exit;
+	}
 
 
 

@@ -369,3 +369,13 @@ alter table curso add COLUMN localizador varchar(512) not null after curso;
 alter table palavra_chave add COLUMN localizador varchar(128) not null after palavra_chave;
 alter table campus add COLUMN localizador varchar(512) not null after campus;
 
+CREATE TABLE `ordem_usuario_menu` (
+	`id`         INT(11) 			NOT NULL AUTO_INCREMENT,
+	`id_usuario` INT(11) 			NOT NULL,
+	`id_modulo`  INT(11) 			NOT NULL,
+	`ordem`      INT(11) 			NOT NULL,
+	`ativo`      TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY      KEY (`id`),
+	FOREIGN      KEY (`id_usuario`) 	REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN      KEY (`id_modulo`) REFERENCES `modulo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;

@@ -68,20 +68,31 @@
 		<fieldset class="fieldset">
 			<h3 class="fieldset-title">Oredem Preferencial do Menu</h3>
 			<div class="form-group">
-				<label class="col-md-2  col-sm-3 col-xs-12 control-label">Bio</label>
-				<div class="col-md-10 col-sm-9 col-xs-12">
-					<!-- <textarea id="wysihtml5-editor" rows="10" class="form-control"></textarea> -->
-					<!-- <p class="help-block">Share a little biographical information to fill out your profile. This may be shown publicly.</p> -->
+				<div class="col-lg-offset-1 col-lg-11">
+					<label class="col-lg-12">
+						Arraste e solte as "caixinhas" com o nome dos módulos para cima e para baixo de acordo com a sua preferencia de ordenação dos itens no menu lateral.
+						<br>
+						A nova ordenação do menu entrará em vigor após o recarregamento da pagina.
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-lg-offset-1 col-lg-11">
+					<div class="gridly">
+					    {foreach from=$_SESSION.modulos key=indice item=item}
+							<div class="brick linha"  data-id_modulo="{$item.id}" data-modulo="{$item.modulo}" data-ordem="{$item.ordem}">
+								<label class="control-label">
+									<i class="fa {$item.icone}"></i> {$item.nome} <span id="ordem_{$item.id}">{$item.ordem}°</span>
+								</label>
+							</div>
+					  	{/foreach}
+					</div>
+
 				</div>
 			</div>
 
 		</fieldset>
-		<hr>
-		<div class="form-group">
-			<div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
-				<input class="btn btn-primary" type="submit" value="Salvar">
-			</div>
-		</div>
 	</form>
 </div>
 
@@ -99,4 +110,48 @@
         }
 
     });
+
+
+	var reordering = function(elements) {
+	  	// Called before the drag and drop starts with the elements in their starting position.
+	};
+
+	var reordered = function(modulos) {
+	  	// Called after the drag and drop ends with the elements in their ending position.
+		var nova_ordenacao = [];
+
+		$.each(modulos, function(index, item){
+			$('#ordem_' + $(this).data('id_modulo')).html((index + 1) + '°');
+
+			var modulo = {
+				'id_modulo': $(this).data('id_modulo'),
+				'modulo': $(this).data('modulo'),
+				'ordem':     index + 1
+			};
+
+			nova_ordenacao.push(modulo);
+	    });
+
+		$.ajax({
+            type: 'POST',
+            url: "/usuario/salvar_ordem_preferencial_menu_ajax",
+            data: {
+                data: nova_ordenacao
+            },
+            dataType: 'json',
+            async: true,
+            success: function(dados) {
+            }
+        });
+	};
+
+  	$('.gridly').gridly({
+	    base: 60, // px
+	    gutter: 20, // px
+	    columns: 12,
+  		callbacks: {
+  			reordering: reordering,
+  			reordered: reordered
+  		}
+	});
 </script>

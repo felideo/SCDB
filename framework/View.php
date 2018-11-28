@@ -104,7 +104,10 @@ class View {
 			}
 
 			if(isset($string_menu)){
-				$array_menu[] = $string_menu;
+				$array_menu[$menu[0]['ordem']] = [
+					'string_menu' => $string_menu,
+					'modulo'      => $menu[0]['modulo'],
+				];
 			}
 
 			if(isset($string_menu)){
@@ -125,6 +128,8 @@ class View {
          			. " </a>\n\t"
      				. " <ul class='nav nav-second-level'>\n\t\t";
 
+     				$modulo_menor_ordem_submenu = 99999999999;
+
 					foreach($_SESSION['menus'][$submenus]['modulos'] as $indice_04 => $submenu){
 						if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$submenu['modulo']])){
  	                        $menu_submenu .= "<li class=' {$active} '>\n\t\t\t"
@@ -133,18 +138,37 @@ class View {
  	                            . 		"<span class='nav-label'>{$submenu['nome']}</span>\n\t\t\t"
  	                            . 	" </a>\n\t\t"
  	                        	. "</li>\n\t";
+
+ 	                        	$modulo_menor_ordem_submenu = $submenu['ordem'] < $modulo_menor_ordem_submenu ? $submenu['ordem'] : $modulo_menor_ordem_submenu;
 						}
 					}
 
                  	$menu_submenu .= "</ul>\n"
          				. "</li>";
 
-        		$array_menu[] = $menu_submenu;
+        		$array_menu[$modulo_menor_ordem_submenu] = [
+					'string_menu' => $menu_submenu,
+					'modulo'       => $submenus,
+				];
+
         		unset($menu_submenu);
 			}
 		}
 
-		$array_menu = implode(' ', $array_menu);
+		ksort($array_menu);
+
+		$retorno = [];
+
+		foreach($array_menu as $indice => $menu){
+			if(isset($menu['modulo']) && !empty($menu['modulo'])){
+				$retorno[$menu['modulo']] = $menu['string_menu'];
+				continue;
+			}
+
+			$retorno[$indice] = $menu;
+		}
+
+		$array_menu = implode(' ', $retorno);
 
 		$this->assign('sidebar_painel_administrativo', $array_menu);
 	}
