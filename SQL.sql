@@ -273,11 +273,11 @@ CREATE TABLE `trabalho_relaciona_orientador` (
 CREATE TABLE `trabalho_relaciona_autor` (
 	`id`          INT(11) 			NOT NULL AUTO_INCREMENT,
 	`id_trabalho` INT(11) 			NOT NULL,
-	`id_autor`    INT(11) 			NOT NULL,
+	`id_pessoa`   INT(11) 			NOT NULL,
 	`ativo`       TINYINT(1) 		NOT NULL DEFAULT '1',
 	PRIMARY       KEY (`id`),
 	FOREIGN       KEY (`id_trabalho`) 	REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	FOREIGN       KEY (`id_autor`) REFERENCES `autor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+	FOREIGN       KEY (`id_pessoa`) REFERENCES `pessoa` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
 
@@ -361,3 +361,9 @@ add COLUMN bloqueado TINYINT not null default 0 AFTER super_admin;
 
 alter table usuario
 add COLUMN oculto tinyint not null DEFAULT 0 AFTER super_admin;
+
+
+alter table curso add COLUMN localizador varchar(512) not null after curso;
+alter table palavra_chave add COLUMN localizador varchar(128) not null after palavra_chave;
+alter table campus add COLUMN localizador varchar(512) not null after campus;
+

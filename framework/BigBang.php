@@ -59,7 +59,7 @@ class BigBang{
 			$e->show_error(true);
 		}
 
-		$controller->error();
+		$this->error();
 	}
 
 	private function validate_execution(){

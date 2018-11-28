@@ -70,8 +70,6 @@ class URL {
 			$insert_db,
 			true
 		);
-
-		return $this->model->insert('url', $insert_db);
 	}
 
 	public function setId($id){

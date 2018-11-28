@@ -16,6 +16,7 @@ class Usuario extends \Framework\ControllerCrud {
 		'from'    => 'usuario'
 	];
 
+
 	public function middle_index() {
 
 		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
@@ -103,6 +104,8 @@ class Usuario extends \Framework\ControllerCrud {
 		if(empty($where['id'])){
 			// $usuario['senha']         = \Util\Hash::get_unic_hash()
 			$usuario['usuario']['senha'] = 12345;
+			$usuario['usuario']['ativo'] = 1;
+			$where['email']   = $usuario['usuario']['email'];
 		}
 
 		$usuario['usuario']['retorno'] = $this->model->insert_update(

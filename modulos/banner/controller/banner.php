@@ -23,6 +23,10 @@ class Banner extends \Framework\ControllerCrud {
 
 		$retorno = [];
 
+		if(empty($query)){
+			return $retorno;
+		}
+
 		foreach ($query as $indice => $item) {
 			$retorno[] = [
 				$item['id'],

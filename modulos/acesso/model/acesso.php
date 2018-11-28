@@ -2,81 +2,78 @@
 namespace Model;
 
 class Acesso extends \Framework\Model{
-	public function run($acesso) {
+	private $menus;
+	private $acesso;
+	private $modulos;
+	private $usuario;
+	private $session;
+	private $permissoes;
 
-		\Libs\Session::init();
+	public function run_back($acesso){
+		$this->acesso = $acesso;
 
-		$this->sign_in($acesso);
+		$this->verificar_usuario_senha();
 
+		if(empty($this->usuario)){
+			return false;
+		}
+
+		$this->carregar_hierarquia();
+		$this->montar_sessao();
 		$this->load_permissions();
 		$this->load_modulos_and_menus();
 
+		\Libs\Session::set('logado', true);
+		\Libs\Session::set('menus', $this->menus);
+		\Libs\Session::set('usuario', $this->usuario);
+		\Libs\Session::set('modulos', $this->modulos);
+		\Libs\Session::set('permissoes', $this->permissoes);
 
-		if(isset($_SESSION['logado']) && $_SESSION['logado'] == true){
-			return true;
-		} else {
-			return false;
-		}
+		return true;
 	}
 
-	public function run_back($acesso) {
-		\Libs\Session::init();
-
-		$this->sign_in($acesso);
-
-		if(isset($_SESSION['logado']) && $_SESSION['logado'] == true){
-			$this->load_permissions();
-			$this->load_modulos_and_menus();
-
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	private function sign_in($acesso){
-		$usuario = $this->query
+	private function verificar_usuario_senha(){
+		$this->usuario = $this->query
 			->select('usuario.*')
 			->from('usuario usuario')
-			->where("usuario.email = '{$acesso['email']}'")
-			->where("usuario.senha = '{$acesso['senha']}'")
-			->where("usuario.ativo = 1")
+			->where("usuario.email = '{$this->acesso['email']}'")
+			->andWhere("usuario.senha = '{$this->acesso['senha']}'")
+			->andWhere("usuario.ativo = 1")
+			->andWhere("usuario.bloqueado = 0")
 			->fetchArray()[0];
+	}
 
+	private function carregar_hierarquia(){
+		$this->hierarquia = $this->query
+			->select('hierarquia.*')
+			->from('hierarquia hierarquia')
+			->where("hierarquia.ativo = 1 AND hierarquia.id = {$this->usuario['hierarquia']}")
+			->fetchArray()[0];
+	}
 
-		if(isset($usuario) && !empty($usuario) && count($usuario) > 0 && $usuario !== false){
-			$hierarquia = $this->query
-				->select('hierarquia.*')
-				->from('hierarquia hierarquia')
-				->where("hierarquia.ativo = 1 AND hierarquia.id = {$usuario['hierarquia']}")
-				->fetchArray()[0];
-
-			$usuario = [
-				'id'               => $usuario['id'],
-				'nome'             => $usuario['email'],
-				'hierarquia'       => $usuario['hierarquia'],
-				'hierarquia_nivel' => $hierarquia['nivel'],
-				'super_admin'      => $usuario['super_admin']
+	public function montar_sessao(){
+		$this->sessao = [
+				'id'               => $this->usuario['id'],
+				'nome'             => $this->usuario['email'],
+				'hierarquia'       => $this->usuario['hierarquia'],
+				'hierarquia_nivel' => $this->hierarquia['nivel'],
+				'super_admin'      => $this->usuario['super_admin']
 			];
-
-			\Libs\Session::set('logado', true);
-			\Libs\Session::set('usuario', $usuario);
-		}
 	}
 
 	private function load_modulos_and_menus(){
 		$modulos = $this->select('SELECT * FROM modulo WHERE ATIVO = 1 ORDER BY ordem');
 		$submenus = $this->select('SELECT * FROM submenu WHERE ATIVO = 1');
 
-		foreach ($modulos as $indice_01 => $modulo) {
-			if($modulo['hierarquia'] == 0 && empty($_SESSION['usuario']['super_admin'])){
+		foreach($modulos as $indice_01 => $modulo){
+			if($modulo['hierarquia'] == 0 && empty($this->usuario['super_admin'])){
 				continue;
 			}
 
 			$retorno_modulos[$modulo['modulo']] = $modulo;
 
 			if(empty($modulo['id_submenu'])){
-				$menus[$modulo['nome']][0] = $modulo;
+				$menus[$modulo['modulo']][0] = $modulo;
 			} else {
 				foreach ($submenus as $indice_02 => $submenu) {
 
@@ -91,44 +88,38 @@ class Acesso extends \Framework\Model{
 			}
 		}
 
-		\Libs\Session::set('modulos', $retorno_modulos);
-		\Libs\Session::set('menus', $menus);
+		$this->menus   = $menus;
+		$this->modulos = $retorno_modulos;
 	}
 
 	private function load_permissions(){
-		try {
+		$hierarquia = empty($this->usuario['hierarquia']) ? 'NULL' : $this->usuario['hierarquia'];
 
-			$hierarquia = empty($_SESSION['usuario']['hierarquia']) ? 'NULL' : $_SESSION['usuario']['hierarquia'];
+		$select = 'SELECT hierarquia.id as id_hierarquia, hierarquia.nome,'
+			. ' relacao.id as id_relacao,'
+			. ' permissao.id as id_permissao, permissao.permissao, permissao.id_modulo,'
+			. ' modulo.modulo'
+			. ' FROM hierarquia hierarquia'
+			. ' LEFT JOIN hierarquia_relaciona_permissao relacao'
+			. ' ON relacao.id_hierarquia = hierarquia.id AND relacao.ativo = 1'
+			. ' LEFT JOIN permissao permissao'
+			. ' ON permissao.id = relacao.id_permissao'
+			. ' LEFT JOIN modulo modulo'
+			. ' ON modulo.id = permissao.id_modulo'
+			. ' WHERE hierarquia.id = ' . $hierarquia;
 
-			$select = 'SELECT hierarquia.id as id_hierarquia, hierarquia.nome,'
-				. ' relacao.id as id_relacao,'
-				. ' permissao.id as id_permissao, permissao.permissao, permissao.id_modulo,'
-				. ' modulo.modulo'
-				. ' FROM hierarquia hierarquia'
-				. ' LEFT JOIN hierarquia_relaciona_permissao relacao'
-				. ' ON relacao.id_hierarquia = hierarquia.id AND relacao.ativo = 1'
-				. ' LEFT JOIN permissao permissao'
-				. ' ON permissao.id = relacao.id_permissao'
-				. ' LEFT JOIN modulo modulo'
-				. ' ON modulo.id = permissao.id_modulo'
-				. ' WHERE hierarquia.id = ' . $hierarquia;
+		$permissoes = $this->select($select);
 
-			$permissoes = $this->select($select);
-
-			if(empty($permissoes)){
-				\Libs\Session::set('permissoes', null);
-				return;
-			}
-
-			foreach($permissoes as $indice => $permissao){
-				$retorno_permissoes[$permissao['modulo']][$permissao['permissao']] = $permissao;
-			}
-
-		}catch(Exception $e){
-            if (ERROS) throw new Exception('<pre>' . $e->getMessage() . '</pre>');
-
+		if(empty($permissoes)){
+			$this->permissoes = null;
+			return;
 		}
 
-		\Libs\Session::set('permissoes', $retorno_permissoes);
+		foreach($permissoes as $indice => $permissao){
+			$retorno_permissoes[$permissao['modulo']][$permissao['permissao']] = $permissao;
+		}
+
+
+		$this->permissoes = $retorno_permissoes;
 	}
 }

@@ -5,9 +5,7 @@ abstract class Controller {
 	private $models      = [];
 	private $controllers = [];
 
-	function __construct() {
-		\Libs\Session::init();
-
+	public function __construct() {
 		$this->define_modulo();
 
 		$_SESSION['modulo_ativo'] = $this->modulo['modulo'];

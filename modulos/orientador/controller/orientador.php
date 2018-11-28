@@ -14,7 +14,7 @@ class Orientador extends \Framework\ControllerCrud {
 
 	protected $datatable = [
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Ações'],
-		'from'    => 'orientador',
+		'from'    => 'pessoa',
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -50,10 +50,6 @@ class Orientador extends \Framework\ControllerCrud {
 				unset($dados['id_usuario']);
 			}
 		}
-
-		// debug2($dados);
-		// debug2($where);
-		// exit;
 
 		$orientador = [
 			'pessoa'     => [

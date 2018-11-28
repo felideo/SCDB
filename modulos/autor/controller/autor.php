@@ -14,7 +14,7 @@ class Autor extends \Framework\ControllerCrud {
 
 	protected $datatable = [
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Ações'],
-		'from'    => 'orientador',
+		'from'    => 'pessoa',
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -84,11 +84,11 @@ class Autor extends \Framework\ControllerCrud {
 
 	public function middle_delete($id) {
 		$autor_utilizado = $this->model->query->select('
-				rel_autor.id_autor,
+				rel_autor.id_pessoa,
 				rel_autor.id_trabalho
 			')
 			->from('trabalho_relaciona_autor rel_autor')
-			->where("rel_autor.id_autor = {$id[0]} AND rel_autor.ativo = 1")
+			->where("rel_autor.id_pessoa = {$id[0]} AND rel_autor.ativo = 1")
 			->fetchArray();
 
 		if(!empty($autor_utilizado)){
@@ -128,6 +128,10 @@ class Autor extends \Framework\ControllerCrud {
 		$busca = carregar_variavel('busca');
 
 		$retorno = $this->model->buscar_autor($busca);
+
+		if(empty($retorno)){
+			$retorno = [];
+		}
 
 		if(isset($busca['cadastrar_busca']) && !empty($busca['cadastrar_busca']) && $busca['cadastrar_busca'] == 'true' && $busca['nome'] != '%%'){
 			$add_cadastro[0] = [

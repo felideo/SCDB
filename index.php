@@ -1,4 +1,5 @@
 <?php
+
 require 'framework/Error.php';
 require 'util/functions.php';
 require 'config.php';
@@ -15,5 +16,5 @@ if(((isset($_SESSION['mostrar_erros']) && !empty($_SESSION['mostrar_erros'])) &&
     ini_set('display_errors', 1);
 }
 
-session_start();
+\Libs\Session::init();
 new Framework\BigBang();
