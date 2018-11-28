@@ -25,6 +25,10 @@
         <link rel="stylesheet" href="/public/back/css/tether-shepherd.css">
         <link rel="stylesheet" href="/public/back/css/jstree-default.css">
         <link rel="stylesheet" href="/public/back/css/styles.css">
+        <link rel="stylesheet" href="assets/css/chosen.css">
+        <link rel="stylesheet" href="assets/css/account.css">
+
+
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -51,7 +55,6 @@
         <script src="/public/back/js/jquery-data-tables.js"></script>
         <script src="/public/back/js/jquery-data-tables-bs3.js"></script>
 
-
         <script src="/public/back/js/tether.js"></script>
         <script src="/public/back/js/tether-shepherd.js"></script>
         <script src="/public/back/js/notify.js"></script>
@@ -61,6 +64,9 @@
         <script src="/public/back/js/demo.js"></script>
         <script src="/public/back/js/tables.js"></script>
         <script src="/public/back/js/notifications.js"></script>
+        <script src="assets/js/chosen-jquery.js"></script>
+        <script src="assets/js/forms-chosen.js"></script>
+
 
 
         <script src="/public/back/js/bootstrap3-wysihtml5.js"></script>
@@ -173,6 +179,7 @@
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu-user" >
                             <!-- <li><span class="arrow"></span><a role="menuitem" href="user-profile.html"><span class="pe-icon pe-7s-user icon"></span>My Account</a></li> -->
                             <!-- <li><a role="menuitem" href="pricing.html"><span class="pe-icon pe-7s-paper-plane icon"></span>Upgrade Plan</a></li> -->
+                            <li><a role="menuitem" href="/usuario/editar_meu_perfil/{$_SESSION.usuario.id}"><span class="pe-icon pe-7s-user icon"></span>Minha Conta</a></li>
                             <li><a role="menuitem" href="/master/logout"><span class="pe-icon pe-7s-power icon"></span>Sair</a></li>
                         </ul>
                     </div>

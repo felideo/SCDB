@@ -14,6 +14,7 @@ class Trabalho extends \Framework\ControllerCrud {
 
 	protected $datatable = [
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo <i class="fa fa-search"></i>', 'Ano <i class="fa fa-search"></i>', 'Curso <i class="fa fa-search"></i>', 'Campi <i class="fa fa-search"></i>', 'Autor <i class="fa fa-search"></i>', 'Orientador <i class="fa fa-search"></i>', 'Status', 'Ações'],
+		'ordenacao_desabilitada' => '5, 6, 8'
 	];
 
 	public function carregar_listagem_ajax(){
@@ -25,41 +26,34 @@ class Trabalho extends \Framework\ControllerCrud {
 		];
 
 		$query = $this->model->carregar_listagem($busca);
+        $botao = new \Libs\GerarBotoes();
 
-		$retorno_tratado = [];
+		foreach($query as $indice => $item){
+			$autores      = '';
+			$orientadores = '';
 
-		foreach ($query as $indice => $retorno) {
-			if(!isset($retorno_tratado[$retorno['id']])){
-				$retorno_tratado[$retorno['id']] = $retorno;
-			}else{
-				$retorno_tratado[$retorno['id']]['palavra'] .= ', ' . $retorno['palavra'];
-			}
-		}
-
-		$retorno = [];
-
-		foreach ($retorno_tratado as $indice => $item) {
-			$autor      = '';
-			$orientador = '';
-
-			foreach ($item['trabalho_relaciona_autor'] as $indice => $um_autor){
-				$autor .= isset($um_autor['autor'][0]['nome']) ? $um_autor['autor'][0]['nome'] . ' ' : ' ';
+			foreach($item['trabalho_relaciona_autor'] as $indice_01 => $autor){
+				$autores .= $autor['pessoa'][0]['nome'] . ' ' . $autor['pessoa'][0]['sobrenome'] . '; ';
 			}
 
-			foreach ($item['trabalho_relaciona_orientador'] as $indice => $um_orientador){
-				$orientador .= isset($um_orientador['orientador'][0]['nome']) ? $um_orientador['orientador'][0]['nome'] . ' ' : ' ';
+			foreach($item['trabalho_relaciona_orientador'] as $indice_02 => $orientador){
+				$orientadores .= $orientador['pessoa'][0]['pronome'] . ' ' . $orientador['pessoa'][0]['nome'] . ' ' . $orientador['pessoa'][0]['sobrenome'] . '; ';
 			}
 
-			$botao_aprovar  = $this->permicao_apovar_reprovar_trebalho($item, 'aprovar');
-			$botao_reprovar = $this->permicao_apovar_reprovar_trebalho($item, 'reprovar');
+			$autores = rtrim($autores, '; ');
+			$orientadores = rtrim($orientadores, '; ');
 
-			$botao_aprovar = \Util\Permission::check_user_permission($this->modulo['modulo'], "aprovar") && ($item['status'] == 0 || $item['status'] == 2) ?
-				"<a href='/{$this->modulo['modulo']}/aprovar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-check-circle fa-fw'></i></a>" :
-				'';
+            $botao->setTitle('Aprovar Trabalho')
+                ->setPermissao($this->permicao_apovar_reprovar_trebalho($item, 'aprovar'))
+                ->setHref("/{$this->modulo['modulo']}/aprovar_reprovar/{$item['id']}/1")
+                ->setTexto("<i class='botao_listagem fa fa-check-circle fa-fw'></i>")
+                ->gerarBotao();
 
-			$botao_reprovar = \Util\Permission::check_user_permission($this->modulo['modulo'], "reprovar") && ($item['status'] == 0 || $item['status'] == 1) ?
-					"<a href='/{$this->modulo['modulo']}/reprovar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-times-circle fa-fw'></i></a>" :
-					'';
+            $botao->setTitle('Reprovar Trabalho')
+                ->setPermissao($this->permicao_apovar_reprovar_trebalho($item, 'reprovar'))
+                ->setHref("/{$this->modulo['modulo']}/aprovar_reprovar/{$item['id']}/2")
+                ->setTexto("<i class='botao_listagem fa fa-times-circle fa-fw'></i>")
+                ->gerarBotao();
 
 			if($item['status'] == 0){
 				$status = 'Pendente';
@@ -75,15 +69,13 @@ class Trabalho extends \Framework\ControllerCrud {
 				$item['ano'],
 				$item['curso'][0]['curso'],
 				$item['campus'][0]['campus'],
-				isset($autor) && !empty($autor) ? $autor : '',
-				isset($orientador) && !empty($orientador) ? $orientador : '',
+				$autores,
+				$orientadores,
 				isset($status) && !empty($status) ? $status : '',
 
-				$this->view->default_buttons_listagem($item['id'], true, true, true) . $botao_aprovar . $botao_reprovar
+				$this->view->default_buttons_listagem($item['id'], true, true, true) . $botao->getBotoes()
 			];
 		}
-
-		ob_clean();
 
 		echo json_encode([
             "draw"            => intval(carregar_variavel('draw')),
@@ -96,17 +88,16 @@ class Trabalho extends \Framework\ControllerCrud {
 	}
 
 	public function insert_update($trabalho, $where = null){
+		$trabalho['trabalho']['id_curso']  = $this->tratar_curso($trabalho['trabalho']['id_curso']);
+		$trabalho['trabalho']['id_campus'] = $this->tratar_campus($trabalho['trabalho']['id_campus']);
 		$trabalho_db                       = $trabalho['trabalho'];
-		$trabalho_db['id_curso']           = $this->tratar_curso($trabalho_db['id_curso']);
-		$trabalho_db['id_campus']          = $this->tratar_campus($trabalho_db['id_campus']);
-		$trabalho_db['status']             = 0;
-		$trabalho_db['titulo'] = strtoupper($trabalho_db['titulo']);
+		$trabalho_db['titulo']             = strtoupper($trabalho_db['titulo']);
 
 		$retorno_trabalho = $this->model->insert_update(
 			'trabalho',
 			$where,
 			$trabalho_db,
-			false
+			true
 		);
 
 		if(empty($retorno_trabalho['status'])){
@@ -125,9 +116,10 @@ class Trabalho extends \Framework\ControllerCrud {
 			->setMetodo('visualizar_front')
 			->cadastrarUrlAmigavel();
 
-		$this->cadastrar_orientador($trabalho['orientador'], $retorno_trabalho['id']);
-		$this->cadastrar_autor($trabalho['autor'], $retorno_trabalho['id']);
-		$this->cadastrar_palavra_chave($trabalho['palavras_chave'], $retorno_trabalho['id']);
+		$trabalho['orientador']     = $this->cadastrar_orientador($trabalho['orientador'], $retorno_trabalho['id']);
+		$trabalho['autor']          = $this->cadastrar_autor($trabalho['autor'], $retorno_trabalho['id']);
+		$trabalho['palavras_chave'] = $this->cadastrar_palavra_chave($trabalho['palavras_chave'], $retorno_trabalho['id']);
+
 		$this->cadastrar_relacao_trabalho_arquivo($trabalho['arquivo'], $retorno_trabalho['id']);
 		$this->indexar_trabalho_elasticsearch($trabalho);
 
@@ -197,9 +189,11 @@ class Trabalho extends \Framework\ControllerCrud {
 		$this->model->execute("DELETE from trabalho_relaciona_orientador WHERE id_trabalho = {$id_trabalho}");
 
 		$controller_orientador = $this->get_controller('orientador');
+		$retorno_orientadores  = [];
 
 		foreach($orientadores as $indice => $orientador){
 			if(is_numeric($orientador['orientador'])){
+				$retorno_orientadores[$indice]['orientador'] = $orientador['orientador'];
 				$this->cadrastrar_relacao_trabalho_orientador($orientador['orientador'], $id_trabalho);
 				continue;
 			}
@@ -214,12 +208,16 @@ class Trabalho extends \Framework\ControllerCrud {
 			$retorno = $controller_orientador->insert_update($insert_db, []);
 
 			if(!empty($retorno['status'])){
+				$retorno_orientadores[$indice]['orientador'] = $retorno['pessoa']['retorno']['id'];
+
 				$this->cadrastrar_relacao_trabalho_orientador($retorno['pessoa']['retorno']['id'], $id_trabalho);
 				continue;
 			}
 
 			$this->view->warn_js('Ocorreu um erro ao cadastrar o orientador. Por favor edite o trabalho para corrigir', 'erro');
 		}
+
+		return $retorno_orientadores;
 	}
 
 	private function cadrastrar_relacao_trabalho_orientador($id_orientador, $id_trabalho){
@@ -244,9 +242,11 @@ class Trabalho extends \Framework\ControllerCrud {
 		$this->model->execute("DELETE from trabalho_relaciona_autor WHERE id_trabalho = {$id_trabalho}");
 
 		$controller_autor = $this->get_controller('autor');
+		$retorno_autores  = [];
 
 		foreach($autores as $indice => $autor){
 			if(is_numeric($autor['autor'])){
+				$retorno_autores[$indice]['autor'] = $autor['autor'];
 				$this->cadrastrar_relacao_trabalho_autor($autor['autor'], $id_trabalho);
 				continue;
 			}
@@ -260,12 +260,16 @@ class Trabalho extends \Framework\ControllerCrud {
 			$retorno = $controller_autor->insert_update($insert_db, []);
 
 			if(!empty($retorno['status'])){
+				$retorno_autores[$indice]['autor'] = $retorno['pessoa']['retorno']['id'];
+
 				$this->cadrastrar_relacao_trabalho_autor($retorno['pessoa']['retorno']['id'], $id_trabalho);
 				continue;
 			}
 
 			$this->view->warn_js('Ocorreu um erro ao cadastrar o autor. Por favor edite o trabalho para corrigir', 'erro');
 		}
+
+		return $retorno_autores;
 	}
 
 	private function cadrastrar_relacao_trabalho_autor($id_autor, $id_trabalho){
@@ -291,8 +295,12 @@ class Trabalho extends \Framework\ControllerCrud {
 
 		$this->model->execute("DELETE from trabalho_relaciona_palavra_chave WHERE id_trabalho = {$id_trabalho}");
 
+		$palavras_chave_ids = [];
+
 		foreach($palavras_chave as $indice => $palavra){
 			if(is_numeric($palavra)){
+				$palavras_chave_ids[] = $palavra;
+
 				$this->cadrastrar_relacao_trabalho_palavra_chave($palavra, $id_trabalho);
 				continue;
 			}
@@ -310,12 +318,18 @@ class Trabalho extends \Framework\ControllerCrud {
 			);
 
 			if(!empty($retorno['status'])){
+				$palavras_chave_ids[] = $retorno['id'];
+
 				$this->cadrastrar_relacao_trabalho_palavra_chave($retorno['id'], $id_trabalho);
 				continue;
 			}
 
 			$this->view->warn_js('Ocorreu um erro ao cadastrar a palvra-chave. Por favor edite o trabalho para corrigir', 'erro');
 		}
+
+		$retorno = implode(',', $palavras_chave_ids);
+
+		return $retorno;
 	}
 
 	private function cadrastrar_relacao_trabalho_palavra_chave($palavra_chave, $id_trabalho){
@@ -364,134 +378,146 @@ class Trabalho extends \Framework\ControllerCrud {
 	}
 
 	private function indexar_trabalho_elasticsearch($trabalho){
-		// $elastic_search = new \Libs\ElasticSearch\ElasticSearch();
+		$elastic_search = new \Libs\ElasticSearch\ElasticSearch();
 
-		// $trabalho['palavras_chave'] = $this->model->query
-		//  	->select('palavra_chave.palavra_chave')
-		//  	->from('palavra_chave palavra_chave')
-		//  	->whereIn('palavra_chave.id IN (' . $trabalho['palavras_chave'] . ')')
-		//  	->fetchArray();
+		debug2($trabalho);
 
-		// foreach($trabalho['palavras_chave'] as $indice => $palavra){
-		// 	$tmp[] = $palavra['palavra_chave'];
-		// }
+		$trabalho['palavras_chave'] = $this->model->query
+		 	->select('palavra_chave.palavra_chave')
+		 	->from('palavra_chave palavra_chave')
+		 	->whereIn('palavra_chave.id IN (' . $trabalho['palavras_chave'] . ')')
+		 	->fetchArray();
 
-		// $trabalho['palavras_chave'] = implode(', ', $tmp);
-		// unset($tmp);
+		foreach($trabalho['palavras_chave'] as $indice => $palavra){
+			$tmp[] = $palavra['palavra_chave'];
+		}
 
-		// foreach($trabalho['autor'] as $indice => $autor){
-		// 	$tmp[] = $autor['autor'];
-		// }
+		$trabalho['palavras_chave'] = implode(', ', $tmp);
+		unset($tmp);
 
-		// $trabalho['autor'] = $this->model->query
-		//  	->select('autor.nome')
-		//  	->from('autor autor')
-		//  	->whereIn('autor.id IN (' . implode(',', $tmp) . ')')
-		//  	->fetchArray();
+		foreach($trabalho['autor'] as $indice => $autor){
+			$tmp[] = $autor['autor'];
+		}
 
-		// unset($tmp);
+		$trabalho['autor'] = $this->model->query
+		 	->select('autor.nome, autor.sobrenome')
+		 	->from('pessoa autor')
+		 	->whereIn('autor.id IN (' . implode(',', $tmp) . ')')
+		 	->fetchArray();
 
-		// foreach($trabalho['autor'] as $indice => $autor){
-		// 	$tmp[] = $autor['nome'];
-		// }
+		unset($tmp);
 
-		// $trabalho['autor'] = implode(', ', $tmp);
-		// unset($tmp);
+		foreach($trabalho['autor'] as $indice => $autor){
+			$tmp[] = trim(preg_replace('/\s+/', ' ', $autor['nome'] . ' ' . $autor['sobrenome']));
+		}
 
-		// foreach($trabalho['orientador'] as $indice => $orientador){
-		// 	$tmp[] = $orientador['orientador'];
-		// }
+		$trabalho['autor'] = implode(', ', $tmp);
+		unset($tmp);
 
-		// $trabalho['orientador'] = $this->model->query
-		//  	->select('orientador.nome')
-		//  	->from('orientador orientador')
-		//  	->whereIn('orientador.id IN (' . implode(',', $tmp) . ')')
-		//  	->fetchArray();
+		foreach($trabalho['orientador'] as $indice => $orientador){
+			$tmp[] = $orientador['orientador'];
+		}
 
-		// unset($tmp);
+		$trabalho['orientador'] = $this->model->query
+		 	->select('orientador.pronome, orientador.nome, orientador.sobrenome')
+		 	->from('pessoa orientador')
+		 	->whereIn('orientador.id IN (' . implode(',', $tmp) . ')')
+		 	->fetchArray();
 
-		// foreach($trabalho['orientador'] as $indice => $orientador){
-		// 	$tmp[] = $orientador['nome'];
-		// }
+		unset($tmp);
 
-		// $trabalho['orientador'] = implode(', ', $tmp);
+		foreach($trabalho['orientador'] as $indice => $orientador){
+			$tmp[] = trim(preg_replace('/\s+/', ' ', $orientador['pronome'] . ' ' . $orientador['nome'] . ' ' . $orientador['sobrenome']));
+		}
 
-		// $tmp = array_values($trabalho['arquivo']);
+		$trabalho['orientador'] = implode(', ', $tmp);
 
-		// $trabalho['arquivo'] = $this->model->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
+		$tmp = array_values($trabalho['arquivo']);
 
-		// $this->model->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
+		$trabalho['arquivo'] = $this->model->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
 
-		// $params = [
-		//     'index' => 'swdb',
-		//     'type'  => 'trabalho',
-		//     'id'    => $trabalho['trabalho']['id'],
-		//     'body'  => [
-		//     	'doc' => [
-		// 	    	'titulo'     => $trabalho['trabalho']['titulo'],
-		// 	    	'ano'        => $trabalho['trabalho']['ano'],
-		// 	    	'resumo'     => $trabalho['trabalho']['resumo'],
-		// 	    	'ativo'      => true,
-		// 			'curso'         => $trabalho['trabalho']['id_curso'],
-		// 			'campus'        => $trabalho['trabalho']['id_campus'],
-		// 			'palavra_chave' => $trabalho['palavras_chave'],
-		// 			'autor'         => $trabalho['autor'],
-		// 			'orientador'    => $trabalho['orientador'],
-		// 			// 'idioma'        => 'Portugues - PT-BR',
-		// 			'status'        => 1,
-		// 			// 'arquivo'    => base64_encode(file_get_contents(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco']))
-		// 		]
-		// 	]
-		// ];
+		$this->model->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
 
-		// ob_clean();
+		$params = [
+		    'index' => 'swdb',
+		    'type'  => 'trabalho',
+		    'id'    => $trabalho['trabalho']['id'],
+		    'body'  => [
+		    	'doc' => [
+			    	'titulo'     => $trabalho['trabalho']['titulo'],
+			    	'ano'        => $trabalho['trabalho']['ano'],
+			    	'resumo'     => $trabalho['trabalho']['resumo'],
+			    	'ativo'      => true,
+					'curso'         => $trabalho['trabalho']['id_curso'],
+					'campus'        => $trabalho['trabalho']['id_campus'],
+					'palavra_chave' => $trabalho['palavras_chave'],
+					'autor'         => $trabalho['autor'],
+					'orientador'    => $trabalho['orientador'],
+					// 'idioma'        => 'Portugues - PT-BR',
+					'status'        => $this->model->select("SELECT status from trabalho WHERE id = {$trabalho['trabalho']['id']}")[0]['status'],
+					// 'arquivo'    => base64_encode(file_get_contents(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco']))
+				]
+			]
+		];
 
-		// debug2($params);
-		// exit;
+		$arquivo  = $elastic_search->indexar_documento(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco'], $trabalho['trabalho']['id']);
+		$response = $elastic_search->indexar($params);
 
-
-		// $arquivo  = $elastic_search->indexar_documento(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco'], $trabalho['trabalho']['id']);
-		// $response = $elastic_search->indexar($params);
-
-		// debug2($arquivo);
-		// debug2($response);
-		// exit;
+		debug2($arquivo);
+		debug2($response);
+		exit;
 	}
 
 	public function middle_visualizar($id){
 		$blame = $this->model->carregar_blame($id[0]);
 
-		foreach ($blame as &$trabalho){
-			switch ($trabalho['operacao']) {
+		foreach ($blame as &$culpado){
+			switch ($culpado['operacao']) {
 				case 'Cadastro':
-					$trabalho['cor_tag'] = 'label label-success';
+					$culpado['cor_tag'] = 'label label-success';
 					break;
 
 				case 'Edição':
-					$trabalho['cor_tag'] = 'label label-high';
+					$culpado['cor_tag'] = 'label label-high';
 					break;
 
 				case 'Exclusão':
-					$trabalho['cor_tag'] = 'label label-critical';
+					$culpado['cor_tag'] = 'label label-critical';
 					break;
 
 				case 'Aprovação':
-					$trabalho['cor_tag'] = 'label label-normal';
+					$culpado['cor_tag'] = 'label label-normal';
 					break;
 
 				case 'Reprovação':
-					$trabalho['cor_tag'] = 'label label-low';
+					$culpado['cor_tag'] = 'label label-low';
 					break;
 			}
 		}
 
-		$this->view->assign('cadastro', $this->model->carregar_trabalho($id[0])[0]);
+		$trabalho = $this->model->carregar_trabalho($id[0])[0];
+
+		$permissao_aprovar_reprovar = [
+			'aprovar'  => $this->permicao_apovar_reprovar_trebalho($trabalho, 'aprovar'),
+			'reprovar' => $this->permicao_apovar_reprovar_trebalho($trabalho, 'reprovar'),
+		];
+
+		$this->view->assign('cadastro', $trabalho);
+		$this->view->assign('permissao_aprovar_reprovar', $permissao_aprovar_reprovar);
 		$this->view->assign('blame', $blame);
 	}
 
 	public function middle_editar($id){
+		$trabalho = $this->model->carregar_trabalho($id[0])[0];
 
-		$this->view->assign('cadastro', $this->model->carregar_trabalho($id[0])[0]);
+		$permissao_aprovar_reprovar = [
+			'aprovar'  => $this->permicao_apovar_reprovar_trebalho($trabalho, 'aprovar'),
+			'reprovar' => $this->permicao_apovar_reprovar_trebalho($trabalho, 'reprovar'),
+		];
+
+		$this->view->assign('cadastro', $trabalho);
+		$this->view->assign('permissao_aprovar_reprovar', $permissao_aprovar_reprovar);
+
 	}
 
 	public function middle_delete($id) {
@@ -502,74 +528,100 @@ class Trabalho extends \Framework\ControllerCrud {
 		return $retorno;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	private function permicao_apovar_reprovar_trebalho($trabalho, $botao){
-		switch ($_SESSION['configuracoes']['politica_aprovacao']) {
-			case 1:
-				$aprovar =  true;
-				break;
-			case 2:
-				debug2($trabalho);
-
-				$orientadores = [];
-
-				foreach ($trabalho['trabalho_relaciona_orientador'] as $indice => $orientador){
-					# code...
-				}
-
-
-				break;
-			case 3:
-				# code...
-				break;
-
-			default:
-				$aprovar_reprovar = false;
-				break;
+	private function permicao_apovar_reprovar_trebalho($trabalho, $acao){
+		if(empty(\Util\Permission::check_user_permission($this->modulo['modulo'], $acao))){
+			return false;
 		}
 
-		switch ($botao) {
-			case 'aprobar':
-				return \Util\Permission::check_user_permission($this->modulo['modulo'], "aprovar") && ($item['status'] == 0 || $item['status'] == 2) ?
-				"<a href='/{$this->modulo['modulo']}/aprovar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-check-circle fa-fw'></i></a>" :
-				'';
+		$orientadores = [];
+
+		foreach($trabalho['trabalho_relaciona_orientador'] as $indice => $orientador){
+			if(!isset($orientador['pessoa'][0]['id_usuario']) || empty($orientador['pessoa'][0]['id_usuario'])){
+				continue;
+			}
+
+			$orientadores[] = $orientador['pessoa'][0]['id_usuario'];
+		}
+
+		if(empty($orientadores)){
+			return false;
+		}
+
+		if($_SESSION['configuracoes']['politica_aprovacao'] == 3 && in_array($_SESSION['usuario']['id'], $orientadores)){
+			return false;
+		}
+
+		if($_SESSION['configuracoes']['politica_aprovacao'] == 2 && !in_array($_SESSION['usuario']['id'], $orientadores)){
+			return false;
+		}
+
+		switch($acao){
+			case 'aprovar':
+				if($trabalho['status'] == 0 || $trabalho['status'] == 2){
+					return true;
+				}
 				break;
 
 			case 'reprovar':
-				return \Util\Permission::check_user_permission($this->modulo['modulo'], "reprovar") && ($item['status'] == 0 || $item['status'] == 1) ?
-					"<a href='/{$this->modulo['modulo']}/reprovar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-times-circle fa-fw'></i></a>" :
-					'';
+				if($trabalho['status'] == 0 || $trabalho['status'] == 1){
+					return true;
+				}
+				break;
+		}
+	}
+
+	public function aprovar_reprovar($parametros){
+		$retorno = $this->model->update(
+			'trabalho',
+			['status' => $parametros[1]],
+			['id' => $parametros[0]]
+		);
+
+		switch ($parametros[1]) {
+			case 1:
+				$blame           = 'Aprovação';
+				$retorno_sucesso = 'Trabalho aprovado com sucesso!!!';
+				$retorno_erro    = 'Ocorreu um erro ao aprovar o trabalho, por favor tente novamente...';
+				break;
+
+			case 2:
+				$blame           = 'Reprovação';
+				$retorno_sucesso = 'Trabalho reprovado com sucesso!!!';
+				$retorno_erro    = 'Ocorreu um erro ao reprovar o trabalho, por favor tente novamente...';
 				break;
 		}
 
+		$this->blame($parametros[0], $blame);
+
+
+		if($retorno['status']){
+			$this->atualizar_status_trabalho_elasticsearch($parametros[0], ['status' => $parametros[1]]);
+			$this->view->alert_js($retorno_sucesso, 'sucesso');
+		} else {
+			$this->view->alert_js($retorno_erro, 'erro');
+		}
+
+		header('location: /' . $this->modulo['modulo']);
 	}
 
+	public function atualizar_status_trabalho_elasticsearch($id, $parametros){
+		$elastic_search = new \Libs\ElasticSearch\ElasticSearch();
+		$params = [
+		    'index' => 'swdb',
+		    'type'  => 'trabalho',
+		    'id'    => $id,
+		    'body'  => [
+		    	'doc' => [
+				]
+			]
+		];
 
+		foreach($parametros as $indice => $item){
+			$params['body']['doc'][$indice] = $item;
+		}
 
-
-
-
-
-
-
-
+		$response = $elastic_search->indexar($params);
+	}
 
 
 
@@ -597,36 +649,5 @@ class Trabalho extends \Framework\ControllerCrud {
 
 		$this->view->assign('cadastro', $cadastro);
 		$this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/front');
-	}
-
-
-
-	public function aprovar($parametros){
-		$retorno_aprovar = $this->model->update('trabalho', ['status' => 1], ['id' => $parametros[0]]);
-
-		$this->blame($parametros[0], 'Aprovação');
-
-
-		if($retorno_aprovar['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' aprovado com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao aprovar o ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
-		}
-
-		header('location: /' . $this->modulo['modulo']);
-	}
-
-	public function reprovar($parametros){
-		$retorno_reprovar = $this->model->update('trabalho', ['status' => 2], ['id' => $parametros[0]]);
-
-		$this->blame($parametros[0], 'Reprovação');
-
-		if($retorno_reprovar['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' reprovado com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao reprovar o ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
-		}
-
-		header('location: /' . $this->modulo['modulo']);
 	}
 }

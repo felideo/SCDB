@@ -13,7 +13,8 @@ class Curso extends \Framework\ControllerCrud {
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Curso <i class="fa fa-search"></i>', 'Ações'],
 		'select'  => ['id', 'curso'],
 		'from'    => 'curso',
-		'search'  => ['id', 'curso']
+		'search'  => ['id', 'curso'],
+		'ordenacao_desabilitada' => '2'
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){

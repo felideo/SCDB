@@ -15,6 +15,8 @@ class Autor extends \Framework\ControllerCrud {
 	protected $datatable = [
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Ações'],
 		'from'    => 'pessoa',
+		'ordenacao_desabilitada' => '3'
+
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -131,6 +133,10 @@ class Autor extends \Framework\ControllerCrud {
 
 		if(empty($retorno)){
 			$retorno = [];
+		}
+
+		foreach($retorno as $indice => &$item){
+			$item['nome'] = $item['nome'] . ' ' . $item['sobrenome'];
 		}
 
 		if(isset($busca['cadastrar_busca']) && !empty($busca['cadastrar_busca']) && $busca['cadastrar_busca'] == 'true' && $busca['nome'] != '%%'){

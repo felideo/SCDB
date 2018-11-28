@@ -20,6 +20,7 @@ class ControllerCrud extends \Framework\Controller {
 		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
 
 		if(isset($this->datatable) && !empty($this->datatable)){
+			$this->view->assign('datatable', $this->datatable);
 			$this->view->set_colunas_datatable($this->datatable['colunas']);
 		}
 

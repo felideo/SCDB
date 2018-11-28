@@ -74,7 +74,11 @@
                                        <div class="panel panel-default">
                                            <div class="panel-body">
                                                 <a href="/{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.endereco}" target="_blank">
-                                                    <p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></i></p>
+                                                    {if isset($cadastro.trabalho_relaciona_arquivo.0.thumb.0) && !empty($cadastro.trabalho_relaciona_arquivo.0.thumb.0)}
+                                                        <img style="width: 100%;" src="/{$cadastro.trabalho_relaciona_arquivo.0.thumb.0.endereco}">
+                                                    {else}
+                                                        <p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></i></p>
+                                                    {/if}
                                                     <h3 class="text-center">{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.nome}  {$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.extensao}</h3>
                                                     <input type="hidden" value="{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.id}" name="trabalho[arquivo][1]" />
                                                 </a>
@@ -115,19 +119,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {foreach from=$blame key=indice item=trabalho}
+
+                                {foreach from=$blame key=indice item=culpado}
                                     <tr>
-                                        <td>{$trabalho.data}</td>
+                                        <td>{$culpado.data}</td>
                                         <td>
                                             <span class="truncate">
-                                                {if !empty($trabalho.usuario.0.pessoa)}
-                                                    {$trabalho.usuario.0.pessoa.0.nome} {$trabalho.usuario.0.pessoa.0.sobrenome}
+                                                {if !empty($culpado.usuario.0.pessoa)}
+                                                    {$culpado.usuario.0.pessoa.0.nome} {$culpado.usuario.0.pessoa.0.sobrenome}
                                                 {else}
-                                                    {$trabalho.usuario.0.email}
+                                                    {$culpado.usuario.0.email}
                                                 {/if}
                                             </span>
                                         </td>
-                                        <td><span class="{$trabalho.cor_tag}">{$trabalho.operacao}</span></td>
+                                        <td><span class="{$culpado.cor_tag}">{$culpado.operacao}</span></td>
                                     </tr>
                                 {/foreach}
                             </tbody>
@@ -419,18 +424,21 @@
                                 </button>
 
                                 {if empty($cadastro.status)}
+                                    {if !empty($permissao_aprovar_reprovar.aprovar)}
+                                        <a href='/{$modulo.modulo}/aprovar_reprovar/{$cadastro.id}/1' title='Aprovar Trabaho'>
+                                            <button type="button" class="btn btn-success pull-righ marginR10 lazy_view_ignore">
+                                                Aprovar Trabalho
+                                            </button>
+                                        </a>
+                                    {/if}
 
-                                    <a href='/{$modulo.modulo}/aprovar/{$cadastro.id}' title='Aprovar Trabaho'>
-                                        <button type="button" class="btn btn-danger pull-righ marginR10 lazy_view_ignore">
-                                            Aprovar Trabalho
-                                        </button>
-                                    </a>
-
-                                    <a href='/{$modulo.modulo}/reprovar/{$cadastro.id}' title='Aprovar Trabaho'>
-                                        <button type="button" class="btn btn-success pull-righ marginR10 lazy_view_ignore">
-                                            Reprovar Trabalho
-                                        </button>
-                                    </a>
+                                    {if !empty($permissao_aprovar_reprovar.reprovar)}
+                                        <a href='/{$modulo.modulo}/aprovar_reprovar/{$cadastro.id}/2' title='Aprovar Trabaho'>
+                                            <button type="button" class="btn btn-danger pull-righ marginR10 lazy_view_ignore">
+                                                Reprovar Trabalho
+                                            </button>
+                                        </a>
+                                    {/if}
                                 {/if}
                             {/if}
                         </div>

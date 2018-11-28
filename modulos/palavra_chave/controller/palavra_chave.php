@@ -15,7 +15,8 @@ class Palavra_chave extends \Framework\ControllerCrud {
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Palavra Chave <i class="fa fa-search"></i>', 'Ações'],
 		'select'  => ['id', 'palavra_chave'],
 		'from'    => 'palavra_chave',
-		'search'  => ['id', 'palavra_chave']
+		'search'  => ['id', 'palavra_chave'],
+		'ordenacao_desabilitada' => '2'
 	];
 
 	public function carregar_listagem_ajax(){

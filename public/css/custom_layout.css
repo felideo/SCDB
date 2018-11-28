@@ -173,3 +173,7 @@ input[type="text"]:disabled{
 .promo{
 	height: 420px;
 }
+
+table.dataTable thead th.sorting_disabled::after {
+    content: none !important;
+}

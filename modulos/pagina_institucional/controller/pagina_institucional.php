@@ -19,7 +19,8 @@ class Pagina_institucional extends \Framework\ControllerCrud {
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo <i class="fa fa-search"></i>', 'Ações'],
 		'select'  => ['id', 'titulo'],
 		'from'    => 'pagina_institucional',
-		'search'  => ['id', 'titulo']
+		'search'  => ['id', 'titulo'],
+		'ordenacao_desabilitada' => '2'
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){

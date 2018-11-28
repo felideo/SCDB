@@ -17,6 +17,7 @@ abstract class Model {
 	}
 
 	public function insert($table, array $data){
+		$data    = $this->normalizar_dados($data);
 		$data    = $this->antes_insert($table, $data);
 		$retorno = $this->db->insert($table, $data);
 		$this->depois_insert($table, $data, $retorno);
@@ -25,6 +26,7 @@ abstract class Model {
 	}
 
 	public function update($table, array $data, array $where){
+		$data    = $this->normalizar_dados($data);
 		$data    = $this->antes_update($table, $data, $where);
 		$retorno = $this->db->update($table, $data, $where);
 		$this->depois_update($table, $data, $where, $retorno);
@@ -162,6 +164,14 @@ abstract class Model {
 	}
 
 	public function depois_delete($table, $data, $where, $retorno){
+		return $data;
+	}
+
+	public function normalizar_dados($data){
+		foreach($data as $indice => &$value){
+			$value = trim(preg_replace('/\s+/', ' ',$value));
+		}
+
 		return $data;
 	}
 }

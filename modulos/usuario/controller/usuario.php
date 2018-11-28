@@ -13,7 +13,8 @@ class Usuario extends \Framework\ControllerCrud {
 
 	protected $datatable = [
 		'colunas' => ['ID  <i class="fa fa-search"></i>', 'Nome  <i class="fa fa-search"></i>', 'Email  <i class="fa fa-search"></i>', 'Hierarquia', 'Ações'],
-		'from'    => 'usuario'
+		'from'    => 'usuario',
+		'ordenacao_desabilitada' => '3, 4'
 	];
 
 
@@ -39,14 +40,14 @@ class Usuario extends \Framework\ControllerCrud {
 			$remover_acesso = '';
 
 			if(!empty($permissao_remover_acesso)){
-				if(empty($item['bloqueado'])){
+				if(empty($item['bloqueado']) && $_SESSION['usuario']['id'] != $item['id'] ? true : false){
 					$remover_acesso = "<a class='validar_deletar' href='#' data-id_registro='{$item['id']}'"
 						 . " data-redirecionamento='{$url}/{$this->modulo['modulo']}/remover_conceder_acesso/{$item['id']}/1'"
 						 . " data-mensagem='Tem certeza que deseja remover o acesso deste usuario?'"
 						 . " title='Remover Acesso'><i class='botao_listagem fa fa-minus-circle fa-fw'></i></a>";
 				}
 
-				if(!empty($item['bloqueado'])){
+				if(!empty($item['bloqueado']) && $_SESSION['usuario']['id'] != $item['id'] ? true : false){
 					$remover_acesso = "<a class='validar_deletar' href='#' data-id_registro='{$item['id']}'"
 						 . " data-redirecionamento='{$url}/{$this->modulo['modulo']}/remover_conceder_acesso/{$item['id']}/0'"
 						 . " data-mensagem='Tem certeza que deseja conceder acesso para este usuario?'"
@@ -59,7 +60,7 @@ class Usuario extends \Framework\ControllerCrud {
 				(isset($item['pessoa'][0]) ? $item['pessoa'][0]['nome'] : '') . ' ' . (isset($item['pessoa'][0]) ? $item['pessoa'][0]['sobrenome'] : ''),
 				$item['email'],
 				!empty($item['hierarquia']) && isset($this->hierarquia_organizada[$item['hierarquia']]) ? $this->hierarquia_organizada[$item['hierarquia']] : '',
-				$this->view->default_buttons_listagem($item['id'], true, true, $_SESSION['usuario']['id'] != $item['id'] ? true : false) . $remover_acesso
+				$this->view->default_buttons_listagem($item['id'], true, $_SESSION['usuario']['id'] != $item['id'] ? true : false, $_SESSION['usuario']['id'] != $item['id'] ? true : false) . $remover_acesso
 			];
 		}
 
@@ -158,7 +159,21 @@ class Usuario extends \Framework\ControllerCrud {
 		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
 	}
 
+	public function editar_meu_perfil($id){
+		\Util\Auth::handLeLoggin();
 
+		if($_SESSION['usuario']['id'] != $id[0]){
+			header('location: /usuario/editar_meu_perfil/' . $_SESSION['usuario']['id']);
+			exit;
+		}
+
+		$this->modulo['name'] = 'Minha Conta';
+		$this->view->assign('modulo', $this->modulo);
+
+		// $cadastro = $this->model->carregar_usuario_por_id($_SESSION['usuario']['id']);
+		// $this->view->cadastro = $cadastro[0];
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/perfil/editar_meu_perfil');
+	}
 
 
 

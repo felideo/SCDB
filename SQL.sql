@@ -285,10 +285,12 @@ CREATE TABLE `trabalho_relaciona_arquivo` (
 	`id`          INT(11) 			NOT NULL AUTO_INCREMENT,
 	`id_trabalho` INT(11) 			NOT NULL,
 	`id_arquivo`  INT(11) 			NOT NULL,
+	`id_arquivo_thumb`  INT(11) 	NULL,
 	`ativo`       TINYINT(1) 		NOT NULL DEFAULT '1',
 	PRIMARY       KEY (`id`),
 	FOREIGN       KEY (`id_trabalho`) 	REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	FOREIGN       KEY (`id_arquivo`) REFERENCES `arquivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+	FOREIGN       KEY (`id_arquivo`) REFERENCES `arquivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN       KEY (`id_arquivo_thumb`) REFERENCES `arquivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
 alter table SWDB.url add COLUMN metodo VARCHAR(256) not null AFTER controller;

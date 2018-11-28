@@ -14,6 +14,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 	protected $datatable = [
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Nome <i class="fa fa-search"></i>', 'Ações'],
 		'from'    => 'hierarquia',
+		'ordenacao_desabilitada' => '2'
 	];
 
 	public function index() {

@@ -18,7 +18,7 @@ class Autor extends \Framework\Model{
 		if(isset($busca['search']['value']) && !empty($busca['search']['value'])){
 			$where = "pessoa.id LIKE '%{$busca['search']['value']}%'"
 				. " OR usuario.email LIKE '%{$busca['search']['value']}%'"
-				. " OR CONCAT('pessoa.nome', ' ', 'pessoa.sobrenome') LIKE '%{$busca['search']['value']}%'";
+				. " OR CONCAT(pessoa.nome, ' ', pessoa.sobrenome) LIKE '%{$busca['search']['value']}%'";
 
 			$this->query->andWhere($where);
 		}
@@ -35,7 +35,7 @@ class Autor extends \Framework\Model{
 					break;
 
 				case '2':
-					$this->query->orderBy("CONCAT('pessoa.nome', ' ', 'pessoa.sobrenome') {$busca['order'][0]['dir']}");
+					$this->query->orderBy("CONCAT(pessoa.nome, ' ', pessoa.sobrenome) {$busca['order'][0]['dir']}");
 					break;
 
 				case '3':
@@ -63,12 +63,15 @@ class Autor extends \Framework\Model{
 	}
 
 	public function buscar_autor($busca){
+		$busca['nome'] = implode('%', explode(' ', $busca['nome']));
+
 		$this->query->select('
 				pessoa.*
 			')
 			->from('pessoa pessoa')
-			->where("CONCAT('pessoa.nome', ' ', 'pessoa.sobrenome') LIKE '%{$busca['nome']}%' AND pessoa.ativo = 1")
-			->orWhere('pessoa.autor = 1 OR pessoa.orientador = 1');
+			->where("CONCAT(pessoa.nome, ' ', pessoa.sobrenome) LIKE '%{$busca['nome']}%'")
+			->andWhere('pessoa.ativo = 1')
+			->andWhere('pessoa.autor = 1 OR pessoa.orientador = 1');
 
 			if(isset($busca['page_limit'])){
 				$this->query->limit($busca['page_limit']);

@@ -15,7 +15,9 @@ class Banner extends \Framework\ControllerCrud {
 		'colunas' => ['ID', 'Ordem <i class="fa fa-search"></i>', 'Imagem <i class="fa fa-search"></i>', 'Ações'],
 		'select'  => ['id', 'ordem', 'id_arquivo'],
 		'from'    => 'banner',
-		'search'  => ['id', 'ordem', 'id_arquivo']
+		'search'  => ['id', 'ordem', 'id_arquivo'],
+		'ordenacao_desabilitada' => '3'
+
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){

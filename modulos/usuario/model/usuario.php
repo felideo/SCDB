@@ -21,7 +21,7 @@ class Usuario extends \Framework\Model{
 		if(isset($busca['search']['value']) && !empty($busca['search']['value'])){
 			$where = "usuario.id LIKE '%{$busca['search']['value']}%'"
 				. " OR usuario.email LIKE '%{$busca['search']['value']}%'"
-				. " OR CONCAT('pessoa.nome', ' ', 'pessoa.sobrenome') LIKE '%{$busca['search']['value']}%'";
+				. " OR CONCAT(pessoa.nome, ' ', pessoa.sobrenome) LIKE '%{$busca['search']['value']}%'";
 
 			$this->query->andWhere($where);
 		}
@@ -38,7 +38,7 @@ class Usuario extends \Framework\Model{
 					break;
 
 				case '1':
-					$this->query->orderBy("CONCAT('pessoa.nome', ' ', 'pessoa.sobrenome') {$busca['order'][0]['dir']}");
+					$this->query->orderBy("CONCAT(pessoa.nome, ' ', pessoa.sobrenome) {$busca['order'][0]['dir']}");
 					break;
 
 				case '2':

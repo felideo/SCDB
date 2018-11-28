@@ -15,7 +15,9 @@ class Campus extends \Framework\ControllerCrud {
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Campus <i class="fa fa-search"></i>', 'Ações'],
 		'select'  => ['id', 'campus'],
 		'from'    => 'campus',
-		'search'  => ['id', 'campus']
+		'search'  => ['id', 'campus'],
+		'ordenacao_desabilitada' => '2'
+
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){

@@ -1,0 +1,102 @@
+<div class="content-panel col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<!-- <h2 class="title">Profile<span class="pro-label label label-warning">PRO</span></h2> -->
+	<form class="form-horizontal">
+		<fieldset class="fieldset">
+			<h3 class="fieldset-title">Informações Pessoais</h3>
+			<div class="form-group">
+				<label class="col-md-2 col-sm-3 col-xs-12 control-label">Titulo</label>
+				<div class="col-md-10 col-sm-9 col-xs-12">
+			    <input class="form-control somente_letras" type="text" name="{$modulo.modulo}[pronome]" value="{if isset($cadastro)}{$cadastro.pronome}{/if}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 col-sm-3 col-xs-12 control-label">Nome</label>
+				<div class="col-md-10 col-sm-9 col-xs-12">
+					<input class="form-control embelezar_string somente_letras" name="{$modulo.modulo}[pessoa][nome]" value="{if isset($cadastro.pessoa.0)}{$cadastro.pessoa.0.nome}{/if}" type="text" required >
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 col-sm-3 col-xs-12 control-label">Sobrenome</label>
+				<div class="col-md-10 col-sm-9 col-xs-12">
+		            <input class="form-control embelezar_string somente_letras" name="{$modulo.modulo}[pessoa][sobrenome]" value="{if isset($cadastro.pessoa.0)}{$cadastro.pessoa.0.sobrenome}{/if}" type="text" required >
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 col-sm-3 col-xs-12 control-label">Lattes/Site</label>
+				<div class="col-md-10 col-sm-9 col-xs-12">
+    			<input class="form-control" type="text" name="{$modulo.modulo}[link]"  value="{if isset($cadastro)}{$cadastro.link}{/if}">
+				</div>
+			</div>
+		</fieldset>
+
+
+
+
+
+
+		<fieldset class="fieldset">
+			<h3 class="fieldset-title">Acesso</h3>
+			<div class="form-group">
+				<label class="col-md-2 col-sm-3 col-xs-12 control-label">Email</label>
+				<div class="col-md-10 col-sm-9 col-xs-12">
+			        <input class="form-control validar_email email_unico letras_e_numeros remover_caracteres_especiais" disabled name="{$modulo.modulo}[{$modulo.modulo}][email]" value="{if isset($cadastro)}{$cadastro['email']}{/if}" required>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-md-2 col-sm-3 col-xs-12 control-label">Senha Antiga</label>
+				<div class="col-md-10 col-sm-9 col-xs-12">
+			        <input type="password" autocomplete="off" name="{$modulo.modulo}[{$modulo.modulo}][senha_antiga]" class="form-control">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-md-2 col-sm-3 col-xs-12 control-label">Nova Senha</label>
+				<div class="col-md-10 col-sm-9 col-xs-12">
+			        <input id="senha_1" autocomplete="off" type="password" class="form-control" name="{$modulo.modulo}[{$modulo.modulo}][senha]" value="">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-md-2 col-sm-3 col-xs-12 control-label">Confirmação de Senha</label>
+				<div class="col-md-10 col-sm-9 col-xs-12">
+			        <input id="senha_2" autocomplete="off" type="password" class="form-control">
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset class="fieldset">
+			<h3 class="fieldset-title">Oredem Preferencial do Menu</h3>
+			<div class="form-group">
+				<label class="col-md-2  col-sm-3 col-xs-12 control-label">Bio</label>
+				<div class="col-md-10 col-sm-9 col-xs-12">
+					<!-- <textarea id="wysihtml5-editor" rows="10" class="form-control"></textarea> -->
+					<!-- <p class="help-block">Share a little biographical information to fill out your profile. This may be shown publicly.</p> -->
+				</div>
+			</div>
+
+		</fieldset>
+		<hr>
+		<div class="form-group">
+			<div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+				<input class="btn btn-primary" type="submit" value="Salvar">
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+    $('#senha_2').on('change', function(){
+        if($('#senha_2').val() == '' && $('#senha_1').val() == ''){
+            return false;
+        }
+
+        if($('#senha_2').val() != $('#senha_1').val()){
+            swal("Erro", "As senha são diferentes uma da outra. Corrija! O botão de envio ficará desabilitado até que a correção seja efetuada.", "error");
+            $('.botao_enviar').attr('disabled', true);
+        }else{
+            $('.botao_enviar').attr('disabled', false);
+        }
+
+    });
+</script>

@@ -15,6 +15,7 @@ class Orientador extends \Framework\ControllerCrud {
 	protected $datatable = [
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Ações'],
 		'from'    => 'pessoa',
+		'ordenacao_desabilitada' => '1, 4'
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -51,11 +52,11 @@ class Orientador extends \Framework\ControllerCrud {
 			}
 		}
 
+
+
 		$orientador = [
 			'pessoa'     => [
 				'pronome'    => $dados['pronome'],
-				'nome'       => str_replace(end(explode(' ', $dados['nome'])), '', $dados['nome']),
-				'sobrenome'  => end(explode(' ', $dados['nome'])),
 				'link'       => $dados['link'],
 				'orientador' => 1,
 			],
@@ -64,6 +65,11 @@ class Orientador extends \Framework\ControllerCrud {
 				'hierarquia' => 10,
 			],
 		];
+
+		if(isset($dados['nome']) && !empty($dados['nome'])){
+			$orientador['pessoa']['nome']       = str_replace(end(explode(' ', $dados['nome'])), '', $dados['nome']);
+			$orientador['pessoa']['sobrenome']  = end(explode(' ', $dados['nome']));
+		}
 
 		$controller_usuario = $this->get_controller('usuario');
 		$orientador         = $controller_usuario->insert_update($orientador, $where);
@@ -139,6 +145,10 @@ class Orientador extends \Framework\ControllerCrud {
 
 		if(empty($retorno)){
 			$retorno = [];
+		}
+
+		foreach($retorno as $indice => &$item){
+			$item['nome'] = $item['nome'] . ' ' . $item['sobrenome'];
 		}
 
 		if(isset($busca['cadastrar_busca']) && !empty($busca['cadastrar_busca']) && $busca['cadastrar_busca'] == 'true' && $busca['nome'] != '%%'){
