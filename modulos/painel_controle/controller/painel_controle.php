@@ -36,7 +36,9 @@ class Painel_Controle extends \Framework\Controller {
 			->limit(10)
 			->fetchArray();
 
-		// debug2($blame);
+		if(empty($blame)){
+			$blame = [];
+		}
 
 		foreach ($blame as &$trabalho){
 			$trabalho['data'] = date("d/m/Y H:i:s", strtotime($trabalho['data']));
@@ -69,8 +71,6 @@ class Painel_Controle extends \Framework\Controller {
 			->from('trabalho trabalho')
 			->where('trabalho.status = 0 AND trabalho.ativo = 1')
 			->fetchArray();
-
-// debug2($blame);
 
 		$this->view->assign('trabalhos_pendentes', $trabalhos);
 		$this->view->assign('blame', $blame);
