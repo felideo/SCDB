@@ -183,7 +183,7 @@ class Usuario extends \Framework\ControllerCrud {
 				'id_usuario' => $_SESSION['usuario']['id'],
 				'id_modulo'  => $item['id_modulo'],
 				'ordem'      => $item['ordem'],
-				'ativo'      => 0
+				'ativo'      => 1
 			];
 
 			$retorno = $this->model->insert_update(

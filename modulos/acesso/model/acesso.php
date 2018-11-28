@@ -62,6 +62,8 @@ class Acesso extends \Framework\Model{
 	}
 
 	private function load_modulos_and_menus(){
+		$this->carregar_ordem_preferencial_menu();
+
 		$modulos = $this->select('SELECT * FROM modulo WHERE ATIVO = 1 ORDER BY ordem');
 		$submenus = $this->select('SELECT * FROM submenu WHERE ATIVO = 1');
 
@@ -72,6 +74,14 @@ class Acesso extends \Framework\Model{
 
 			$retorno_modulos[$modulo['modulo']] = $modulo;
 
+			if(isset($this->ordem_preferenciao[$retorno_modulos[$modulo['modulo']]['id']]) && !empty($this->ordem_preferenciao[$retorno_modulos[$modulo['modulo']]['id']])){
+				$retorno_modulos[$modulo['modulo']]['ordem'] = $this->ordem_preferenciao[$retorno_modulos[$modulo['modulo']]['id']]['ordem'];
+			}
+		}
+
+		\Libs\Arrays::ordenarPorColuna($retorno_modulos, 'ordem', 'ASC');
+
+		foreach($retorno_modulos as $key => $modulo){
 			if(empty($modulo['id_submenu'])){
 				$menus[$modulo['modulo']][0] = $modulo;
 			} else {
@@ -90,6 +100,18 @@ class Acesso extends \Framework\Model{
 
 		$this->menus   = $menus;
 		$this->modulos = $retorno_modulos;
+	}
+
+	private function carregar_ordem_preferencial_menu(){
+		$ordem_preferenciao = $this->select("SELECT * FROM ordem_usuario_menu WHERE ATIVO = 1 AND id_usuario = {$this->usuario['id']} ORDER BY ordem");
+
+		if(empty($ordem_preferenciao)){
+			$this->ordem_preferenciao = null;
+		}
+
+		foreach($ordem_preferenciao as $indice => $item){
+			$this->ordem_preferenciao[$item['id_modulo']] = $item;
+		}
 	}
 
 	private function load_permissions(){
