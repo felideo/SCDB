@@ -53,15 +53,26 @@
 </div>
 
 
-<img src="">
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Texto Direito Rodapé</h3>
+            <h3 class="panel-title">Texto do Lado Direito do Rodapé</h3>
         </div>
         <div class="panel-body">
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <textarea class="form-control texto_direito_rodape" rows="10" name="{$modulo.modulo}[texto_direito_rodape]">{if isset($cadastro)}{$cadastro.texto_direito_rodape}{/if}</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Texto do Lado Esquerdo do Rodapé</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <textarea class="form-control texto_esquerdo_rodape" rows="10" name="{$modulo.modulo}[texto_esquerdo_rodape]">{if isset($cadastro)}{$cadastro.texto_esquerdo_rodape}{/if}</textarea>
             </div>
         </div>
     </div>
@@ -78,7 +89,7 @@
                 '-',
 
                 'insertLink', 'insertHR', '|',
-                'selectAll', 'clearFormatting','spellChecker', 'html', '|'
+                'selectAll', 'clearFormatting','spellChecker', '|'
             ],
             language: 'pt_br'
         })

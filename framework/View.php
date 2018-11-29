@@ -27,8 +27,6 @@ class View {
 	public function render($header_footer, $body) {
 		$this->set_todo();
 
-		$template = new \Dwoo\Template\File('modulos/' . $body . '.html');
-
 		if(strpos($header_footer, 'sidebar')){
 			$this->mount_sidebar();
 		}
@@ -53,6 +51,62 @@ class View {
 		}
 
 		exit;
+	}
+
+	public function render_plataforma($identificador){
+		if(file_exists('views/plataforma/' . $identificador . '.html')){
+			$this->render_plataforma_arquivo($identificador);
+		}
+
+		$this->model = new \Framework\GenericModel();
+
+		$header = $this->carregar_pagina_plataforma('header');
+		$body   = $this->carregar_pagina_plataforma($identificador);
+		$footer = $this->carregar_pagina_plataforma('footer');
+
+		$pagina = $header . "\n\n" . $body . "\n\n" . $footer;
+
+		if(!is_dir('views/plataforma')){
+			mkdir('views/plataforma');
+		}
+
+		file_put_contents('views/plataforma/' . $identificador . '.html', $pagina);
+
+		$this->render_plataforma_arquivo($identificador);
+	}
+
+	public function render_plataforma_arquivo($identificador){
+		$pagina = new \Dwoo\Template\File('views/plataforma/' . $identificador . '.html');
+
+		if(isset($this->lazy_view) && !empty($this->lazy_view)){
+			$this->assign('lazy_view', true);
+		}
+
+		$this->assign('_SESSION', $_SESSION);
+
+		echo $this->dwoo->get($pagina, $this->assign);
+
+		if(isset($this->lazy_view) && !empty($this->lazy_view)){
+			$lazy_view = new \Dwoo\Template\File('views/back/form_padrao/lazy_view.html');
+			echo $this->dwoo->get($lazy_view, $this->assign);
+		}
+
+		exit;
+	}
+
+	private function carregar_pagina_plataforma($identificador){
+		$this->model->query->select('pagina.html')
+			->from('plataforma_pagina pagina')
+			->where("pagina.id_plataforma = (SELECT id FROM plataforma WHERE identificador = '{$identificador}'  AND ativo = 1)")
+			->andWhere('pagina.ativo = 1')
+			->orderBy('pagina.ultima_atualizacao DESC');
+
+		if(!isset($_SESSION['plataforma']['modo_desenvolvedor']) || empty($_SESSION['plataforma']['modo_desenvolvedor'])){
+			$this->model->query->andWhere('pagina.publicado = 1');
+		}
+
+		return $this->model->query->limit(1)
+			->fetchArray()[0]['html'];
 	}
 
 	private function set_todo(){
@@ -103,11 +157,9 @@ class View {
 				}
 			}
 
+
 			if(isset($string_menu)){
-				$array_menu[$menu[0]['ordem']] = [
-					'string_menu' => $string_menu,
-					'modulo'      => $menu[0]['modulo'],
-				];
+				$array_menu = $this->insert_in_array_menu($array_menu, $menu, $string_menu);
 			}
 
 			if(isset($string_menu)){
@@ -118,20 +170,29 @@ class View {
 		if(!empty($submenus_com_permissao)){
 			$submenus_com_permissao = array_unique($submenus_com_permissao);
 
+
 			foreach ($submenus_com_permissao as $indice_03 => $submenus){
-				$active = $menu[0]['modulo'] == $_SESSION['modulo_ativo'] ? "active" : " ";
-				$menu_submenu = "<li  class=' {$active} '>\n\t"
-         			. " <a href='#'>\n\t\t"
+				$ativos = [];
+
+				foreach($_SESSION['menus'][$submenus]['modulos'] as $indice_04 => $submenu){
+					$ativos[] = $submenu['modulo'];
+				}
+
+				$active = in_array($_SESSION['modulo_ativo'], $ativos) ? "active" : " ";
+				$menu_submenu = "<li  class=' sub-sub-menu {$active} '>\n\t"
+         			. " <a href='javascript:void(0)'>\n\t\t"
 					. 		"<span aria-hidden='true' class='icon fa glyphicon {$_SESSION['menus'][$submenus]['icone']} fa-fw'></span>\n\t\t"
                     . 		"<span class='nav-label'>{$_SESSION['menus'][$submenus]['nome_exibicao']}</span>\n\t\t"
                     .		"<span class='fa arrow'></span>\n\t"
          			. " </a>\n\t"
-     				. " <ul class='nav nav-second-level'>\n\t\t";
+     				. " <ul class='sub-menu'>\n\t\t";
 
      				$modulo_menor_ordem_submenu = 99999999999;
 
 					foreach($_SESSION['menus'][$submenus]['modulos'] as $indice_04 => $submenu){
 						if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$submenu['modulo']])){
+							$active = $submenu['modulo'] == $_SESSION['modulo_ativo'] ? "active" : " ";
+
  	                        $menu_submenu .= "<li class=' {$active} '>\n\t\t\t"
                          		. 	" <a href='/{$submenu['modulo']}'>\n\t\t\t\t"
 								. 		"<span aria-hidden='true' class='icon fa glyphicon {$submenu['icone']} fa-fw'></span>\n\t\t\t\t"
@@ -146,10 +207,15 @@ class View {
                  	$menu_submenu .= "</ul>\n"
          				. "</li>";
 
-        		$array_menu[$modulo_menor_ordem_submenu] = [
-					'string_menu' => $menu_submenu,
-					'modulo'       => $submenus,
+				$menu = [
+					0 => [
+						'ordem' => $modulo_menor_ordem_submenu,
+						'modulo' => $submenus
+					]
 				];
+
+
+				$array_menu = $this->insert_in_array_menu($array_menu, $menu, $menu_submenu);
 
         		unset($menu_submenu);
 			}
@@ -171,6 +237,21 @@ class View {
 		$array_menu = implode(' ', $retorno);
 
 		$this->assign('sidebar_painel_administrativo', $array_menu);
+	}
+
+	private function insert_in_array_menu($array_menu, $menu, $string_menu){
+		if(!isset($array_menu[$menu[0]['ordem']])){
+			$array_menu[$menu[0]['ordem']] = [
+				'string_menu' => $string_menu,
+				'modulo'      => $menu[0]['modulo'],
+			];
+
+			return $array_menu;
+		}
+
+		$menu[0]['ordem']++;
+
+		return $this->insert_in_array_menu($array_menu, $menu, $string_menu);
 	}
 
 	public function set_colunas_datatable($colunas){
@@ -225,7 +306,7 @@ class View {
 	        . " 	    className: '$status',\n\t\t"
 	        . " 	    hideAnimation: 'fadeOut',\n\t\t"
 	        . " 	    showAnimation: 'fadeIn',\n\t\t"
-	        . " 		autoHideDelay: 5000,\n\t"
+	        . " 		autoHideDelay: 10000,\n\t"
 	        . " 	})\n"
 	        . " }, 1000);\n\n";
 	}
@@ -306,7 +387,7 @@ class View {
 
 		if($excluir){
 			$botao_excluir = \Util\Permission::check_user_permission($this->modulo['modulo'], "deletar") ?
-				"<a class='validar_deletar' href='#' data-id_registro='{$id}' data-mensagem='{$delete_message}' data-redirecionamento='{$url}{$this->modulo['modulo']}/destroy/{$id}' title='Deletar'><i class='botao_listagem  fa fa-trash-o fa-fw'></i></a>" :
+				"<a class='validar_deletar' href='javascript:void(0)' data-id_registro='{$id}' data-mensagem='{$delete_message}' data-redirecionamento='{$url}{$this->modulo['modulo']}/destroy/{$id}' title='Deletar'><i class='botao_listagem  fa fa-trash-o fa-fw'></i></a>" :
 				'';
 		}
 

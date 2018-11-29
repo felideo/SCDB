@@ -64,14 +64,14 @@ class Trabalho extends \Framework\ControllerCrud {
 			}
 
 			$retorno[] = [
-				$item['id'],
-				$item['titulo'],
-				$item['ano'],
-				$item['curso'][0]['curso'],
-				$item['campus'][0]['campus'],
-				$autores,
-				$orientadores,
-				isset($status) && !empty($status) ? $status : '',
+				isset($item['id'])                  ? $item['id'] 					: '',
+				isset($item['titulo'])              ? $item['titulo'] 				: '',
+				isset($item['ano'])                 ? $item['ano'] 					: '',
+				isset($item['curso'][0]['curso'])   ? $item['curso'][0]['curso'] 	: '',
+				isset($item['campus'][0]['campus']) ? $item['campus'][0]['campus'] 	: '',
+				isset($autores)                     ? $autores 						: '',
+				isset($orientadores)                ? $orientadores 				: '',
+				isset($status)                      && !empty($status) ? $status 	: '',
 
 				$this->view->default_buttons_listagem($item['id'], true, true, true) . $botao->getBotoes()
 			];
@@ -193,6 +193,7 @@ class Trabalho extends \Framework\ControllerCrud {
 
 		foreach($orientadores as $indice => $orientador){
 			if(is_numeric($orientador['orientador'])){
+				$this->flag_autor_orientador($orientador['orientador'], 'orientador');
 				$retorno_orientadores[$indice]['orientador'] = $orientador['orientador'];
 				$this->cadrastrar_relacao_trabalho_orientador($orientador['orientador'], $id_trabalho);
 				continue;
@@ -246,6 +247,7 @@ class Trabalho extends \Framework\ControllerCrud {
 
 		foreach($autores as $indice => $autor){
 			if(is_numeric($autor['autor'])){
+				$this->flag_autor_orientador($autor['autor'], 'autor');
 				$retorno_autores[$indice]['autor'] = $autor['autor'];
 				$this->cadrastrar_relacao_trabalho_autor($autor['autor'], $id_trabalho);
 				continue;
@@ -270,6 +272,21 @@ class Trabalho extends \Framework\ControllerCrud {
 		}
 
 		return $retorno_autores;
+	}
+
+	private function flag_autor_orientador($id, $flag){
+		$update[$flag] = 1;
+
+		if($flag == 'orientador'){
+			$update['oculto'] = 0;
+		}
+
+		$retorno = $this->model->insert_update(
+			'pessoa',
+			['id' => $id],
+			$update,
+			true
+		);
 	}
 
 	private function cadrastrar_relacao_trabalho_autor($id_autor, $id_trabalho){
@@ -354,14 +371,15 @@ class Trabalho extends \Framework\ControllerCrud {
 		$this->model->execute("DELETE from trabalho_relaciona_arquivo WHERE id_trabalho = {$id_trabalho}");
 
 		foreach($arquivos as $indice => $arquivo){
-			if(!is_numeric($arquivo)){
+			if(!is_numeric($arquivo['id_arquivo'])){
 				$this->view->warn_js('Ocorreu um erro ao relacionar o arquivo ao trabalho. Por favor edite o trabalho para corrigir', 'erro');
 				continue;
 			}
 
 			$insert_db = [
-				'id_trabalho' => $id_trabalho,
-				'id_arquivo'  => $arquivo
+				'id_trabalho'      => $id_trabalho,
+				'id_arquivo'       => $arquivo['id_arquivo'],
+				'id_arquivo_thumb' => $arquivo['id_arquivo_thumb'],
 			];
 
 			$retorno = $this->model->insert_update(
@@ -379,8 +397,6 @@ class Trabalho extends \Framework\ControllerCrud {
 
 	private function indexar_trabalho_elasticsearch($trabalho){
 		$elastic_search = new \Libs\ElasticSearch\ElasticSearch();
-
-		debug2($trabalho);
 
 		$trabalho['palavras_chave'] = $this->model->query
 		 	->select('palavra_chave.palavra_chave')
@@ -434,9 +450,7 @@ class Trabalho extends \Framework\ControllerCrud {
 
 		$tmp = array_values($trabalho['arquivo']);
 
-		$trabalho['arquivo'] = $this->model->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
-
-		$this->model->select("SELECT * FROM arquivo WHERE id = {$tmp[0]}");
+		$trabalho['arquivo'] = $this->model->select("SELECT * FROM arquivo WHERE id = {$tmp[0]['id_arquivo']}");
 
 		$params = [
 		    'index' => 'swdb',
@@ -462,10 +476,6 @@ class Trabalho extends \Framework\ControllerCrud {
 
 		$arquivo  = $elastic_search->indexar_documento(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco'], $trabalho['trabalho']['id']);
 		$response = $elastic_search->indexar($params);
-
-		debug2($arquivo);
-		debug2($response);
-		exit;
 	}
 
 	public function middle_visualizar($id){
@@ -495,7 +505,7 @@ class Trabalho extends \Framework\ControllerCrud {
 			}
 		}
 
-		$trabalho = $this->model->carregar_trabalho($id[0])[0];
+		$trabalho = $this->model->carregar_trabalho($id)[0];
 
 		$permissao_aprovar_reprovar = [
 			'aprovar'  => $this->permicao_apovar_reprovar_trebalho($trabalho, 'aprovar'),
@@ -508,7 +518,7 @@ class Trabalho extends \Framework\ControllerCrud {
 	}
 
 	public function middle_editar($id){
-		$trabalho = $this->model->carregar_trabalho($id[0])[0];
+		$trabalho = $this->model->carregar_trabalho($id)[0];
 
 		$permissao_aprovar_reprovar = [
 			'aprovar'  => $this->permicao_apovar_reprovar_trebalho($trabalho, 'aprovar'),
@@ -522,7 +532,7 @@ class Trabalho extends \Framework\ControllerCrud {
 
 	public function middle_delete($id) {
 
-		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
+		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id]);
 		$this->blame($id[0], 'Exclusão');
 
 		return $retorno;
@@ -622,19 +632,6 @@ class Trabalho extends \Framework\ControllerCrud {
 
 		$response = $elastic_search->indexar($params);
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	public function visualizar_front($id){
 		$this->check_if_exists($id[0]);

@@ -17,6 +17,8 @@ abstract class Controller {
 		$this->view = new View();
 
 		$this->view->modulo = $this->modulo;
+
+		$this->view->assign('url', URL);
 	}
 
 	public function define_modulo(){
@@ -103,8 +105,10 @@ abstract class Controller {
 		return $this->models[$model . '_' . $submodel];
 	}
 
-	public function check_if_exists($id){
-		$table = isset($this->modulo['table']) ? $this->modulo['table'] : $this->modulo['modulo'];
+	public function check_if_exists($id, $table = null){
+		if(!isset($table) || empty($table)){
+			$table = isset($this->modulo['table']) ? $this->modulo['table'] : $this->modulo['modulo'];
+		}
 
 		if(empty($this->model->select("SELECT id FROM {$table} WHERE id = {$id} AND ativo = 1"))){
 			$this->view->alert_js(ucfirst($this->modulo['send']) . ' não existe...', 'erro');

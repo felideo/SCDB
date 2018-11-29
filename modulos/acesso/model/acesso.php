@@ -84,17 +84,17 @@ class Acesso extends \Framework\Model{
 		foreach($retorno_modulos as $key => $modulo){
 			if(empty($modulo['id_submenu'])){
 				$menus[$modulo['modulo']][0] = $modulo;
-			} else {
-				foreach ($submenus as $indice_02 => $submenu) {
+				continue;
+			}
 
-					$menus[$submenu['nome']]['icone'] = $submenu['icone'];
-					$menus[$submenu['nome']]['nome_exibicao'] = $submenu['nome_exibicao'];
+			foreach ($submenus as $indice_02 => $submenu) {
 
-					if($modulo['id_submenu'] == $submenu['id']){
-						$menus[$submenu['nome']]['modulos'][$modulo['modulo']] = $modulo;
-					}
+				$menus[$submenu['nome']]['icone'] = $submenu['icone'];
+				$menus[$submenu['nome']]['nome_exibicao'] = $submenu['nome_exibicao'];
+
+				if($modulo['id_submenu'] == $submenu['id']){
+					$menus[$submenu['nome']]['modulos'][$modulo['modulo']] = $modulo;
 				}
-
 			}
 		}
 

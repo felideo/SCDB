@@ -1,45 +1,40 @@
 <div class="content-panel col-xs-12 col-sm-12 col-md-12 col-lg-12">
 	<!-- <h2 class="title">Profile<span class="pro-label label label-warning">PRO</span></h2> -->
-	<form class="form-horizontal">
+    <form method="post" class="form-horizontal" action="/{$modulo.modulo}/update_meus_dados/{$cadastro['id']}">
 		<fieldset class="fieldset">
 			<h3 class="fieldset-title">Informações Pessoais</h3>
 			<div class="form-group">
 				<label class="col-md-2 col-sm-3 col-xs-12 control-label">Titulo</label>
 				<div class="col-md-10 col-sm-9 col-xs-12">
-			    <input class="form-control somente_letras" type="text" name="{$modulo.modulo}[pronome]" value="{if isset($cadastro)}{$cadastro.pronome}{/if}" required>
+			    <input class="form-control somente_letras" type="text" name="{$modulo.modulo}[pessoa][pronome]" value="{if isset($cadastro)}{$cadastro.pessoa.0.pronome}{/if}" >
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-md-2 col-sm-3 col-xs-12 control-label">Nome</label>
 				<div class="col-md-10 col-sm-9 col-xs-12">
-					<input class="form-control embelezar_string somente_letras" name="{$modulo.modulo}[pessoa][nome]" value="{if isset($cadastro.pessoa.0)}{$cadastro.pessoa.0.nome}{/if}" type="text" required >
+					<input class="form-control embelezar_string somente_letras" name="{$modulo.modulo}[pessoa][nome]" value="{if isset($cadastro.pessoa.0)}{$cadastro.pessoa.0.nome}{/if}" type="text"  >
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-md-2 col-sm-3 col-xs-12 control-label">Sobrenome</label>
 				<div class="col-md-10 col-sm-9 col-xs-12">
-		            <input class="form-control embelezar_string somente_letras" name="{$modulo.modulo}[pessoa][sobrenome]" value="{if isset($cadastro.pessoa.0)}{$cadastro.pessoa.0.sobrenome}{/if}" type="text" required >
+		            <input class="form-control embelezar_string somente_letras" name="{$modulo.modulo}[pessoa][sobrenome]" value="{if isset($cadastro.pessoa.0)}{$cadastro.pessoa.0.sobrenome}{/if}" type="text"  >
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-md-2 col-sm-3 col-xs-12 control-label">Lattes/Site</label>
 				<div class="col-md-10 col-sm-9 col-xs-12">
-    			<input class="form-control" type="text" name="{$modulo.modulo}[link]"  value="{if isset($cadastro)}{$cadastro.link}{/if}">
+    			<input class="form-control" type="text" name="{$modulo.modulo}[pessoa][link]"  value="{if isset($cadastro)}{$cadastro.pessoa.0.link}{/if}">
 				</div>
 			</div>
 		</fieldset>
-
-
-
-
-
 
 		<fieldset class="fieldset">
 			<h3 class="fieldset-title">Acesso</h3>
 			<div class="form-group">
 				<label class="col-md-2 col-sm-3 col-xs-12 control-label">Email</label>
 				<div class="col-md-10 col-sm-9 col-xs-12">
-			        <input class="form-control validar_email email_unico letras_e_numeros remover_caracteres_especiais" disabled name="{$modulo.modulo}[{$modulo.modulo}][email]" value="{if isset($cadastro)}{$cadastro['email']}{/if}" required>
+			        <input class="form-control validar_email email_unico letras_e_numeros remover_caracteres_especiais" disabled name="{$modulo.modulo}[{$modulo.modulo}][email]" value="{if isset($cadastro)}{$cadastro['email']}{/if}" >
 				</div>
 			</div>
 
@@ -93,6 +88,19 @@
 			</div>
 
 		</fieldset>
+        <div class="module-footer text-center">
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <button type="submit" class="btn btn-success botao_enviar pull-right">
+                    Editar Meus Dados
+                </button>
+
+                {if isset($cadastro)}
+                    <button type="button" onclick="window.history.back();" class="btn btn btn-danger botao_voltar pull-right marginR10">
+                        {if isset($cadastro)}Cancelar{else}Voltar{/if}
+                    </button>
+                {/if}
+            </div>
+        </div>
 	</form>
 </div>
 

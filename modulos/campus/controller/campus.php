@@ -36,12 +36,7 @@ class Campus extends \Framework\ControllerCrud {
 		return $retorno;
 	}
 
-	public function delete($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "deletar");
-
-		$this->check_if_exists($id[0]);
-
+	public function middle_delete($id) {
 		$campus_utilizado = $this->model->query->select('
 				trabalho.id
 			')
@@ -64,15 +59,7 @@ class Campus extends \Framework\ControllerCrud {
 			exit;
 		}
 
-		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
-
-		if($retorno['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
-		}
-
-		header('location: /' . $this->modulo['modulo']);
+		return $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
 	}
 
 	public function buscar_campus_select2(){

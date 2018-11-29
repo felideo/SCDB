@@ -195,3 +195,16 @@ table.dataTable thead th.sorting_disabled::after {
 .brick.linha label{
 	cursor: pointer;
 }
+
+.fr-code {
+    width: 98%;
+    margin-left: 1%;
+}
+
+.main-nav-wrapper .main-nav .sub-menu li.active a{
+	border-left: 4px solid #40babd;
+}
+
+.main-nav-wrapper .main-nav .sub-menu li.sub-sub-menu a{
+	border-left: none;
+}

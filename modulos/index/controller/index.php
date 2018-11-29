@@ -14,6 +14,6 @@ class Index extends \Framework\Controller {
 		$front_controller->carregar_cabecalho_rodape();
 		$this->get_controller('contador')->contar('visita');
 
-		$this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/front');
+		$this->view->render_plataforma('index');
 	}
 }

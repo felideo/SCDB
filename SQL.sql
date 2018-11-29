@@ -379,3 +379,30 @@ CREATE TABLE `ordem_usuario_menu` (
 	FOREIGN      KEY (`id_usuario`) 	REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	FOREIGN      KEY (`id_modulo`) REFERENCES `modulo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+CREATE TABLE `plataforma` (
+	`id`                 int(11) 			NOT NULL AUTO_INCREMENT,
+	`identificador`      varchar(512)  		NOT NULL,
+	`nome`               varchar(512)  		NOT NULL,
+	`descricao`          varchar(1024)  	NOT NULL,
+	`ultima_atualizacao` DATETIME 			NULL,
+	`ultima_publicacao`  DATETIME 			NULL,
+	`ativo`              tinyint(1) 		NOT NULL DEFAULT '1',
+	PRIMARY              KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+
+
+
+CREATE TABLE `plataforma_pagina` (
+	`id`                 INT(11) 		NOT NULL AUTO_INCREMENT,
+	`id_plataforma`      INT(11)  		NOT NULL,
+	`id_usuario`         INT(11) 		NOT NULL,
+	`html`               TEXT  			NULL,
+	`ultima_atualizacao` DATETIME 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	`publicado`          TINYINT(1) 	NOT NULL,
+	`ativo`              TINYINT(1) 	NOT NULL DEFAULT '1',
+	PRIMARY              KEY (`id`),
+	FOREIGN              KEY (`id_plataforma`) 	REFERENCES `plataforma` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN              KEY (`id_usuario`) 	REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+

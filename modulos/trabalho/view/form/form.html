@@ -311,9 +311,11 @@
                 $('#upload_trabalho').html('');
 
                 var thumb = '<p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></p>';
+                var thumb_id_arquivo = '';
 
                 if(typeof retorno.thumb !== 'undefined'){
-                    thumb = '<img style="width: 100%;" src="/' + retorno.thumb + '">';
+                    thumb = '<img style="width: 100%;" src="/' + retorno.thumb.endereco + '">';
+                    thumb_id_arquivo = '<input type="text" value="' + retorno.thumb.id_arquivo + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + '][id_arquivo_thumb]" />';
                 }
 
                 input = '<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">'
@@ -321,7 +323,8 @@
                     +           '<div class="panel-body">'
                     +               thumb
                     +               '<h3 class="text-center">' + retorno.nome + retorno.extensao + '</h3>'
-                    +               '<input type="hidden" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + ']" />'
+                    +               '<input type="text" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + '][id_arquivo]" />'
+                    +               thumb_id_arquivo
                     +           '</div>'
                     +       '</div>'
                     + '</div>'

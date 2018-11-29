@@ -57,7 +57,7 @@ class URL {
 
 	private function cadastrarUrl(){
 		$insert_db = [
-			'url'           => $this->url,
+			'url'           => strtolower($this->url),
 			'controller'    => $this->controller,
 			'metodo'        => $this->metodo,
 			'id_controller' => $this->id,

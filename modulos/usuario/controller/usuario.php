@@ -41,14 +41,14 @@ class Usuario extends \Framework\ControllerCrud {
 
 			if(!empty($permissao_remover_acesso)){
 				if(empty($item['bloqueado']) && $_SESSION['usuario']['id'] != $item['id'] ? true : false){
-					$remover_acesso = "<a class='validar_deletar' href='#' data-id_registro='{$item['id']}'"
+					$remover_acesso = "<a class='validar_deletar' href='javascript:void(0)' data-id_registro='{$item['id']}'"
 						 . " data-redirecionamento='{$url}/{$this->modulo['modulo']}/remover_conceder_acesso/{$item['id']}/1'"
 						 . " data-mensagem='Tem certeza que deseja remover o acesso deste usuario?'"
 						 . " title='Remover Acesso'><i class='botao_listagem fa fa-minus-circle fa-fw'></i></a>";
 				}
 
 				if(!empty($item['bloqueado']) && $_SESSION['usuario']['id'] != $item['id'] ? true : false){
-					$remover_acesso = "<a class='validar_deletar' href='#' data-id_registro='{$item['id']}'"
+					$remover_acesso = "<a class='validar_deletar' href='javascript:void(0)' data-id_registro='{$item['id']}'"
 						 . " data-redirecionamento='{$url}/{$this->modulo['modulo']}/remover_conceder_acesso/{$item['id']}/0'"
 						 . " data-mensagem='Tem certeza que deseja conceder acesso para este usuario?'"
 						 . " title='Conceder Acesso'><i class='botao_listagem fa fa-check-circle fa-fw'></i></a>";
@@ -106,7 +106,7 @@ class Usuario extends \Framework\ControllerCrud {
 			// $usuario['senha']         = \Util\Hash::get_unic_hash()
 			$usuario['usuario']['senha'] = 12345;
 			$usuario['usuario']['ativo'] = 1;
-			$where['email']   = $usuario['usuario']['email'];
+			$where['email']              = $usuario['usuario']['email'];
 		}
 
 		$usuario['usuario']['retorno'] = $this->model->insert_update(
@@ -170,9 +170,78 @@ class Usuario extends \Framework\ControllerCrud {
 		$this->modulo['name'] = 'Minha Conta';
 		$this->view->assign('modulo', $this->modulo);
 
-		// $cadastro = $this->model->carregar_usuario_por_id($_SESSION['usuario']['id']);
-		// $this->view->cadastro = $cadastro[0];
+		$cadastro = $this->model->carregar_usuario_por_id($_SESSION['usuario']['id']);
+		$this->view->assign('cadastro', $cadastro[0]);
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/perfil/editar_meu_perfil');
+	}
+
+	public function update_meus_dados($id){
+		\Util\Auth::handLeLoggin();
+
+		if($_SESSION['usuario']['id'] != $id[0]){
+			header('location: /usuario/editar_meu_perfil/' . $_SESSION['usuario']['id']);
+			exit;
+		}
+
+		$cadastro = $this->model->carregar_usuario_por_id($_SESSION['usuario']['id'])[0];
+		$update   = carregar_variavel('usuario');
+
+		$update['pessoa'] = array_filter($update['pessoa'], function($item){
+			if(empty($item)){
+				unset($item);
+			}
+
+  			return isset($item) ? $item : null;
+		});
+
+		$update['usuario'] = array_filter($update['usuario'], function($item){
+			if(empty($item)){
+				unset($item);
+			}
+
+  			return isset($item) ? $item : null;
+		});
+
+		if(isset($update['usuario']['senha_antiga']) || isset($update['usuario']['senha'])){
+			if(!isset($update['usuario']['senha_antiga'])){
+				$this->view->warn_js('Obrigatorio indicar a senha antiga para efetuar a atualização de senha. Atualização de senha negada!', 'erro');
+				unset($update['usuario']['senha_antiga']);
+				unset($update['usuario']['senha']);
+			}
+
+			if(!isset($update['usuario']['senha'])){
+				$this->view->warn_js('Obrigatorio indicar a nova senha para efetuar a atualização de senha. Atualização de senha negada!', 'erro');
+				unset($update['usuario']['senha_antiga']);
+				unset($update['usuario']['senha']);
+			}
+
+			if(isset($update['usuario']['senha_antiga']) && $update['usuario']['senha_antiga'] != $cadastro['senha']){
+				$this->view->warn_js('Senha antiga incorreta. Atualização de senha negada!', 'erro');
+				unset($update['usuario']['senha_antiga']);
+				unset($update['usuario']['senha']);
+			}
+		}
+
+		if(empty($update['usuario'])){
+			$update['usuario']['ativo'] = 1;
+		}
+
+		if(!isset($update['pessoa']['nome']) || !isset($update['pessoa']['sobrenome']) || empty($update['pessoa']['nome']) || empty($update['pessoa']['sobrenome'])){
+			$this->view->alert_js('Proibido que o usuario deixe o Nome ou Sobrenome em branco!', 'erro');
+			header('location: /usuario/editar_meu_perfil/' . $id[0]);
+			exit;
+		}
+
+		$retorno = $this->insert_update($update, ['id' => $id[0]]);
+
+		if(isset($retorno['status']) && !empty($retorno['status'])){
+			$this->view->alert_js('Os dados da sua conta foram atualizados com sucesso!!!', 'sucesso');
+		} else {
+			$this->view->alert_js('Ocorreu um erro ao efetuar a alteração dos dados da sua conta, por favor tente novamente...', 'erro');
+		}
+
+		header('location: /usuario/editar_meu_perfil/' . $id[0]);
+		exit;
 	}
 
 	public function salvar_ordem_preferencial_menu_ajax(){

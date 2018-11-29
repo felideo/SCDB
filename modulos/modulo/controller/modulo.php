@@ -92,7 +92,7 @@ class Modulo extends \Framework\ControllerCrud {
 			$update_db['id_submenu'] = NULL;
 		}
 
-		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
+		$retorno = $this->model->update($this->modulo['modulo'], $update_db, ['id' => $id[0]]);
 
 		if($retorno['status']){
 			$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');

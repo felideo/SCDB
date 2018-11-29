@@ -7,6 +7,12 @@ class BigBang{
 
 	public function __construct() {
 		$this->get_url();
+		$this->acelerate_return_inexistente_file();
+
+		if(!empty($this->return_false)){
+			http_response_code (404);
+			return false;
+		}
 
 		if(empty($this->url[0])) {
 			$this->file_class_method_parameters = [
@@ -30,6 +36,14 @@ class BigBang{
 		$this->url = rtrim($this->url, '/');
 		$this->url = filter_var($this->url, FILTER_SANITIZE_URL);
 		$this->url = explode('/', $this->url);
+	}
+
+	private function acelerate_return_inexistente_file(){
+		$last = end($this->url);
+		if(count(explode('.', $last)) > 1){
+			$this->return_false = true;
+		}
+
 	}
 
 	private function execute(){
@@ -103,7 +117,7 @@ class BigBang{
 		$file = 'modulos';
 
 		foreach($this->url as $indice => $value) {
-			if(file_exists("{$file}/{$value}/controller/{$value}.php")){
+			if(file_exists("{$file}/{$value}/controller/{$value}.php") && empty($arquivo)){
 				$arquivo = "{$file}/{$value}/controller/{$value}.php";
 				$class = $value;
 			}else{

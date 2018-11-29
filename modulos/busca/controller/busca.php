@@ -29,6 +29,7 @@ class Busca extends \Framework\ControllerCrud {
 		}
 
 		$this->view->assign('anos', $this->carregar_anos());
+
 		$this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/busca');
 	}
 
@@ -56,9 +57,6 @@ class Busca extends \Framework\ControllerCrud {
 	}
 
 	private function get_dados_trabalho($encontrados){
-		// debug2($encontrados);
-		// exit;
-
 		if(empty($encontrados['hits']['hits'])){
 			return [
 				'status'     => false,
@@ -67,9 +65,6 @@ class Busca extends \Framework\ControllerCrud {
 		}
 
 		$trabalhos = [];
-
-		// debug2($encontrados);
-		// exit;
 
 		foreach($encontrados['hits']['hits'] as $indice => $item){
 			// if($item['_score'] < 1){

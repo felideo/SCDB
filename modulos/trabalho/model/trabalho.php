@@ -101,29 +101,36 @@ class trabalho extends \Framework\Model{
 	}
 
 	public function carregar_resultado_busca($trabalhos){
-		$query = $this->query;
-		$query->select('
+		$this->query->select('
 			trabalho.titulo,
 			trabalho.ano,
 			trabalho.resumo,
 			trabalho.status,
-
 			curso.curso,
 			rel_autor.id,
 			rel_palavra.id,
 			autor.nome,
-
-			palavra.palavra_chave
+			autor.sobrenome,
+			url.url,
+			url.controller,
+			palavra.palavra_chave,
+			rel_arquivo.id,
+			arquivo.endereco
 		')
 		->from('trabalho trabalho')
 		->leftJoin('curso curso ON curso.id = trabalho.id_curso and curso.ativo = 1')
 		->leftJoin('trabalho_relaciona_autor rel_autor ON rel_autor.id_trabalho = trabalho.id and rel_autor.ativo = 1')
-		->leftJoin('autor autor ON autor.id = rel_autor.id_pessoa AND autor.ativo = 1')
+		->leftJoin('pessoa autor ON autor.id = rel_autor.id_pessoa AND autor.ativo = 1')
 		->leftJoin('trabalho_relaciona_palavra_chave rel_palavra ON rel_palavra.id_trabalho = trabalho.id and rel_palavra.ativo = 1')
 		->leftJoin('palavra_chave palavra ON palavra.id = rel_palavra.id_palavra_chave and palavra.ativo = 1')
-		->where('trabalho.id IN (' . implode(',', $trabalhos) . ')');
+		->leftJoin('url url ON url.id_controller = trabalho.id AND url.controller = "trabalho" AND url.metodo = "visualizar_front" AND url.ativo = 1')
+		->leftJoin('trabalho_relaciona_arquivo rel_arquivo ON rel_arquivo.id_trabalho = trabalho.id AND rel_arquivo.ativo = 1')
+		->leftJoin('arquivo arquivo ON arquivo.id = rel_arquivo.id_arquivo_thumb AND arquivo.ativo = 1')
 
-		return $query->fetchArray();
+		->where('trabalho.id IN (' . implode(',', $trabalhos) . ')')
+		->andWhere('trabalho.ativo = 1 AND trabalho.status = 1');
+
+		return $this->query->fetchArray();
 	}
 
 	public function carregar_trabalho($id){
@@ -140,9 +147,13 @@ class trabalho extends \Framework\Model{
 				rel_trabalho.id_arquivo_thumb,
 				rel_palavra.id,
 				autor.nome,
+				autor.sobrenome,
+
 				autor.link,
 				autor_user.email,
 				orientador.nome,
+				orientador.sobrenome,
+				orientador.pronome,
 				orientador.link,
 				orientador_user.email,
 				orientador.id_usuario,

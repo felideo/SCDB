@@ -53,7 +53,8 @@ class ControllerCrud extends \Framework\Controller {
 		\Util\Auth::handLeLoggin();
 		\Util\Permission::check($this->modulo['modulo'], "criar");
 
-		$retorno = $this->insert_update(carregar_variavel($this->modulo['modulo']), []);
+		$dados   = carregar_variavel($this->modulo['modulo']);
+		$retorno = $this->insert_update($dados, []);
 
 		if(isset($this->modulo['url']) && !empty($this->modulo['url']) && !empty($retorno['status'])){
 			$dados['id'] = $retorno['id'];
@@ -106,7 +107,8 @@ class ControllerCrud extends \Framework\Controller {
 
 		$this->check_if_exists($id[0]);
 
-		$retorno = $this->insert_update(carregar_variavel($this->modulo['modulo']), ['id' => $id[0]]);
+		$dados   = carregar_variavel($this->modulo['modulo']);
+		$retorno = $this->insert_update($dados, ['id' => $id[0]]);
 
 		if(isset($this->modulo['url']) && !empty($this->modulo['url']) && !empty($retorno['status'])){
 			$dados['id'] = $id[0];
@@ -140,7 +142,7 @@ class ControllerCrud extends \Framework\Controller {
 
 		$this->check_if_exists($id[0]);
 
-		$retorno = $this->middle_delete($id);
+		$retorno = $this->middle_delete($id[0]);
 
 		if(isset($retorno['status']) && !empty($retorno['status'])){
 			$this->view->alert_js(ucfirst($this->modulo['send']) . ' removido com sucesso!!!', 'sucesso');
@@ -169,6 +171,6 @@ class ControllerCrud extends \Framework\Controller {
 
 	public function middle_delete($id){
 		$table = isset($this->modulo['table']) ? $this->modulo['table'] : $this->modulo['modulo'];
-		return $this->model->delete($table, ['id' => $id[0]]);
+		return $this->model->delete($table, ['id' => $id]);
 	}
 }

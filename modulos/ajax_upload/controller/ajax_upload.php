@@ -41,7 +41,24 @@ class ajax_upload extends \Framework\Controller {
 
 		if(!empty($parametros[0]) && isset($results['success']) && !empty($results['success'])){
 			$thumb = Libs\PDFThumbnail::creatThumbnail($insert_db['endereco']);
-			$results['thumb'] = $thumb;
+
+			$explode = explode('/', $thumb);
+
+			$insert_db_thumb = [
+				'hash'     => explode('.', end($explode))[0],
+				'nome'     => end($explode),
+				'endereco' => $thumb,
+				'tamanho'  => (float) $size / 1000000,
+				'extensao' => explode('.', end($explode))[1]
+			];
+
+			$retorno_thumb = $this->model->insert('arquivo', $insert_db_thumb);
+
+			if(!empty($retorno_thumb['status'])){
+				$insert_db_thumb['id_arquivo'] = $retorno_thumb['id'];
+				$results['thumb'] = $insert_db_thumb;
+			}
+
 		}
 
 		ob_clean();

@@ -49,18 +49,13 @@ class Palavra_chave extends \Framework\ControllerCrud {
 		exit;
 	}
 
-	public function delete($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "deletar");
-
-		$this->check_if_exists($id[0]);
-
+	public function middle_delete($id) {
 		$palavra_chave_utilizado = $this->model->query->select('
-				rel_orientador.id_orientador,
-				rel_orientador.id_trabalho
+				rel_palavra.id_palavra_chave,
+				rel_palavra.id_trabalho
 			')
-			->from('trabalho_relaciona_orientador rel_orientador')
-			->where("rel_orientador.id_orientador = {$id[0]}")
+			->from('trabalho_relaciona_palavra_chave rel_palavra')
+			->where("rel_palavra.id_palavra_chave = {$id[0]}")
 			->fetchArray();
 
 		if(!empty($palavra_chave_utilizado)){
@@ -78,15 +73,7 @@ class Palavra_chave extends \Framework\ControllerCrud {
 			exit;
 		}
 
-		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
-
-		if($retorno['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
-		}
-
-		header('location: /' . $this->modulo['modulo']);
+		return $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
 	}
 
 	public function buscar_palavra_chave_select2(){

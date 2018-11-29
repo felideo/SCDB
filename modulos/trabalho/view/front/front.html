@@ -1,20 +1,27 @@
 <!-- ******Video Section****** -->
+
 <section class="story-section section section-on-bg">
     <h2 class="title container text-center">{$cadastro.titulo}</h2>
     <div class="story-container container text-center">
-        <div class="story-container-inner" >
+        <div class="story-container-inner">
+
             <div class="about">
-                {*debug2($cadastro)*}
                 <h3 class="title text-center" style="color: #000;">Resumo</h3>
-                <blockquote class="belife">{$cadastro.resumo}</blockquote>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <blockquote class="belife">{$cadastro.resumo}</blockquote>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <img style="width: 90%; margin-left: 5%" src="/{$cadastro.trabalho_relaciona_arquivo.0.thumb.0.endereco}">
+                </div>
             </div><!--//about-->
         </div>
     </div>
 
     <div class="container">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h3 class="title">Dados do Trabalho</h3>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <p>Ano: {$cadastro.ano}</p>
                     </div>
@@ -26,15 +33,24 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2 class="title text-center">Palavras Chave</h2>
-                    {foreach from=$cadastro.trabalho_relaciona_palavra_chave item=palavra_chave}
-                        <p>{$palavra_chave.palavra_chave.0.palavra_chave}</p>
-                    {/foreach}
-                </div>
-            </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="team row">
+                <h3 class="title">Palavras Chave</h3>
+                {foreach from=$cadastro.trabalho_relaciona_palavra_chave item=palavra_chave}
+                    <div class="member col-md-4 col-sm-4 col-xs-12">
+                        <div class="member-inner">
+                            <figure class="profile">
+                                <img class="img-responsive" src="assets/images/team/member-1.png" alt=""/>
+                                <figcaption class="info">
+                                    <span class="name">{$palavra_chave.palavra_chave.0.palavra_chave}</span>
+                                </figcaption>
+                                </figure><!--//profile-->
+                            </div><!--//member-inner-->
+                    </div><!--//member-->
+                {/foreach}
+            </div><!--//team-->
 
             <div class="team row">
                 <h3 class="title">Autores</h3>
@@ -44,11 +60,11 @@
                             <figure class="profile">
                                 <img class="img-responsive" src="assets/images/team/member-1.png" alt=""/>
                                 <figcaption class="info">
-                                    <span class="name">{$autor.autor.0.nome}</span>
+                                    <span class="name">{$autor.pessoa.0.nome} {$autor.pessoa.0.sobrenome}</span>
                                     <br />
-                                    <span class="job-title">{$autor.autor.0.email}</span>
+                                    <span class="job-title">{$autor.pessoa.0..usuario.0.email}</span>
                                     <br />
-                                    <span class="job-title">{$autor.autor.0.link}</span>
+                                    <span class="job-title">{$autor.pessoa.0.link}</span>
 
                                     </figcaption>
                                 </figure><!--//profile-->
@@ -65,11 +81,11 @@
                             <figure class="profile">
                                 <img class="img-responsive" src="assets/images/team/member-1.png" alt=""/>
                                 <figcaption class="info">
-                                    <span class="name">{$orientador.orientador.0.nome}</span>
+                                    <span class="name">{$orientador.pessoa.0.pronome} {$orientador.pessoa.0.nome} {$orientador.pessoa.0.sobrenome}</span>
                                     <br />
-                                    <span class="job-title">{$orientador.orientador.0.email}</span>
+                                    <span class="job-title">{$orientador.pessoa.0..usuario.0.email}</span>
                                     <br />
-                                    <span class="job-title">{$orientador.orientador.0.link}</span>
+                                    <span class="job-title">{$orientador.pessoa.0.link}</span>
 
                                     </figcaption>
                                 </figure><!--//profile-->

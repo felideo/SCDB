@@ -14,6 +14,46 @@
 		</ul>
 	</div>
 </div> -->
+{if !empty($trabalhos_pendentes)}
+<div class="module-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	<section class="module module-has-footer module-tickets">
+		<div class="module-inner">
+			<div class="module-heading">
+				<h3 class="module-title">Trabalhos - Aprovações Pendentes</h3>
+				<ul class="actions list-inline">
+					<li><a class="collapse-module" data-toggle="collapse" href="#box_trabalhos_pendentes" aria-expanded="false" aria-controls="box_trabalhos_pendentes"><span aria-hidden="true" class="icon arrow_carrot-up"></span></a></li>
+				</ul>
+			</div>
+
+			<div class="module-content collapse in" id="box_trabalhos_pendentes">
+				<div class="module-content-inner">
+					<div class="table-responsive">
+						<table class="table table-simple">
+							<thead>
+								<tr>
+									<th style="width: 5%;" class="number">ID</th>
+									<th style="width: 90%;" class="truncate">Titulo</th>
+									<th style="width: 5%;" > </th>
+								</tr>
+							</thead>
+							<tbody>
+								{foreach from=$trabalhos_pendentes key=indice item=trabalho}
+									<tr>
+										<td><span class="label label-number">{$trabalho.id}</span></td>
+										<td class="truncate"><a href="javascript:void(0)">{$trabalho.titulo}</a></td>
+										<td><a href="/trabalho/visualizar/{$trabalho.id}" target="_blank"><span class="label label-success">Avaliar Trabalho</span></a></td>
+									</tr>
+								{/foreach}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+{/if}
+
 {if !empty($blame)}
 <div class="module-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
 	<section class="module module-has-footer module-tickets">
@@ -56,27 +96,27 @@
 								{/foreach}
 								<!-- <tr>
 									<td><span class="label label-number">#212</span></td>
-									<td class="truncate"><a href="#">Refactor fringilla mauris code</a></td>
+									<td class="truncate"><a href="javascript:void(0)">Refactor fringilla mauris code</a></td>
 									<td><span class="label label-normal">Low</span></td>
 								</tr>
 								<tr>
 									<td><span class="label label-number">#212</span></td>
-									<td class="truncate"><a href="#">Refactor fringilla mauris code</a></td>
+									<td class="truncate"><a href="javascript:void(0)">Refactor fringilla mauris code</a></td>
 									<td><span class="label label-low">Low</span></td>
 								</tr>
 								<tr>
 									<td><span class="label label-number">#36</span></td>
-									<td class="truncate"><a href="#">UX workshop for sodales sagittis</a></td>
+									<td class="truncate"><a href="javascript:void(0)">UX workshop for sodales sagittis</a></td>
 									<td><span class="label label-high">High</span></td>
 								</tr>
 								<tr>
 									<td><span class="label label-number">#16</span></td>
-									<td class="truncate"><a href="#">Build form modules</a></td>
+									<td class="truncate"><a href="javascript:void(0)">Build form modules</a></td>
 									<td><span class="label label-critical">Critical</span></td>
 								</tr>
 								<tr>
 									<td><span class="label label-number">#23</span></td>
-									<td class="truncate"><a href="#">Lorem ipsum dolor sit amet adipiscing elit</a></td>
+									<td class="truncate"><a href="javascript:void(0)">Lorem ipsum dolor sit amet adipiscing elit</a></td>
 									<td><span class="label label-success">In Progress</span></td>
 								</tr> -->
 							</tbody>
@@ -89,42 +129,3 @@
 </div>
 {/if}
 
-{if !empty($trabalhos_pendentes)}
-<div class="module-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	<section class="module module-has-footer module-tickets">
-		<div class="module-inner">
-			<div class="module-heading">
-				<h3 class="module-title">Trabalhos - Aprovações Pendentes</h3>
-				<ul class="actions list-inline">
-					<li><a class="collapse-module" data-toggle="collapse" href="#box_trabalhos_pendentes" aria-expanded="false" aria-controls="box_trabalhos_pendentes"><span aria-hidden="true" class="icon arrow_carrot-up"></span></a></li>
-				</ul>
-			</div>
-
-			<div class="module-content collapse in" id="box_trabalhos_pendentes">
-				<div class="module-content-inner">
-					<div class="table-responsive">
-						<table class="table table-simple">
-							<thead>
-								<tr>
-									<th style="width: 5%;" class="number">ID</th>
-									<th style="width: 90%;" class="truncate">Titulo</th>
-									<th style="width: 5%;" > </th>
-								</tr>
-							</thead>
-							<tbody>
-								{foreach from=$trabalhos_pendentes key=indice item=trabalho}
-									<tr>
-										<td><span class="label label-number">{$trabalho.id}</span></td>
-										<td class="truncate"><a href="#">{$trabalho.titulo}</a></td>
-										<td><a href="/trabalho/visualizar/{$trabalho.id}" target="_blank"><span class="label label-success">Avaliar Trabalho</span></a></td>
-									</tr>
-								{/foreach}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-</div>
-{/if}

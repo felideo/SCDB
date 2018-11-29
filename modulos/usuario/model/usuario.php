@@ -85,13 +85,10 @@ class Usuario extends \Framework\Model{
 	}
 
 	public function carregar_usuario_por_id($id){
-		$query = new QueryBuilder($this->db);
-		$retorno = $query->select('usuario.*, pessoa.*')
-		->from('usuario usuario')
-		->leftJoin('pessoa pessoa ON pessoa.id_usuario = usuario.id AND pessoa.ativo = 1')
-		->where("usuario.ativo = 1 AND usuario.id = {$id}")
-		->fetchArray('first');
-
-		return $retorno;
+		return $this->query->select('usuario.*, pessoa.*')
+			->from('usuario usuario')
+			->leftJoin('pessoa pessoa ON pessoa.id_usuario = usuario.id AND pessoa.ativo = 1')
+			->where("usuario.ativo = 1 AND usuario.id = {$id}")
+			->fetchArray();
 	}
 }
