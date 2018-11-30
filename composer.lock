@@ -4,6 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+    "hash": "9442ea030c892ccec5ddd8767df99224",
     "content-hash": "c0653926e9a2412828883471ec67f7de",
     "packages": [
         {
@@ -44,7 +45,7 @@
             ],
             "description": "Dwoo is a PHP5/PHP7 template engine which is (almost) fully compatible with Smarty templates and plugins, but is written from scratch for PHP5, and adds many features.",
             "abandoned": "twig/twig",
-            "time": "2018-07-25T13:21:21+00:00"
+            "time": "2018-07-25 13:21:21"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -99,7 +100,7 @@
                 "elasticsearch",
                 "search"
             ],
-            "time": "2017-11-08T17:04:47+00:00"
+            "time": "2017-11-08 17:04:47"
         },
         {
             "name": "glooby/pexels",
@@ -145,7 +146,7 @@
                 "pexels",
                 "sdk"
             ],
-            "time": "2018-11-23T08:39:21+00:00"
+            "time": "2018-11-23 08:39:21"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -198,7 +199,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2018-07-31T13:33:10+00:00"
+            "time": "2018-07-31 13:33:10"
         },
         {
             "name": "guzzlehttp/ringphp",
@@ -249,7 +250,7 @@
                 }
             ],
             "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
-            "time": "2018-07-31T13:22:33+00:00"
+            "time": "2018-07-31 13:22:33"
         },
         {
             "name": "guzzlehttp/streams",
@@ -299,7 +300,7 @@
                 "Guzzle",
                 "stream"
             ],
-            "time": "2016-04-13T16:32:01+00:00"
+            "time": "2016-04-13 16:32:01"
         },
         {
             "name": "php-curl-class/php-curl-class",
@@ -364,7 +365,7 @@
                 "web-service",
                 "xml"
             ],
-            "time": "2018-11-14T07:02:19+00:00"
+            "time": "2018-11-14 07:02:19"
         },
         {
             "name": "psr/log",
@@ -411,7 +412,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2018-11-21T13:42:00+00:00"
+            "time": "2018-11-21 13:42:00"
         },
         {
             "name": "react/promise",
@@ -457,7 +458,7 @@
                 "promise",
                 "promises"
             ],
-            "time": "2018-06-13T15:59:06+00:00"
+            "time": "2018-06-13 15:59:06"
         }
     ],
     "packages-dev": [],
