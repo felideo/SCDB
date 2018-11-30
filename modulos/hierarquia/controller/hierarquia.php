@@ -22,7 +22,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
 
 
-		$this->view->set_colunas_datatable(['ID', 'Nome', 'Ações']);
+		$this->view->set_colunas_datatable(['ID', 'Nome', 'Nivel', 'Ações']);
 		// $this->listagem($this->model->load_active_list($this->modulo['modulo']));
 
 		$this->view->assign('permissoes_list', $this->get_model('permissao')->load_permissions_list());
@@ -39,6 +39,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 			$retorno[] = [
 				$item['id'],
 				$item['nome'],
+				$item['nivel'],
 				$item['id'] != 1 ? $this->view->default_buttons_listagem($item['id'], true, true, true) : $this->view->default_buttons_listagem($item['id'], true, true, false)
 			];
 		}

@@ -47,7 +47,7 @@ class Permissao extends \Framework\Model{
 			. ' FROM permissao permissao'
 			. ' LEFT JOIN modulo modulo'
 			. ' ON modulo.id = permissao.id_modulo'
-			. ' WHERE modulo.ativo = 1';
+			. ' WHERE modulo.ativo = 1 AND permissao.ativo = 1';
 
 
 		$permissoes = $this->select($select);
