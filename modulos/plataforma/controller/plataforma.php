@@ -298,7 +298,9 @@ class Plataforma extends \Framework\ControllerCrud {
 	}
 
 	public function publicar_pagina($id_plataforma, $identificador){
-		$this->model->execute('UPDATE plataforma_pagina SET `publicado` = 2 WHERE `id_plataforma` = 3 AND`publicado` = 1;');
+		$this->model->execute("UPDATE plataforma_pagina SET `publicado` = 2 WHERE `id_plataforma` = {$id_plataforma} AND`publicado` = 1;");
+
+		usleep(100);
 
 		$publicar = $this->model->query->select('pagina.id')
 			->from('plataforma_pagina pagina')
@@ -307,11 +309,15 @@ class Plataforma extends \Framework\ControllerCrud {
 			->limit(1)
 			->fetchArray()[0];
 
+		usleep(200);
+
 		$retorno = $this->model->update(
 			'plataforma_pagina',
 			['publicado' => 1],
 			['id' => $publicar['id']]
 		);
+
+		usleep(200);
 
 		if(empty($retorno['status'])){
 			return $retorno;
