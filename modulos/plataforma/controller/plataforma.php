@@ -110,11 +110,11 @@ class Plataforma extends \Framework\ControllerCrud {
         $botao = new \Libs\GerarBotoes();
 
 		foreach ($query as $indice => $item) {
-			// $botao->setTitle('Visualizar')
-   //              ->setPermissao(\Util\Permission::check_user_permission($this->modulo['modulo'], 'visualizar'))
-   //              ->setHref("/{$this->modulo['modulo']}/editor/{$item['id']}/visualizar")
-   //              ->setTexto("<i class='botao_listagem fa fa-eye fa-fw'></i>")
-   //              ->gerarBotao();
+			$botao->setTitle('Visualizar')
+                ->setPermissao(\Util\Permission::check_user_permission($this->modulo['modulo'], 'visualizar'))
+                ->setHref("/{$this->modulo['modulo']}/editor_historico/{$item['id']}/visualizar")
+                ->setTexto("<i class='botao_listagem fa fa-eye fa-fw'></i>")
+                ->gerarBotao();
 
 			// $botao->setTitle('Editar')
    //              ->setPermissao(\Util\Permission::check_user_permission($this->modulo['modulo'], 'editar'))
@@ -157,7 +157,7 @@ class Plataforma extends \Framework\ControllerCrud {
 		echo json_encode([
             "draw"            => intval(carregar_variavel('draw')),
             "recordsTotal"    => intval(count($retorno)),
-            "recordsFiltered" => intval($this->model->select("SELECT count(id) AS total FROM plataforma_pagina WHERE ativo = 1")[0]['total']),
+            "recordsFiltered" => intval($this->model->select("SELECT count(id) AS total FROM plataforma_pagina WHERE ativo = 1 AND id_plataforma = {$parametros[0]}")[0]['total']),
             "data"            => $retorno
         ]);
 
@@ -189,13 +189,44 @@ class Plataforma extends \Framework\ControllerCrud {
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/editor/editor');
 	}
 
+	public function editor_historico($parametros){
+		\Util\Auth::handLeLoggin();
+
+		$permissao = 'editar';
+
+		if(isset($parametros[1]) && $parametros[1] == 'visualizar'){
+			$permissao = 'visualizar';
+		}
+
+		\Util\Permission::check($this->modulo['modulo'], $permissao);
+		// $this->check_if_exists($parametros[0], 'plataforma_pagina');
+
+		if($permissao == 'visualizar'){
+			$this->view->assign('read_only', true);
+		}
+
+		$pagina = $this->model->full_load_by_id('plataforma_pagina', $parametros[0])[0];
+		$cadastro = $this->model->full_load_by_id('plataforma', $pagina['id_plataforma'])[0];
+		$cadastro['id_plataforma_pagina'] = $pagina['id'];
+
+		$this->view->assign('cadastro', $cadastro);
+
+		$this->modulo['texto_adicional_cabecalho'] = ' - ' . $cadastro['nome'] . ' - Versão de ' .  $pagina['ultima_atualizacao'];
+		$this->view->assign('modulo', $this->modulo);
+
+		$this->view->assign('reativar', true);
+
+		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/editor/editor');
+	}
+
 	public function load_source_code_ajax($parametros){
 		\Util\Auth::handLeLoggin();
 		\Util\Permission::check($this->modulo['modulo'], "editar");
-
 		// $this->check_if_exists($parametros[0], 'plataforma_pagina');
 
-		echo json_encode($this->model->carregar_plataforma_pagina($parametros[0])[0]);
+		$parametros = carregar_variavel('data');
+
+		echo json_encode($this->model->carregar_plataforma_pagina($parametros)[0]);
 		exit;
 	}
 
@@ -252,6 +283,8 @@ class Plataforma extends \Framework\ControllerCrud {
 		\Util\Auth::handLeLoggin();
 		\Util\Permission::check($this->modulo['modulo'], 'editar');
 
+		$this->publicar_pagina(1, 'header');
+		$this->publicar_pagina(2, 'footer');
 		$retorno = $this->publicar_pagina($parametros[0], $parametros[1]);
 
 		if(!empty($retorno['status'])){
@@ -279,8 +312,6 @@ class Plataforma extends \Framework\ControllerCrud {
 			['publicado' => 1],
 			['id' => $publicar['id']]
 		);
-
-		debug2($retorno);
 
 		if(empty($retorno['status'])){
 			return $retorno;

@@ -46,7 +46,13 @@
     $(document).ready(function(){
         $.ajax({
             type: 'POST',
-            url: "/plataforma/load_source_code_ajax/{$cadastro.id}",
+            url: "/plataforma/load_source_code_ajax",
+            data: {
+                data: {
+                    'id_plataforma': {$cadastro.id},
+                    'id_plataforma_pagina': {if !empty($reativar)}{$cadastro.id_plataforma_pagina}{else}null{/if}
+                }
+            },
             dataType: 'json',
             async: true,
             success: function(codigo_fonte) {
@@ -56,6 +62,15 @@
     });
 
     function save_source_code(){
+        var notificacao = 'HTML atualizado com sucesso!';
+
+        {if !empty($reativar)}
+            notificacao = 'HTML reativado com sucesso!';
+        {/if}
+
+
+        // Retificação de highlight
+
         $.ajax({
             type: 'POST',
             url: "/plataforma/save_source_code_ajax/{$cadastro.id}",
@@ -67,7 +82,7 @@
             success: function(retorno){
                 if(retorno == true){
                     setTimeout(function(){
-                        $.notify('HTML atualizado com sucesso!', {
+                        $.notify(notificacao, {
                             style: 'appkit',
                             className: 'success',
                             hideAnimation: 'fadeOut',
@@ -75,6 +90,11 @@
                             autoHideDelay: 5000,
                         })
                     }, 1000);
+
+                    {if !empty($reativar)}
+                        window.location = '/plataforma/historico/{$cadastro.id}';
+                    {/if}
+                    // Retificação de highlight
 
                     return true;
                 }
@@ -98,8 +118,6 @@
             }
         });
     }
-
-
 
     {if !empty($read_only)}
         editor.setReadOnly(true);

@@ -50,6 +50,8 @@ class Pagina_institucional extends \Framework\ControllerCrud {
 		$cadastro = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
 
 		$this->view->assign('cadastro', $cadastro);
-		$this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/front');
+		// $this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/front');
+		$this->view->render_plataforma('pagina_institucional');
+
 	}
 }

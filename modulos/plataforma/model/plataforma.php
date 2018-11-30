@@ -3,6 +3,11 @@ namespace Model;
 
 class Plataforma extends \Framework\Model {
 	public function carregar_plataforma_pagina($id_plataforma, $publicado = null){
+		if(is_array($id_plataforma)){
+			$id_plataforma_pagina = $id_plataforma['id_plataforma_pagina'];
+			$id_plataforma        = $id_plataforma['id_plataforma'];
+		}
+
 		$this->query->select('pagina.*')
 			->from('plataforma_pagina pagina')
 			->where("pagina.id_plataforma = {$id_plataforma} AND pagina.ativo = 1")
@@ -10,6 +15,10 @@ class Plataforma extends \Framework\Model {
 
 		if(!empty($publicado)){
 			$this->query->andWhere('pagina.publicado = 1');
+		}
+
+		if(!empty($id_plataforma_pagina)){
+			$this->query->andWhere("pagina.id = {$id_plataforma_pagina}");
 		}
 
 		return $this->query->limit(1)

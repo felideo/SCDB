@@ -31,7 +31,7 @@
 <div class="module-footer text-center">
     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <button onclick="save_source_code()" class="btn btn-success botao_enviar pull-right">
-            Salvar
+            {if empty($reativar)}Salvar{else}Reativar Pagina{/if}
         </button>
 
         <button type="button" onclick="window.history.back();" class="btn btn btn-danger botao_voltar pull-right marginR10">

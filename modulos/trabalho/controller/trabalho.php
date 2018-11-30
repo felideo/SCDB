@@ -645,6 +645,8 @@ class Trabalho extends \Framework\ControllerCrud {
 		$cadastro = $this->model->carregar_trabalho($id[0])[0];
 
 		$this->view->assign('cadastro', $cadastro);
-		$this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/front');
+		// $this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/front');
+		$this->view->render_plataforma('trabalho');
+
 	}
 }
