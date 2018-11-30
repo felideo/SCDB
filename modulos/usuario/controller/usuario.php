@@ -35,6 +35,10 @@ class Usuario extends \Framework\ControllerCrud {
 		$url = URL;
 		$permissao_remover_acesso = \Util\Permission::check_user_permission($this->modulo['modulo'], 'remover_conceder_acesso');
 
+		if(empty($query)){
+			$query = [];
+		}
+
 		foreach ($query as $indice => $item) {
 
 			$remover_acesso = '';

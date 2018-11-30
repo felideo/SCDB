@@ -76,11 +76,12 @@
                                                 <a href="/{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.endereco}" target="_blank">
                                                     {if isset($cadastro.trabalho_relaciona_arquivo.0.thumb.0) && !empty($cadastro.trabalho_relaciona_arquivo.0.thumb.0)}
                                                         <img style="width: 100%;" src="/{$cadastro.trabalho_relaciona_arquivo.0.thumb.0.endereco}">
+                                                        <input type="hidden" value="{$cadastro.trabalho_relaciona_arquivo.0.thumb.0.id}" name="trabalho[arquivo][0][id_arquivo_thumb]">
                                                     {else}
                                                         <p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></i></p>
                                                     {/if}
                                                     <h3 class="text-center">{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.nome}  {$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.extensao}</h3>
-                                                    <input type="hidden" value="{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.id}" name="trabalho[arquivo][1]" />
+                                                    <input type="hidden" value="{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.id}" name="trabalho[arquivo][0][id_arquivo]">
                                                 </a>
                                            </div>
                                        </div>
@@ -94,7 +95,6 @@
         </div>
     </div>
 </div>
-
 
 {if !empty($blame)}
 <div class="module-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -315,7 +315,7 @@
 
                 if(typeof retorno.thumb !== 'undefined'){
                     thumb = '<img style="width: 100%;" src="/' + retorno.thumb.endereco + '">';
-                    thumb_id_arquivo = '<input type="text" value="' + retorno.thumb.id_arquivo + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + '][id_arquivo_thumb]" />';
+                    thumb_id_arquivo = '<input type="hidden" value="' + retorno.thumb.id_arquivo + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + '][id_arquivo_thumb]" />';
                 }
 
                 input = '<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">'
@@ -323,7 +323,7 @@
                     +           '<div class="panel-body">'
                     +               thumb
                     +               '<h3 class="text-center">' + retorno.nome + retorno.extensao + '</h3>'
-                    +               '<input type="text" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + '][id_arquivo]" />'
+                    +               '<input type="hidden" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + '][id_arquivo]" />'
                     +               thumb_id_arquivo
                     +           '</div>'
                     +       '</div>'
