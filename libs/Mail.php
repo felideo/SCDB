@@ -1,13 +1,6 @@
 <?php
 namespace Libs;
 
-/**
- * classe Hash
- * @param string $algo Algorítimo (md5, sha1, whirlpool, etc)
- * @param string $data Variável para codificar
- * @param string $salt O escudo
- * @return string A protegida/codificada $data
- */
 class Mail {
 	private $from;
 	private $replay_to;

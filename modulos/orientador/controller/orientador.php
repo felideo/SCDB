@@ -6,23 +6,16 @@ use Libs;
 class Orientador extends \Framework\ControllerCrud {
 
 	protected $modulo = [
-		'modulo' 	=> 'orientador',
-		'name'		=> 'Orientadores',
-		'send'		=> 'Orientador'
+		'modulo' => 'orientador',
+		'name'   => 'Orientadores',
+		'send'   => 'Orientador',
+		'table'  => 'pessoa'
 	];
 
-	// protected $datatable = [
-	// 	'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo <i class="fa fa-search"></i>', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Link/Lattes', 'Ações'],
-	// 	'select'  => [' id', 'titulo', 'nome', 'email', 'link'],
-	// 	'from'    => 'orientador',
-	// 	'search'  => ['id', 'titulo', 'nome', 'email']
-	// ];
-
 	protected $datatable = [
-		'colunas' => ['ID <i class="fa fa-search"></i>', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Link/Lattes', 'Ações'],
-		'select'  => [' id', 'nome', 'email', 'link'],
-		'from'    => 'orientador',
-		'search'  => ['id', 'nome', 'email']
+		'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo', 'Nome <i class="fa fa-search"></i>', 'Email <i class="fa fa-search"></i>', 'Ações'],
+		'from'    => 'pessoa',
+		'ordenacao_desabilitada' => '1, 4'
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -30,13 +23,16 @@ class Orientador extends \Framework\ControllerCrud {
 
 		$retorno = [];
 
+		if(empty($query)){
+			return $retorno;
+		}
+
 		foreach ($query as $indice => $item) {
 			$retorno[] = [
 				$item['id'],
-				// $item['titulo'],
-				$item['nome'],
-				$item['email'],
-				$item['link'],
+				$item['pronome'],
+				$item['nome'] . ' ' . $item['sobrenome'],
+				$item['usuario'][0]['email'],
 				$this->view->default_buttons_listagem($item['id'], true, true, true)
 			];
 		}
@@ -44,18 +40,69 @@ class Orientador extends \Framework\ControllerCrud {
 		return $retorno;
 	}
 
-	public function delete($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "deletar");
+	public function insert_update($dados, $where = null){
+		if(isset($where['id']) && !empty($where['id'])){
+			if(is_numeric($dados['nome'])){
+				unset($dados['nome']);
+			}
 
-		$this->check_if_exists($id[0]);
+			if(isset($dados['id_usuario']) && !empty($dados['id_usuario'])){
+				$where['id'] = $dados['id_usuario'];
+				unset($dados['id_usuario']);
+			}
+		}
 
+
+
+		$orientador = [
+			'pessoa'     => [
+				'pronome'    => $dados['pronome'],
+				'link'       => $dados['link'],
+				'orientador' => 1,
+			],
+			'usuario'    => [
+				'email'      => $dados['email'],
+				'hierarquia' => 10,
+			],
+		];
+
+		if(isset($dados['nome']) && !empty($dados['nome'])){
+			$orientador['pessoa']['nome']       = str_replace(end(explode(' ', $dados['nome'])), '', $dados['nome']);
+			$orientador['pessoa']['sobrenome']  = end(explode(' ', $dados['nome']));
+		}
+
+		$controller_usuario = $this->get_controller('usuario');
+		$orientador         = $controller_usuario->insert_update($orientador, $where);
+
+		return $orientador;
+	}
+
+	public function middle_visualizar($id){
+		$cadastro = $this->model->load_cadastro($id)[0];
+		$this->view->assign('cadastro', $cadastro);
+	}
+
+	public function middle_editar($id){
+		$cadastro = $this->model->load_cadastro($id)[0];
+		$this->view->assign('cadastro', $cadastro);
+	}
+
+
+
+
+
+
+
+
+
+
+	public function middle_delete($id) {
 		$orientador_utilizado = $this->model->query->select('
-				rel_orientador.id_orientador,
+				rel_orientador.id_pessoa,
 				rel_orientador.id_trabalho
 			')
 			->from('trabalho_relaciona_orientador rel_orientador')
-			->where("rel_orientador.id_orientador = {$id[0]}")
+			->where("rel_orientador.id_pessoa = {$id[0]} AND rel_orientador.ativo = 1")
 			->fetchArray();
 
 		if(!empty($orientador_utilizado)){
@@ -73,21 +120,36 @@ class Orientador extends \Framework\ControllerCrud {
 			exit;
 		}
 
-		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
+		$retorno = $this->model->delete($this->modulo['table'], ['id' => $id[0]]);
 
 		if($retorno['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+			$pessoa = $this->model->query->select('
+					pessoa.id_usuario,
+				')
+				->from('pessoa pessoa')
+				->where("pessoa.id = {$id[0]}")
+				->fetchArray();
+
+			if(isset($pessoa[0]['id_usuario']) && !empty($pessoa[0]['id_usuario'])){
+				$retorno_usuario = $this->model->delete('usuario', ['id' => $pessoa[0]['id_usuario']]);
+			}
 		}
 
-		header('location: /' . $this->modulo['modulo']);
+		return $retorno;
 	}
 
 	public function buscar_orientador_select2(){
 		$busca = carregar_variavel('busca');
 
 		$retorno = $this->model->buscar_orientador($busca);
+
+		if(empty($retorno)){
+			$retorno = [];
+		}
+
+		foreach($retorno as $indice => &$item){
+			$item['nome'] = $item['nome'] . ' ' . $item['sobrenome'];
+		}
 
 		if(isset($busca['cadastrar_busca']) && !empty($busca['cadastrar_busca']) && $busca['cadastrar_busca'] == 'true' && $busca['nome'] != '%%'){
 			$add_cadastro[0] = [

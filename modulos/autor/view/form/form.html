@@ -16,12 +16,13 @@
 
 <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
     <label for="email">Email * :</label>
-    <input class="form-control validar_email" type="text" name="{$modulo.modulo}[email]" value="{if isset($cadastro)}{$cadastro.email}{/if}" required>
+    <input class="form-control validar_email" type="text" name="{$modulo.modulo}[email]" value="{if isset($cadastro)}{$cadastro.usuario.0.email}{/if}" required>
 </div>
 <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
     <label for="link">Lattes/Site * :</label>
     <input class="form-control" type="text" name="{$modulo.modulo}[link]"  value="{if isset($cadastro)}{$cadastro.link}{/if}">
 </div>
+<input type="hidden" name="{$modulo.modulo}[id_usuario]" value="{if isset($cadastro.usuario.0.id)}{$cadastro.usuario.0.id}{/if}" required>
 
 <script type="text/javascript">
 
@@ -70,7 +71,7 @@
 
 				object.nome = (object.nome).replace(/\d+/g,'');
 
-				if($.isNumeric(object.id) && object.validar){
+				if($.isNumeric(object.id) && object.validar && object.autor != 0){
 					swal("Erro", "Autor já cadastrado! Cadastro desnecessario.", "error");
 					$('#autor_nome').select2("val", "");
 					return false;

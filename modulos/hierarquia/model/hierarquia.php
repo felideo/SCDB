@@ -7,7 +7,9 @@ class Hierarquia extends \Framework\Model{
 	public function carregar_listagem($busca, $datatable = null){
 		$select = "SELECT"
 			. " 	hierarquia.id,"
-			. " 	hierarquia.nome"
+			. " 	hierarquia.nome,"
+			. " 	hierarquia.nivel"
+
 			. " FROM"
 			. " 	hierarquia hierarquia"
 			. " WHERE"
@@ -30,7 +32,7 @@ class Hierarquia extends \Framework\Model{
 			$select .= " LIMIT {$busca['start']}, {$busca['length']}";
 		}
 
-		return $this->db->select($select);
+		return $this->select($select);
 	}
 
 	public function load_hierarquia($id){

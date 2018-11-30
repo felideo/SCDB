@@ -42,7 +42,7 @@ class URL {
 		$url_unica     = $this->url;
 
 		while(!empty($ja_existe)) {
-			$query = $this->model->db->select("SELECT id FROM url WHERE  controller = '{$this->controller}' AND url = '{$url_unica}' AND id_controller != {$this->id} AND ativo = 1");
+			$query = $this->model->select("SELECT id FROM url WHERE  controller = '{$this->controller}' AND url = '{$url_unica}' AND id_controller != {$this->id} AND ativo = 1");
 
 			if(!empty($query)){
 				$url_unica = $this->url . '-' . $diferenciador;
@@ -57,7 +57,7 @@ class URL {
 
 	private function cadastrarUrl(){
 		$insert_db = [
-			'url'           => $this->url,
+			'url'           => strtolower($this->url),
 			'controller'    => $this->controller,
 			'metodo'        => $this->metodo,
 			'id_controller' => $this->id,
@@ -70,8 +70,6 @@ class URL {
 			$insert_db,
 			true
 		);
-
-		return $this->model->insert('url', $insert_db);
 	}
 
 	public function setId($id){

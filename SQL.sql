@@ -273,11 +273,11 @@ CREATE TABLE `trabalho_relaciona_orientador` (
 CREATE TABLE `trabalho_relaciona_autor` (
 	`id`          INT(11) 			NOT NULL AUTO_INCREMENT,
 	`id_trabalho` INT(11) 			NOT NULL,
-	`id_autor`    INT(11) 			NOT NULL,
+	`id_pessoa`   INT(11) 			NOT NULL,
 	`ativo`       TINYINT(1) 		NOT NULL DEFAULT '1',
 	PRIMARY       KEY (`id`),
 	FOREIGN       KEY (`id_trabalho`) 	REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	FOREIGN       KEY (`id_autor`) REFERENCES `autor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+	FOREIGN       KEY (`id_pessoa`) REFERENCES `pessoa` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
 
@@ -285,10 +285,12 @@ CREATE TABLE `trabalho_relaciona_arquivo` (
 	`id`          INT(11) 			NOT NULL AUTO_INCREMENT,
 	`id_trabalho` INT(11) 			NOT NULL,
 	`id_arquivo`  INT(11) 			NOT NULL,
+	`id_arquivo_thumb`  INT(11) 	NULL,
 	`ativo`       TINYINT(1) 		NOT NULL DEFAULT '1',
 	PRIMARY       KEY (`id`),
 	FOREIGN       KEY (`id_trabalho`) 	REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	FOREIGN       KEY (`id_arquivo`) REFERENCES `arquivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+	FOREIGN       KEY (`id_arquivo`) REFERENCES `arquivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN       KEY (`id_arquivo_thumb`) REFERENCES `arquivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
 alter table SWDB.url add COLUMN metodo VARCHAR(256) not null AFTER controller;
@@ -331,4 +333,76 @@ CREATE TABLE `banner` (
 	PRIMARY      KEY (`id`),
 	FOREIGN      KEY (`id_arquivo`) REFERENCES `arquivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+alter table configuracao
+add COLUMN politica_aprovacao tinyint(1) not null AFTER cor_padrao;
+
+alter table pessoa
+add COLUMN `link`  TEXT NULL AFTER sobrenome;
+
+alter table orientador
+add COLUMN `id_usuario` INT (11) NOT NULL AFTER id,
+ADD FOREIGN KEY (id_usuario) REFERENCES usuario(id);
+
+CREATE TABLE `trabalho_relaciona_orientador` (
+	`id`          INT(11) 			NOT NULL AUTO_INCREMENT,
+	`id_trabalho` INT(11) 			NOT NULL,
+	`id_pessoa`   INT(11) 			NOT NULL,
+	`ativo`       TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY       KEY (`id`),
+	FOREIGN       KEY (`id_trabalho`) 	REFERENCES `trabalho` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN       KEY (`id_pessoa`) REFERENCES `pessoa` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+alter table pessoa
+add COLUMN orientador tinyint(1) not null DEFAULT 0 AFTER instituicao,
+add COLUMN autor tinyint(1) not null DEFAULT 0 AFTER orientador;
+
+alter table usuario
+add COLUMN bloqueado TINYINT not null default 0 AFTER super_admin;
+
+alter table usuario
+add COLUMN oculto tinyint not null DEFAULT 0 AFTER super_admin;
+
+
+alter table curso add COLUMN localizador varchar(512) not null after curso;
+alter table palavra_chave add COLUMN localizador varchar(128) not null after palavra_chave;
+alter table campus add COLUMN localizador varchar(512) not null after campus;
+
+CREATE TABLE `ordem_usuario_menu` (
+	`id`         INT(11) 			NOT NULL AUTO_INCREMENT,
+	`id_usuario` INT(11) 			NOT NULL,
+	`id_modulo`  INT(11) 			NOT NULL,
+	`ordem`      INT(11) 			NOT NULL,
+	`ativo`      TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY      KEY (`id`),
+	FOREIGN      KEY (`id_usuario`) 	REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN      KEY (`id_modulo`) REFERENCES `modulo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+CREATE TABLE `plataforma` (
+	`id`                 int(11) 			NOT NULL AUTO_INCREMENT,
+	`identificador`      varchar(512)  		NOT NULL,
+	`nome`               varchar(512)  		NOT NULL,
+	`descricao`          varchar(1024)  	NOT NULL,
+	`ultima_atualizacao` DATETIME 			NULL,
+	`ultima_publicacao`  DATETIME 			NULL,
+	`ativo`              tinyint(1) 		NOT NULL DEFAULT '1',
+	PRIMARY              KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+
+
+
+CREATE TABLE `plataforma_pagina` (
+	`id`                 INT(11) 		NOT NULL AUTO_INCREMENT,
+	`id_plataforma`      INT(11)  		NOT NULL,
+	`id_usuario`         INT(11) 		NOT NULL,
+	`html`               TEXT  			NULL,
+	`ultima_atualizacao` DATETIME 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	`publicado`          TINYINT(1) 	NOT NULL,
+	`ativo`              TINYINT(1) 	NOT NULL DEFAULT '1',
+	PRIMARY              KEY (`id`),
+	FOREIGN              KEY (`id_plataforma`) 	REFERENCES `plataforma` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	FOREIGN              KEY (`id_usuario`) 	REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
 

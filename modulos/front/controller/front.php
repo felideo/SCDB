@@ -3,7 +3,7 @@ namespace Controller;
 
 use Libs;
 
-class Front extends \Framework\ControllerCrud {
+class Front extends \Framework\Controller {
 	protected $modulo = [
 		'modulo' 	=> 'front',
 		'name'		=> 'Front',
@@ -11,8 +11,8 @@ class Front extends \Framework\ControllerCrud {
 	];
 
 	public function carregar_cabecalho_rodape(){
-		$this->carregar_paginas_institucionais();
 
+		$this->carregar_paginas_institucionais();
 	}
 
 	private function carregar_paginas_institucionais(){

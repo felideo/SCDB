@@ -133,7 +133,7 @@ class ElasticSearch{
 	private function carregar_autor($termo){
 		$autor = $this->model->query
 		 	->select('autor.nome')
-		 	->from('autor autor')
+		 	->from('pessoa autor')
 		 	->whereIn('autor.id IN (' . $termo . ')')
 		 	->fetchArray();
 
@@ -147,7 +147,7 @@ class ElasticSearch{
 	private function carregar_orientador($termo){
 		$orientador = $this->model->query
 		 	->select('orientador.nome')
-		 	->from('orientador orientador')
+		 	->from('pessoa orientador')
 		 	->whereIn('orientador.id IN (' . $termo . ')')
 		 	->fetchArray();
 
@@ -341,6 +341,7 @@ class ElasticSearch{
 		} catch(\Exception $e) {
             $this->error = [
                 'exception_msg' => json_decode($e->getMessage()),
+                'exception'     => $e->getMessage(),
                 'code'          => $e->getCode(),
                 'localizador'   => "Class => " . __CLASS__ . " - Function => " . __FUNCTION__ . "() - Line => " . __LINE__,
                 'line'          => $e->getLine(),

@@ -2,7 +2,7 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">Autores</h3>
-			<button id="botao_clone_autor" type="button" class="btn btn-primary pull-right" style="margin-top: -25px;">Adicionar Autor</button>
+			<button id="botao_clone_autor" type="button" class="btn btn-primary pull-right lazy_view_remove" style="margin-top: -25px;">Adicionar Autor</button>
 		</div>
 		<div class="panel-body">
 			<div id="conteiner_clone_autor" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -37,7 +37,7 @@
 			</div>
 		</div>
 		<div class="panel-footer">
-			<button id="remover_clone_autor_$id_clone_autor" type="button" class="btn btn-danger pull-right remove-box">Remover Autor</button>
+			<button id="remover_clone_autor_$id_clone_autor" type="button" class="btn btn-danger pull-right remove-box lazy_view_remove">Remover Autor</button>
         	<div class="clearfix"></div>
 		</div>
 	</div>
@@ -117,8 +117,6 @@ function atualizar_clone_autor_select_2(id_container_clone){
 
 			object.nome = (object.nome).replace(/\d+/g,'');
 
-
-			console.log(object.email);
 			if(object.email != ''){
 				$('#email__autor_' + id_container_clone).val(object.email);
 			}else{
@@ -163,7 +161,7 @@ function atualizar_clone_autor_select_2(id_container_clone){
 	$.each(autores, function(index, item){
 		id_container_clone = index + 1;
 
-		var autor = item['autor'][0];
+		var autor = item['pessoa'][0];
 
 		clone_autor_box();
 
@@ -174,8 +172,8 @@ function atualizar_clone_autor_select_2(id_container_clone){
 	        }
 	    );
 
-		$('#link__autor_' + id_container_clone).val(autor['link']);
-		$('#email__autor_' + id_container_clone).val(autor['email']);
+		$('#link__autor_' + id_container_clone).val(autor['pessoa']);
+		$('#email__autor_' + id_container_clone).val(autor['usuario'][0]['email']);
     });
 {/if}
 </script>

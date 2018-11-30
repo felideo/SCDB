@@ -2,7 +2,7 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">Orientadores</h3>
-			<button id="botao_clone_orientador" type="button" class="btn btn-primary pull-right" style="margin-top: -25px;">Adicionar Orientador</button>
+			<button id="botao_clone_orientador" type="button" class="btn btn-primary pull-right lazy_view_remove" style="margin-top: -25px;">Adicionar Orientador</button>
 		</div>
 		<div class="panel-body">
 			<div id="conteiner_clone_orientador" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -42,7 +42,7 @@
 			</div>
 		</div>
 		<div class="panel-footer">
-			<button id="remover_clone_orientador_$id_clone_orientador" type="button" class="btn btn-danger pull-right remove-box">Remover Orientador</button>
+			<button id="remover_clone_orientador_$id_clone_orientador" type="button" class="btn btn-danger pull-right remove-box lazy_view_remove">Remover Orientador</button>
         	<div class="clearfix"></div>
 		</div>
 	</div>
@@ -170,7 +170,7 @@ function atualizar_clone_orientador_select_2(id_container_clone){
 	$.each(orientadores, function(index, item){
 		id_container_clone = index + 1;
 
-		var orientador = item['orientador'][0];
+		var orientador = item['pessoa'][0];
 
 		clone_orientador_box();
 
@@ -182,7 +182,7 @@ function atualizar_clone_orientador_select_2(id_container_clone){
 	    );
 
 		$('#link_orientador_' + id_container_clone).val(orientador['link']);
-		$('#email_orientador_' + id_container_clone).val(orientador['email']);
+		$('#email_orientador_' + id_container_clone).val(orientador['usuario'][0]['email']);
     });
 {/if}
 

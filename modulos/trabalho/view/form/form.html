@@ -74,9 +74,14 @@
                                        <div class="panel panel-default">
                                            <div class="panel-body">
                                                 <a href="/{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.endereco}" target="_blank">
-                                                    <p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></i></p>
+                                                    {if isset($cadastro.trabalho_relaciona_arquivo.0.thumb.0) && !empty($cadastro.trabalho_relaciona_arquivo.0.thumb.0)}
+                                                        <img style="width: 100%;" src="/{$cadastro.trabalho_relaciona_arquivo.0.thumb.0.endereco}">
+                                                        <input type="hidden" value="{$cadastro.trabalho_relaciona_arquivo.0.thumb.0.id}" name="trabalho[arquivo][0][id_arquivo_thumb]">
+                                                    {else}
+                                                        <p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></i></p>
+                                                    {/if}
                                                     <h3 class="text-center">{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.nome}  {$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.extensao}</h3>
-                                                    <input type="hidden" value="{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.id}" name="trabalho[arquivo][1]" />
+                                                    <input type="hidden" value="{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.id}" name="trabalho[arquivo][0][id_arquivo]">
                                                 </a>
                                            </div>
                                        </div>
@@ -90,7 +95,6 @@
         </div>
     </div>
 </div>
-
 
 {if !empty($blame)}
 <div class="module-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -115,19 +119,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {foreach from=$blame key=indice item=trabalho}
+
+                                {foreach from=$blame key=indice item=culpado}
                                     <tr>
-                                        <td>{$trabalho.data}</td>
+                                        <td>{$culpado.data}</td>
                                         <td>
                                             <span class="truncate">
-                                                {if !empty($trabalho.usuario.0.pessoa)}
-                                                    {$trabalho.usuario.0.pessoa.0.nome} {$trabalho.usuario.0.pessoa.0.sobrenome}
+                                                {if !empty($culpado.usuario.0.pessoa)}
+                                                    {$culpado.usuario.0.pessoa.0.nome} {$culpado.usuario.0.pessoa.0.sobrenome}
                                                 {else}
-                                                    {$trabalho.usuario.0.email}
+                                                    {$culpado.usuario.0.email}
                                                 {/if}
                                             </span>
                                         </td>
-                                        <td><span class="{$trabalho.cor_tag}">{$trabalho.operacao}</span></td>
+                                        <td><span class="{$culpado.cor_tag}">{$culpado.operacao}</span></td>
                                     </tr>
                                 {/foreach}
                             </tbody>
@@ -306,9 +311,11 @@
                 $('#upload_trabalho').html('');
 
                 var thumb = '<p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></p>';
+                var thumb_id_arquivo = '';
 
                 if(typeof retorno.thumb !== 'undefined'){
-                    thumb = '<img src="/' + retorno.thumb + '">';
+                    thumb = '<img style="width: 100%;" src="/' + retorno.thumb.endereco + '">';
+                    thumb_id_arquivo = '<input type="hidden" value="' + retorno.thumb.id_arquivo + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + '][id_arquivo_thumb]" />';
                 }
 
                 input = '<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">'
@@ -316,7 +323,8 @@
                     +           '<div class="panel-body">'
                     +               thumb
                     +               '<h3 class="text-center">' + retorno.nome + retorno.extensao + '</h3>'
-                    +               '<input type="hidden" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + ']" />'
+                    +               '<input type="hidden" value="' + retorno['id'] + '" name="trabalho[arquivo][' + $("#upload_trabalho > div").length + '][id_arquivo]" />'
+                    +               thumb_id_arquivo
                     +           '</div>'
                     +       '</div>'
                     + '</div>'
@@ -419,18 +427,21 @@
                                 </button>
 
                                 {if empty($cadastro.status)}
+                                    {if !empty($permissao_aprovar_reprovar.aprovar)}
+                                        <a href='/{$modulo.modulo}/aprovar_reprovar/{$cadastro.id}/1' title='Aprovar Trabaho'>
+                                            <button type="button" class="btn btn-success pull-righ marginR10 lazy_view_ignore">
+                                                Aprovar Trabalho
+                                            </button>
+                                        </a>
+                                    {/if}
 
-                                    <a href='/{$modulo.modulo}/aprovar/{$cadastro.id}' title='Aprovar Trabaho'>
-                                        <button type="button" class="btn btn-danger pull-righ marginR10 lazy_view_ignore">
-                                            Aprovar Trabalho
-                                        </button>
-                                    </a>
-
-                                    <a href='/{$modulo.modulo}/reprovar/{$cadastro.id}' title='Aprovar Trabaho'>
-                                        <button type="button" class="btn btn-success pull-righ marginR10 lazy_view_ignore">
-                                            Reprovar Trabalho
-                                        </button>
-                                    </a>
+                                    {if !empty($permissao_aprovar_reprovar.reprovar)}
+                                        <a href='/{$modulo.modulo}/aprovar_reprovar/{$cadastro.id}/2' title='Aprovar Trabaho'>
+                                            <button type="button" class="btn btn-danger pull-righ marginR10 lazy_view_ignore">
+                                                Reprovar Trabalho
+                                            </button>
+                                        </a>
+                                    {/if}
                                 {/if}
                             {/if}
                         </div>

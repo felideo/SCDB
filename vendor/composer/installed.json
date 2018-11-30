@@ -105,19 +105,19 @@
         "source": {
             "type": "git",
             "url": "https://github.com/glooby/pexels.git",
-            "reference": "4cd5cf2624d251556ee374a661d3b38e14df168a"
+            "reference": "554c986aa61fee4910dffee6870ca81018c96c64"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/glooby/pexels/zipball/4cd5cf2624d251556ee374a661d3b38e14df168a",
-            "reference": "4cd5cf2624d251556ee374a661d3b38e14df168a",
+            "url": "https://api.github.com/repos/glooby/pexels/zipball/554c986aa61fee4910dffee6870ca81018c96c64",
+            "reference": "554c986aa61fee4910dffee6870ca81018c96c64",
             "shasum": ""
         },
         "require": {
             "guzzlehttp/guzzle": "~5.1",
             "php": ">=5.4.0"
         },
-        "time": "2016-11-22T18:17:09+00:00",
+        "time": "2018-11-23T08:39:21+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -308,17 +308,17 @@
     },
     {
         "name": "php-curl-class/php-curl-class",
-        "version": "8.3.2",
-        "version_normalized": "8.3.2.0",
+        "version": "8.3.3",
+        "version_normalized": "8.3.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/php-curl-class/php-curl-class.git",
-            "reference": "3193b41dcd19025ad579ea26eb48774421d84708"
+            "reference": "8f0a52bb17b444bf41c8c7e6953e6077e9158494"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/php-curl-class/php-curl-class/zipball/3193b41dcd19025ad579ea26eb48774421d84708",
-            "reference": "3193b41dcd19025ad579ea26eb48774421d84708",
+            "url": "https://api.github.com/repos/php-curl-class/php-curl-class/zipball/8f0a52bb17b444bf41c8c7e6953e6077e9158494",
+            "reference": "8f0a52bb17b444bf41c8c7e6953e6077e9158494",
             "shasum": ""
         },
         "require": {
@@ -331,7 +331,7 @@
             "phpunit/phpunit": "*",
             "squizlabs/php_codesniffer": "*"
         },
-        "time": "2018-09-09T07:05:39+00:00",
+        "time": "2018-11-14T07:02:19+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -380,22 +380,22 @@
         "source": {
             "type": "git",
             "url": "https://github.com/php-fig/log.git",
-            "reference": "3490ba5925e6dcbe6de950c5c6b8dce9f6e96eda"
+            "reference": "c4421fcac1edd5a324fda73e589a5cf96e52ffd0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/php-fig/log/zipball/3490ba5925e6dcbe6de950c5c6b8dce9f6e96eda",
-            "reference": "3490ba5925e6dcbe6de950c5c6b8dce9f6e96eda",
+            "url": "https://api.github.com/repos/php-fig/log/zipball/c4421fcac1edd5a324fda73e589a5cf96e52ffd0",
+            "reference": "c4421fcac1edd5a324fda73e589a5cf96e52ffd0",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2018-04-03T15:59:15+00:00",
+        "time": "2018-11-21T13:42:00+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.0.x-dev"
+                "dev-master": "1.1.x-dev"
             }
         },
         "installation-source": "source",

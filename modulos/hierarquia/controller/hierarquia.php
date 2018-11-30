@@ -7,8 +7,6 @@ class Hierarquia extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'hierarquia',
-		'name'		=> 'Hierarquias',
-		'send'		=> 'Hierarquia'
 	];
 
 	protected $colunas = ['ID', 'Nome', 'Ações'];
@@ -16,6 +14,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 	protected $datatable = [
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Nome <i class="fa fa-search"></i>', 'Ações'],
 		'from'    => 'hierarquia',
+		'ordenacao_desabilitada' => '2'
 	];
 
 	public function index() {
@@ -23,10 +22,10 @@ class Hierarquia extends \Framework\ControllerCrud {
 		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
 
 
-		$this->view->set_colunas_datatable(['ID', 'Nome', 'Ações']);
+		$this->view->set_colunas_datatable(['ID', 'Nome', 'Nivel', 'Ações']);
 		// $this->listagem($this->model->load_active_list($this->modulo['modulo']));
 
-		$this->view->assign('permissoes_list', $this->load_external_model('permissao')->load_permissions_list());
+		$this->view->assign('permissoes_list', $this->get_model('permissao')->load_permissions_list());
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
 
 	}
@@ -40,6 +39,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 			$retorno[] = [
 				$item['id'],
 				$item['nome'],
+				$item['nivel'],
 				$item['id'] != 1 ? $this->view->default_buttons_listagem($item['id'], true, true, true) : $this->view->default_buttons_listagem($item['id'], true, true, false)
 			];
 		}
@@ -51,7 +51,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 		\Util\Permission::check($this->modulo['modulo'], "editar");
 
 		$this->view->assign('cadastro', $this->model->load_hierarquia($id[0]));
-		$this->view->assign('permissoes_list', $this->load_external_model('permissao')->load_permissions_list());
+		$this->view->assign('permissoes_list', $this->get_model('permissao')->load_permissions_list());
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 
@@ -59,7 +59,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 		\Util\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->view->assign('cadastro', $this->model->load_hierarquia($id[0]));
-		$this->view->assign('permissoes_list', $this->load_external_model('permissao')->load_permissions_list());
+		$this->view->assign('permissoes_list', $this->get_model('permissao')->load_permissions_list());
 		$this->view->lazy_view();
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
@@ -136,7 +136,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 					. ' ON modulo.id = permissao.id_modulo'
 					. ' WHERE hierarquia.id = ' . $hierarquia;
 
-				$permissoes = $this->model->db->select($select);
+				$permissoes = $this->model->select($select);
 
 				if(!empty($permissoes)){
 					foreach($permissoes as $indice => $permissao){

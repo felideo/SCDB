@@ -15,13 +15,19 @@ class Banner extends \Framework\ControllerCrud {
 		'colunas' => ['ID', 'Ordem <i class="fa fa-search"></i>', 'Imagem <i class="fa fa-search"></i>', 'Ações'],
 		'select'  => ['id', 'ordem', 'id_arquivo'],
 		'from'    => 'banner',
-		'search'  => ['id', 'ordem', 'id_arquivo']
+		'search'  => ['id', 'ordem', 'id_arquivo'],
+		'ordenacao_desabilitada' => '3'
+
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){
 		$query = $this->model->carregar_listagem($busca, $this->datatable);
 
 		$retorno = [];
+
+		if(empty($query)){
+			return $retorno;
+		}
 
 		foreach ($query as $indice => $item) {
 			$retorno[] = [
@@ -46,27 +52,4 @@ class Banner extends \Framework\ControllerCrud {
 		$this->view->lazy_view();
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
-
-	public function delete($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "deletar");
-
-		$this->check_if_exists($id[0]);
-
-		$banner = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
-
-		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
-		$this->model->delete('arquivo', ['id' => $banner['id_arquivo']]);
-
-		if($retorno['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
-		}
-
-		header('location: /' . $this->modulo['modulo']);
-	}
-
-
-
 }

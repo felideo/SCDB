@@ -29,13 +29,14 @@ class Busca extends \Framework\ControllerCrud {
 		}
 
 		$this->view->assign('anos', $this->carregar_anos());
+
 		$this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/busca');
 	}
 
-	public function carregar_anos(){
+	private function carregar_anos(){
 		$anos = [];
 
-		foreach($this->model->db->select("SELECT ano FROM trabalho GROUP BY ano") as $indice => $ano){
+		foreach($this->model->select("SELECT ano FROM trabalho GROUP BY ano") as $indice => $ano){
 			$anos[] = [
 				'id'   => $ano['ano'],
 				'text' => $ano['ano']
@@ -56,9 +57,6 @@ class Busca extends \Framework\ControllerCrud {
 	}
 
 	private function get_dados_trabalho($encontrados){
-		// debug2($encontrados);
-		// exit;
-
 		if(empty($encontrados['hits']['hits'])){
 			return [
 				'status'     => false,
@@ -67,9 +65,6 @@ class Busca extends \Framework\ControllerCrud {
 		}
 
 		$trabalhos = [];
-
-		// debug2($encontrados);
-		// exit;
 
 		foreach($encontrados['hits']['hits'] as $indice => $item){
 			// if($item['_score'] < 1){
@@ -134,7 +129,7 @@ class Busca extends \Framework\ControllerCrud {
 
 	public function buscar_taxonomia_select2(){
 		$busca       = carregar_variavel('busca');
-		$taxon_model = $this->load_external_model('taxon');
+		$taxon_model = $this->get_model('taxon');
 		$retorno     = $taxon_model->buscar_taxon($busca);
 
 		echo json_encode($retorno);
@@ -143,7 +138,7 @@ class Busca extends \Framework\ControllerCrud {
 
 	public function buscar_nome_popular_select2(){
 		$busca           = carregar_variavel('busca');
-		$organismo_model = $this->load_external_model('organismo');
+		$organismo_model = $this->get_model('organismo');
 		$retorno         = $organismo_model->buscar_nome_popular($busca);
 
 		echo json_encode($retorno);

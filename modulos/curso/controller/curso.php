@@ -7,15 +7,14 @@ class Curso extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'curso',
-		'name'		=> 'Cursos',
-		'send'		=> 'Curso'
 	];
 
 	protected $datatable = [
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Curso <i class="fa fa-search"></i>', 'Ações'],
 		'select'  => ['id', 'curso'],
 		'from'    => 'curso',
-		'search'  => ['id', 'curso']
+		'search'  => ['id', 'curso'],
+		'ordenacao_desabilitada' => '2'
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -34,12 +33,7 @@ class Curso extends \Framework\ControllerCrud {
 		return $retorno;
 	}
 
-	public function delete($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "deletar");
-
-		$this->check_if_exists($id[0]);
-
+	public function middle_delete($id) {
 		$curso_utilizado = $this->model->query->select('
 				trabalho.id
 			')
@@ -62,15 +56,7 @@ class Curso extends \Framework\ControllerCrud {
 			exit;
 		}
 
-		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
-
-		if($retorno['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
-		}
-
-		header('location: /' . $this->modulo['modulo']);
+		return $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
 	}
 
 	public function buscar_curso_select2(){

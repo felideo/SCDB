@@ -3,7 +3,8 @@ namespace Framework;
 use \Libs\QueryBuilder\QueryBuilder;
 
 abstract class Model {
-	public $query;
+	private $db;
+	public  $query;
 
 	function __construct() {
 		$this->db    = new Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
@@ -11,23 +12,24 @@ abstract class Model {
 	}
 
 	public function get_query(){
+
 		return $this->query;
 	}
 
 	public function insert($table, array $data){
-		return $this->db->insert($table, $data);
+		$data    = $this->antes_insert($table, $data);
+		$retorno = $this->db->insert($table, $data);
+		$this->depois_insert($table, $data, $retorno);
+
+		return $retorno;
 	}
 
 	public function update($table, array $data, array $where){
-		return $this->db->update($table, $data, $where);
-	}
+		$data    = $this->antes_update($table, $data, $where);
+		$retorno = $this->db->update($table, $data, $where);
+		$this->depois_update($table, $data, $where, $retorno);
 
-	public function update_relacao($table, $where, $id, $data){
-		return $this->db->update($table, $data, [$where => $id]);
-	}
-
-	public function select($sql, $array = array(), $fetchMode = \PDO::FETCH_ASSOC){
-		return $this->db->select($sql, $array = array(), $fetchMode = \PDO::FETCH_ASSOC);
+		return $retorno;
 	}
 
 	public function delete($table, $where){
@@ -35,15 +37,31 @@ abstract class Model {
 			'ativo' => 0,
 		];
 
-		return $this->db->update($table, $data, $where);
+		$data    = $this->antes_delete($table, $data, $where);
+		$retorno = $this->db->update($table, $data, $where);
+		$this->depois_delete($table, $data, $where, $retorno);
+
+		return $retorno;
+	}
+
+	public function update_relacao($table, $where, $id, $data){
+
+		return $this->db->update($table, $data, [$where => $id]);
+	}
+
+	public function select($sql, $array = array(), $fetchMode = \PDO::FETCH_ASSOC){
+
+		return $this->db->select($sql, $array = array(), $fetchMode = \PDO::FETCH_ASSOC);
 	}
 
 	public function execute($query){
+
 		$this->db->execute($query);
 	}
 
-	public function load_active_list($table) {
-		return $this->db->select('SELECT * FROM ' . $table . ' WHERE ativo = 1');
+	public function load_active_list($table, $select = '*') {
+
+		return $this->db->select('SELECT ' . $select . ' FROM ' . $table . ' WHERE ativo = 1');
 	}
 
 	public function full_load_by_id($table, $id){
@@ -86,14 +104,16 @@ abstract class Model {
 	}
 
 	public function insert_update($from, array $where, array $data, $update = false){
-		$this->query->select("{$from}.id")
-			->from("{$from} {$from}");
+		if(isset($where) && !empty($where)){
+			$this->query->select("{$from}.id")
+				->from("{$from} {$from}");
 
-		foreach ($where as $indice => $item) {
-			$this->query->where("{$from}.{$indice} =  '{$item}'", 'AND');
+			foreach ($where as $indice => $item) {
+				$this->query->where("{$from}.{$indice} =  '{$item}'", 'AND');
+			}
+
+			$registro_existe = $this->query->fetchArray();
 		}
-
-		$registro_existe = $this->query->fetchArray();
 
 		if(!isset($registro_existe[0]['id']) || empty($registro_existe[0]['id'])){
 			$retorno['operacao'] = 'insert';
@@ -119,5 +139,29 @@ abstract class Model {
 		$retorno['id'] 		= $registro_existe[0]['id'];
 
 		return $retorno;
+	}
+
+	public function antes_insert($table, $data){
+		return $data;
+	}
+
+	public function depois_insert($table, $data, $retorno){
+		return $data;
+	}
+
+	public function antes_update($table, $data, $where){
+		return $data;
+	}
+
+	public function depois_update($table, $data, $where, $retorno){
+		return $data;
+	}
+
+	public function antes_delete($table, $data, $where){
+		return $data;
+	}
+
+	public function depois_delete($table, $data, $where, $retorno){
+		return $data;
 	}
 }

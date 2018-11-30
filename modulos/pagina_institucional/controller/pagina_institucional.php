@@ -19,7 +19,8 @@ class Pagina_institucional extends \Framework\ControllerCrud {
 		'colunas' => ['ID <i class="fa fa-search"></i>', 'Titulo <i class="fa fa-search"></i>', 'Ações'],
 		'select'  => ['id', 'titulo'],
 		'from'    => 'pagina_institucional',
-		'search'  => ['id', 'titulo']
+		'search'  => ['id', 'titulo'],
+		'ordenacao_desabilitada' => '2'
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -49,6 +50,8 @@ class Pagina_institucional extends \Framework\ControllerCrud {
 		$cadastro = $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
 
 		$this->view->assign('cadastro', $cadastro);
-		$this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/front');
+		// $this->view->render('front/cabecalho_rodape', $this->modulo['modulo'] . '/view/front/front');
+		$this->view->render_plataforma('pagina_institucional');
+
 	}
 }

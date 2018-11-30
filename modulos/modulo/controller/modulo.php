@@ -7,12 +7,10 @@ class Modulo extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'modulo',
-		'name'		=> 'Módulos',
-		'send'		=> 'Módulo'
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID', 'Modulo', 'Ordem', 'Submenu', 'Acesso', 'Icone',  'Ações'],
+		'colunas' => ['ID<i class="fa fa-search"></i>', 'Modulo<i class="fa fa-search"></i>', 'Ordem', 'Submenu', 'Acesso', 'Icone',  'Ações'],
 		'from'    => 'modulo'
 	];
 
@@ -94,7 +92,7 @@ class Modulo extends \Framework\ControllerCrud {
 			$update_db['id_submenu'] = NULL;
 		}
 
-		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
+		$retorno = $this->model->update($this->modulo['modulo'], $update_db, ['id' => $id[0]]);
 
 		if($retorno['status']){
 			$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');
