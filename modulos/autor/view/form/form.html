@@ -109,7 +109,7 @@
 		$('#autor_nome').select2(
 	        'data', {
 	            id:   autor['id'],
-	            nome: autor['nome'],
+	            nome: autor['nome'] + ' ' + autor['sobrenome'],
 	            validar: false
 	        }
 	    );

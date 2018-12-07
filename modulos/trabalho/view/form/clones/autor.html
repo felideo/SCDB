@@ -176,11 +176,11 @@ function atualizar_clone_autor_select_2(id_container_clone){
 	    $('#autor_' + id_container_clone).select2(
 	        'data', {
 	            id: autor['id'],
-	            nome: autor['nome']
+	            nome: autor['nome'] + ' ' + autor['sobrenome']
 	        }
 	    );
 
-		$('#link__autor_' + id_container_clone).val(autor['pessoa']);
+		$('#link__autor_' + id_container_clone).val(autor['link']);
 		$('#email__autor_' + id_container_clone).val(autor['usuario'][0]['email']);
     });
 {/if}

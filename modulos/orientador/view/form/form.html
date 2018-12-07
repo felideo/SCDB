@@ -90,7 +90,7 @@
 
 				var nome = object.nome.replace_all('<strong>Cadastrar Novo Orientador: </strong>', '').split(" ");
 
-				if(nome.length <= 1){
+				if(!$.isNumeric(object.id) && nome.length <= 1){
 					swal("Erro", "Obrigatoria a indicação de Nome e Sobrenome do Orientador!", "error");
 					$('#orientador_nome').select2("val", "");
 					return false;
@@ -117,7 +117,7 @@
 		$('#orientador_nome').select2(
 	        'data', {
 	            id:   orientador['id'],
-	            nome: orientador['nome'],
+	            nome: orientador['nome'] + ' ' + orientador['sobrenome'],
 	            validar: false
 	        }
 	    );

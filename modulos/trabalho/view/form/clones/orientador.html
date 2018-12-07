@@ -23,7 +23,7 @@
 			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			    <label>Titulo</label>
 			    <br>
-			    <input id="orientador_$id_clone_orientador" type="text" class="form-control" name="{$modulo.modulo}[orientador][$id_clone_orientador][pronome]" style="width: 100%;" required disabled>
+			    <input id="orientador_titulo_$id_clone_orientador" type="text" class="form-control" name="{$modulo.modulo}[orientador][$id_clone_orientador][pronome]" style="width: 100%;" required disabled>
 			</div>
 			<div class="form-group col-xs-10 col-sm-10 col-md-10 col-lg-10">
 			    <label>Orientador</label>
@@ -150,9 +150,11 @@ function atualizar_clone_orientador_select_2(id_container_clone){
 			if($.isNumeric(object.id)) {
 				$('#email_orientador_' + id_container_clone).attr('readonly', true);
 				$('#link_orientador_' + id_container_clone).attr('readonly', true);
+				$('#orientador_titulo_' + id_container_clone).attr('readonly', true);
 			}else{
 				$('#email_orientador_' + id_container_clone).removeAttr('readonly');
 				$('#link_orientador_' + id_container_clone).removeAttr('readonly');
+				$('#orientador_titulo_' + id_container_clone).removeAttr('readonly');
 			}
 
 			return object.nome.replace_all('Cadastrar ', '')
@@ -179,16 +181,18 @@ function atualizar_clone_orientador_select_2(id_container_clone){
 		id_container_clone = index + 1;
 
 		var orientador = item['pessoa'][0];
+		console.log(orientador);
 
 		clone_orientador_box();
 
 	    $('#orientador_' + id_container_clone).select2(
 	        'data', {
 	            id: orientador['id'],
-	            nome: orientador['nome']
+	            nome: orientador['nome'] + ' ' + orientador['sobrenome']
 	        }
 	    );
 
+		$('#orientador_titulo_' + id_container_clone).val(orientador['pronome']);
 		$('#link_orientador_' + id_container_clone).val(orientador['link']);
 		$('#email_orientador_' + id_container_clone).val(orientador['usuario'][0]['email']);
     });
