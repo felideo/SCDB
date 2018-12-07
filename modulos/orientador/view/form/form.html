@@ -88,7 +88,13 @@
 					return false;
 				}
 
-				var nome = object.nome.split(" ");
+				var nome = object.nome.replace_all('<strong>Cadastrar Novo Orientador: </strong>', '').split(" ");
+
+				if(nome.length <= 1){
+					swal("Erro", "Obrigatoria a indicação de Nome e Sobrenome do Orientador!", "error");
+					$('#orientador_nome').select2("val", "");
+					return false;
+				}
 
 				$('#sobrenome').val(embelezar_string(nome[nome.length - 1]));
 

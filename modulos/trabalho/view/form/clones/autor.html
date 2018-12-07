@@ -117,6 +117,14 @@ function atualizar_clone_autor_select_2(id_container_clone){
 
 			object.nome = (object.nome).replace(/\d+/g,'');
 
+			var nome = object.nome.replace_all('<strong>Cadastrar Novo Autor: </strong>', '').split(" ");
+
+			if(nome.length <= 1){
+				swal("Erro", "Obrigatoria a indicação de Nome e Sobrenome do Autor!", "error");
+				$('#autor_nome').select2("val", "");
+				return false;
+			}
+
 			if(object.email != ''){
 				$('#email__autor_' + id_container_clone).val(object.email);
 			}else{

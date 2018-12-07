@@ -50,15 +50,34 @@ $(document).ready(function(){
     });
 
 	$('.validar_email').change(function(){
-		if($('.validar_email').val() == ''){
-			return false;
-		}
+
+
+        if($('.validar_email').val() == ''){
+            return false;
+        }
+
+        email = $('.validar_email').val();
+        email = email.toLowerCase();
+        email = remove_acentos(email);
+
+        $('.validar_email').val(email);
 
 		if (!validar_email($('.validar_email').val())) {
 			swal("Erro", "Digite um email válido!", "error");
 			$('.validar_email').val('');
 		}
 	});
+
+    function remove_acentos(text){
+        text = text.toLowerCase();
+        text = text.replace(new RegExp('[ÁÀÂÃ]','gi'), 'a');
+        text = text.replace(new RegExp('[ÉÈÊ]','gi'), 'e');
+        text = text.replace(new RegExp('[ÍÌÎ]','gi'), 'i');
+        text = text.replace(new RegExp('[ÓÒÔÕ]','gi'), 'o');
+        text = text.replace(new RegExp('[ÚÙÛ]','gi'), 'u');
+        text = text.replace(new RegExp('[Ç]','gi'), 'c');
+        return text;
+    }
 
     $('.somente_minusculas').change(function(){
         $(this).val($(this).val().toLowerCase());

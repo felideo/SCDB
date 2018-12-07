@@ -71,22 +71,22 @@
 
 				object.nome = (object.nome).replace(/\d+/g,'');
 
-				if($.isNumeric(object.id) && object.validar && object.autor != 0){
-					swal("Erro", "Autor já cadastrado! Cadastro desnecessario.", "error");
-					$('#autor_nome').select2("val", "");
-					return false;
-				}
-
 				object.id   = object.id.replace(/\s\s+/g, ' ').trim();
 				object.nome = object.nome.replace(/\s\s+/g, ' ').trim();
 
-				if($.isNumeric(object.id) && object.validar == 'true'){
+				if($.isNumeric(object.id) && object.validar == 'true' && object.autor != 0){
 					swal("Erro", "Obrigatoria a indicação de Nome e Sobrenome do Autor!", "error");
 					$('#autor_nome').select2("val", "");
 					return false;
 				}
 
-				var nome = object.nome.split(" ");
+				var nome = object.nome.replace_all('<strong>Cadastrar Novo Autor: </strong>', '').split(" ");
+
+				if(nome.length <= 1){
+					swal("Erro", "Obrigatoria a indicação de Nome e Sobrenome do Autor!", "error");
+					$('#autor_nome').select2("val", "");
+					return false;
+				}
 
 				$('#sobrenome').val(embelezar_string(nome[nome.length - 1]));
 
@@ -116,3 +116,4 @@
 	{/if}
 </script>
 {include file='views/back/form_padrao/footer.html'}
+
