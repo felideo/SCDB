@@ -69,7 +69,7 @@ class BigBang{
 				exit;
 			}
 
-		} catch(\Error $e) {
+		}catch(\Error $e) {
 			$e->show_error(true);
 		}
 

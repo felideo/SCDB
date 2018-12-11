@@ -123,9 +123,6 @@ class ElasticSearch{
                 'backtrace'     => $e->getTraceAsString(),
             ];
 
-            debug2($this->error);
-            exit;
-
             throw new \Exception(json_encode($this->error));
         }
 	}
@@ -348,9 +345,6 @@ class ElasticSearch{
                 'file'          => $e->getFile(),
                 'backtrace'     => $e->getTraceAsString(),
             ];
-
-            debug2($this->error);
-            exit;
 
             throw new \Exception(json_encode($this->error));
         }

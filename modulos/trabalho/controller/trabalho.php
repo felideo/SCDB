@@ -474,8 +474,22 @@ class Trabalho extends \Framework\ControllerCrud {
 			]
 		];
 
-		$arquivo  = $elastic_search->indexar_documento(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco'], $trabalho['trabalho']['id']);
-		$response = $elastic_search->indexar($params);
+		try{
+			$arquivo  = $elastic_search->indexar_documento(\Libs\Dominio::getDominio() . '/' . $trabalho['arquivo'][0]['endereco'], $trabalho['trabalho']['id']);
+			$response = $elastic_search->indexar($params);
+		} catch(\Exception $e) {
+            $this->error = [
+                'exception_msg' => json_decode($e->getMessage()),
+                'exception'     => $e->getMessage(),
+                'code'          => $e->getCode(),
+                'localizador'   => "Class => " . __CLASS__ . " - Function => " . __FUNCTION__ . "() - Line => " . __LINE__,
+                'line'          => $e->getLine(),
+                'file'          => $e->getFile(),
+                'backtrace'     => $e->getTraceAsString(),
+            ];
+
+			$this->view->warn_js('Elasticsearch erro: ' . $this->error['exception'], 'erro');
+        }
 	}
 
 	public function middle_visualizar($id){
