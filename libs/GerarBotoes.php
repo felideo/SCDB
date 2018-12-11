@@ -19,6 +19,7 @@ class GerarBotoes{
 	private $bloqueado;
 
 	public function __construct() {
+		$this->botoes = [];
 	}
 
 	public function setID($id){
@@ -88,7 +89,12 @@ class GerarBotoes{
 			return;
 		}
 
-		$index = count($this->botoes) + 1;
+		$index = 0;
+
+		if(isset($this->botoes) && !empty($this->botoes) && is_array($this->botoes)){
+			$index = count($this->botoes) + 1;
+		}
+
 
 		$disabled   = !empty($this->bloqueado) ? ' disabled ' : ' ';
 

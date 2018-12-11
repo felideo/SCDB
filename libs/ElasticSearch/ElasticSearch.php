@@ -361,7 +361,7 @@ class ElasticSearch{
         $curl = new Curl();
         $curl->setHeader('Content-Type', 'application/json');
 		$documento = [
-			'arquivo' => base64_encode(file_get_contents($url_documento))
+			'data' => base64_encode(file_get_contents($url_documento))
 		];
 
         return $curl->put('127.0.0.1:9200/swdb/trabalho/' . $id_trabalho . '?pipeline=attachment', $documento);
