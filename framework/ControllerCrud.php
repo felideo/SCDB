@@ -68,6 +68,7 @@ class ControllerCrud extends \Framework\Controller {
 		}
 
 		header('location: /' . $this->modulo['modulo']);
+		exit;
 	}
 
 	public function insert_update($dados, $where){
@@ -122,6 +123,7 @@ class ControllerCrud extends \Framework\Controller {
 		}
 
 		header('location: /' . $this->modulo['modulo']);
+		exit;
 	}
 
 	public function visualizar($id){
@@ -151,6 +153,7 @@ class ControllerCrud extends \Framework\Controller {
 		}
 
 		header('location: /' . $this->modulo['modulo']);
+		exit;
 	}
 
 	public function middle_index(){

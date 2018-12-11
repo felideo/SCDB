@@ -13,6 +13,7 @@ class Configuracao extends \Framework\ControllerCrud {
 
 	public function index(){
 		header('location: /' . $this->modulo['modulo'] . '/editar/1');
+		exit;
 	}
 
 }

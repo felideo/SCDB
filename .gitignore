@@ -8,4 +8,5 @@ php_errors.log
 template_compile/*
 uploads/thumbnails/*
 uploads/trabalhos/*
+uploads/banners/*
 views/plataforma/*

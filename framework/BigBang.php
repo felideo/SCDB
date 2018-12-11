@@ -141,5 +141,6 @@ class BigBang{
 	private function error() {
 
 		header('location: /error');
+		exit;
 	}
 }

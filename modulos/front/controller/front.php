@@ -13,6 +13,7 @@ class Front extends \Framework\Controller {
 	public function carregar_cabecalho_rodape(){
 
 		$this->carregar_paginas_institucionais();
+		$this->carregar_banners();
 	}
 
 	private function carregar_paginas_institucionais(){
@@ -56,6 +57,6 @@ class Front extends \Framework\Controller {
 			return;
 		}
 
-		$this->view->assign('banners', $this->model->carregar_banners());
+		$this->view->assign('banners', $banners);
 	}
 }

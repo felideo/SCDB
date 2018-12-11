@@ -58,6 +58,7 @@ class Senha extends \Framework\Controller {
 		if(!isset($token_verdadeiro[0])){
 			$this->view->alert_js('Token de redefinição de senha inválido!!!', 'erro');
 			header('location: /acesso/admin');
+			exit;
 		}else{
 			$this->view->token = $token[0];
 			$this->view->clean_render('/senha/redefinir_senha');
@@ -84,5 +85,6 @@ class Senha extends \Framework\Controller {
 		$_POST['senha'] = $nova_senha;
 
 		header('location: /acesso/admin');
+		exit;
 	}
 }

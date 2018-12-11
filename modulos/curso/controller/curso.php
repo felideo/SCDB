@@ -38,7 +38,7 @@ class Curso extends \Framework\ControllerCrud {
 				trabalho.id
 			')
 			->from('trabalho trabalho')
-			->where("trabalho.id_curso = {$id[0]}")
+			->where("trabalho.id_curso = {$id}")
 			->fetchArray();
 
 		if(!empty($curso_utilizado)){
@@ -56,7 +56,7 @@ class Curso extends \Framework\ControllerCrud {
 			exit;
 		}
 
-		return $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
+		return $this->model->delete($this->modulo['modulo'], ['id' => $id]);
 	}
 
 	public function buscar_curso_select2(){

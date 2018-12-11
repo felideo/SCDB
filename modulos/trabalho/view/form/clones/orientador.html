@@ -133,6 +133,12 @@ function atualizar_clone_orientador_select_2(id_container_clone){
 				return false;
 			}
 
+			if(object.pronome != ''){
+				$('#orientador_titulo_' + id_container_clone).val(object.pronome);
+			}else{
+				$('#orientador_titulo_' + id_container_clone).val('');
+			}
+
 			if(object.email != ''){
 				$('#email_orientador_' + id_container_clone).val(object.email);
 			}else{

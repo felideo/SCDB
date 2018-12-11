@@ -30,9 +30,11 @@ class Instalacao extends \Framework\Controller {
 		if(!empty($retorno['sucesso']) && $retorno['sucesso'] == true){
 			$this->view->alert_js('Aplicação instalada com sucesso!!!', 'sucesso');
 			header('location: ' . URL . 'login');
+			exit;
 		} else {
 			$this->view->alert_js('Ocorreu um erro ao efetuar a instalação da aplicação, por favor tente novamente...', 'erro');
 			header('location: ' . URL . 'install');
+			exit;
 		}
 	}
 

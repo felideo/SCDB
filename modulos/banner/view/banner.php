@@ -69,6 +69,7 @@ class Banner extends \Framework\ControllerCrud {
 		}
 
 		header('location: /' . $this->modulo['modulo']);
+		exit;
 	}
 
 	public function buscar_curso_select2(){

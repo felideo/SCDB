@@ -55,7 +55,7 @@ class Palavra_chave extends \Framework\ControllerCrud {
 				rel_palavra.id_trabalho
 			')
 			->from('trabalho_relaciona_palavra_chave rel_palavra')
-			->where("rel_palavra.id_palavra_chave = {$id[0]}")
+			->where("rel_palavra.id_palavra_chave = {$id}")
 			->fetchArray();
 
 		if(!empty($palavra_chave_utilizado)){
@@ -73,7 +73,7 @@ class Palavra_chave extends \Framework\ControllerCrud {
 			exit;
 		}
 
-		return $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
+		return $this->model->delete($this->modulo['modulo'], ['id' => $id]);
 	}
 
 	public function buscar_palavra_chave_select2(){

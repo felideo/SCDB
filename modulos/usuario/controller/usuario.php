@@ -103,6 +103,7 @@ class Usuario extends \Framework\ControllerCrud {
 		}
 
 		header('location: /' . $this->modulo['modulo']);
+		exit;
 	}
 
 	public function insert_update($usuario, $where = null){
@@ -398,6 +399,7 @@ class Usuario extends \Framework\ControllerCrud {
 		}
 
 		header('location: /index');
+		exit;
 
 	}
 
@@ -421,6 +423,7 @@ class Usuario extends \Framework\ControllerCrud {
 		}
 
 		header('location: /' . $this->modulo['modulo']);
+		exit;
 
 	}
 	public function proibir_cadastro($id){
@@ -443,6 +446,7 @@ class Usuario extends \Framework\ControllerCrud {
 		}
 
 		header('location: /' . $this->modulo['modulo']);
+		exit;
 
 	}
 }

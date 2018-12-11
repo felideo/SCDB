@@ -41,7 +41,7 @@ class Campus extends \Framework\ControllerCrud {
 				trabalho.id
 			')
 			->from('trabalho trabalho')
-			->where("trabalho.id_campus = {$id[0]}")
+			->where("trabalho.id_campus = {$id}")
 			->fetchArray();
 
 		if(!empty($campus_utilizado)){
@@ -59,7 +59,7 @@ class Campus extends \Framework\ControllerCrud {
 			exit;
 		}
 
-		return $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
+		return $this->model->delete($this->modulo['modulo'], ['id' => $id]);
 	}
 
 	public function buscar_campus_select2(){

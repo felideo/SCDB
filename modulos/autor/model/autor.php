@@ -66,9 +66,11 @@ class Autor extends \Framework\Model{
 		$busca['nome'] = implode('%', explode(' ', $busca['nome']));
 
 		$this->query->select('
-				pessoa.*
+				pessoa.*,
+				usuario.*
 			')
 			->from('pessoa pessoa')
+			->leftJoin('usuario usuario ON usuario.id = pessoa.id_usuario AND usuario.ativo = 1')
 			->where("CONCAT(pessoa.nome, ' ', pessoa.sobrenome) LIKE '%{$busca['nome']}%'")
 			->andWhere('pessoa.ativo = 1')
 			->andWhere('pessoa.autor = 1 OR pessoa.orientador = 1');

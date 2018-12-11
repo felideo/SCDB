@@ -41,6 +41,8 @@ class Autor extends \Framework\ControllerCrud {
 	}
 
 	public function insert_update($dados, $where = null){
+
+
 		if(isset($where['id']) && !empty($where['id'])){
 			if(is_numeric($dados['nome'])){
 				unset($dados['nome']);
@@ -90,7 +92,7 @@ class Autor extends \Framework\ControllerCrud {
 				rel_autor.id_trabalho
 			')
 			->from('trabalho_relaciona_autor rel_autor')
-			->where("rel_autor.id_pessoa = {$id[0]} AND rel_autor.ativo = 1")
+			->where("rel_autor.id_pessoa = {$id} AND rel_autor.ativo = 1")
 			->fetchArray();
 
 		if(!empty($autor_utilizado)){
@@ -108,14 +110,14 @@ class Autor extends \Framework\ControllerCrud {
 			exit;
 		}
 
-		$retorno = $this->model->delete($this->modulo['table'], ['id' => $id[0]]);
+		$retorno = $this->model->delete('pessoa', ['id' => $id]);
 
 		if($retorno['status']){
 			$pessoa = $this->model->query->select('
 					pessoa.id_usuario,
 				')
 				->from('pessoa pessoa')
-				->where("pessoa.id = {$id[0]}")
+				->where("pessoa.id = {$id}")
 				->fetchArray();
 
 			if(isset($pessoa[0]['id_usuario']) && !empty($pessoa[0]['id_usuario'])){
@@ -136,7 +138,8 @@ class Autor extends \Framework\ControllerCrud {
 		}
 
 		foreach($retorno as $indice => &$item){
-			$item['nome'] = $item['nome'] . ' ' . $item['sobrenome'];
+			$item['nome']  = $item['nome'] . ' ' . $item['sobrenome'];
+			$item['email'] = $item['usuario'][0]['email'];
 		}
 
 		if(isset($busca['cadastrar_busca']) && !empty($busca['cadastrar_busca']) && $busca['cadastrar_busca'] == 'true' && $busca['nome'] != '%%'){

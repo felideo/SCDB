@@ -39,6 +39,7 @@ abstract class Model {
 
 		$data    = $this->antes_delete($table, $data, $where);
 		$retorno = $this->db->update($table, $data, $where);
+
 		$this->depois_delete($table, $data, $where, $retorno);
 
 		return $retorno;

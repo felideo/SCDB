@@ -95,6 +95,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 		}
 
 		header('location: /' . $this->modulo['modulo']);
+		exit;
 	}
 
 	public function update($id) {
@@ -151,6 +152,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 		}
 
 		header('location: /' . $this->modulo['modulo']);
+		exit;
 	}
 
 	public function delete($id) {
@@ -169,5 +171,6 @@ class Hierarquia extends \Framework\ControllerCrud {
 		}
 
 		header('location: /' . $this->modulo['modulo']);
+		exit;
 	}
 }
