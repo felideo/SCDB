@@ -1,10 +1,7 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<h3 class="panel-title">Regras avançadas de busca</h3>
-				<button id="botao_clone_query_builder" type="button" class="btn btn-primary pull-right" style="margin-top: -25px;">Adicionar Nova Regra de Busca</button>
-			</div>
+			<button id="botao_clone_query_builder" type="button" class="btn btn-primary pull-right" style="margin-top: -25px;">Adicionar Nova Regra de Busca</button>
 		</div>
 		<div class="row">
 			<form id="busca_avancada" method="get" action="/busca">
@@ -12,15 +9,15 @@
 						<div id="conteiner_clone_query_builder" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<div id="box_clone_query_builder_1">
 								<div class="row">
-								    <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 ">
+								    <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2 ">
 								        <label>Atributo</label>
 								        <input id="atributo_pesquisa_1" data-id_container_clone="1" class="width100" type="text" placeholder="" />
 								    </div>
-								    <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 ">
+								    <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2 ">
 								        <label>Comparativo</label>
 								        <input id="comparativo_pesquisa_1" class="width100" type="text" placeholder="" />
 								    </div>
-								    <div id="valores_1" class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+								    <div id="valores_1" class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4 col-md-offset-2 col-lg-offset-2">
 								    </div>
 								</div>
 							</div>
@@ -40,23 +37,23 @@
 <div id="clonar_query_builder" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" data-id_clone_query_builder="$id_clone_query_builder" style="display: none;">
 	<div id="box_clone_query_builder_$id_clone_query_builder">
 		<div class="row">
-			<div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2">
+			<div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
 		        <label>Operador</label>
 		        <input id="operador_pesquisa_$id_clone_query_builder" class="width100" type="text" placeholder="" />
 		    </div>
-		    <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 ">
+		    <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2 ">
 		        <label>Atributo</label>
 		        <input id="atributo_pesquisa_$id_clone_query_builder" data-id_container_clone="$id_clone_query_builder" class="width100" type="text" placeholder="" />
 		    </div>
-		    <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 ">
+		    <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2 ">
 		        <label>Comparativo</label>
 		        <input id="comparativo_pesquisa_$id_clone_query_builder" class="width100" type="text" placeholder="" />
 		    </div>
-		    <div id="valores_$id_clone_query_builder" class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+		    <div id="valores_$id_clone_query_builder" class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4 ">
 		        <!-- <label>Valores</label> -->
 		        <!-- <input id="valor_pesquisa_$id_clone_query_builder" class="width100" type="text" placeholder="" /> -->
 		    </div>
-		    <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 ">
+		    <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2 ">
 		        <label class="width100"> </label>
 				<button id="remover_clone_query_builder_$id_clone_query_builder" type="button" class="btn btn-danger pull-right remove-box">Remover</button>
 		    </div>
