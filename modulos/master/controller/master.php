@@ -43,4 +43,9 @@ class Master extends \Framework\Controller {
 		$elastic_search = new \Libs\ElasticSearch\ElasticSearch();
 		$elastic_search->criar_intex();
 	}
+
+	public function sudo_service_elastic_search_restart(){
+		echo shell_exec("sudo sh /www/swdb/sudo_service_elastic_search_restart.sh");
+		exit;
+	}
 }
