@@ -16,6 +16,7 @@
                     <div class="footer-col links col-md-2 col-sm-4 col-xs-12">
                         <div class="footer-col-inner">
                             <ul class="list-unstyled">
+                                <li><a href="/acesso/admin"><i class="fa fa-caret-right"></i>Acesso Administrativo</a></li>
                                 {foreach from=$paginas_institucionais.0 key=indice item=pagina}
                                     {if !empty($pagina.exibir_rodape)}
                                         <li><a href="/{$pagina.url.0.controller}/{$pagina.url.0.url}"><i class="fa fa-caret-right"></i>{$pagina.titulo}</a></li>
