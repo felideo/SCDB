@@ -114,8 +114,7 @@ class Usuario extends \Framework\ControllerCrud {
 			$where['email']              = $usuario['usuario']['email'];
 		}
 
-		$usuario['usuario']['email'] = 'felideo+swdb@gmail.com';
-
+		// $usuario['usuario']['email'] = 'felideo+swdb@gmail.com';
 
 		$usuario['usuario']['retorno'] = $this->model->insert_update(
 			$this->modulo['modulo'],
