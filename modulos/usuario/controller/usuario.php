@@ -114,6 +114,9 @@ class Usuario extends \Framework\ControllerCrud {
 			$where['email']              = $usuario['usuario']['email'];
 		}
 
+		// $usuario['usuario']['email'] = 'felideo+swdb@gmail.com';
+
+
 		$usuario['usuario']['retorno'] = $this->model->insert_update(
 			$this->modulo['modulo'],
 			$where,
@@ -130,6 +133,25 @@ class Usuario extends \Framework\ControllerCrud {
 				$usuario['pessoa'],
 				true
 			);
+
+			// $verificacao_usuario = $this->model->load_cadastro($usuario['usuario']['retorno']['id'])[0];
+
+
+			// if(!empty($verificacao_usuario['ativo']) && empty($verificacao_usuario['bloqueado'])){
+			// 	$email = new \Libs\Mail();
+
+			// 	$msg = "Olá {$verificacao_usuario['pessoa'][0]['nome']} {$verificacao_usuario['pessoa'][0]['sobrenome']}<br><br>"
+			// 		. " Voce foi cadastrado no sistema SWDB - http://swdb.felideo.com<br>"
+			// 		. " Sua senha é: {$verificacao_usuario['senha']}<br><br>"
+			// 		. " Para acessar use o link: http://swdb.felideo.com/acesso/admin";
+
+			// 	$email->set_from(EMAIL_EMAIL)
+			// 		->set_pass(EMAIL_SENHA)
+			// 		->set_to(trim($verificacao_usuario['email']))
+			// 		->set_assunto('Cadastro no SWDB')
+			// 		->set_mensagem($msg)
+			// 		->send_mail();
+			// }
 		}
 
 		if(!empty($usuario['usuario']['retorno']['status'] && $usuario['pessoa']['retorno']['status'])){
