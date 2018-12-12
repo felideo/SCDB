@@ -660,8 +660,6 @@ class Trabalho extends \Framework\ControllerCrud {
 		$front_controller = $this->get_controller('front');
 		$front_controller->carregar_cabecalho_rodape();
 
-		$this->view->assign('paginas_institucionais', $front_controller->carregar_cabecalho_rodape());
-
 		$this->get_controller('contador')->contar('visita');
 
 		$cadastro = $this->model->carregar_trabalho($id[0])[0];
