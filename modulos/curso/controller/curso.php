@@ -73,6 +73,10 @@ class Curso extends \Framework\ControllerCrud {
 			$retorno = array_merge($add_cadastro, $retorno);
 		}
 
+		if(empty($retorno)){
+			$retorno = false;
+		}
+
 		echo json_encode($retorno);
 		exit;
 	}

@@ -165,6 +165,10 @@ class Orientador extends \Framework\ControllerCrud {
 			$item['validar'] = true;
 		}
 
+		if(empty($retorno)){
+			$retorno = false;
+		}
+
 		echo json_encode($retorno);
 		exit;
 	}

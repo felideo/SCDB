@@ -425,6 +425,7 @@
                     <div class="footer-col links col-md-2 col-sm-4 col-xs-12">
                         <div class="footer-col-inner">
                             <ul class="list-unstyled">
+                                <li><a href="/acesso/admin"><i class="fa fa-caret-right"></i>Acesso Administrativo</a></li>
                                 {foreach from=$paginas_institucionais.0 key=indice item=pagina}
                                     {if !empty($pagina.exibir_rodape)}
                                         <li><a href="/{$pagina.url.0.controller}/{$pagina.url.0.url}"><i class="fa fa-caret-right"></i>{$pagina.titulo}</a></li>
@@ -494,7 +495,7 @@
 
         <div class="bottom-bar">
             <div class="container">
-                <small class="copyright">SWDB - <a href="https://opensource.org/licenses/MIT" target="_blank">Desenvolvido sob licenciamenteo MIT,</a> por <a href="https://br.linkedin.com/in/felideo" target="_blank">Felideo (Diego Pires)</a>, Gabriel Victor Ananias, Jefferson Silva Pereira dos Prazeres, Ricardo Humberto do Nascimento Mejolaro - Construido utilizando a <a href="https://github.com/felideo/FelideoMVC" target="_blank">Framework FelideoMVC</a></small>
+                <small class="copyright">SWDB - <a href="https://opensource.org/licenses/MIT" target="_blank">Desenvolvido sob licenciamenteo MIT,</a> por <a href="https://br.linkedin.com/in/felideo" target="_blank">Felideo (Diego Pires)</a>, Gabriel Victor Ananias, Jefferson Silva Pereira dos Prazeres, Ricardo Humberto do Nascimento Mejolaro - Construido utilizando a <a href="https://github.com/felideo/FelideoMVC" target="_blank">Framework FelideoMVC</a> - Código Fonte disponivel em <a href="https://github.com/felideo/FelideoMVC" target="_blank">https://github.com/felideo/SWDB</a></small>
             </div><!--//container-->
         </div><!--//bottom-bar-->
     </footer><!--//footer-->

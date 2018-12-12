@@ -8,9 +8,13 @@ class ajax_upload extends \Framework\Controller {
 		// else do regular POST upload (i.e. for old non-HTML5 browsers)
 		$size = $_FILES['qqfile']['size'];
 
-		if ($size == 0) {
-			return array('error' => 'File is empty.');
-		}
+
+
+
+
+		// if ($size == 0) {
+		// 	return array('error' => 'File is empty.');
+		// }
 
 		$pathinfo   = pathinfo($_FILES['qqfile']['name']);
 		$filename   = $pathinfo['filename'];
