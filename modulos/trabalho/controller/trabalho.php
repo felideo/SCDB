@@ -32,13 +32,15 @@ class Trabalho extends \Framework\ControllerCrud {
 			$autores      = '';
 			$orientadores = '';
 
-			if(isset($item['trabalho_relaciona_autor']['pessoa'][0]) && !empty($item['trabalho_relaciona_autor']['pessoa'][0])){
+
+
+			if(isset($item['trabalho_relaciona_autor'][0]['pessoa'][0]) && !empty($item['trabalho_relaciona_autor'][0]['pessoa'][0])){
 				foreach($item['trabalho_relaciona_autor'] as $indice_01 => $autor){
 					$autores .= $autor['pessoa'][0]['nome'] . ' ' . $autor['pessoa'][0]['sobrenome'] . '; ';
 				}
 			}
 
-			if(isset($item['trabalho_relaciona_orientador']['pessoa'][0]) && !empty($item['trabalho_relaciona_orientador']['pessoa'][0])){
+			if(isset($item['trabalho_relaciona_orientador'][0]['pessoa'][0]) && !empty($item['trabalho_relaciona_orientador'][0]['pessoa'][0])){
 				foreach($item['trabalho_relaciona_orientador'] as $indice_02 => $orientador){
 					$orientadores .= $orientador['pessoa'][0]['pronome'] . ' ' . $orientador['pessoa'][0]['nome'] . ' ' . $orientador['pessoa'][0]['sobrenome'] . '; ';
 				}
