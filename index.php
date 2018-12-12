@@ -15,6 +15,10 @@ if(((isset($_SESSION['mostrar_erros']) && !empty($_SESSION['mostrar_erros'])) &&
     error_reporting(E_ALL);
 	ini_set('display_startup_errors', 1);
     ini_set('display_errors', 1);
+}else{
+	error_reporting(0);
+	ini_set('display_startup_errors', 0);
+    ini_set('display_errors', 0);
 }
 
 \Libs\Session::init();
