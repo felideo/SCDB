@@ -658,6 +658,7 @@ class Trabalho extends \Framework\ControllerCrud {
 		$this->check_if_exists($id[0]);
 
 		$front_controller = $this->get_controller('front');
+		$front_controller->carregar_cabecalho_rodape();
 
 		$this->view->assign('paginas_institucionais', $front_controller->carregar_cabecalho_rodape());
 
